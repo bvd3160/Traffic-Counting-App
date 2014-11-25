@@ -4,5 +4,9 @@
     <string name="app_name">Traffic Counting App</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="nonIntersectionCountButton">Non-Intersection Count</string>
+    <string name="intersectionCountButton">Intersection Count</string>
+    <string name="helpButton">Help</string>
+    <string name="aboutButton">About</string>
 
 </resources>
