@@ -29,6 +29,7 @@ public class SplashScreen extends ActionBarActivity {
 				try {
 					sleep(6000);
 					startActivity(new Intent(getApplicationContext(), MainScreen.class));
+					finish();
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
