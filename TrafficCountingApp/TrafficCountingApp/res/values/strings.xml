@@ -8,5 +8,9 @@
     <string name="loading_tv">Loading</string>
     <string name="autAssociation_tv">In association with AUT University</string>
     <string name="splashImageContentDescription">TDG Logo Image for splash screen</string>
-
+ 	<string name="nonIntersectionButton">Non-Intersection Count</string>
+    <string name="intersectionButton">Intersection Count</string>
+ 	<string name="helpButton">Help</string>
+ 	<string name="aboutButton">About</string>
+ 	
 </resources>

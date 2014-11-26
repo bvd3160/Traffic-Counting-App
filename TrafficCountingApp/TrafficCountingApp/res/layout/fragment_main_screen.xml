@@ -8,12 +8,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.TDG.trafficcountingapp.MainScreen$PlaceholderFragment" >
 
-    <TextView
+    <Button
+        android:id="@+id/nonIntersectionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
-        android:text="@string/hello_world" />
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/nonIntersectionButton" />
+
+    <Button
+        android:id="@+id/intersectionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/nonIntersectionButton"
+        android:layout_marginRight="66dp"
+        android:text="@string/intersectionButton" />
+
+    <Button
+        android:id="@+id/aboutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/helpButton"
+        android:layout_alignBottom="@+id/helpButton"
+        android:layout_alignLeft="@+id/intersectionButton"
+        android:layout_marginLeft="49dp"
+        android:text="@string/aboutButton" />
+
+    <Button
+        android:id="@+id/helpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nonIntersectionButton"
+        android:layout_below="@+id/nonIntersectionButton"
+        android:layout_marginLeft="71dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/helpButton" />
 
 </RelativeLayout>
