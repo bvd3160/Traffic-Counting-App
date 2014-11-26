@@ -27,6 +27,7 @@ public class MainScreen extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
 	}
 
 	@Override
