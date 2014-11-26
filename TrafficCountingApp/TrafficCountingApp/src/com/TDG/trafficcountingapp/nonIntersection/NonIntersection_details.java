@@ -1,6 +1,9 @@
-package com.TDG.trafficcountingapp;
+package com.TDG.trafficcountingapp.nonIntersection;
 
-import com.TDG.trafficcountingapp.nonIntersection.NonIntersection_details;
+import com.TDG.trafficcountingapp.R;
+import com.TDG.trafficcountingapp.R.id;
+import com.TDG.trafficcountingapp.R.layout;
+import com.TDG.trafficcountingapp.R.menu;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -15,14 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-public class MainScreen extends ActionBarActivity {
+public class NonIntersection_details extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_screen);
+		setContentView(R.layout.activity_non_intersection_details);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		
+
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -33,7 +36,7 @@ public class MainScreen extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_screen, menu);
+		getMenuInflater().inflate(R.menu.non_intersection_details, menu);
 		return true;
 	}
 
@@ -60,14 +63,15 @@ public class MainScreen extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main_screen,
-					container, false);
+			View rootView = inflater.inflate(
+					R.layout.fragment_non_intersection_details, container,
+					false);
 			return rootView;
 		}
 	}
-	
-	public void nonIntersectionDetails(View view){
-		Intent intent = new Intent(this, NonIntersection_details.class);
+
+	public void nonIntersectionCountScreen(View view){
+		Intent intent = new Intent(this, NonIntersection_CountScreen.class);
 		startActivity(intent);
 	}
 }
