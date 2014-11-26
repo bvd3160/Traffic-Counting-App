@@ -34,4 +34,26 @@
         android:text="@string/nextButton" 
         android:onClick="nonIntersectionCountScreen"/>
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/surveyorName"
+        android:layout_alignRight="@+id/surveyorName"
+        android:layout_below="@+id/editText1"
+        android:layout_marginTop="16dp"
+        android:text="Street name: " />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignLeft="@+id/editText1"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
 </RelativeLayout>
