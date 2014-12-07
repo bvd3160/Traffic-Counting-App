@@ -985,7 +985,7 @@ containing a value of this type.
         public static final int tdgsplash=0x7f020058;
     }
     public static final class id {
-        public static final int aboutButton=0x7f090043;
+        public static final int aboutButton=0x7f090042;
         public static final int action_bar=0x7f09001c;
         public static final int action_bar_activity_content=0x7f090001;
         public static final int action_bar_container=0x7f09001b;
@@ -997,7 +997,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f090002;
         public static final int action_menu_presenter=0x7f090003;
         public static final int action_mode_close_button=0x7f090024;
-        public static final int action_settings=0x7f090047;
+        public static final int action_settings=0x7f090046;
         public static final int activity_chooser_view_content=0x7f090025;
         public static final int always=0x7f09000f;
         public static final int beginning=0x7f090016;
@@ -1008,26 +1008,26 @@ containing a value of this type.
         public static final int dialog=0x7f090014;
         public static final int disableHome=0x7f090009;
         public static final int dropdown=0x7f090015;
-        public static final int editText1=0x7f090045;
+        public static final int editText1=0x7f090044;
         public static final int edit_query=0x7f090030;
         public static final int end=0x7f090017;
         public static final int expand_activities_button=0x7f090026;
         public static final int expanded_menu=0x7f09002c;
-        public static final int helpButton=0x7f090044;
+        public static final int helpButton=0x7f090043;
         public static final int home=0x7f090000;
         public static final int homeAsUp=0x7f09000a;
         public static final int icon=0x7f09002a;
         public static final int ifRoom=0x7f090011;
         public static final int image=0x7f090027;
-        public static final int imageView1=0x7f090040;
-        public static final int intersectionButton=0x7f090042;
+        public static final int imageView1=0x7f09003d;
+        public static final int intersectionButton=0x7f090041;
         public static final int listMode=0x7f090006;
         public static final int list_item=0x7f090029;
-        public static final int loadSpinner=0x7f09003f;
+        public static final int loadSpinner=0x7f09003e;
         public static final int middle=0x7f090018;
         public static final int never=0x7f090012;
-        public static final int nonIntersectionButton=0x7f090041;
-        public static final int nonIntersectionNextButton=0x7f090046;
+        public static final int nonIntersectionButton=0x7f090040;
+        public static final int nonIntersectionNextButton=0x7f090045;
         public static final int none=0x7f090019;
         public static final int normal=0x7f090007;
         public static final int progress_circular=0x7f090004;
@@ -1049,9 +1049,8 @@ containing a value of this type.
         public static final int showTitle=0x7f09000d;
         public static final int split_action_bar=0x7f09001e;
         public static final int submit_area=0x7f090039;
-        public static final int surveyorName=0x7f09003e;
+        public static final int surveyorName=0x7f09003f;
         public static final int tabMode=0x7f090008;
-        public static final int textView3=0x7f09003d;
         public static final int title=0x7f09002b;
         public static final int top_action_bar=0x7f090020;
         public static final int up=0x7f090021;
@@ -1107,20 +1106,22 @@ containing a value of this type.
         public static final int abc_popup_menu_item_layout=0x7f030014;
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
-        public static final int activity_main_screen=0x7f030017;
-        public static final int activity_non_intersection__count_screen=0x7f030018;
-        public static final int activity_non_intersection_details=0x7f030019;
-        public static final int activity_splash_screen=0x7f03001a;
-        public static final int fragment_main_screen=0x7f03001b;
-        public static final int fragment_non_intersection__count_screen=0x7f03001c;
-        public static final int fragment_non_intersection_details=0x7f03001d;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001e;
+        public static final int activity_about=0x7f030017;
+        public static final int activity_main_screen=0x7f030018;
+        public static final int activity_non_intersection__count_screen=0x7f030019;
+        public static final int activity_non_intersection_details=0x7f03001a;
+        public static final int activity_splash_screen=0x7f03001b;
+        public static final int fragment_main_screen=0x7f03001c;
+        public static final int fragment_non_intersection__count_screen=0x7f03001d;
+        public static final int fragment_non_intersection_details=0x7f03001e;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001f;
     }
     public static final class menu {
-        public static final int main_screen=0x7f0c0000;
-        public static final int non_intersection__count_screen=0x7f0c0001;
-        public static final int non_intersection_details=0x7f0c0002;
-        public static final int splash_screen=0x7f0c0003;
+        public static final int about=0x7f0c0000;
+        public static final int main_screen=0x7f0c0001;
+        public static final int non_intersection__count_screen=0x7f0c0002;
+        public static final int non_intersection_details=0x7f0c0003;
+        public static final int splash_screen=0x7f0c0004;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
