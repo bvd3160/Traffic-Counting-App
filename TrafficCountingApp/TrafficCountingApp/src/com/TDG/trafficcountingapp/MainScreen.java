@@ -15,12 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class MainScreen extends ActionBarActivity {
+	
+	private Button about;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		aboutButtonSetup();
 		
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
@@ -28,6 +31,25 @@ public class MainScreen extends ActionBarActivity {
 		}
 		
 	}
+	private void aboutButtonSetup() {
+		// TODO Auto-generated method stub
+		try {
+			about = (Button) findViewById(R.id.aboutButton);
+			about.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
+					startActivity(intent);
+				}
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
