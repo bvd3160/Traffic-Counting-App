@@ -1176,6 +1176,7 @@ containing a value of this type.
         public static final int nonIntersectionButton=0x7f0a0014;
         public static final int splashImageContentDescription=0x7f0a0013;
         public static final int surveyorName=0x7f0a0019;
+        public static final int title_activity_About=0x7f0a001c;
         public static final int title_activity_non_intersection__count_screen=0x7f0a001b;
         public static final int title_activity_non_intersection_details=0x7f0a0018;
         public static final int title_activity_splash_screen=0x7f0a0010;

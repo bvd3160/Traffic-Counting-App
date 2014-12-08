@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Traffic Counting App</string>
+    <string name="app_name">Traffic Counts</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
@@ -16,5 +16,6 @@
     <string name="surveyorName">Surveyor Name:</string>
     <string name="nextButton">Next</string>
     <string name="title_activity_non_intersection__count_screen">NonIntersection_CountScreen</string>
+    <string name="title_activity_About">About</string>
 
 </resources>

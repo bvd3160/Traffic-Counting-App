@@ -36,6 +36,11 @@
             android:name="com.TDG.trafficcountingapp.nonIntersection.NonIntersection_CountScreen"
             android:label="@string/title_activity_non_intersection__count_screen" >
         </activity>
+        <activity
+            android:name="com.TDG.trafficcountingapp.About"
+            android:label="@string/title_activity_About" 
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

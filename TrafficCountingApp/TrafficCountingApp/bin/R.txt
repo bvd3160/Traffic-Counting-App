@@ -362,6 +362,7 @@ int string nextButton 0x7f0a001a
 int string nonIntersectionButton 0x7f0a0014
 int string splashImageContentDescription 0x7f0a0013
 int string surveyorName 0x7f0a0019
+int string title_activity_About 0x7f0a001c
 int string title_activity_non_intersection__count_screen 0x7f0a001b
 int string title_activity_non_intersection_details 0x7f0a0018
 int string title_activity_splash_screen 0x7f0a0010
