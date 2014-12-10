@@ -17,7 +17,7 @@
         android:layout_alignBottom="@+id/intersectionButton"
         android:layout_alignParentRight="true"
         android:layout_marginRight="50dp"
-        android:onClick="nonIntersectionDetails"
+        android:onClick="nonIntersectionCountSetup"
         android:text="@string/nonIntersectionButton" />
 
     <Button
@@ -25,6 +25,7 @@
         android:layout_width="300dp"
         android:layout_height="150dp"
         android:textColor="#FFFFFF"
+        android:onClick="intersectionCountSetup"
         android:layout_alignLeft="@+id/aboutButton"
         android:layout_alignParentTop="true"
         android:layout_marginTop="46dp"
@@ -35,6 +36,7 @@
         android:layout_width="300dp"
         android:layout_height="150dp"
         android:textColor="#FFFFFF"
+        android:onClick="about"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/intersectionButton"
         android:layout_marginLeft="67dp"
@@ -46,6 +48,7 @@
         android:layout_width="300dp"
         android:layout_height="150dp"
         android:textColor="#FFFFFF"
+        android:onClick="help"
         android:layout_alignBaseline="@+id/aboutButton"
         android:layout_alignBottom="@+id/aboutButton"
         android:layout_alignLeft="@+id/nonIntersectionButton"

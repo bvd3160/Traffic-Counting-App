@@ -17,5 +17,8 @@
     <string name="nextButton">Next</string>
     <string name="title_activity_non_intersection__count_screen">NonIntersection_CountScreen</string>
     <string name="title_activity_About">About</string>
+    <string name="header_aboutTDG">About Traffic Design Group (TDG)</string>
+    <string name="title_activity_count_setup">CountSetup</string>
+    <string name="title_activity_help">Help</string>
 
 </resources>

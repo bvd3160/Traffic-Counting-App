@@ -1,7 +1,5 @@
 package com.TDG.trafficcountingapp;
 
-import com.TDG.trafficcountingapp.nonIntersection.NonIntersection_details;
-
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -23,31 +21,12 @@ public class MainScreen extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		aboutButtonSetup();
 		
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
-	}
-	private void aboutButtonSetup() {
-		// TODO Auto-generated method stub
-		try {
-			about = (Button) findViewById(R.id.aboutButton);
-			about.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-					startActivity(intent);
-				}
-			});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 
@@ -88,8 +67,21 @@ public class MainScreen extends ActionBarActivity {
 		}
 	}
 	
-	public void nonIntersectionDetails(View view){
-		Intent intent = new Intent(this, NonIntersection_details.class);
+	public void nonIntersectionCountSetup(View view){
+		Intent intent = new Intent(this, CountSetup.class);
+		startActivity(intent);
+	}
+	public void intersectionCountSetup(View view){
+		Intent intent = new Intent(this, CountSetup.class);
+		startActivity(intent);
+	}
+	
+	public void about(View view){
+		Intent intent = new Intent(this, About.class);
+		startActivity(intent);
+	}
+	public void help(View view){
+		Intent intent = new Intent(this, Help.class);
 		startActivity(intent);
 	}
 }
