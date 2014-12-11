@@ -20,5 +20,8 @@
     <string name="header_aboutTDG">About Traffic Design Group (TDG)</string>
     <string name="title_activity_count_setup">CountSetup</string>
     <string name="title_activity_help">Help</string>
+    <string name="surveyor_name">Surveyor Name</string>
+    <string name="date">Date</string>
+    <string name="title_about_app">About the Application</string>
 
 </resources>
