@@ -23,5 +23,23 @@
     <string name="surveyor_name">Surveyor Name</string>
     <string name="date">Date</string>
     <string name="title_about_app">About the Application</string>
+    <string name="location_setup">Location</string>
+    <string name="hint_street_name_and_num">12 Example Street</string>
+    <string name="hint_suburb">Suburb</string>
+    <string name="hint_city">City</string>
+    <string name="hint_postcode">Post Code</string>
+    <string name="hint_area_description">General description of area. e.g: Near Bunnings Hamilton</string>
+    <string name="hint_date">12/12/2012</string>
+    <string name="hint_full_name">John Smith</string>
+    <string name="intersection_type">Intersection Type</string>
+    <string name="hint_intersection_type">4 Way Intersection</string>
+    <string name="btnLbl_selectIntersection_type">Select</string>
+    <string name="intersection_picture">Intersection Picture</string>
+    <string name="btnLbl_add_picture">Add</string>
+    <string name="btnLbl_remove_picture">Remove</string>
+    <string name="comments">Comments</string>
+    <string name="btnLbl_submit_countSetup">Submit</string>
+    <string name="hint_comments">Any relevant comments about your count progress and/or experiences</string>
+    <string name="header_about_develpmentTeam">About Development Team</string>
 
 </resources>

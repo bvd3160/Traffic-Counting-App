@@ -1,16 +1,38 @@
 package com.TDG.trafficcountingapp;
 
 import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CountSetup extends ActionBarActivity {
+	
+	TextView surveyorName;
+	Button submit;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_count_setup);
+		initialSetup();
+	}
+
+	private void initialSetup() {
+		surveyorName = (TextView) findViewById(R.id.surveyorName);
+		submit = (Button) findViewById(R.id.submit);
+		
+		submit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "Your full name is: "+surveyorName.getText(), Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 
 	@Override
