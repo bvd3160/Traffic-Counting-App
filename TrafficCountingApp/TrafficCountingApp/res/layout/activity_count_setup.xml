@@ -16,7 +16,8 @@
         android:layout_alignBottom="@+id/textView2"
         android:layout_toRightOf="@+id/textView1"
         android:ems="10"
-        android:hint="@string/hint_date" />
+        android:hint="@string/hint_date"
+        android:inputType="date" />
 
     <TextView
         android:id="@+id/textView1"
@@ -192,7 +193,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView2"
+        android:layout_alignLeft="@+id/removep"
         android:layout_alignRight="@+id/removep"
         android:text="@string/btnLbl_selectIntersection_type" />
+
+    <Button
+        android:id="@+id/setDateBT"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_toLeftOf="@+id/textView4"
+        android:text="@string/setDateBtn" />
 
 </RelativeLayout>

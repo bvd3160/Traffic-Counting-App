@@ -41,5 +41,6 @@
     <string name="btnLbl_submit_countSetup">Submit</string>
     <string name="hint_comments">Any relevant comments about your count progress and/or experiences</string>
     <string name="header_about_develpmentTeam">About Development Team</string>
+    <string name="setDateBtn">Set Date</string>
 
 </resources>
