@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,11 +24,11 @@ public class CountSetup extends ActionBarActivity {
 	TextView surveyorName, currentDate, numAndNameStreet, 
 			suburb, city, postCode, areaDescription, intersectionType, comments;
 
-	private static String sName;
+	private static String sName, theDate;
 	
 	SimpleDateFormat dateForm;
 	Calendar calendar = Calendar.getInstance();
-	Button setDate,submit;
+	Button setDate, selectIntersectionType, submit;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,46 +43,27 @@ public class CountSetup extends ActionBarActivity {
 		postCode = (TextView) findViewById(R.id.postcode);
 		areaDescription = (TextView) findViewById(R.id.areaDescription);
 		intersectionType = (TextView) findViewById(R.id.intersectionType);
+		selectIntersectionType = (Button) findViewById(R.id.intersectionButton);
 		comments = (TextView) findViewById(R.id.comments);
+		submit = (Button) findViewById(R.id.submit);
 		
 		//Current Date setup
+		dateForm = new SimpleDateFormat("dd/MM/yyyy");
 		setDate = (Button) findViewById(R.id.setDateBT);
 		setDate.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "As of now, Button only updates to current Date " +
-						"GO BACK AND FIX IT so it shows DateSettingDialog", Toast.LENGTH_LONG).show();
 				updateDate();
 				//setDate(); <<< That's what we need to get working!
 			}
 		});
 		
-		//Date format
-		dateForm = new SimpleDateFormat("dd/MM/yyyy");
-		
-		//Submit Button setup
-		submit = (Button) findViewById(R.id.submit);
-		submit.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				String name = surveyorName.getText().toString().trim();
-				
-				if(!name.isEmpty()){
-					CountSetup.setsName(name);
-					Toast.makeText(CountSetup.this, "Your full name is: "+name, Toast.LENGTH_LONG).show();
-				}else{
-					Toast.makeText(CountSetup.this, "Please State your name",Toast.LENGTH_LONG).show();
-				}
-				
-			}
-		});
-		
-		
-		updateDate();
+		updateDate();	
+		preSubmissionChecks();
 	}
 	
+
 	/*
 	 * The actual setting of new date on a DatePicker dialog
 	 */	
@@ -112,7 +94,40 @@ public class CountSetup extends ActionBarActivity {
 	}
 
 	
-	
+	/*
+	 * Checks and test before accepting data
+	 */
+	private void preSubmissionChecks() {
+		submit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String name = surveyorName.getText().toString().trim();
+				String date = currentDate.getText().toString().trim();
+				
+				//====CHECKS and SETTING values to variable for later referencing later====
+				
+				//SURVEYOR NAME
+				if(!name.isEmpty()){
+					CountSetup.setsName(name);
+					System.out.println("1-Surveyor Name: "+getsName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please State your name",Toast.LENGTH_LONG).show();
+				}
+				//THE DATE
+				if(!date.isEmpty()){
+					CountSetup.setTheDate(date);
+					System.out.println("2-Date: "+getTheDate());
+				}else{
+					Toast.makeText(CountSetup.this, "Please click the 'Set Date' button", Toast.LENGTH_LONG).show();
+				}
+				//LOCATION
+				
+				
+			}
+		});
+	}
+
 	public static String getsName() {
 		return sName;
 	}
@@ -121,6 +136,21 @@ public class CountSetup extends ActionBarActivity {
 		CountSetup.sName = sName;
 	}
 
+	public static String getTheDate() {
+		return theDate;
+	}
+
+	public static void setTheDate(String theDate) {
+		CountSetup.theDate = theDate;
+	}
+	
+	
+	public void selectIntersectionType(View view){
+		Intent intent = new Intent(this, IntersectionType.class);
+		startActivity(intent);
+	}
+
+//===============================================================================	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

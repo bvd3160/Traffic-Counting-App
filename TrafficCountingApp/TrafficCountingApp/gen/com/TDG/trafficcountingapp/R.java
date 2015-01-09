@@ -1132,22 +1132,24 @@ containing a value of this type.
         public static final int activity_about=0x7f030017;
         public static final int activity_count_setup=0x7f030018;
         public static final int activity_help=0x7f030019;
-        public static final int activity_main_screen=0x7f03001a;
-        public static final int activity_non_intersection__count_screen=0x7f03001b;
-        public static final int activity_splash_screen=0x7f03001c;
-        public static final int activity_test=0x7f03001d;
-        public static final int fragment_main_screen=0x7f03001e;
-        public static final int fragment_non_intersection__count_screen=0x7f03001f;
-        public static final int support_simple_spinner_dropdown_item=0x7f030020;
+        public static final int activity_intersection_type=0x7f03001a;
+        public static final int activity_main_screen=0x7f03001b;
+        public static final int activity_non_intersection__count_screen=0x7f03001c;
+        public static final int activity_splash_screen=0x7f03001d;
+        public static final int activity_test=0x7f03001e;
+        public static final int fragment_main_screen=0x7f03001f;
+        public static final int fragment_non_intersection__count_screen=0x7f030020;
+        public static final int support_simple_spinner_dropdown_item=0x7f030021;
     }
     public static final class menu {
         public static final int about=0x7f0c0000;
         public static final int count_setup=0x7f0c0001;
         public static final int help=0x7f0c0002;
-        public static final int main_screen=0x7f0c0003;
-        public static final int non_intersection__count_screen=0x7f0c0004;
-        public static final int non_intersection_details=0x7f0c0005;
-        public static final int splash_screen=0x7f0c0006;
+        public static final int intersection_type=0x7f0c0003;
+        public static final int main_screen=0x7f0c0004;
+        public static final int non_intersection__count_screen=0x7f0c0005;
+        public static final int non_intersection_details=0x7f0c0006;
+        public static final int splash_screen=0x7f0c0007;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1228,6 +1230,7 @@ containing a value of this type.
         public static final int title_activity_About=0x7f0a001c;
         public static final int title_activity_count_setup=0x7f0a001e;
         public static final int title_activity_help=0x7f0a001f;
+        public static final int title_activity_intersection_type=0x7f0a0036;
         public static final int title_activity_non_intersection__count_screen=0x7f0a001b;
         public static final int title_activity_non_intersection_details=0x7f0a0018;
         public static final int title_activity_splash_screen=0x7f0a0010;
