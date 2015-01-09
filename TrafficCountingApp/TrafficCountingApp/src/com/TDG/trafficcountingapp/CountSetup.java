@@ -24,7 +24,8 @@ public class CountSetup extends ActionBarActivity {
 	TextView surveyorName, currentDate, numAndNameStreet, 
 			suburb, city, postCode, areaDescription, intersectionType, comments;
 
-	private static String sName, theDate;
+	private static String sName, theDate, streetNumAndName, suburbName, cityName, areaCode, areaDescript,
+						typeOfIntersection, commentSection;
 	
 	SimpleDateFormat dateForm;
 	Calendar calendar = Calendar.getInstance();
@@ -104,6 +105,13 @@ public class CountSetup extends ActionBarActivity {
 			public void onClick(View v) {
 				String name = surveyorName.getText().toString().trim();
 				String date = currentDate.getText().toString().trim();
+				String streeNumAndName = numAndNameStreet.getText().toString().trim();
+				String suburbName = suburb.getText().toString().trim();
+				String cityName = city.getText().toString().trim();
+				String areaCode = postCode.getText().toString().trim();
+				String areaDescript = areaDescription.getText().toString().trim();
+				String intersectionKind = intersectionType.getText().toString().trim();
+				String commentArea = comments.getText().toString().trim();
 				
 				//====CHECKS and SETTING values to variable for later referencing later====
 				
@@ -112,7 +120,7 @@ public class CountSetup extends ActionBarActivity {
 					CountSetup.setsName(name);
 					System.out.println("1-Surveyor Name: "+getsName());
 				}else{
-					Toast.makeText(CountSetup.this, "Please State your name",Toast.LENGTH_LONG).show();
+					Toast.makeText(CountSetup.this, "Please State your name", Toast.LENGTH_LONG).show();
 				}
 				//THE DATE
 				if(!date.isEmpty()){
@@ -122,8 +130,45 @@ public class CountSetup extends ActionBarActivity {
 					Toast.makeText(CountSetup.this, "Please click the 'Set Date' button", Toast.LENGTH_LONG).show();
 				}
 				//LOCATION
+				if(!streeNumAndName.isEmpty()){
+					CountSetup.setStreetNumAndName(streeNumAndName);
+					System.out.println("3.1-Street: "+getStreetNumAndName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide street number and/or name", Toast.LENGTH_LONG).show();
+				}
+				if(!suburbName.isEmpty()){
+					CountSetup.setSuburbName(suburbName);
+					System.out.println("3.2-Suburb: "+getSuburbName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide the Suburb name", Toast.LENGTH_LONG).show();
+				}
+				if(!cityName.isEmpty()){
+					CountSetup.setCityName(cityName);
+					System.out.println("3.3-City: "+getCityName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide the City name", Toast.LENGTH_LONG).show();
+				}
+				if(!areaCode.isEmpty()){
+					CountSetup.setAreaCode(areaCode);
+					System.out.println("3.4-Area Code: "+getAreaCode());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide the Post code", Toast.LENGTH_LONG).show();
+				}
+				if(!areaDescript.isEmpty()){
+					CountSetup.setAreaDescript(areaDescript);
+					System.out.println("3.4-Area Description: "+getAreaDescript());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide a Description of the area", Toast.LENGTH_LONG).show();
+				}
 				
 				
+				
+				if(!commentArea.isEmpty()){
+					CountSetup.setCommentSection(commentArea);
+					System.out.println("3.6-Area Description: "+getCommentSection());
+				}else{
+					Toast.makeText(CountSetup.this, "Would you care to comment on what you see?", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 	}
@@ -144,7 +189,63 @@ public class CountSetup extends ActionBarActivity {
 		CountSetup.theDate = theDate;
 	}
 	
-	
+	public static String getStreetNumAndName() {
+		return streetNumAndName;
+	}
+
+	public static void setStreetNumAndName(String streetNumAndName) {
+		CountSetup.streetNumAndName = streetNumAndName;
+	}
+
+	public static String getSuburbName() {
+		return suburbName;
+	}
+
+	public static void setSuburbName(String suburbName) {
+		CountSetup.suburbName = suburbName;
+	}
+
+	public static String getCityName() {
+		return cityName;
+	}
+
+	public static void setCityName(String cityName) {
+		CountSetup.cityName = cityName;
+	}
+
+	public static String getAreaCode() {
+		return areaCode;
+	}
+
+	public static void setAreaCode(String areaCode) {
+		CountSetup.areaCode = areaCode;
+	}
+
+	public static String getAreaDescript() {
+		return areaDescript;
+	}
+
+	public static void setAreaDescript(String areaDescript) {
+		CountSetup.areaDescript = areaDescript;
+	}
+
+	public static String getTypeOfIntersection() {
+		return typeOfIntersection;
+	}
+
+	public static void setTypeOfIntersection(String typeOfIntersection) {
+		CountSetup.typeOfIntersection = typeOfIntersection;
+	}
+
+	public static String getCommentSection() {
+		return commentSection;
+	}
+
+	public static void setCommentSection(String commentSection) {
+		CountSetup.commentSection = commentSection;
+	}
+
+	//Opening selectIntersectionType Activity from selectIntersectionType(Button)
 	public void selectIntersectionType(View view){
 		Intent intent = new Intent(this, IntersectionType.class);
 		startActivity(intent);
