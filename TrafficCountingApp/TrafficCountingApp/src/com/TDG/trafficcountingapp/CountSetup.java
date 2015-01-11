@@ -9,6 +9,7 @@ import android.text.format.DateFormat;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ public class CountSetup extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_count_setup);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);	
 		
 		surveyorName = (TextView) findViewById(R.id.surveyorName);
 		currentDate = (TextView) findViewById(R.id.dateSetup);
@@ -103,6 +105,105 @@ public class CountSetup extends ActionBarActivity {
 			
 			@Override
 			public void onClick(View v) {
+				
+				/*
+				 * For now
+				 */
+				boolean completed = true;
+				if(completed){
+					submitCountScreen(v);
+				}else{
+				
+				String name = surveyorName.getText().toString().trim();
+				String date = currentDate.getText().toString().trim();
+				String streeNumAndName = numAndNameStreet.getText().toString().trim();
+				String suburbName = suburb.getText().toString().trim();
+				String cityName = city.getText().toString().trim();
+				String areaCode = postCode.getText().toString().trim();
+				String areaDescript = areaDescription.getText().toString().trim();
+				String intersectionKind = intersectionType.getText().toString().trim();
+				String commentArea = comments.getText().toString().trim();
+				//boolean completed = true;
+				
+				//====CHECKS and SETTING values to variable for later referencing later====
+				
+				//SURVEYOR NAME
+				if(!name.isEmpty()){
+					CountSetup.setsName(name);
+					System.out.println("1-Surveyor Name: "+getsName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please State your name", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				//THE DATE
+				if(!date.isEmpty()){
+					CountSetup.setTheDate(date);
+					System.out.println("2-Date: "+getTheDate());
+				}else{
+					Toast.makeText(CountSetup.this, "Please click the 'Set Date' button", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				//LOCATION
+				if(!streeNumAndName.isEmpty()){
+					CountSetup.setStreetNumAndName(streeNumAndName);
+					System.out.println("3.1-Street: "+getStreetNumAndName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide street number and/or name", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				if(!suburbName.isEmpty()){
+					CountSetup.setSuburbName(suburbName);
+					System.out.println("3.2-Suburb: "+getSuburbName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide the Suburb name", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				if(!cityName.isEmpty()){
+					CountSetup.setCityName(cityName);
+					System.out.println("3.3-City: "+getCityName());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide the City name", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				if(!areaCode.isEmpty()){
+					CountSetup.setAreaCode(areaCode);
+					System.out.println("3.4-Area Code: "+getAreaCode());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide the Post code", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				if(!areaDescript.isEmpty()){
+					CountSetup.setAreaDescript(areaDescript);
+					System.out.println("3.4-Area Description: "+getAreaDescript());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide a Description of the area", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				
+				if(!commentArea.isEmpty()){
+					CountSetup.setCommentSection(commentArea);
+					System.out.println("3.6-Area Description: "+getCommentSection());
+				}else{
+					Toast.makeText(CountSetup.this, "Would you care to comment on what you see?", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				
+				if(completed){
+					submitCountScreen(v);
+				}
+				}
+			}
+		});
+	}
+	
+	/* Jeans unedited version(I needed to edit the above to allow the intent to work after checking.
+	 * Done by adding a boolean value which will check if the required information has been completed)
+	 * 
+	 * private void preSubmissionChecks() {
+		submit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
 				String name = surveyorName.getText().toString().trim();
 				String date = currentDate.getText().toString().trim();
 				String streeNumAndName = numAndNameStreet.getText().toString().trim();
@@ -161,8 +262,6 @@ public class CountSetup extends ActionBarActivity {
 					Toast.makeText(CountSetup.this, "Please provide a Description of the area", Toast.LENGTH_LONG).show();
 				}
 				
-				
-				
 				if(!commentArea.isEmpty()){
 					CountSetup.setCommentSection(commentArea);
 					System.out.println("3.6-Area Description: "+getCommentSection());
@@ -172,6 +271,7 @@ public class CountSetup extends ActionBarActivity {
 			}
 		});
 	}
+	 */
 
 	public static String getsName() {
 		return sName;
@@ -248,6 +348,14 @@ public class CountSetup extends ActionBarActivity {
 	//Opening selectIntersectionType Activity from selectIntersectionType(Button)
 	public void selectIntersectionType(View view){
 		Intent intent = new Intent(this, IntersectionType.class);
+		startActivity(intent);
+	}
+	
+	public void submitCountScreen(View view){
+		Intent intent = new Intent(this, CountingScreen.class);
+		/*
+		 * Need to send data from here
+		 */
 		startActivity(intent);
 	}
 

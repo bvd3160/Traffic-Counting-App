@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".SplashScreen"
+            android:name="com.TDG.trafficcountingapp.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -24,34 +24,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainScreen"
+            android:name="com.TDG.trafficcountingapp.MainScreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".nonIntersection.NonIntersection_details"
-            android:label="@string/title_activity_non_intersection_details" >
-        </activity>
-        <activity
-            android:name=".nonIntersection.NonIntersection_CountScreen"
-            android:label="@string/title_activity_non_intersection__count_screen" >
-        </activity>
-        <activity
-            android:name=".About"
+            android:name="com.TDG.trafficcountingapp.About"
             android:label="@string/title_activity_About"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".CountSetup"
+            android:name="com.TDG.trafficcountingapp.CountSetup"
             android:label="@string/title_activity_count_setup" >
         </activity>
         <activity
-            android:name=".Help"
+            android:name="com.TDG.trafficcountingapp.Help"
             android:label="@string/title_activity_help" >
         </activity>
         <activity
-            android:name=".IntersectionType"
+            android:name="com.TDG.trafficcountingapp.IntersectionType"
             android:label="@string/title_activity_intersection_type" >
+        </activity>
+        <activity
+            android:name="com.TDG.trafficcountingapp.CountingScreen"
+            android:label="@string/title_activity_counting_screen" >
         </activity>
     </application>
 

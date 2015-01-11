@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Traffic Counts</string>
+	<!-- Auto Generated (Don't remove) -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Splash Screen -->
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="loading_tv">Loading</string>
-    <string name="autAssociation_tv">In association with AUT University</string>
     <string name="splashImageContentDescription">TDG Logo Image for splash screen</string>
+    
+    <!-- Main Menu -->
+    <string name="app_name">Traffic Counts</string>
     <string name="nonIntersectionButton">Non-Intersection Count</string>
     <string name="intersectionButton">Intersection Count</string>
     <string name="helpButton">Help</string>
     <string name="aboutButton">About</string>
-    <string name="title_activity_non_intersection_details">NonIntersection_details</string>
-    <string name="surveyorName">Surveyor Name:</string>
-    <string name="nextButton">Next</string>
-    <string name="title_activity_non_intersection__count_screen">NonIntersection_CountScreen</string>
-    <string name="title_activity_About">About</string>
-    <string name="header_aboutTDG">About Traffic Design Group (TDG)</string>
+    
+    <!-- Count Set-up -->
     <string name="title_activity_count_setup">CountSetup</string>
-    <string name="title_activity_help">Help</string>
     <string name="surveyor_name">Surveyor Name</string>
     <string name="date">Date</string>
-    <string name="title_about_app">About the Application</string>
     <string name="location_setup">Location</string>
     <string name="hint_street_name_and_num">12 Example Street</string>
     <string name="hint_suburb">Suburb</string>
@@ -40,8 +37,20 @@
     <string name="comments">Comments</string>
     <string name="btnLbl_submit_countSetup">Submit</string>
     <string name="hint_comments">Any relevant comments about your count progress and/or experiences</string>
-    <string name="header_about_develpmentTeam">About Development Team</string>
     <string name="setDateBtn">Set Date</string>
     <string name="title_activity_intersection_type">IntersectionType</string>
+    
+    <!-- About -->
+    <string name="title_activity_About">About</string>
+    <string name="header_aboutTDG">About Traffic Design Group (TDG)</string>
+    <string name="title_about_app">About the Application</string>
+    <string name="header_about_develpmentTeam">About Development Team</string>
+    
+    <!-- Help -->
+    <string name="title_activity_help">Help</string>      
+    
+    <!-- Counting Screen -->
+    <string name="title_activity_counting_screen">CountingScreen</string>
+    <string name="counting_screen_counter">Counter:</string>
 
 </resources>
