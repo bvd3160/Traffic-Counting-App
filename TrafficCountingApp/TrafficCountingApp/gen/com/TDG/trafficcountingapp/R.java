@@ -1027,7 +1027,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f05006f;
+        public static final int action_settings=0x7f050085;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int addPic=0x7f05004f;
         public static final int always=0x7f05000b;
@@ -1048,12 +1048,34 @@ containing a value of this type.
         public static final int cs_txt_currentlySelected=0x7f050056;
         public static final int cs_txt_currentlyselectedobject=0x7f050057;
         public static final int cs_txt_totalCounter=0x7f05005a;
-        public static final int csd_btn_bus=0x7f050069;
-        public static final int csd_btn_car=0x7f05006c;
-        public static final int csd_btn_motorbike=0x7f05006d;
-        public static final int csd_btn_truck=0x7f05006a;
-        public static final int csd_txt_heavy=0x7f050068;
-        public static final int csd_txt_light=0x7f05006b;
+        public static final int csd_btn_artificial_limb=0x7f05006f;
+        public static final int csd_btn_back_not_visible=0x7f050075;
+        public static final int csd_btn_back_visible=0x7f050074;
+        public static final int csd_btn_bike=0x7f05006a;
+        public static final int csd_btn_bus=0x7f05007f;
+        public static final int csd_btn_cancel_pedestrian=0x7f05007d;
+        public static final int csd_btn_cancel_vehicle=0x7f050084;
+        public static final int csd_btn_cane=0x7f05006b;
+        public static final int csd_btn_car=0x7f050082;
+        public static final int csd_btn_crutches=0x7f050070;
+        public static final int csd_btn_dog=0x7f05006c;
+        public static final int csd_btn_leg_not_visible=0x7f050077;
+        public static final int csd_btn_leg_visible=0x7f050076;
+        public static final int csd_btn_motorbike=0x7f050083;
+        public static final int csd_btn_other=0x7f05007c;
+        public static final int csd_btn_pedestrian=0x7f050069;
+        public static final int csd_btn_scooter=0x7f05006d;
+        public static final int csd_btn_truck=0x7f050080;
+        public static final int csd_btn_walking_frame=0x7f050071;
+        public static final int csd_btn_wheel_chair_assisted=0x7f050079;
+        public static final int csd_btn_wheel_chair_manual=0x7f05007a;
+        public static final int csd_btn_wheel_chair_powered=0x7f05007b;
+        public static final int csd_txt_back_brace=0x7f050072;
+        public static final int csd_txt_heavy=0x7f05007e;
+        public static final int csd_txt_leg_brace=0x7f050073;
+        public static final int csd_txt_light=0x7f050081;
+        public static final int csd_txt_medical_aid=0x7f05006e;
+        public static final int csd_txt_wheel_chair=0x7f050078;
         public static final int dateSetup=0x7f050043;
         public static final int default_activity_button=0x7f050028;
         public static final int dialog=0x7f05000e;
@@ -1073,7 +1095,7 @@ containing a value of this type.
         public static final int intersectionType=0x7f05004b;
         public static final int linearLayout1=0x7f050045;
         public static final int listMode=0x7f050001;
-        public static final int listView1=0x7f05006e;
+        public static final int listView1=0x7f050068;
         public static final int list_item=0x7f050029;
         public static final int loadSpinner=0x7f050062;
         public static final int middle=0x7f050012;
@@ -1185,9 +1207,9 @@ containing a value of this type.
         public static final int counting_objects_view=0x7f030020;
         public static final int counting_types=0x7f030021;
         public static final int fragment_counting_screen=0x7f030022;
-        public static final int fragment_counting_screen__vehicle=0x7f030023;
-        public static final int fragment_counting_screen_listview=0x7f030024;
-        public static final int fragment_counting_screen_pedestrian=0x7f030025;
+        public static final int fragment_counting_screen_listview=0x7f030023;
+        public static final int fragment_counting_screen_pedestrian=0x7f030024;
+        public static final int fragment_counting_screen_vehicle=0x7f030025;
         public static final int support_simple_spinner_dropdown_item=0x7f030026;
     }
     public static final class menu {
@@ -1256,7 +1278,7 @@ containing a value of this type.
         public static final int comments=0x7f0a0028;
         /**  Counting Objects View 
          */
-        public static final int cov_objectType=0x7f0a0053;
+        public static final int cov_objectType=0x7f0a0054;
         public static final int cs_btn_pedestrian=0x7f0a0038;
         public static final int cs_btn_undo=0x7f0a0034;
         public static final int cs_btn_vehicles=0x7f0a0037;
@@ -1267,6 +1289,7 @@ containing a value of this type.
         public static final int csd_btn_assisted=0x7f0a0051;
         public static final int csd_btn_bike=0x7f0a0046;
         public static final int csd_btn_bus=0x7f0a0042;
+        public static final int csd_btn_cancel=0x7f0a0053;
         public static final int csd_btn_cane=0x7f0a0047;
         public static final int csd_btn_car=0x7f0a0043;
         public static final int csd_btn_crutches=0x7f0a004c;

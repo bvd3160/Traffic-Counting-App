@@ -86,6 +86,7 @@
     <string name="csd_btn_powered">Powered</string>
     <string name="csd_btn_assisted">Assisted</string>
     <string name="csd_btn_manual">Manual</string>
+    <string name="csd_btn_cancel">Cancel</string>
     
     <!-- Counting Objects View -->
     <string name="cov_objectType">Object Type</string>
