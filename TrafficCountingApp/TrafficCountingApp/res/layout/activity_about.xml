@@ -10,7 +10,7 @@
     tools:context="com.TDG.trafficcountingapp.About" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/cov_txt_objectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/header_aboutTDG"
@@ -21,9 +21,9 @@
         android:id="@+id/about_tdg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignLeft="@+id/cov_txt_objectName"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/cov_txt_objectName"
         android:layout_marginTop="25dp"
         android:background="#353535"
         android:layout_toLeftOf="@+id/textView3"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView2"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/textView1"
+        android:layout_toRightOf="@+id/cov_txt_objectName"
         android:text="@string/title_about_app"
         android:textColor="#97C11F"
         android:textSize="25sp" />

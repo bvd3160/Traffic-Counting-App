@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Auto Generated (Don't remove) -->
+
+    <!-- Auto Generated (Don't remove) -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    
+
     <!-- Splash Screen -->
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="loading_tv">Loading</string>
     <string name="splashImageContentDescription">TDG Logo Image for splash screen</string>
-    
+
     <!-- Main Menu -->
     <string name="app_name">Traffic Counts</string>
     <string name="nonIntersectionButton">Non-Intersection Count</string>
     <string name="intersectionButton">Intersection Count</string>
     <string name="helpButton">Help</string>
     <string name="aboutButton">About</string>
-    
+
     <!-- Count Set-up -->
     <string name="title_activity_count_setup">CountSetup</string>
     <string name="surveyor_name">Surveyor Name</string>
@@ -39,18 +40,54 @@
     <string name="hint_comments">Any relevant comments about your count progress and/or experiences</string>
     <string name="setDateBtn">Set Date</string>
     <string name="title_activity_intersection_type">IntersectionType</string>
-    
+
     <!-- About -->
     <string name="title_activity_About">About</string>
     <string name="header_aboutTDG">About Traffic Design Group (TDG)</string>
     <string name="title_about_app">About the Application</string>
     <string name="header_about_develpmentTeam">About Development Team</string>
-    
+
     <!-- Help -->
-    <string name="title_activity_help">Help</string>      
-    
+    <string name="title_activity_help">Help</string>
+
     <!-- Counting Screen -->
     <string name="title_activity_counting_screen">CountingScreen</string>
-    <string name="counting_screen_counter">Counter:</string>
-
+    <string name="cs_txt_total_counter">Total Count:</string>
+    <string name="cs_btn_undo">Undo Previous Count</string>
+    <string name="cs_txt_currentlyselected">Currently Selected</string>
+    <string name="cs_txt_currentlyselectedobject">Count Object</string>
+    <string name="cs_btn_vehicles">Vehicles</string>
+    <string name="cs_btn_pedestrian">Pedestrians</string>
+    
+    <!-- Counting Screen Dialog -->
+    <string name="title_activity_counting_screen__dialog">CountingScreen_Dialog</string>
+    <string name="csd_txt_heavy">Heavy Vehicles</string>
+    <string name="csd_txt_light">Light Vehicles</string>
+    <string name="csd_txt_medical_aid">Medical Aid</string>
+    <string name="csd_txt_back_brace">Back Brace</string>
+    <string name="csd_txt_leg_brace">Leg Brace</string>
+    <string name="csd_txt_wheel_chair">Wheel Chair</string>
+    <string name="csd_txt_other">Other</string>
+    <string name="csd_btn_truck">Truck</string>
+    <string name="csd_btn_bus">Bus</string>
+    <string name="csd_btn_car">Car</string>
+    <string name="csd_btn_motorbike">Motor Bike</string>
+    <string name="csd_btn_pedestrian">Pedestrian</string>
+    <string name="csd_btn_bike">Bike</string>
+    <string name="csd_btn_cane">Cane</string>
+    <string name="csd_btn_dog">Dog</string>
+    <string name="csd_btn_scooter">Mobility Scooter</string>
+    <string name="csd_btn_other">Other</string>
+    <string name="csd_btn_artificial_limb">Artificial Limb</string>
+    <string name="csd_btn_crutches">Crutches</string>
+    <string name="csd_btn_walking_frame">Walking Frame</string>
+    <string name="csd_btn_visible">Visible</string>
+    <string name="csd_btn_notvisible">Not Visible</string>
+    <string name="csd_btn_powered">Powered</string>
+    <string name="csd_btn_assisted">Assisted</string>
+    <string name="csd_btn_manual">Manual</string>
+    
+    <!-- Counting Objects View -->
+    <string name="cov_objectType">Object Type</string>
+    
 </resources>

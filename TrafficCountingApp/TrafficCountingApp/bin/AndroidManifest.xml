@@ -49,6 +49,10 @@
             android:name="com.TDG.trafficcountingapp.CountingScreen"
             android:label="@string/title_activity_counting_screen" >
         </activity>
+        <activity
+            android:name="com.TDG.trafficcountingapp.CountingScreen_Dialog"
+            android:label="@string/title_activity_counting_screen__dialog" >
+        </activity>
     </application>
 
 </manifest>

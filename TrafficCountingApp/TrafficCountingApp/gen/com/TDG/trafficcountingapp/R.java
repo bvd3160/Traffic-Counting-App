@@ -16,9 +16,6 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
-    public static final class array {
-        public static final int heavyVehiclesArray=0x7f0c0000;
-    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -984,13 +981,38 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int grey=0x7f020057;
-        public static final int ic_launcher=0x7f020058;
-        public static final int tdgsplash=0x7f020059;
+        public static final int arrow_icon=0x7f020057;
+        public static final int grey=0x7f020058;
+        public static final int heavy_bus=0x7f020059;
+        public static final int heavy_icon=0x7f02005a;
+        public static final int heavy_truck=0x7f02005b;
+        public static final int ic_launcher=0x7f02005c;
+        public static final int image_placeholder=0x7f02005d;
+        public static final int light_icon=0x7f02005e;
+        public static final int pedestrian_artifical_limb=0x7f02005f;
+        public static final int pedestrian_back_brace=0x7f020060;
+        public static final int pedestrian_bike=0x7f020061;
+        public static final int pedestrian_cane=0x7f020062;
+        public static final int pedestrian_crutches=0x7f020063;
+        public static final int pedestrian_dog=0x7f020064;
+        public static final int pedestrian_feet=0x7f020065;
+        public static final int pedestrian_icon=0x7f020066;
+        public static final int pedestrian_leg_back_not_visible=0x7f020067;
+        public static final int pedestrian_leg_back_visible=0x7f020068;
+        public static final int pedestrian_leg_brace=0x7f020069;
+        public static final int pedestrian_other=0x7f02006a;
+        public static final int pedestrian_scooter=0x7f02006b;
+        public static final int pedestrian_walking_frame=0x7f02006c;
+        public static final int pedestrian_wheel=0x7f02006d;
+        public static final int pedestrian_wheel_assisted=0x7f02006e;
+        public static final int pedestrian_wheel_manual=0x7f02006f;
+        public static final int pedestrian_wheel_powered=0x7f020070;
+        public static final int tdgsplash=0x7f020071;
+        public static final int transparent=0x7f020072;
     }
     public static final class id {
         public static final int TextView02=0x7f050040;
-        public static final int aboutButton=0x7f05005c;
+        public static final int aboutButton=0x7f05005f;
         public static final int about_app=0x7f05003f;
         public static final int about_tdg=0x7f05003d;
         public static final int about_team=0x7f050042;
@@ -1005,19 +1027,33 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f050064;
+        public static final int action_settings=0x7f05006f;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int addPic=0x7f05004f;
         public static final int always=0x7f05000b;
         public static final int areaDescription=0x7f05004a;
         public static final int beginning=0x7f050011;
-        public static final int buttonDecrease=0x7f050059;
-        public static final int buttonIncrease=0x7f050058;
         public static final int checkbox=0x7f05002d;
         public static final int city=0x7f050048;
         public static final int collapseActionView=0x7f05000d;
         public static final int comments=0x7f050051;
         public static final int container=0x7f050055;
+        public static final int cov_image_arrow=0x7f050063;
+        public static final int cov_image_objectIcon=0x7f050061;
+        public static final int cov_txt_objectName=0x7f05003c;
+        public static final int cs_btn_increase=0x7f05005c;
+        public static final int cs_btn_pedestrian=0x7f050059;
+        public static final int cs_btn_undo=0x7f05005b;
+        public static final int cs_btn_vehicles=0x7f050058;
+        public static final int cs_txt_currentlySelected=0x7f050056;
+        public static final int cs_txt_currentlyselectedobject=0x7f050057;
+        public static final int cs_txt_totalCounter=0x7f05005a;
+        public static final int csd_btn_bus=0x7f050069;
+        public static final int csd_btn_car=0x7f05006c;
+        public static final int csd_btn_motorbike=0x7f05006d;
+        public static final int csd_btn_truck=0x7f05006a;
+        public static final int csd_txt_heavy=0x7f050068;
+        public static final int csd_txt_light=0x7f05006b;
         public static final int dateSetup=0x7f050043;
         public static final int default_activity_button=0x7f050028;
         public static final int dialog=0x7f05000e;
@@ -1027,23 +1063,22 @@ containing a value of this type.
         public static final int end=0x7f050013;
         public static final int expand_activities_button=0x7f050026;
         public static final int expanded_menu=0x7f05002c;
-        public static final int helpButton=0x7f05005d;
+        public static final int helpButton=0x7f050060;
         public static final int home=0x7f050014;
         public static final int homeAsUp=0x7f050005;
         public static final int icon=0x7f05002a;
         public static final int ifRoom=0x7f05000a;
         public static final int image=0x7f050027;
-        public static final int imageView1=0x7f05005e;
-        public static final int intersectionButton=0x7f05005b;
+        public static final int intersectionButton=0x7f05005e;
         public static final int intersectionType=0x7f05004b;
         public static final int linearLayout1=0x7f050045;
         public static final int listMode=0x7f050001;
-        public static final int listViewCountingTypes=0x7f050056;
+        public static final int listView1=0x7f05006e;
         public static final int list_item=0x7f050029;
-        public static final int loadSpinner=0x7f05005f;
+        public static final int loadSpinner=0x7f050062;
         public static final int middle=0x7f050012;
         public static final int never=0x7f050009;
-        public static final int nonIntersectionButton=0x7f05005a;
+        public static final int nonIntersectionButton=0x7f05005d;
         public static final int none=0x7f050010;
         public static final int normal=0x7f050000;
         public static final int postcode=0x7f050049;
@@ -1073,18 +1108,16 @@ containing a value of this type.
         public static final int submit_area=0x7f050039;
         public static final int suburb=0x7f050047;
         public static final int surveyorName=0x7f050044;
-        public static final int tabHeavyVehicles=0x7f050061;
-        public static final int tabLightVehicles=0x7f050062;
+        public static final int tabHeavyVehicles=0x7f050065;
+        public static final int tabLightVehicles=0x7f050066;
         public static final int tabMode=0x7f050002;
-        public static final int tabPedestrians=0x7f050063;
-        public static final int tabhost=0x7f050060;
-        public static final int textView1=0x7f05003c;
+        public static final int tabPedestrians=0x7f050067;
+        public static final int tabhost=0x7f050064;
         public static final int textView2=0x7f050041;
         public static final int textView3=0x7f05003e;
         public static final int textView4=0x7f05004c;
         public static final int textView5=0x7f05004d;
         public static final int textView6=0x7f05004e;
-        public static final int textViewCounter=0x7f050057;
         public static final int title=0x7f05002b;
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
@@ -1143,26 +1176,32 @@ containing a value of this type.
         public static final int activity_about=0x7f030017;
         public static final int activity_count_setup=0x7f030018;
         public static final int activity_counting_screen=0x7f030019;
-        public static final int activity_help=0x7f03001a;
-        public static final int activity_intersection_type=0x7f03001b;
-        public static final int activity_main_screen=0x7f03001c;
-        public static final int activity_non_intersection__count_screen=0x7f03001d;
-        public static final int activity_splash_screen=0x7f03001e;
-        public static final int counting_types=0x7f03001f;
-        public static final int fragment_counting_screen=0x7f030020;
-        public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int activity_counting_screen__dialog=0x7f03001a;
+        public static final int activity_help=0x7f03001b;
+        public static final int activity_intersection_type=0x7f03001c;
+        public static final int activity_main_screen=0x7f03001d;
+        public static final int activity_non_intersection__count_screen=0x7f03001e;
+        public static final int activity_splash_screen=0x7f03001f;
+        public static final int counting_objects_view=0x7f030020;
+        public static final int counting_types=0x7f030021;
+        public static final int fragment_counting_screen=0x7f030022;
+        public static final int fragment_counting_screen__vehicle=0x7f030023;
+        public static final int fragment_counting_screen_listview=0x7f030024;
+        public static final int fragment_counting_screen_pedestrian=0x7f030025;
+        public static final int support_simple_spinner_dropdown_item=0x7f030026;
     }
     public static final class menu {
-        public static final int about=0x7f0d0000;
-        public static final int count_setup=0x7f0d0001;
-        public static final int counting_screen=0x7f0d0002;
-        public static final int help=0x7f0d0003;
-        public static final int intersection_count=0x7f0d0004;
-        public static final int intersection_type=0x7f0d0005;
-        public static final int main_screen=0x7f0d0006;
-        public static final int non_intersection__count_screen=0x7f0d0007;
-        public static final int non_intersection_details=0x7f0d0008;
-        public static final int splash_screen=0x7f0d0009;
+        public static final int about=0x7f0c0000;
+        public static final int count_setup=0x7f0c0001;
+        public static final int counting_screen=0x7f0c0002;
+        public static final int counting_screen__dialog=0x7f0c0003;
+        public static final int help=0x7f0c0004;
+        public static final int intersection_count=0x7f0c0005;
+        public static final int intersection_type=0x7f0c0006;
+        public static final int main_screen=0x7f0c0007;
+        public static final int non_intersection__count_screen=0x7f0c0008;
+        public static final int non_intersection_details=0x7f0c0009;
+        public static final int splash_screen=0x7f0c000a;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1215,7 +1254,40 @@ containing a value of this type.
         public static final int btnLbl_selectIntersection_type=0x7f0a0024;
         public static final int btnLbl_submit_countSetup=0x7f0a0029;
         public static final int comments=0x7f0a0028;
-        public static final int counting_screen_counter=0x7f0a0033;
+        /**  Counting Objects View 
+         */
+        public static final int cov_objectType=0x7f0a0053;
+        public static final int cs_btn_pedestrian=0x7f0a0038;
+        public static final int cs_btn_undo=0x7f0a0034;
+        public static final int cs_btn_vehicles=0x7f0a0037;
+        public static final int cs_txt_currentlyselected=0x7f0a0035;
+        public static final int cs_txt_currentlyselectedobject=0x7f0a0036;
+        public static final int cs_txt_total_counter=0x7f0a0033;
+        public static final int csd_btn_artificial_limb=0x7f0a004b;
+        public static final int csd_btn_assisted=0x7f0a0051;
+        public static final int csd_btn_bike=0x7f0a0046;
+        public static final int csd_btn_bus=0x7f0a0042;
+        public static final int csd_btn_cane=0x7f0a0047;
+        public static final int csd_btn_car=0x7f0a0043;
+        public static final int csd_btn_crutches=0x7f0a004c;
+        public static final int csd_btn_dog=0x7f0a0048;
+        public static final int csd_btn_manual=0x7f0a0052;
+        public static final int csd_btn_motorbike=0x7f0a0044;
+        public static final int csd_btn_notvisible=0x7f0a004f;
+        public static final int csd_btn_other=0x7f0a004a;
+        public static final int csd_btn_pedestrian=0x7f0a0045;
+        public static final int csd_btn_powered=0x7f0a0050;
+        public static final int csd_btn_scooter=0x7f0a0049;
+        public static final int csd_btn_truck=0x7f0a0041;
+        public static final int csd_btn_visible=0x7f0a004e;
+        public static final int csd_btn_walking_frame=0x7f0a004d;
+        public static final int csd_txt_back_brace=0x7f0a003d;
+        public static final int csd_txt_heavy=0x7f0a003a;
+        public static final int csd_txt_leg_brace=0x7f0a003e;
+        public static final int csd_txt_light=0x7f0a003b;
+        public static final int csd_txt_medical_aid=0x7f0a003c;
+        public static final int csd_txt_other=0x7f0a0040;
+        public static final int csd_txt_wheel_chair=0x7f0a003f;
         public static final int date=0x7f0a0019;
         public static final int header_aboutTDG=0x7f0a002e;
         public static final int header_about_develpmentTeam=0x7f0a0030;
@@ -1251,6 +1323,9 @@ containing a value of this type.
         /**  Counting Screen 
          */
         public static final int title_activity_counting_screen=0x7f0a0032;
+        /**  Counting Screen Dialog 
+         */
+        public static final int title_activity_counting_screen__dialog=0x7f0a0039;
         /**  Help 
          */
         public static final int title_activity_help=0x7f0a0031;
