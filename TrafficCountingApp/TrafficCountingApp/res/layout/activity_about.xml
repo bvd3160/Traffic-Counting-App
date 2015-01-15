@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/header_aboutTDG"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textColor="#97C11F" />
 
     <TextView
@@ -26,6 +26,7 @@
         android:layout_below="@+id/cov_txt_objectName"
         android:layout_marginTop="25dp"
         android:background="#353535"
+        android:scrollbars="vertical"
         android:layout_toLeftOf="@+id/textView3"
         android:text="TextView"
         android:textColor="#FFFFFF" />
@@ -37,6 +38,7 @@
         android:layout_above="@+id/TextView02"
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignParentRight="true"
+        android:scrollbars="vertical"
         android:layout_alignTop="@+id/about_tdg"
         android:background="#353535"
         android:text="TextView"
@@ -51,18 +53,7 @@
         android:layout_toRightOf="@+id/cov_txt_objectName"
         android:text="@string/title_about_app"
         android:textColor="#97C11F"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/about_team"
-        android:layout_alignLeft="@+id/about_team"
-        android:layout_marginBottom="153dp"
-        android:text="@string/header_about_develpmentTeam"
-        android:textColor="#97C11F"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/about_team"
@@ -71,8 +62,20 @@
         android:layout_alignBottom="@+id/about_tdg"
         android:layout_alignLeft="@+id/about_app"
         android:layout_alignRight="@+id/about_app"
+        android:layout_below="@+id/TextView02"
         android:background="#353535"
+        android:scrollbars="vertical"
         android:text="TextView"
         android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_centerVertical="true"
+        android:text="@string/header_about_develpmentTeam"
+        android:textColor="#97C11F"
+        android:textSize="20sp" />
 
 </RelativeLayout>
