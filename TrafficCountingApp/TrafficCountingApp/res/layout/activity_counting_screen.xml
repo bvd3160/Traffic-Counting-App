@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.TDG.trafficcountingapp.CountingScreen"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="134dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="20dp" >
+
+                <TextView
+                    android:id="@+id/cs_txt_currentlySelected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cs_txt_currentlyselected"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/cs_txt_currentlyselectedobject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cs_txt_currentlyselectedobject"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/cs_btn_vehicles"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="showVehicleDialog"
+                    android:text="@string/cs_btn_vehicles" />
+
+                <Button
+                    android:id="@+id/cs_btn_pedestrian"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="showPedestrianDialog"
+                    android:text="@string/cs_btn_pedestrian" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="827dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+
+                <TextView
+                    android:id="@+id/cs_txt_totalCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cs_txt_total_counter"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Button
+                    android:id="@+id/cs_btn_undo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/cs_txt_totalCounter"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/cs_btn_undo" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/cs_btn_increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Increase Count" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
