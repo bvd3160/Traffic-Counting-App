@@ -50,7 +50,7 @@
             android:label="@string/title_activity_counting_screen" >
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.CountingScreen_Dialog"
+            android:name="com.TDG.trafficcountingapp.Custom_Dialogs"
             android:label="@string/title_activity_counting_screen__dialog" >
         </activity>
     </application>

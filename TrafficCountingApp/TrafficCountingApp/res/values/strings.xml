@@ -53,7 +53,7 @@
     <!-- Counting Screen -->
     <string name="title_activity_counting_screen">CountingScreen</string>
     <string name="cs_txt_total_counter">Total Count:</string>
-    <string name="cs_btn_undo">Undo Previous Count</string>
+    <string name="cs_btn_undo">Undo Count</string>
     <string name="cs_txt_currentlyselected">Currently Selected</string>
     <string name="cs_txt_currentlyselectedobject">Count Object</string>
     <string name="cs_btn_vehicles">Vehicles</string>
@@ -86,9 +86,13 @@
     <string name="csd_btn_powered">Powered</string>
     <string name="csd_btn_assisted">Assisted</string>
     <string name="csd_btn_manual">Manual</string>
-    <string name="csd_btn_cancel">Cancel</string>
+    <string name="csd_btn_close">Close</string>
     
-    <!-- Counting Objects View -->
-    <string name="cov_objectType">Object Type</string>
+    <!-- Count Setup Intersection Dialog-->
+    <string name="csi_txt_3way">3 Way</string>
+    <string name="csi_txt_4way">4 Way</string>
+    <string name="csi_txt_5way">5 Way</string>
+    <string name="csi_txt_6way">6 Way</string>
+    <string name="csi_btn_close">Close</string>
     
 </resources>

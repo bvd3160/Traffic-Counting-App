@@ -79,9 +79,9 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/csd_btn_cancel_vehicle"
+            android:id="@+id/csd_btn_close_vehicle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/csd_btn_cancel" />
+            android:text="@string/csd_btn_close" />
 
     </LinearLayout>

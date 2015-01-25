@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingRight="5dp" >
+
+                <TextView
+                    android:id="@+id/csi_txt_3way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/csi_txt_3way"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Button
+                    android:id="@+id/csi_btn_3way"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/intersection_3"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp" >
+
+                <TextView
+                    android:id="@+id/csi_txt_4way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/csi_txt_4way"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Button
+                    android:id="@+id/csi_btn_4way"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/intersection_4"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingRight="5dp" >
+
+                <TextView
+                    android:id="@+id/csi_txt_5way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/csi_txt_5way"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Button
+                    android:id="@+id/csi_btn_5way"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/intersection_5"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp" >
+
+                <TextView
+                    android:id="@+id/csi_txt_6way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/csi_txt_6way"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Button
+                    android:id="@+id/csi_btn_6way"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/intersection_6"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/csi_btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/csi_btn_close" />
+
+    </LinearLayout>
+    
+</RelativeLayout>

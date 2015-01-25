@@ -86,14 +86,14 @@ public class CountingScreen extends ActionBarActivity {
 	@SuppressLint("NewApi")
 	public void showVehicleDialog(View view){
 		FragmentManager manager = getFragmentManager();
-		CountingScreen_Dialog dialog = new CountingScreen_Dialog();
+		Custom_Dialogs dialog = new Custom_Dialogs();
 		dialog.show(manager, "vehicleDialog");		
 	}
 	
 	@SuppressLint("NewApi")
 	public void showPedestrianDialog(View view){
 		FragmentManager manager = getFragmentManager();
-		CountingScreen_Dialog dialog = new CountingScreen_Dialog();
+		Custom_Dialogs dialog = new Custom_Dialogs();
 		dialog.show(manager, "pedestrianDialog");	
 	}
 	

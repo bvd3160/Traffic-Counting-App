@@ -4,13 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.support.v7.app.ActionBarActivity;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -340,12 +343,6 @@ public class CountSetup extends ActionBarActivity {
 	public static void setCommentSection(String commentSection) {
 		CountSetup.commentSection = commentSection;
 	}
-
-	//Opening selectIntersectionType Activity from selectIntersectionType(Button)
-	public void selectIntersectionType(View view){
-		Intent intent = new Intent(this, IntersectionType.class);
-		startActivity(intent);
-	}
 	
 	public void submitCountScreen(View view){
 		Intent intent = new Intent(this, CountingScreen.class);
@@ -353,6 +350,13 @@ public class CountSetup extends ActionBarActivity {
 		 * Need to send data from here
 		 */
 		startActivity(intent);
+	}
+	
+	@SuppressLint("NewApi")
+	public void showIntersectionDialog(View view){
+		FragmentManager manager = getFragmentManager();
+		Custom_Dialogs dialog = new Custom_Dialogs();
+		dialog.show(manager, "intersectionDialog");		
 	}
 
 //===============================================================================	
