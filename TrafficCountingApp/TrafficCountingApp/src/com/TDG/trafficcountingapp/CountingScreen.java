@@ -1,5 +1,7 @@
 package com.TDG.trafficcountingapp;
 
+import com.TDG.trafficcountingapp.Custom_Dialogs.Communicator;
+
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
@@ -8,8 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class CountingScreen extends ActionBarActivity {
+public class CountingScreen extends ActionBarActivity implements Communicator{
 	
 	/*
 	 * An 'Count Object' in this project will be used as the term for the following: (Unless we can find a better name for them)
@@ -95,6 +98,51 @@ public class CountingScreen extends ActionBarActivity {
 		FragmentManager manager = getFragmentManager();
 		Custom_Dialogs dialog = new Custom_Dialogs();
 		dialog.show(manager, "pedestrianDialog");	
+	}
+
+	@Override
+	public void sendClickMessage(String message) {
+		if(message.equals("Bus")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Truck")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Car")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Motor Bike")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Pedestrian")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Bike")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Cane")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Dog")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Mobility Scooter")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Artificial Limb")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Crutches")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Walking Frame")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Back Brace - Visible")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Back Brace - Not Visible")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Leg Brace - Visible")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Leg Brace - Not Visible")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Wheel Chair - Assisted")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Wheel Chair - Manual")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else if(message.equals("Wheel Chair - Powered")){
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}else{
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	

@@ -3,6 +3,8 @@ package com.TDG.trafficcountingapp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.TDG.trafficcountingapp.Custom_Dialogs.Communicator;
+
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -19,7 +21,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CountSetup extends ActionBarActivity {
+public class CountSetup extends ActionBarActivity implements Communicator{
 	
 	TextView surveyorName, currentDate, numAndNameStreet, 
 			suburb, city, postCode, areaDescription, intersectionType, comments;
@@ -377,5 +379,12 @@ public class CountSetup extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void sendClickMessage(String message) {
+		CountSetup.setTypeOfIntersection(message);
+		intersectionType.setText(message);
+		Toast.makeText(this, CountSetup.getTypeOfIntersection(), Toast.LENGTH_SHORT).show();
 	}
 }
