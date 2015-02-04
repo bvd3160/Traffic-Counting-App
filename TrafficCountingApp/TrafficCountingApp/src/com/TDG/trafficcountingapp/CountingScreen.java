@@ -2,7 +2,7 @@ package com.TDG.trafficcountingapp;
 
 import java.util.concurrent.TimeUnit;
 
-import com.TDG.trafficcountingapp.Custom_Dialogs.Communicator;
+import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
 
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
@@ -11,6 +11,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,7 +123,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 
 			@Override
 			public void onClick(View v) {
-				totalCount--;
+				if(totalCount >= 1){
+					totalCount--;
+				}
 				updateCounter();
 			}
 		});
@@ -281,19 +284,19 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	}
 
 	/*
-	 * Launches the Custom_Dialogs class and sends the reference "vehicleDialog"
+	 * Launches the CustomDialogs class and sends the reference "vehicleDialog"
 	 * to that class to let that class know where it was called from. Then it
 	 * displays the dialog which is handled in Custom_Dialogs.
 	 */
 	@SuppressLint("NewApi")
 	public void showVehicleDialog(View view) {
 		FragmentManager manager = getFragmentManager();
-		Custom_Dialogs dialog = new Custom_Dialogs();
+		CustomDialogs dialog = new CustomDialogs();
 		dialog.show(manager, "vehicleDialog");
 	}
 
 	/*
-	 * Launches the Custom_Dialogs class and sends the reference
+	 * Launches the CustomDialogs class and sends the reference
 	 * "pedestrianDialog" to that class to let that class know where it was
 	 * called from. Then it displays the dialog which is handled in
 	 * Custom_Dialogs.
@@ -301,12 +304,25 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	@SuppressLint("NewApi")
 	public void showPedestrianDialog(View view) {
 		FragmentManager manager = getFragmentManager();
-		Custom_Dialogs dialog = new Custom_Dialogs();
+		CustomDialogs dialog = new CustomDialogs();
 		dialog.show(manager, "pedestrianDialog");
+	}
+	
+	/*
+	 * Launches the CustomDialogs class and sends the reference
+	 * "commentsDialog" to that class to let that class know where it was
+	 * called from. Then it displays the dialog which is handled in
+	 * Custom_Dialogs.
+	 */
+	@SuppressLint("NewApi")
+	public void showCommentsDialog(View view) {
+		FragmentManager manager = getFragmentManager();
+		CustomDialogs dialog = new CustomDialogs();
+		dialog.show(manager, "commentsDialog");
 	}
 
 	/*
-	 * This method is from Custom_Dialogs' communicator interface. The message
+	 * This method is from CustomDialogs' communicator interface. The message
 	 * returned is the message which is sent from Custom_Dialogs. This allows us
 	 * to know which button was clicked so we can make appropriate action in the
 	 * CountingScreen class.

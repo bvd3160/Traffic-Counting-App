@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 
 @SuppressLint({ "NewApi", "InflateParams" })
-public class Custom_Dialogs extends DialogFragment implements View.OnClickListener{
+public class CustomDialogs extends DialogFragment implements View.OnClickListener{
 	
 	Button btn_close;
 	
@@ -26,6 +27,9 @@ public class Custom_Dialogs extends DialogFragment implements View.OnClickListen
 			csd_btn_crutches, csd_btn_legBrace_visible, csd_btn_legBrace_notVisible,
 			csd_btn_walkingFrame, csd_btn_wheelChair_assisted, csd_btn_wheelChair_manual,
 			csd_btn_wheelChair_powered, csd_btn_other;
+	
+	
+	
 	Communicator communicator;
 	
 	@Override
@@ -109,6 +113,10 @@ public class Custom_Dialogs extends DialogFragment implements View.OnClickListen
 			csi_btn_intersection5.setOnClickListener(this);
 			csi_btn_intersection6 = (Button)view.findViewById(R.id.csi_btn_6way);
 			csi_btn_intersection6.setOnClickListener(this);
+		}else if(getTag().equals("commentsDialog")){
+			view = inflater.inflate(R.layout.dialog_counting_screen_comments, null);
+			getDialog().setTitle("Comments");
+			btn_close = (Button)view.findViewById(R.id.csc_btn_close);
 		}
 		
 		btn_close.setOnClickListener(this);

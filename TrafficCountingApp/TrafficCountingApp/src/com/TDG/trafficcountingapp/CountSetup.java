@@ -3,7 +3,7 @@ package com.TDG.trafficcountingapp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import com.TDG.trafficcountingapp.Custom_Dialogs.Communicator;
+import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
 
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
@@ -357,7 +357,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	@SuppressLint("NewApi")
 	public void showIntersectionDialog(View view){
 		FragmentManager manager = getFragmentManager();
-		Custom_Dialogs dialog = new Custom_Dialogs();
+		CustomDialogs dialog = new CustomDialogs();
 		dialog.show(manager, "intersectionDialog");		
 	}
 

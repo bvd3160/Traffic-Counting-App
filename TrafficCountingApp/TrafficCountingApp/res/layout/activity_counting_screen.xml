@@ -121,19 +121,26 @@
                     android:text="@string/cs_txt_timer"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
+                <Button
+                    android:id="@+id/cs_btn_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start" />
+
+                <Button
+                    android:id="@+id/cs_btn_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stop" />
+
+                <Button
+                    android:id="@+id/cs_btn_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cs_btn_comment"
+                    android:onClick="showCommentsDialog" />
+
             </LinearLayout>
-
-            <Button
-                android:id="@+id/cs_btn_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Start" />
-
-            <Button
-                android:id="@+id/cs_btn_stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stop" />
 
         </LinearLayout>
 
