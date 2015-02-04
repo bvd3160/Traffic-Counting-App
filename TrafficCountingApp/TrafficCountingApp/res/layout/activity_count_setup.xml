@@ -12,8 +12,8 @@
         android:id="@+id/dateSetup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignBaseline="@+id/cs_txt_timer"
+        android:layout_alignBottom="@+id/cs_txt_timer"
         android:layout_toRightOf="@+id/cov_txt_objectName"
         android:ems="10"
         android:hint="@string/hint_date"
@@ -30,7 +30,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/cs_txt_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/cov_txt_objectName"
@@ -43,7 +43,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignLeft="@+id/cs_txt_timer"
         android:layout_below="@+id/dateSetup"
         android:layout_marginTop="34dp"
         android:text="@string/location_setup"
@@ -193,7 +193,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="showIntersectionDialog"
-        android:layout_above="@+id/textView2"
+        android:layout_above="@+id/cs_txt_timer"
         android:layout_alignLeft="@+id/removep"
         android:layout_alignRight="@+id/removep"
         android:text="@string/btnLbl_selectIntersection_type" />

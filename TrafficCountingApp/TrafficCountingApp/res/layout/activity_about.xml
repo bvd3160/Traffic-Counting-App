@@ -48,7 +48,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
+        android:layout_above="@+id/cs_txt_timer"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/cov_txt_objectName"
         android:text="@string/title_about_app"
