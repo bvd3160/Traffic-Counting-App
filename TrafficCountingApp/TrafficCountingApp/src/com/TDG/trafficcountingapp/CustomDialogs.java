@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressLint({ "NewApi", "InflateParams" })
 public class CustomDialogs extends DialogFragment implements View.OnClickListener{
@@ -28,7 +31,9 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			csd_btn_walkingFrame, csd_btn_wheelChair_assisted, csd_btn_wheelChair_manual,
 			csd_btn_wheelChair_powered, csd_btn_other;
 	
-	
+	Button csc_btn_submit;
+	TextView dialogComments;
+	String comment;
 	
 	Communicator communicator;
 	
@@ -117,6 +122,11 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			view = inflater.inflate(R.layout.dialog_counting_screen_comments, null);
 			getDialog().setTitle("Comments");
 			btn_close = (Button)view.findViewById(R.id.csc_btn_close);
+			csc_btn_submit = (Button)view.findViewById(R.id.csc_btn_submit);
+			csc_btn_submit.setOnClickListener(this);
+			dialogComments = (TextView)view.findViewById(R.id.csc_txtfield_comments);
+			comment = getArguments().getString("Comments");
+			dialogComments.setText(comment);
 		}
 		
 		btn_close.setOnClickListener(this);
@@ -130,89 +140,93 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			dismiss();
 		}else if(csi_intersections){
 			if(view.getId() == csi_btn_intersection3.getId()){
-				communicator.sendClickMessage("3 Way Intersection");
+				communicator.sendClickMessage("3 Way Intersection", "3 Way Intersection");
 				dismiss();
 			}else if(view.getId() == csi_btn_intersection4.getId()){
-				communicator.sendClickMessage("4 Way Intersection");
+				communicator.sendClickMessage("4 Way Intersection", "4 Way Intersection");
 				dismiss();
 			}else if(view.getId() == csi_btn_intersection5.getId()){
-				communicator.sendClickMessage("5 Way Intersection");
+				communicator.sendClickMessage("5 Way Intersection", "5 Way Intersection");
 				dismiss();
 			}else if(view.getId() == csi_btn_intersection6.getId()){
-				communicator.sendClickMessage("6 Way Intersection");
+				communicator.sendClickMessage("6 Way Intersection", "6 Way Intersection");
 				dismiss();
 			}
 		}else if(csd_countObjects){
 			if(csd_countObjects_vehicles){
 				if(view.getId() == csd_btn_bus.getId()){
-					communicator.sendClickMessage("Bus");
+					communicator.sendClickMessage("Bus", "Bus");
 					dismiss();
 				}else if(view.getId() == csd_btn_truck.getId()){
-					communicator.sendClickMessage("Truck");
+					communicator.sendClickMessage("Truck", "Truck");
 					dismiss();
 				}else if(view.getId() == csd_btn_car.getId()){
-					communicator.sendClickMessage("Car");
+					communicator.sendClickMessage("Car", "Car");
 					dismiss();
 				}else if(view.getId() == csd_btn_motorBike.getId()){
-					communicator.sendClickMessage("Motor Bike");
+					communicator.sendClickMessage("Motor Bike", "Motor Bike");
 					dismiss();
 				}
 			}else{
 				if(view.getId() == csd_btn_pedestrian.getId()){
-					communicator.sendClickMessage("Pedestrian");
+					communicator.sendClickMessage("Pedestrian", "Pedestrian");
 					dismiss();
 				}else if(view.getId() == csd_btn_bike.getId()){
-					communicator.sendClickMessage("Bike");
+					communicator.sendClickMessage("Bike", "Bike");
 					dismiss();
 				}else if(view.getId() == csd_btn_cane.getId()){
-					communicator.sendClickMessage("Cane");
+					communicator.sendClickMessage("Cane", "Cane");
 					dismiss();
 				}else if(view.getId() == csd_btn_dog.getId()){
-					communicator.sendClickMessage("Dog");
+					communicator.sendClickMessage("Dog", "Dog");
 					dismiss();
 				}else if(view.getId() == csd_btn_scooter.getId()){
-					communicator.sendClickMessage("Mobility Scooter");
+					communicator.sendClickMessage("Mobility Scooter", "Mobility Scooter");
 					dismiss();
 				}else if(view.getId() == csd_btn_artificialLimb.getId()){
-					communicator.sendClickMessage("Artificial Limb");
+					communicator.sendClickMessage("Artificial Limb", "Artificial Limb");
 					dismiss();
 				}else if(view.getId() == csd_btn_crutches.getId()){
-					communicator.sendClickMessage("Crutches");
+					communicator.sendClickMessage("Crutches", "Crutches");
 					dismiss();
 				}else if(view.getId() == csd_btn_walkingFrame.getId()){
-					communicator.sendClickMessage("Walking Frame");
+					communicator.sendClickMessage("Walking Frame", "Walking Frame");
 					dismiss();
 				}else if(view.getId() == csd_btn_backBrace_visible.getId()){
-					communicator.sendClickMessage("Back Brace - Visible");
+					communicator.sendClickMessage("Back Brace - Visible", "Back Brace - Visible");
 					dismiss();
 				}else if(view.getId() == csd_btn_backBrace_notVisible.getId()){
-					communicator.sendClickMessage("Back Brace - Not Visible");
+					communicator.sendClickMessage("Back Brace - Not Visible", "Back Brace - Not Visible");
 					dismiss();
 				}else if(view.getId() == csd_btn_legBrace_visible.getId()){
-					communicator.sendClickMessage("Leg Brace - Visible");
+					communicator.sendClickMessage("Leg Brace - Visible", "Leg Brace - Visible");
 					dismiss();
 				}else if(view.getId() == csd_btn_legBrace_notVisible.getId()){
-					communicator.sendClickMessage("Leg Brace - Not Visible");
+					communicator.sendClickMessage("Leg Brace - Not Visible", "Leg Brace - Not Visible");
 					dismiss();
 				}else if(view.getId() == csd_btn_wheelChair_assisted.getId()){
-					communicator.sendClickMessage("Wheel Chair - Assisted");
+					communicator.sendClickMessage("Wheel Chair - Assisted", "Wheel Chair - Assisted");
 					dismiss();
 				}else if(view.getId() == csd_btn_wheelChair_manual.getId()){
-					communicator.sendClickMessage("Wheel Chair - Manual");
+					communicator.sendClickMessage("Wheel Chair - Manual", "Wheel Chair - Manual");
 					dismiss();
 				}else if(view.getId() == csd_btn_wheelChair_powered.getId()){
-					communicator.sendClickMessage("Wheel Chair - Powered");
+					communicator.sendClickMessage("Wheel Chair - Powered", "Wheel Chair - Powered");
 					dismiss();
-				}else if(view.getId() == csd_btn_other.getId()){
+				}else {
 					//Need to fix this later
-					communicator.sendClickMessage("Other");
+					communicator.sendClickMessage("Other", "Other");
 					dismiss();
 				}
 			}
+		} else if(view.getId() == csc_btn_submit.getId()){
+			comment = dialogComments.getText().toString().trim();
+			communicator.sendClickMessage("Comment", comment);
+			dismiss();
 		}
 	}
 	
 	interface Communicator{
-		public void sendClickMessage(String message);
+		public void sendClickMessage(String key, String value);
 	}
 }

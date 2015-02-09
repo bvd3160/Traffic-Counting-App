@@ -98,4 +98,7 @@
     <string name="csi_txt_6way">6 Way</string>
     <string name="csi_btn_close">Close</string>
     
+    <!-- Count Screen Comments -->
+    <string name="csc_btn_submit">Submit</string>
+    
 </resources>

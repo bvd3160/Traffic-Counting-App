@@ -7,8 +7,10 @@ import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -40,8 +42,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	int totalCount;
 	
 	TextView txt_currentObject;
-	
 	TextView txt_timer;
+	
+	String comments;
 	
 	//Testing purposes
 	Button btn_start, btn_stop;
@@ -52,6 +55,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 		setContentView(R.layout.activity_counting_screen);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+		comments = getIntent().getStringExtra("Comments");
+		Toast.makeText(this, comments, Toast.LENGTH_SHORT).show();
+		
 		// Initialise the count as 0
 		totalCount = 0;
 
@@ -318,6 +324,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	public void showCommentsDialog(View view) {
 		FragmentManager manager = getFragmentManager();
 		CustomDialogs dialog = new CustomDialogs();
+		Bundle args = new Bundle();
+		args.putString("Comments", comments);
+		dialog.setArguments(args);
 		dialog.show(manager, "commentsDialog");
 	}
 
@@ -328,56 +337,72 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	 * CountingScreen class.
 	 */
 	@Override
-	public void sendClickMessage(String message) {
+	public void sendClickMessage(String key, String value) {
 
 		// Checks which button was clicked by comparing the message sent from
 		// Custom_Dialogs to this class.
-		if (message.equals("Bus")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Truck")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Car")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Motor Bike")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Pedestrian")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Bike")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Cane")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Dog")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Mobility Scooter")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Artificial Limb")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Crutches")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Walking Frame")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Back Brace - Visible")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Back Brace - Not Visible")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Leg Brace - Visible")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Leg Brace - Not Visible")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Wheel Chair - Assisted")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Wheel Chair - Manual")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		} else if (message.equals("Wheel Chair - Powered")) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		if (key.equals("Bus")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Truck")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Car")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Motor Bike")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Pedestrian")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Bike")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Cane")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Dog")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Mobility Scooter")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Artificial Limb")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Crutches")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Walking Frame")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Back Brace - Visible")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Back Brace - Not Visible")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Leg Brace - Visible")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Leg Brace - Not Visible")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Wheel Chair - Assisted")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Wheel Chair - Manual")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Wheel Chair - Powered")) {
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		} else if (key.equals("Comment")){
+			comments = value;
 		} else {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 		}
 
 		// Setting the currently selected object to the object that the user chose.
-		txt_currentObject.setText(message);
+		if(!key.equals("Comment")){
+			txt_currentObject.setText(value);
+		}
 	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	Intent intent = new Intent();
+	    	intent.putExtra("Comment", comments);
+	    	setResult(RESULT_OK, intent);
+	    	finish();
+	    	return true;
+	    }
+
+	    return super.onKeyDown(keyCode, event);
+	}
 	private class CountDownTimer extends android.os.CountDownTimer{
 
 		public CountDownTimer(long millisInFuture, long countDownInterval) {

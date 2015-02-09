@@ -11,15 +11,26 @@
             android:layout_weight=".80"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:minHeight="600dp"
-            android:minWidth="300dp"
             android:scrollbars="vertical" />
 
-        <Button
-            android:id="@+id/csc_btn_close"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".20"
-            android:text="@string/csd_btn_close" />
+            android:layout_weight=".20" >
+
+            <Button
+                android:id="@+id/csc_btn_submit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/csc_btn_submit" />
+
+            <Button
+                android:id="@+id/csc_btn_close"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/csd_btn_close" />
+        </LinearLayout>
 
     </LinearLayout>

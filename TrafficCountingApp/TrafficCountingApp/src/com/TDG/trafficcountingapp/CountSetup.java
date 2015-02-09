@@ -112,6 +112,8 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 				 */
 				boolean completed = true;
 				if(completed){
+					String commentArea = comments.getText().toString().trim();
+					CountSetup.setCommentSection(commentArea);
 					submitCountScreen(v);
 				}else{
 				
@@ -351,7 +353,9 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		/*
 		 * Need to send data from here
 		 */
-		startActivity(intent);
+		intent.putExtra("Comments", getCommentSection());
+		//Toast.makeText(CountSetup.this, getCommentSection(), Toast.LENGTH_SHORT).show();
+		startActivityForResult(intent, 1);
 	}
 	
 	@SuppressLint("NewApi")
@@ -359,6 +363,16 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		FragmentManager manager = getFragmentManager();
 		CustomDialogs dialog = new CustomDialogs();
 		dialog.show(manager, "intersectionDialog");		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		    if (requestCode == 1) {
+		         if(resultCode == RESULT_OK){
+		          setCommentSection(data.getStringExtra("Comment"));
+		          comments.setText(getCommentSection());
+		    }
+		} 
 	}
 
 //===============================================================================	
@@ -382,9 +396,9 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	}
 
 	@Override
-	public void sendClickMessage(String message) {
-		CountSetup.setTypeOfIntersection(message);
-		intersectionType.setText(message);
+	public void sendClickMessage(String key, String value) {
+		CountSetup.setTypeOfIntersection(value);
+		intersectionType.setText(value);
 		Toast.makeText(this, CountSetup.getTypeOfIntersection(), Toast.LENGTH_SHORT).show();
 	}
 }
