@@ -3,6 +3,7 @@ package com.TDG.trafficcountingapp;
 import java.util.concurrent.TimeUnit;
 
 import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
+import com.TDG.trafficcountingapp.R.drawable;
 
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,8 +96,27 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 				countTimer.cancel();
 			}
 		});
-		
+		showCountingPanel();
 		populateButtons();
+	}
+	
+	
+	/*
+	 * This method will determine what type of setup will be displayed in on the count panel
+	 * based on the intersection type selected in the CountSetup.
+	 */
+	private void showCountingPanel() {
+		String intersectionType = CountSetup.getTypeOfIntersection();
+		ImageView countPanel = (ImageView) findViewById(R.id.countingPanel);
+		if(intersectionType == "3 Way Intersection"){
+			countPanel.setImageResource(drawable.intersection_3);
+		}else if(intersectionType == "4 Way Intersection"){
+			countPanel.setImageResource(drawable.intersection_4);
+		}else if(intersectionType == "5 Way Intersection"){
+			countPanel.setImageResource(drawable.intersection_5);
+		}else if(intersectionType == "6 Way Intersection"){
+			countPanel.setImageResource(drawable.intersection_6);
+		}
 	}
 
 	/*

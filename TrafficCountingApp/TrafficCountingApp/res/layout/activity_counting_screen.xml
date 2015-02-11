@@ -137,11 +137,16 @@
                     android:id="@+id/cs_btn_comments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cs_btn_comment"
-                    android:onClick="showCommentsDialog" />
-
+                    android:onClick="showCommentsDialog"
+                    android:text="@string/cs_btn_comment" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/countingPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.65"
+                android:src="@drawable/abc_ab_bottom_solid_light_holo" />
         </LinearLayout>
 
     </LinearLayout>
