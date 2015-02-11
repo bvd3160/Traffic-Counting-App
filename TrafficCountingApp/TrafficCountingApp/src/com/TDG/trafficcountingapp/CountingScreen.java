@@ -116,6 +116,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 			countPanel.setImageResource(drawable.intersection_5);
 		}else if(intersectionType == "6 Way Intersection"){
 			countPanel.setImageResource(drawable.intersection_6);
+		}else{
+			countPanel.setVisibility(8);
 		}
 	}
 
