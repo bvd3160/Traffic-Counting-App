@@ -60,11 +60,8 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		if(clicked != null){
 			//Line below is a test
 			//Toast.makeText(CountSetup.this, clicked, Toast.LENGTH_LONG).show();
-		//selectIntersectionType.setEnabled(false);
 			selectIntersectionType.setVisibility(4);
-		//intersectionType.setEnabled(false);
 			intersectionType.setVisibility(4);
-		//findViewById(R.id.textView4).setEnabled(false);
 			findViewById(R.id.textView4).setVisibility(4);
 		}
 		//////////////////////////////////////////////////////////////////////////////
