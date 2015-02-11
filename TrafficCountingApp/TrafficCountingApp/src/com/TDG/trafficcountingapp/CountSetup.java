@@ -12,6 +12,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,9 +48,22 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		postCode = (TextView) findViewById(R.id.postcode);
 		areaDescription = (TextView) findViewById(R.id.areaDescription);
 		intersectionType = (TextView) findViewById(R.id.intersectionType);
-		selectIntersectionType = (Button) findViewById(R.id.intersectionButton);
+		selectIntersectionType = (Button) findViewById(R.id.selectIntersection);
 		comments = (TextView) findViewById(R.id.comments);
 		submit = (Button) findViewById(R.id.submit);
+		
+		/////////////////////////////////////////////////////////////////////////////
+		//This block of code will catch the extra sent from MainScreen
+		//From here I can disable buttons of whatever else.
+		Intent intent = getIntent();
+		String clicked = intent.getStringExtra("nonIntBtn");
+		if(clicked != null){
+			Toast.makeText(CountSetup.this, clicked, Toast.LENGTH_LONG).show();
+			selectIntersectionType.setEnabled(false);
+			intersectionType.setEnabled(false);
+			findViewById(R.id.textView4).setEnabled(false);
+		}
+		//////////////////////////////////////////////////////////////////////////////
 		
 		//Current Date setup
 		dateForm = new SimpleDateFormat("dd/MM/yyyy");

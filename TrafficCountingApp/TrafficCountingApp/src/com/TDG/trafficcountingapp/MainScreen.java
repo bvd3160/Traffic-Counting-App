@@ -14,7 +14,9 @@ public class MainScreen extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		
+		
 	}
 	
 
@@ -40,10 +42,12 @@ public class MainScreen extends ActionBarActivity {
 	
 	public void nonIntersectionCountSetup(View view){
 		Intent intent = new Intent(this, CountSetup.class);
+		intent.putExtra("nonIntBtn", "nonIntBtn was clicked");
 		startActivity(intent);
 	}
 	public void intersectionCountSetup(View view){
 		Intent intent = new Intent(this, CountSetup.class);
+		intent.putExtra("intBtn", "intBtn was clicked");
 		startActivity(intent);
 	}
 	
