@@ -159,10 +159,10 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
         android:layout_alignBottom="@+id/linearLayout1"
         android:layout_alignParentRight="true"
-        android:text="@string/btnLbl_submit_countSetup" />
+        android:text="@string/general_btn_submit"
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/comments"
@@ -205,6 +205,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView5"
         android:layout_toLeftOf="@+id/textView4"
-        android:text="@string/setDateBtn" />
+        android:text="@string/setDateBtn"
+        android:onClick="showDateDialog" />
 
 </RelativeLayout>

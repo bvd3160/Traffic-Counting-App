@@ -124,7 +124,7 @@
             android:id="@+id/csi_btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/csi_btn_close" />
+            android:text="@string/general_btn_close" />
 
     </LinearLayout>
     

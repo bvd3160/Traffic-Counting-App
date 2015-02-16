@@ -68,6 +68,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		
 		//Current Date setup
 		dateForm = new SimpleDateFormat("dd/MM/yyyy");
+		/*
 		setDate = (Button) findViewById(R.id.setDateBT);
 		setDate.setOnClickListener(new View.OnClickListener() {
 			
@@ -77,6 +78,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 				//setDate(); <<< That's what we need to get working!
 			}
 		});
+		*/
 		
 		updateDate();	
 		preSubmissionChecks();
@@ -213,83 +215,6 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 			}
 		});
 	}
-	
-	/* Jeans unedited version(I needed to edit the above to allow the intent to work after checking.
-	 * Done by adding a boolean value which will check if the required information has been completed)
-	 * 
-	 * private void preSubmissionChecks() {
-		submit.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				String name = surveyorName.getText().toString().trim();
-				String date = currentDate.getText().toString().trim();
-				String streeNumAndName = numAndNameStreet.getText().toString().trim();
-				String suburbName = suburb.getText().toString().trim();
-				String cityName = city.getText().toString().trim();
-				String areaCode = postCode.getText().toString().trim();
-				String areaDescript = areaDescription.getText().toString().trim();
-				String intersectionKind = intersectionType.getText().toString().trim();
-				String commentArea = comments.getText().toString().trim();
-				
-				//====CHECKS and SETTING values to variable for later referencing later====
-				
-				//SURVEYOR NAME
-				if(!name.isEmpty()){
-					CountSetup.setsName(name);
-					System.out.println("1-Surveyor Name: "+getsName());
-				}else{
-					Toast.makeText(CountSetup.this, "Please State your name", Toast.LENGTH_LONG).show();
-				}
-				//THE DATE
-				if(!date.isEmpty()){
-					CountSetup.setTheDate(date);
-					System.out.println("2-Date: "+getTheDate());
-				}else{
-					Toast.makeText(CountSetup.this, "Please click the 'Set Date' button", Toast.LENGTH_LONG).show();
-				}
-				//LOCATION
-				if(!streeNumAndName.isEmpty()){
-					CountSetup.setStreetNumAndName(streeNumAndName);
-					System.out.println("3.1-Street: "+getStreetNumAndName());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide street number and/or name", Toast.LENGTH_LONG).show();
-				}
-				if(!suburbName.isEmpty()){
-					CountSetup.setSuburbName(suburbName);
-					System.out.println("3.2-Suburb: "+getSuburbName());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide the Suburb name", Toast.LENGTH_LONG).show();
-				}
-				if(!cityName.isEmpty()){
-					CountSetup.setCityName(cityName);
-					System.out.println("3.3-City: "+getCityName());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide the City name", Toast.LENGTH_LONG).show();
-				}
-				if(!areaCode.isEmpty()){
-					CountSetup.setAreaCode(areaCode);
-					System.out.println("3.4-Area Code: "+getAreaCode());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide the Post code", Toast.LENGTH_LONG).show();
-				}
-				if(!areaDescript.isEmpty()){
-					CountSetup.setAreaDescript(areaDescript);
-					System.out.println("3.4-Area Description: "+getAreaDescript());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide a Description of the area", Toast.LENGTH_LONG).show();
-				}
-				
-				if(!commentArea.isEmpty()){
-					CountSetup.setCommentSection(commentArea);
-					System.out.println("3.6-Area Description: "+getCommentSection());
-				}else{
-					Toast.makeText(CountSetup.this, "Would you care to comment on what you see?", Toast.LENGTH_LONG).show();
-				}
-			}
-		});
-	}
-	 */
 
 	public static String getsName() {
 		return sName;
@@ -380,6 +305,13 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		dialog.show(manager, "intersectionDialog");		
 	}
 	
+	@SuppressLint("NewApi")
+	public void showDateDialog(View view){
+		FragmentManager manager = getFragmentManager();
+		CustomDialogs dialog = new CustomDialogs();
+		dialog.show(manager, "dateDialog");
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		    if (requestCode == 1) {
@@ -412,8 +344,14 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 
 	@Override
 	public void sendClickMessage(String key, String value) {
-		CountSetup.setTypeOfIntersection(value);
-		intersectionType.setText(value);
-		Toast.makeText(this, CountSetup.getTypeOfIntersection(), Toast.LENGTH_SHORT).show();
+		if(key.equals("IntersectionType")){
+			CountSetup.setTypeOfIntersection(value);
+			intersectionType.setText(value);
+			Toast.makeText(this, CountSetup.getTypeOfIntersection(), Toast.LENGTH_SHORT).show();
+		} else if(key.equals("Date")){
+			CountSetup.setTheDate(value);
+			intersectionType.setText(value);
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+		}
 	}
 }

@@ -5,6 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- General -->
+    <string name="general_btn_submit">Submit</string>
+    <string name="general_btn_close">Close</string>
+    
     <!-- Splash Screen -->
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="loading_tv">Loading</string>
@@ -36,7 +40,6 @@
     <string name="btnLbl_add_picture">Add</string>
     <string name="btnLbl_remove_picture">Remove</string>
     <string name="comments">Comments</string>
-    <string name="btnLbl_submit_countSetup">Submit</string>
     <string name="hint_comments">Any relevant comments about your count progress and/or experiences</string>
     <string name="setDateBtn">Set Date</string>
     <string name="title_activity_intersection_type">IntersectionType</string>
@@ -89,16 +92,11 @@
     <string name="csd_btn_powered">Powered</string>
     <string name="csd_btn_assisted">Assisted</string>
     <string name="csd_btn_manual">Manual</string>
-    <string name="csd_btn_close">Close</string>
     
     <!-- Count Setup Intersection Dialog-->
     <string name="csi_txt_3way">3 Way</string>
     <string name="csi_txt_4way">4 Way</string>
     <string name="csi_txt_5way">5 Way</string>
     <string name="csi_txt_6way">6 Way</string>
-    <string name="csi_btn_close">Close</string>
-    
-    <!-- Count Screen Comments -->
-    <string name="csc_btn_submit">Submit</string>
     
 </resources>
