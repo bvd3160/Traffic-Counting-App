@@ -294,7 +294,6 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		 * Need to send data from here
 		 */
 		intent.putExtra("Comments", getCommentSection());
-		//Toast.makeText(CountSetup.this, getCommentSection(), Toast.LENGTH_SHORT).show();
 		startActivityForResult(intent, 1);
 	}
 	
@@ -347,11 +346,9 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		if(key.equals("IntersectionType")){
 			CountSetup.setTypeOfIntersection(value);
 			intersectionType.setText(value);
-			Toast.makeText(this, CountSetup.getTypeOfIntersection(), Toast.LENGTH_SHORT).show();
 		} else if(key.equals("Date")){
 			CountSetup.setTheDate(value);
-			intersectionType.setText(value);
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+			currentDate.setText(value);
 		}
 	}
 }

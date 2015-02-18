@@ -1,7 +1,5 @@
 package com.TDG.trafficcountingapp;
 
-import java.util.concurrent.TimeUnit;
-
 import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
 import com.TDG.trafficcountingapp.R.drawable;
 
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,7 +55,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		comments = getIntent().getStringExtra("Comments");
-		Toast.makeText(this, comments, Toast.LENGTH_SHORT).show();
 		
 		// Initialise the count as 0
 		totalCount = 0;
@@ -71,11 +67,20 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 		txt_currentObject = (TextView) findViewById(R.id.cs_txt_currentlyselectedobject);
 		txt_currentObject.setText("Car");
 		
+		// Instantiates the CountDownTimer.
+		/*
+		 * We will count down in 0.5 seconds instead of 1 second because long is a
+		 * "Rough" estimate so therefore we may skip some seconds. 
+		 * eg. 00:05 in 1 seconds time maybe change to 00:03.
+		 * By updating every 0.5 seconds will result in a more accurate measurement.
+		 * Also, start with the time + 500 milliseconds so we can display the initial number
+		 */
+//15m	final CountDownTimer countTimer = new CountDownTimer(900500, 500);
+		final CountDownTimer countTimer = new CountDownTimer(5500, 500);
+		
 		// Initilises the Timer TextView to 15 minutes
 		txt_timer = (TextView) findViewById(R.id.cs_txt_timer);
-		txt_timer.setText("15:00");
-		// Instantiates the CountDownTimer.
-		final CountDownTimer countTimer = new CountDownTimer(900000, 1000);
+		txt_timer.setText(countTimer.toString());
 		
 		//Just for testing purposes we will have a start and stop button for the timer.
 		btn_start = (Button) findViewById(R.id.cs_btn_start);
@@ -364,54 +369,118 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 
 		// Checks which button was clicked by comparing the message sent from
 		// Custom_Dialogs to this class.
-		if (key.equals("Bus")) {
+		
+		switch (key) {
+		case "Bus":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Truck")) {
+			break;
+		case "Truck":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Car")) {
+			break;
+		case "Car":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Motor Bike")) {
+			break;
+		case "Motor Bike":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Pedestrian")) {
+			break;
+		case "Pedestrian":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Bike")) {
+			break;
+		case "Bike":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Cane")) {
+			break;
+		case "Cane":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Dog")) {
+			break;
+		case "Dog":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Mobility Scooter")) {
+			break;
+		case "Mobility Scooter":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Artificial Limb")) {
+			break;
+		case "Artificial Limb":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Crutches")) {
+			break;
+		case "Crutches":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Walking Frame")) {
+			break;
+		case "Walking Frame":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Back Brace - Visible")) {
+			break;
+		case "Back Brace - Visible":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Back Brace - Not Visible")) {
+			break;
+		case "Back Brace - Not Visible":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Leg Brace - Visible")) {
+			break;
+		case "Leg Brace - Visible":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Leg Brace - Not Visible")) {
+			break;
+		case "Leg Brace - Not Visible":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Wheel Chair - Assisted")) {
+			break;
+		case "Wheel Chair - Assisted":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Wheel Chair - Manual")) {
+			break;
+		case "Wheel Chair - Manual":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Wheel Chair - Powered")) {
+			break;
+		case "Wheel Chair - Powered":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-		} else if (key.equals("Comment")){
+			break;
+		case "Comment":
 			comments = value;
-		} else {
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+			break;
+		default:
+			break;
 		}
 
 		// Setting the currently selected object to the object that the user chose.
 		if(!key.equals("Comment")){
 			txt_currentObject.setText(value);
 		}
+		
+//		if (key.equals("Bus")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Truck")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Car")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Motor Bike")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Pedestrian")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Bike")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Cane")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Dog")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Mobility Scooter")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Artificial Limb")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Crutches")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Walking Frame")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Back Brace - Visible")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Back Brace - Not Visible")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Leg Brace - Visible")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Leg Brace - Not Visible")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Wheel Chair - Assisted")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Wheel Chair - Manual")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Wheel Chair - Powered")) {
+//		Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+//	} else if (key.equals("Comment")){
+//		comments = value;
+//	}
 	}
 	
 	@Override
@@ -427,26 +496,55 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	    return super.onKeyDown(keyCode, event);
 	}
 	private class CountDownTimer extends android.os.CountDownTimer{
-
+		
+		String ms;
+		String minutes;
+		String seconds;
+		
 		public CountDownTimer(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
-			
+			updateTimeRemaining(millisInFuture);
 		}
 
+		private void updateTimeRemaining(long millisUntilFinished){
+			minutes = "" + (millisUntilFinished / 60000);
+			if(minutes.length() < 2){
+				minutes = "0" + minutes;
+			}
+			
+			seconds = "" + (millisUntilFinished % 60000 / 1000);
+			if(seconds.length() < 2){
+				seconds = "0" + seconds;
+			}
+			
+			ms = minutes + ":" + seconds;
+		}
+		
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
-			String ms = String.format("%02d:%02d", 
-					TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-					TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
-			txt_timer.setText(ms);
+			updateTimeRemaining(millisUntilFinished);
+			if(millisUntilFinished <= 1000){
+				onFinish();
+			}else{
+				txt_timer.setText(ms);
+			}
 		}
 
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
 			txt_timer.setText("Completed.");
+			
+			// In here we will do all the saving into an excel file etc.
+			// or we can send a message to CountingScreen to do the saving in there.
+			// or we can make a new class that will handle all the saving.
 		}
 		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return ms;
+		}
 	}
 }

@@ -18,20 +18,19 @@ import android.widget.Toast;
 @SuppressLint({ "NewApi", "InflateParams" })
 public class CustomDialogs extends DialogFragment implements View.OnClickListener{
 	
-	/*
-	 * NEED TO FIX THE ELSE IF BECAUSE THERE ARE TOO MANY OF THEM AND IT CRASHES THE APP
-	 */
-	
 	Button btn_close;
 	Button csc_btn_submit;
 	Button csda_btn_submit;
 	
 	boolean csi_intersections = false;
+	boolean csd_countObjects = false;
+	boolean csd_countObjects_vehicles = false;
+	boolean csda_date = false;
+	boolean csc_comments = false;
+	
 	Button csi_btn_intersection3,csi_btn_intersection4,
 			csi_btn_intersection5,csi_btn_intersection6;
 	
-	boolean csd_countObjects = false;
-	boolean csd_countObjects_vehicles = false;
 	Button csd_btn_bus, csd_btn_truck, csd_btn_car, csd_btn_motorBike , csd_btn_pedestrian, csd_btn_bike,
 			csd_btn_cane, csd_btn_dog, csd_btn_scooter, csd_btn_artificialLimb, 
 			csd_btn_backBrace_visible, csd_btn_backBrace_notVisible,
@@ -106,9 +105,9 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			onClickIntersection(view);
 		} else if(csd_countObjects){
 			onClickCountObjects(view);
-		} else if(view.getId() == csda_btn_submit.getId()){
+		} else if(csda_date){
 			onClickDate(view);
-		} else if(view.getId() == csc_btn_submit.getId()){
+		} else if(csc_comments){
 			onClickComments(view);
 		} 
 	}
@@ -200,6 +199,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		View view = inflater.inflate(R.layout.dialog_counting_screen_comments, null);
 		getDialog().setTitle("Comments");
 		btn_close = (Button)view.findViewById(R.id.csc_btn_close);
+		csc_comments = true;
 		csc_btn_submit = (Button)view.findViewById(R.id.csc_btn_submit);
 		csc_btn_submit.setOnClickListener(this);
 		dialogComments = (TextView)view.findViewById(R.id.csc_txtfield_comments);
@@ -213,6 +213,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		View view = inflater.inflate(R.layout.dialog_count_setup_date, null);
 		getDialog().setTitle("Date Picker");
 		btn_close = (Button)view.findViewById(R.id.csda_btn_close);
+		csda_date = true;
 		csda_btn_submit = (Button)view.findViewById(R.id.csda_btn_submit);
 		csda_btn_submit.setOnClickListener(this);
 		datePicker = (DatePicker)view.findViewById(R.id.csda_date_datepicker);
@@ -299,7 +300,17 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	}
 	
 	private void onClickDate(View view){
-		date = "" + datePicker.getDayOfMonth() + "/" + datePicker.getMonth() + "/" + datePicker.getYear();
+		String day = "" + datePicker.getDayOfMonth();
+		if(day.length() < 2){
+			day = "0" + datePicker.getDayOfMonth();
+		}
+		
+		String month = "" + (datePicker.getMonth()+1);
+		if(month.length() < 2){
+			month = "0" + (datePicker.getMonth()+1);
+		}
+		
+		date = day + "/" + month + "/" + datePicker.getYear();
 		communicator.sendClickMessage("Date", date);
 		dismiss();
 	}
