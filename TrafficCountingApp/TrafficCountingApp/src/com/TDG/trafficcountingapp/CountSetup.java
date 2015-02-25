@@ -294,6 +294,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		 * Need to send data from here
 		 */
 		intent.putExtra("Comments", getCommentSection());
+		intent.putExtra("IntersectionType", getTypeOfIntersection());
 		startActivityForResult(intent, 1);
 	}
 	

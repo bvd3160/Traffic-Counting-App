@@ -9,6 +9,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +45,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	TextView txt_timer;
 	
 	String comments;
+	String intersectionType;
+	
+	Button btn_direction_nw, btn_direction_n, btn_direction_ne, btn_direction_w,
+	 btn_direction_e, btn_direction_sw, btn_direction_s, btn_direction_se;
 	
 	//Testing purposes
 	Button btn_start, btn_stop;
@@ -55,6 +60,14 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		comments = getIntent().getStringExtra("Comments");
+		intersectionType = getIntent().getStringExtra("IntersectionType");
+		if(intersectionType == null){
+			intersectionType = "No Intersection";
+		}
+		
+		populateTimer();
+		populateButtons();
+		showCountingPanelAndButtons();
 		
 		// Initialise the count as 0
 		totalCount = 0;
@@ -66,63 +79,137 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 		// Initialises the current counting object to be a car
 		txt_currentObject = (TextView) findViewById(R.id.cs_txt_currentlyselectedobject);
 		txt_currentObject.setText("Car");
-		
-		// Instantiates the CountDownTimer.
-		/*
-		 * We will count down in 0.5 seconds instead of 1 second because long is a
-		 * "Rough" estimate so therefore we may skip some seconds. 
-		 * eg. 00:05 in 1 seconds time maybe change to 00:03.
-		 * By updating every 0.5 seconds will result in a more accurate measurement.
-		 * Also, start with the time + 500 milliseconds so we can display the initial number
-		 */
-//15m	final CountDownTimer countTimer = new CountDownTimer(900500, 500);
-		final CountDownTimer countTimer = new CountDownTimer(5500, 500);
-		
-		// Initilises the Timer TextView to 15 minutes
-		txt_timer = (TextView) findViewById(R.id.cs_txt_timer);
-		txt_timer.setText(countTimer.toString());
-		
-		//Just for testing purposes we will have a start and stop button for the timer.
-		btn_start = (Button) findViewById(R.id.cs_btn_start);
-		btn_start.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				countTimer.start();
-			}
-		});
-		btn_stop = (Button) findViewById(R.id.cs_btn_stop);
-		btn_stop.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				countTimer.cancel();
-			}
-		});
-		showCountingPanel();
-		populateButtons();
 	}
 	
 	
 	/*
 	 * This method will determine what type of setup will be displayed in on the count panel
 	 * based on the intersection type selected in the CountSetup.
+	 * This method will also check which counting button needs to be visible depending on the type
+	 * of intersection.
 	 */
-	private void showCountingPanel() {
-		String intersectionType = CountSetup.getTypeOfIntersection();
+	private void showCountingPanelAndButtons() {
 		ImageView countPanel = (ImageView) findViewById(R.id.countingPanel);
-		if(intersectionType == "3 Way Intersection"){
-			countPanel.setImageResource(drawable.intersection_3);
-		}else if(intersectionType == "4 Way Intersection"){
+		switch (intersectionType) {
+		case "3 Way Intersection":
+			countPanel.setImageResource(drawable.intersection_3);			
+			setVisibilityDirectionButtons(setVisibleButtons(3));
+			
+			break;
+		case "4 Way Intersection":
 			countPanel.setImageResource(drawable.intersection_4);
-		}else if(intersectionType == "5 Way Intersection"){
+			setVisibilityDirectionButtons(setVisibleButtons(4));
+			
+			break;
+		case "5 Way Intersection":
 			countPanel.setImageResource(drawable.intersection_5);
-		}else if(intersectionType == "6 Way Intersection"){
+			setVisibilityDirectionButtons(setVisibleButtons(5));
+			
+			break;
+		case "6 Way Intersection":
 			countPanel.setImageResource(drawable.intersection_6);
-		}else{
+			setVisibilityDirectionButtons(setVisibleButtons(6));
+			
+			break;
+	
+		default:
 			countPanel.setVisibility(8);
+			setVisibilityDirectionButtons(setVisibleButtons(0));
+			break;
+		}
+		
+//		String intersectionType = CountSetup.getTypeOfIntersection();
+//		if(intersectionType == "3 Way Intersection"){
+//			countPanel.setImageResource(drawable.intersection_3);
+//		}else if(intersectionType == "4 Way Intersection"){
+//			countPanel.setImageResource(drawable.intersection_4);
+//		}else if(intersectionType == "5 Way Intersection"){
+//			countPanel.setImageResource(drawable.intersection_5);
+//		}else if(intersectionType == "6 Way Intersection"){
+//			countPanel.setImageResource(drawable.intersection_6);
+//		}else{
+//			countPanel.setVisibility(8);
+//		}
+	}
+	
+	/*
+	 * This method will do a check to see which button will need to be visible
+	 * depending on which intersection was chosen.
+	 * 
+	 * The way this is set up is that it will follow this rule:
+	 * 
+	 *    0   1   2       NW   N   NE
+	 *    3       4       W         E
+	 *    5   6   7       SW   S   SE
+	 *    
+	 * The above is the number which corresponds to the layout of the button
+	 * 
+	 * @param intersectionWay is how many entrances/exits the intersection has.
+	 */
+	private boolean[] setVisibleButtons(int intersectionWay){
+		boolean[] visibleButtons = new boolean [8];
+		
+		for (int i = 0; i < visibleButtons.length; i++) {
+			visibleButtons[i] = false;
+		}
+		
+		if(intersectionWay == 3){
+			visibleButtons[3] = true;
+			visibleButtons[4] = true;
+			visibleButtons[6] = true;
+		}else if(intersectionWay == 4){
+			visibleButtons[1] = true;
+			visibleButtons[3] = true;
+			visibleButtons[4] = true;
+			visibleButtons[6] = true;
+		}else if(intersectionWay == 5){
+			visibleButtons[1] = true;
+			visibleButtons[3] = true;
+			visibleButtons[4] = true;
+			visibleButtons[6] = true;
+			visibleButtons[7] = true;
+		}else if(intersectionWay == 6){
+			visibleButtons[0] = true;
+			visibleButtons[1] = true;
+			visibleButtons[2] = true;
+			visibleButtons[5] = true;
+			visibleButtons[6] = true;
+			visibleButtons[7] = true;
+		}
+		
+		return visibleButtons;
+	}
+	
+	/*
+	 * This method will set whether it will be visible or not.
+	 * 
+	 * @param visibleButtons has an array of booleans.
+	 * If the value is true, the button will be visible. Otherwise, it will be not visible.
+	 */
+	private void setVisibilityDirectionButtons(boolean[] visibleButtons){
+		if(!visibleButtons[0]){
+			btn_direction_nw.setVisibility(4);
+		}
+		if(!visibleButtons[1]){
+			btn_direction_n.setVisibility(4);
+		}
+		if(!visibleButtons[2]){
+			btn_direction_ne.setVisibility(4);
+		}
+		if(!visibleButtons[3]){
+			btn_direction_w.setVisibility(4);
+		}
+		if(!visibleButtons[4]){
+			btn_direction_e.setVisibility(4);
+		}
+		if(!visibleButtons[5]){
+			btn_direction_sw.setVisibility(4);
+		}
+		if(!visibleButtons[6]){
+			btn_direction_s.setVisibility(4);
+		}
+		if(!visibleButtons[7]){
+			btn_direction_se.setVisibility(4);
 		}
 	}
 
@@ -135,13 +222,72 @@ public class CountingScreen extends ActionBarActivity implements Communicator {
 	}
 
 	/*
+	 * This method will populate all the button methods
+	 */
+	private void populateButtons() {
+		populateDirectionButtons();
+		populateCounterButtons();
+	}
+	
+	/*
+	 * This method sets all the direction buttons to their correct id.
+	 */
+	private void populateDirectionButtons(){
+		btn_direction_nw = (Button)findViewById(R.id.cs_btn_direction_nw);
+		btn_direction_n = (Button)findViewById(R.id.cs_btn_direction_n);
+		btn_direction_ne = (Button)findViewById(R.id.cs_btn_direction_ne);
+		btn_direction_w = (Button)findViewById(R.id.cs_btn_direction_w);
+		btn_direction_e = (Button)findViewById(R.id.cs_btn_direction_e);
+		btn_direction_sw = (Button)findViewById(R.id.cs_btn_direction_sw);
+		btn_direction_s = (Button)findViewById(R.id.cs_btn_direction_s);
+		btn_direction_se = (Button)findViewById(R.id.cs_btn_direction_se);
+	}
+	
+	private void populateTimer(){
+		// Instantiates the CountDownTimer.
+		/*
+		 * We will count down in 0.5 seconds instead of 1 second because long is a
+		 * "Rough" estimate so therefore we may skip some seconds. 
+		 * eg. 00:05 in 1 seconds time maybe change to 00:03.
+		 * By updating every 0.5 seconds will result in a more accurate measurement.
+		 * Also, start with the time + 500 milliseconds so we can display the initial number
+		 */
+//15m	CountDownTimer countTimer = new CountDownTimer(900500, 500);
+		final CountDownTimer countTimer = new CountDownTimer(5500, 500);
+		
+		//Just for testing purposes we will have a start and stop button for the timer.
+				btn_start = (Button) findViewById(R.id.cs_btn_start);
+				btn_start.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						countTimer.start();
+					}
+				});
+				btn_stop = (Button) findViewById(R.id.cs_btn_stop);
+				btn_stop.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						countTimer.cancel();
+					}
+				});
+				
+		// Initilises the Timer TextView to 15 minutes
+		txt_timer = (TextView) findViewById(R.id.cs_txt_timer);
+		txt_timer.setText(countTimer.toString());
+	}
+	
+	/*
 	 * btn_increase is only here just to give it a way to increase the total count.
 	 * (Will need to remove it and replace it with working directions later).
 	 * 
 	 * btn_undo currently only removes a value from the count. 
 	 * (Will need to implement it correctly later when we get all the objects values working).
 	 */
-	private void populateButtons() {
+	private void populateCounterButtons(){
 		Button btn_increase = (Button) findViewById(R.id.cs_btn_increase);
 		btn_increase.setOnClickListener(new View.OnClickListener() {
 

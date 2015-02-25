@@ -104,6 +104,95 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_nw"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_nw" />
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_n"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_n" />
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_ne"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_ne" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_w"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_w" />
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_e"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="275dp"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_e" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_sw"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_sw" />
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_s"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_s" />
+
+                    <Button
+                        android:id="@+id/cs_btn_direction_se"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cs_btn_direction_se" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/countingPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="67dp"
+                    android:layout_weight="2.12"
+                    android:src="@drawable/abc_ab_bottom_solid_light_holo" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
@@ -140,13 +229,6 @@
                     android:onClick="showCommentsDialog"
                     android:text="@string/cs_btn_comment" />
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/countingPanel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.65"
-                android:src="@drawable/abc_ab_bottom_solid_light_holo" />
         </LinearLayout>
 
     </LinearLayout>

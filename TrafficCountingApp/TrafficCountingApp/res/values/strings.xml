@@ -64,6 +64,14 @@
     <string name="cs_txt_sessiontimer">Session Timer: </string>
     <string name="cs_txt_timer">00:00</string>
     <string name="cs_btn_comment">Comments</string>
+    <string name="cs_btn_direction_nw">North-West</string>
+    <string name="cs_btn_direction_n">North</string>
+    <string name="cs_btn_direction_ne">North-East</string>
+    <string name="cs_btn_direction_w">West</string>
+    <string name="cs_btn_direction_e">East</string>
+    <string name="cs_btn_direction_sw">South-West</string>
+    <string name="cs_btn_direction_s">South</string>
+    <string name="cs_btn_direction_se">South-East</string>
     
     <!-- Counting Screen Dialog -->
     <string name="title_activity_counting_screen__dialog">CountingScreen_Dialog</string>
