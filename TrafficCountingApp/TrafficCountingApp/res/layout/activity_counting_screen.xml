@@ -32,9 +32,9 @@
                     android:id="@+id/cs_txt_currentlySelected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cs_txt_currentlyselected"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:text="@string/cs_txt_currently_selected"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/cs_txt_currentlyselectedobject"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingTop="2dp"
-                    android:text="@string/cs_txt_currentlyselectedobject"
+                    android:text="@string/cs_txt_currently_selected_object"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
             </LinearLayout>
@@ -94,6 +94,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cs_btn_undo" />
+
+                <TextView
+                    android:id="@+id/cs_txt_currently_selected_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="@string/cs_txt_currently_selected_count_txt"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
             </LinearLayout>
 
             <Button

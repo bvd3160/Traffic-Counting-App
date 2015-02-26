@@ -56,9 +56,10 @@
     <!-- Counting Screen -->
     <string name="title_activity_counting_screen">CountingScreen</string>
     <string name="cs_txt_total_counter">Total Count: </string>
+    <string name="cs_txt_currently_selected_count_txt">Count Object: </string>
     <string name="cs_btn_undo">Undo</string>
-    <string name="cs_txt_currentlyselected">Currently Selected: </string>
-    <string name="cs_txt_currentlyselectedobject">Count Object</string>
+    <string name="cs_txt_currently_selected">Currently Selected: </string>
+    <string name="cs_txt_currently_selected_object">Count Object</string>
     <string name="cs_btn_vehicles">Vehicles</string>
     <string name="cs_btn_pedestrian">Pedestrians</string>
     <string name="cs_txt_sessiontimer">Session Timer: </string>
