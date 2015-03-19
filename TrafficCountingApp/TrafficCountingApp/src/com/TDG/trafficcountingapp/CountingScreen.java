@@ -18,6 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*
+ * @author Richard Fong 1248615
+ * @version 1.0
+ * @since 11 January, 2015
+ */
+
 public class CountingScreen extends ActionBarActivity implements Communicator, OnClickListener{
 
 	/*
@@ -32,11 +38,11 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * 			Wheel Chair -> Assisted, Manual, Powered,
 	 */
 
-	private static int bus, truck, car, motorBike, pedestrian, bike, cane, dog,
-			mobilityScooter, artificialLimb, crutches, walkingFrame,
-			backBrace_visible, backBrace_notVisible, legBrace_visible,
-			legBrace_notVisible, wheelChair_assisted, wheelChair_manual,
-			wheelChair_powered;
+	private static int bus, truck, car, motorBike, 
+			pedestrian, crutches_1, crutches_2,
+			cane, dog, mobilityScooter,
+			wheelChair_assisted, wheelChair_manual, wheelChair_powered,
+			pushChair, skateboard, manualScooter;
 
 	TextView txt_totalCount;
 	int totalCount;
@@ -88,21 +94,22 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		truck = 0;
 		car = 0;
 		motorBike = 0;
+		
 		pedestrian = 0;
-		bike = 0;
+		crutches_1 = 0;
+		crutches_2 = 0;
+		
 		cane = 0;
 		dog = 0;
 		mobilityScooter = 0;
-		artificialLimb = 0;
-		crutches = 0;
-		walkingFrame = 0;
-		backBrace_visible = 0;
-		backBrace_notVisible = 0;
-		legBrace_visible = 0;
-		legBrace_notVisible = 0;
+		
 		wheelChair_assisted = 0;
 		wheelChair_manual = 0;
 		wheelChair_powered = 0;
+		
+		pushChair = 0;
+		skateboard = 0;
+		manualScooter = 0;
 		
 		updateCurrentlySelectedObject(car);
 	}
@@ -238,12 +245,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	}
 
 	/*
-	 * This will update all the counters. 
-	 * This includes the total count and the count of each count object
+	 * This will update the Total count counter. 
 	 */
-	private void updateCounters() {
+	private void updateTotalCounter() {
 		txt_totalCount.setText("Total Count: " + totalCount);
-		
 	}
 	
 	private void updateCurrentlySelectedObject(int currentObject){
@@ -343,7 +348,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				if(totalCount >= 1){
 					totalCount--;
 				}
-				updateCounters();
+				updateTotalCounter();
 			}
 		});
 	}
@@ -388,14 +393,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		CountingScreen.pedestrian = pedestrian;
 	}
 
-	public static int getBike() {
-		return bike;
-	}
-
-	public static void setBike(int bike) {
-		CountingScreen.bike = bike;
-	}
-
 	public static int getCane() {
 		return cane;
 	}
@@ -420,60 +417,20 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		CountingScreen.mobilityScooter = mobilityScooter;
 	}
 
-	public static int getArtificialLimb() {
-		return artificialLimb;
+	public static int getCrutches_1() {
+		return crutches_1;
 	}
 
-	public static void setArtificialLimb(int artificialLimb) {
-		CountingScreen.artificialLimb = artificialLimb;
+	public static void setCrutches_1(int crutches) {
+		CountingScreen.crutches_1 = crutches;
+	}
+	
+	public static int getCrutches_2() {
+		return crutches_2;
 	}
 
-	public static int getCrutches() {
-		return crutches;
-	}
-
-	public static void setCrutches(int crutches) {
-		CountingScreen.crutches = crutches;
-	}
-
-	public static int getWalkingFrame() {
-		return walkingFrame;
-	}
-
-	public static void setWalkingFrame(int walkingFrame) {
-		CountingScreen.walkingFrame = walkingFrame;
-	}
-
-	public static int getBackBrace_visible() {
-		return backBrace_visible;
-	}
-
-	public static void setBackBrace_visible(int backBrace_visible) {
-		CountingScreen.backBrace_visible = backBrace_visible;
-	}
-
-	public static int getBackBrace_notVisible() {
-		return backBrace_notVisible;
-	}
-
-	public static void setBackBrace_notVisible(int backBrace_notVisible) {
-		CountingScreen.backBrace_notVisible = backBrace_notVisible;
-	}
-
-	public static int getLegBrace_visible() {
-		return legBrace_visible;
-	}
-
-	public static void setLegBrace_visible(int legBrace_visible) {
-		CountingScreen.legBrace_visible = legBrace_visible;
-	}
-
-	public static int getLegBrace_notVisible() {
-		return legBrace_notVisible;
-	}
-
-	public static void setLegBrace_notVisible(int legBrace_notVisible) {
-		CountingScreen.legBrace_notVisible = legBrace_notVisible;
+	public static void setCrutches_2(int crutches) {
+		CountingScreen.crutches_2 = crutches;
 	}
 
 	public static int getWheelChair_assisted() {
@@ -498,6 +455,30 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 
 	public static void setWheelChair_powered(int wheelChair_powered) {
 		CountingScreen.wheelChair_powered = wheelChair_powered;
+	}
+	
+	public static int getPushChair() {
+		return pushChair;
+	}
+
+	public static void setPushChair(int pushChair) {
+		CountingScreen.pushChair = pushChair;
+	}
+
+	public static int getSkateboard() {
+		return skateboard;
+	}
+
+	public static void setSkateboard(int skateboard) {
+		CountingScreen.skateboard = skateboard;
+	}
+
+	public static int getManualScooter() {
+		return manualScooter;
+	}
+
+	public static void setManualScooter(int manualScooter) {
+		CountingScreen.manualScooter = manualScooter;
 	}
 
 	/*
@@ -569,9 +550,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		case "Pedestrian":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 			break;
-		case "Bike":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
 		case "Cane":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 			break;
@@ -581,25 +559,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		case "Mobility Scooter":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 			break;
-		case "Artificial Limb":
+		case "Walking Stick / Crutch (1)":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 			break;
-		case "Crutches":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Walking Frame":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Back Brace - Visible":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Back Brace - Not Visible":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Leg Brace - Visible":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Leg Brace - Not Visible":
+		case "Walking Sticks / Crutches (2)":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 			break;
 		case "Wheel Chair - Assisted":
@@ -609,6 +572,15 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 			break;
 		case "Wheel Chair - Powered":
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+			break;
+		case "Push Chair":
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+			break;
+		case "Skateboard":
+			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+			break;
+		case "Manual Scooter":
 			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 			break;
 		case "Comment":
@@ -669,6 +641,11 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
+	/*
+	 * This will check if directionFrom is not null before continuing.
+	 * 
+	 * 
+	 */
 	private void checkDirectionTo(Button button){
 		if(directionFrom != null){
 			if(!directionFrom.equals(String.valueOf(button.getText()))){
@@ -677,6 +654,11 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
+	/*
+	 * This will check to see which method should be run.
+	 * 
+	 * This is done by checking if directionFrom is null.
+	 */
 	private void checkDirectionFromAndTo(Button button){
 		if(directionFrom == null){
 			checkDirectionFrom(button);
@@ -685,136 +667,151 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
+	/*
+	 * This will increase the Total count by 1.
+	 * Then run updateTotalCounter()
+	 */
 	private void increaseTotalCount(){
 		totalCount++;
-		updateCounters();
+		updateTotalCounter();
 	}
 	
+	/*
+	 * Increases the individual count of the 'Count Object'.
+	 * This gets the object which has been selected using the Pedestrian / Vehicle
+	 * Dialog Fragment.
+	 * 
+	 * It compares the object name to see if they match.
+	 * If they match, it will increment the individual value by 1.
+	 * It will then change the text of the 'Count Object' located at the top
+	 * of the counting screen with the correct text if a match was found.
+	 * 
+	 * Otherwise if there is no match, it will Toast "None of them match".
+	 */
 	private void increaseObjectCount(){
-		Integer currentObject = null;
+		Integer currentObjectCount = null;
+		boolean passed = false;
 		switch (currentlySelectedObject) {
 		case "Bus":
 			bus++;
-			currentObject = bus;
+			currentObjectCount = bus;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + bus, Toast.LENGTH_SHORT).show();
 			break;
 		case "Truck":
 			truck++;
-			currentObject = truck;
+			currentObjectCount = truck;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + truck, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Car":
 			car++;
-			currentObject = car;
+			currentObjectCount = car;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + car, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Motor Bike":
 			motorBike++;
-			currentObject = motorBike;
+			currentObjectCount = motorBike;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + motorBike, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Pedestrian":
+		case "Pedestrian (No Aid)":
 			pedestrian++;
-			currentObject = pedestrian;
+			currentObjectCount = pedestrian;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + pedestrian, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Bike":
-			bike++;
-			currentObject = bike;
-//			Toast.makeText(this, currentlySelectedObject + ": " + bike, Toast.LENGTH_SHORT).show();
-			
-			break;
-		case "Cane":
+		case "Cane (Poor Eyesight)":
 			cane++;
-			currentObject = cane;
+			currentObjectCount = cane;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + cane, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Dog":
+		case "Guide Dog":
 			dog++;
-			currentObject = dog;
+			currentObjectCount = dog;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + dog, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Mobility Scooter":
 			mobilityScooter++;
-			currentObject = mobilityScooter;
+			currentObjectCount = mobilityScooter;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + mobilityScooter, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Artificial Limb":
-			artificialLimb++;
-			currentObject = artificialLimb;
-//			Toast.makeText(this, currentlySelectedObject + ": " + artificialLimb, Toast.LENGTH_SHORT).show();
-			
-			break;
-		case "Crutches":
-			crutches++;
-			currentObject = crutches;
+		case "Walking Stick / Crutch (1)":
+			crutches_1++;
+			currentObjectCount = crutches_1;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + crutches, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Walking Frame":
-			walkingFrame++;
-			currentObject = walkingFrame;
-//			Toast.makeText(this, currentlySelectedObject + ": " + walkingFrame, Toast.LENGTH_SHORT).show();
+		case "Walking Sticks / Crutches (2)":
+			crutches_2++;
+			currentObjectCount = crutches_2;
+			passed = true;
+//			Toast.makeText(this, currentlySelectedObject + ": " + crutches, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Back Brace - Visible":
-			backBrace_visible++;
-			currentObject = backBrace_visible;
-//			Toast.makeText(this, currentlySelectedObject + ": " + backBrace_visible, Toast.LENGTH_SHORT).show();
-			
-			break;
-		case "Back Brace - Not Visible":
-			backBrace_notVisible++;
-			currentObject = backBrace_notVisible;
-//			Toast.makeText(this, currentlySelectedObject + ": " + backBrace_notVisible, Toast.LENGTH_SHORT).show();
-			
-			break;
-		case "Leg Brace - Visible":
-			legBrace_visible++;
-			currentObject = legBrace_visible;
-//			Toast.makeText(this, currentlySelectedObject + ": " + legBrace_visible, Toast.LENGTH_SHORT).show();
-			
-			break;
-		case "Leg Brace - Not Visible":
-			legBrace_notVisible++;
-			currentObject = legBrace_notVisible;
-//			Toast.makeText(this, currentlySelectedObject + ": " + legBrace_notVisible, Toast.LENGTH_SHORT).show();
-			
-			break;
-		case "Wheel Chair - Assisted":
+		case "Wheel Chair (Assisted)":
 			wheelChair_assisted++;
-			currentObject = wheelChair_assisted;
+			currentObjectCount = wheelChair_assisted;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_assisted, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Wheel Chair - Manual":
+		case "Wheel Chair (Manual)":
 			wheelChair_manual++;
-			currentObject = wheelChair_manual;
+			currentObjectCount = wheelChair_manual;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_manual, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Wheel Chair - Powered":
+		case "Wheel Chair (Powered)":
 			wheelChair_powered++;
-			currentObject = wheelChair_powered;
+			currentObjectCount = wheelChair_powered;
+			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
 			
 			break;
-		case "Comment":
+		case "Push Chair / Buggy":
+			pushChair++;
+			currentObjectCount = pushChair;
+			passed = true;
+//			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
+			
+			break;
+		case "Skateboard":
+			skateboard++;
+			currentObjectCount = skateboard;
+			passed = true;
+//			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
+			
+			break;
+		case "Manual Scooter":
+			manualScooter++;
+			currentObjectCount = manualScooter;
+			passed = true;
+//			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
 			
 			break;
 		default:
+			Toast.makeText(this, "None of them match", Toast.LENGTH_SHORT).show();
 			break;
 		}
 		
-		Toast.makeText(this, currentlySelectedObject + ": " + currentObject, Toast.LENGTH_SHORT).show();
-		updateCurrentlySelectedObject(currentObject);
+		if(passed){
+			Toast.makeText(this, currentlySelectedObject + ": " + currentObjectCount, Toast.LENGTH_SHORT).show();
+			updateCurrentlySelectedObject(currentObjectCount);
+		}
 	}
 	
 	private void updateAllCounts(){

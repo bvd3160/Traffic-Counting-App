@@ -15,6 +15,12 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*
+ * @author Richard Fong 1248615
+ * @version 1.0
+ * @since 13 January, 2015
+ */
+
 @SuppressLint({ "NewApi", "InflateParams" })
 public class CustomDialogs extends DialogFragment implements View.OnClickListener{
 	
@@ -31,12 +37,12 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	Button csi_btn_intersection3,csi_btn_intersection4,
 			csi_btn_intersection5,csi_btn_intersection6;
 	
-	Button csd_btn_bus, csd_btn_truck, csd_btn_car, csd_btn_motorBike , csd_btn_pedestrian, csd_btn_bike,
-			csd_btn_cane, csd_btn_dog, csd_btn_scooter, csd_btn_artificialLimb, 
-			csd_btn_backBrace_visible, csd_btn_backBrace_notVisible,
-			csd_btn_crutches, csd_btn_legBrace_visible, csd_btn_legBrace_notVisible,
-			csd_btn_walkingFrame, csd_btn_wheelChair_assisted, csd_btn_wheelChair_manual,
-			csd_btn_wheelChair_powered, csd_btn_other;
+	Button csd_btn_bus, csd_btn_truck, csd_btn_car, csd_btn_motorBike ,
+	
+			csd_btn_pedestrian, csd_btn_crutches_1, csd_btn_crutches_2, 
+			csd_btn_cane, csd_btn_dog, csd_btn_mobilityScooter, 
+			csd_btn_wheelChair_assisted, csd_btn_wheelChair_manual, csd_btn_wheelChair_powered, 
+			csd_btn_pushchair, csd_btn_skateboard, csd_btn_manualScooter;
 	
 	TextView dialogComments;
 	String comment;
@@ -79,18 +85,6 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		default:
 			break;
 		}
-		
-//		if(getTag().equals("vehicleDialog")){
-//			view = populateVehicleDialog(inflater);
-//		}else if(getTag().equals("pedestrianDialog")){
-//			view = populatePedestrianDialog(inflater);
-//		}else if(getTag().equals("intersectionDialog")){
-//			view = populateIntersectionDialog(inflater);
-//		}else if(getTag().equals("commentsDialog")){
-//			view = populateCommentsDialog(inflater);
-//		}else if(getTag().equals("dateDialog")){
-//			view = populateDateDialog(inflater);
-//		}
 		
 		btn_close.setOnClickListener(this);
 		
@@ -143,36 +137,31 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		
 		csd_btn_pedestrian = (Button)view.findViewById(R.id.csd_btn_pedestrian);
 		csd_btn_pedestrian.setOnClickListener(this);
-		csd_btn_bike = (Button)view.findViewById(R.id.csd_btn_bike);
-		csd_btn_bike.setOnClickListener(this);
+		csd_btn_crutches_1 = (Button)view.findViewById(R.id.csd_btn_crutches_1);
+		csd_btn_crutches_1.setOnClickListener(this);
+		csd_btn_crutches_2 = (Button)view.findViewById(R.id.csd_btn_crutches_2);
+		csd_btn_crutches_2.setOnClickListener(this);
+		
 		csd_btn_cane = (Button)view.findViewById(R.id.csd_btn_cane);
 		csd_btn_cane.setOnClickListener(this);
 		csd_btn_dog = (Button)view.findViewById(R.id.csd_btn_dog);
 		csd_btn_dog.setOnClickListener(this);
-		csd_btn_scooter = (Button)view.findViewById(R.id.csd_btn_scooter);
-		csd_btn_scooter.setOnClickListener(this);
-		csd_btn_artificialLimb = (Button)view.findViewById(R.id.csd_btn_artificial_limb); 
-		csd_btn_artificialLimb.setOnClickListener(this);
-		csd_btn_backBrace_visible = (Button)view.findViewById(R.id.csd_btn_back_visible);
-		csd_btn_backBrace_visible.setOnClickListener(this);
-		csd_btn_backBrace_notVisible = (Button)view.findViewById(R.id.csd_btn_back_not_visible);
-		csd_btn_backBrace_notVisible.setOnClickListener(this);
-		csd_btn_crutches = (Button)view.findViewById(R.id.csd_btn_crutches);
-		csd_btn_crutches.setOnClickListener(this);
-		csd_btn_legBrace_visible = (Button)view.findViewById(R.id.csd_btn_leg_visible);
-		csd_btn_legBrace_visible.setOnClickListener(this);
-		csd_btn_legBrace_notVisible = (Button)view.findViewById(R.id.csd_btn_leg_not_visible);
-		csd_btn_legBrace_notVisible.setOnClickListener(this);
-		csd_btn_walkingFrame = (Button)view.findViewById(R.id.csd_btn_walking_frame);
-		csd_btn_walkingFrame.setOnClickListener(this);
-		csd_btn_wheelChair_assisted = (Button)view.findViewById(R.id.csd_btn_wheel_chair_assisted);
+		csd_btn_mobilityScooter = (Button)view.findViewById(R.id.csd_btn_mobility_scooter);
+		csd_btn_mobilityScooter.setOnClickListener(this);
+		
+		csd_btn_wheelChair_assisted = (Button)view.findViewById(R.id.csd_btn_wheelchair_assisted);
 		csd_btn_wheelChair_assisted.setOnClickListener(this);
-		csd_btn_wheelChair_manual = (Button)view.findViewById(R.id.csd_btn_wheel_chair_manual);
+		csd_btn_wheelChair_manual = (Button)view.findViewById(R.id.csd_btn_wheelchair_manual);
 		csd_btn_wheelChair_manual.setOnClickListener(this);
-		csd_btn_wheelChair_powered = (Button)view.findViewById(R.id.csd_btn_wheel_chair_powered);
+		csd_btn_wheelChair_powered = (Button)view.findViewById(R.id.csd_btn_wheelchair_powered);
 		csd_btn_wheelChair_powered.setOnClickListener(this);
-		csd_btn_other = (Button)view.findViewById(R.id.csd_btn_other);
-		csd_btn_other.setOnClickListener(this);
+		
+		csd_btn_pushchair = (Button)view.findViewById(R.id.csd_btn_pushchair);
+		csd_btn_pushchair.setOnClickListener(this);
+		csd_btn_skateboard = (Button)view.findViewById(R.id.csd_btn_skateboard);
+		csd_btn_skateboard.setOnClickListener(this);
+		csd_btn_manualScooter = (Button)view.findViewById(R.id.csd_btn_manual_scooter);
+		csd_btn_manualScooter.setOnClickListener(this);
 		
 		return view;
 	}
@@ -263,39 +252,29 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	
 	private void onClickCountObjectsPedestrians(View view){
 		if(view.getId() == csd_btn_pedestrian.getId()){
-			useCommunicator("Pedestrian", "Pedestrian");
-		}else if(view.getId() == csd_btn_bike.getId()){
-			useCommunicator("Bike", "Bike");
+			useCommunicator("Pedestrian", "Pedestrian (No Aid)");
 		}else if(view.getId() == csd_btn_cane.getId()){
-			useCommunicator("Cane", "Cane");
+			useCommunicator("Cane", "Cane (Poor Eyesight)");
 		}else if(view.getId() == csd_btn_dog.getId()){
-			useCommunicator("Dog", "Dog");
-		}else if(view.getId() == csd_btn_scooter.getId()){
+			useCommunicator("Dog", "Guide Dog");
+		}else if(view.getId() == csd_btn_mobilityScooter.getId()){
 			useCommunicator("Mobility Scooter", "Mobility Scooter");
-		}else if(view.getId() == csd_btn_artificialLimb.getId()){
-			useCommunicator("Artificial Limb", "Artificial Limb");
-		}else if(view.getId() == csd_btn_crutches.getId()){
-			useCommunicator("Crutches", "Crutches");
-		}else if(view.getId() == csd_btn_walkingFrame.getId()){
-			useCommunicator("Walking Frame", "Walking Frame");
-		}else if(view.getId() == csd_btn_backBrace_visible.getId()){
-			useCommunicator("Back Brace - Visible", "Back Brace - Visible");
-		}else if(view.getId() == csd_btn_backBrace_notVisible.getId()){
-			useCommunicator("Back Brace - Not Visible", "Back Brace - Not Visible");
-		}else if(view.getId() == csd_btn_legBrace_visible.getId()){
-			useCommunicator("Leg Brace - Visible", "Leg Brace - Visible");
-		}else if(view.getId() == csd_btn_legBrace_notVisible.getId()){
-			useCommunicator("Leg Brace - Not Visible", "Leg Brace - Not Visible");
+		}else if(view.getId() == csd_btn_crutches_1.getId()){
+			useCommunicator("Crutches_1", "Walking Stick / Crutch (1)");
+		}else if(view.getId() == csd_btn_crutches_2.getId()){
+			useCommunicator("Crutches_2", "Walking Sticks / Crutches (2)");
 		}else if(view.getId() == csd_btn_wheelChair_assisted.getId()){
-			useCommunicator("Wheel Chair - Assisted", "Wheel Chair - Assisted");
+			useCommunicator("Wheel Chair - Assisted", "Wheel Chair (Assisted)");
 		}else if(view.getId() == csd_btn_wheelChair_manual.getId()){
-			useCommunicator("Wheel Chair - Manual", "Wheel Chair - Manual");
+			useCommunicator("Wheel Chair - Manual", "Wheel Chair (Manual)");
 		}else if(view.getId() == csd_btn_wheelChair_powered.getId()){
-			useCommunicator("Wheel Chair - Powered", "Wheel Chair - Powered");
-		}else {			
-			//Need to fix this later
-			String value = "Other";
-			useCommunicator("Other", value);
+			useCommunicator("Wheel Chair - Powered", "Wheel Chair (Powered)");
+		}else if(view.getId() == csd_btn_pushchair.getId()){
+			useCommunicator("Push Chair", "Push Chair / Buggy");
+		}else if(view.getId() == csd_btn_skateboard.getId()){
+			useCommunicator("Skateboard", "Skateboard");
+		}else if(view.getId() == csd_btn_manualScooter.getId()){
+			useCommunicator("Manual Scooter", "Manual Scooter");
 		}
 	}
 	

@@ -76,31 +76,22 @@
     
     <!-- Counting Screen Dialog -->
     <string name="title_activity_counting_screen__dialog">CountingScreen_Dialog</string>
-    <string name="csd_txt_heavy">Heavy Vehicles</string>
-    <string name="csd_txt_light">Light Vehicles</string>
-    <string name="csd_txt_medical_aid">Medical Aid</string>
-    <string name="csd_txt_back_brace">Back Brace</string>
-    <string name="csd_txt_leg_brace">Leg Brace</string>
-    <string name="csd_txt_wheel_chair">Wheel Chair</string>
-    <string name="csd_txt_other">Other</string>
     <string name="csd_btn_truck">Truck</string>
     <string name="csd_btn_bus">Bus</string>
     <string name="csd_btn_car">Car</string>
     <string name="csd_btn_motorbike">Motor Bike</string>
-    <string name="csd_btn_pedestrian">Pedestrian</string>
-    <string name="csd_btn_bike">Bike</string>
-    <string name="csd_btn_cane">Cane</string>
-    <string name="csd_btn_dog">Dog</string>
-    <string name="csd_btn_scooter">Mobility Scooter</string>
-    <string name="csd_btn_other">Other</string>
-    <string name="csd_btn_artificial_limb">Artificial Limb</string>
-    <string name="csd_btn_crutches">Crutches</string>
-    <string name="csd_btn_walking_frame">Walking Frame</string>
-    <string name="csd_btn_visible">Visible</string>
-    <string name="csd_btn_notvisible">Not Visible</string>
-    <string name="csd_btn_powered">Powered</string>
-    <string name="csd_btn_assisted">Assisted</string>
-    <string name="csd_btn_manual">Manual</string>
+    <string name="csd_btn_pedestrian">Pedestrian (No Aid)</string>
+    <string name="csd_btn_crutches_1">Walking Stick / Crutch (1)</string>
+    <string name="csd_btn_crutches_2">Walking Sticks / Crutches (2)</string>
+    <string name="csd_btn_cane">Cane (Poor Eyesight)</string>
+    <string name="csd_btn_dog">Guide Dog</string>
+    <string name="csd_btn_manual_scooter">Manual Scooter</string>
+    <string name="csd_btn_mobility_scooter">Mobility Scooter</string>
+    <string name="csd_btn_wheelchair_powered">Wheelchair (Powered)</string>
+    <string name="csd_btn_wheelchair_assisted">Wheelchair (Assisted)</string>
+    <string name="csd_btn_wheelchair_manual">Wheelchair (Manual)</string>
+    <string name="csd_btn_pushchair">Push Chair / Buggy</string>
+    <string name="csd_btn_skateboard">Skateboard</string>
     
     <!-- Count Setup Intersection Dialog-->
     <string name="csi_txt_3way">3 Way</string>
