@@ -2,17 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     android:gravity="center"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:textColor="@android:color/white"
         android:layout_weight="1"
         android:gravity="center" >
 
         <Button
             android:id="@+id/csd_btn_pedestrian"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -20,6 +23,7 @@
 
         <Button
             android:id="@+id/csd_btn_crutches_1"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -29,6 +33,7 @@
             android:id="@+id/csd_btn_crutches_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:layout_weight="1"
             android:text="@string/csd_btn_crutches_2" />
     </LinearLayout>
@@ -42,6 +47,7 @@
 
         <Button
             android:id="@+id/csd_btn_cane"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,12 +56,14 @@
         <Button
             android:id="@+id/csd_btn_dog"
             android:layout_width="0dp"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/csd_btn_dog" />
 
         <Button
             android:id="@+id/csd_btn_mobility_scooter"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,6 +78,7 @@
 
         <Button
             android:id="@+id/csd_btn_wheelchair_assisted"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -77,6 +86,7 @@
 
         <Button
             android:id="@+id/csd_btn_wheelchair_manual"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -84,6 +94,7 @@
 
         <Button
             android:id="@+id/csd_btn_wheelchair_powered"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -98,6 +109,7 @@
 
         <Button
             android:id="@+id/csd_btn_pushchair"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -105,6 +117,7 @@
 
         <Button
             android:id="@+id/csd_btn_skateboard"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -112,6 +125,7 @@
 
         <Button
             android:id="@+id/csd_btn_manual_scooter"
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -121,6 +135,8 @@
     <Button
         android:id="@+id/csd_btn_close_pedestrian"
         android:layout_width="wrap_content"
+        android:background="@drawable/small_grey"
+        android:textColor="@android:color/white"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="@string/general_btn_close" />

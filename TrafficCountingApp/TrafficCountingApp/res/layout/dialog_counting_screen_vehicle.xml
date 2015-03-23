@@ -2,6 +2,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -20,6 +21,7 @@
 
                 <Button
                     android:id="@+id/csd_btn_bus"
+                    android:textColor="@android:color/white"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -28,6 +30,7 @@
                 <Button
                     android:id="@+id/csd_btn_truck"
                     android:layout_width="0dp"
+                    android:textColor="@android:color/white"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/csd_btn_truck" />
@@ -49,6 +52,7 @@
 
                 <Button
                     android:id="@+id/csd_btn_car"
+                    android:textColor="@android:color/white"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -56,6 +60,7 @@
 
                 <Button
                     android:id="@+id/csd_btn_motorbike"
+                    android:textColor="@android:color/white"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -66,6 +71,8 @@
 
         <Button
             android:id="@+id/csd_btn_close_vehicle"
+            android:background="@drawable/small_grey"
+            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/general_btn_close" />
