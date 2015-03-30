@@ -8,6 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+/*
+ * @author Jean-Yves Kwibuka 1245654
+ * @version 1.0
+ * @since December, 2014
+ */
+
 public class MainScreen extends ActionBarActivity {
 	
 	@Override

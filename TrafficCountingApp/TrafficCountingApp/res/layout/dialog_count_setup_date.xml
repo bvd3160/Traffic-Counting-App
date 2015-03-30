@@ -17,6 +17,8 @@
 
         <Button
             android:id="@+id/csda_btn_submit"
+            android:background="@drawable/small_grey"
+            android:layout_marginRight="5dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -24,6 +26,8 @@
 
         <Button
             android:id="@+id/csda_btn_close"
+            android:background="@drawable/small_grey"
+            android:layout_marginLeft="5dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

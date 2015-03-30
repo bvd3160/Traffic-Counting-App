@@ -9,6 +9,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
 
+/*
+ * @author Jean-Yves Kwibuka 1245654
+ * @version 1.0
+ * @since November, 2014
+ */
+
 public class SplashScreen extends ActionBarActivity {
 	
 	private ProgressBar loadSpinner;

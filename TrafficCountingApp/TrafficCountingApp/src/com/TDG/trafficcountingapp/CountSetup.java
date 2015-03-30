@@ -22,6 +22,12 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*
+ * @author Jean-Yves Kwibuka 1245654
+ * @version 1.0
+ * @since December, 2014
+ */
+
 public class CountSetup extends ActionBarActivity implements Communicator{
 	
 	TextView surveyorName, currentDate, numAndNameStreet, 

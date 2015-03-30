@@ -1,11 +1,19 @@
 package com.TDG.trafficcountingapp;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Date;
+
 import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
 import com.TDG.trafficcountingapp.R.drawable;
 
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.DateFormat;
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -32,10 +40,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * Heavy -> Truck, Bus, Tractor?(Not sure if we count this) 
 	 * Light Vehicle -> Car, Motorbike?(Not sure if we count this)
 	 * Pedestrian -> Pedestrian(Normal), Bike(Only if it crosses using the crossing), Cane, Dog, Medical Aid, Scooter, Other(User needs to specify)
-	 * 		Medical Aid -> Artificial Limb, Back Brace, Crutches, Leg Brace, Walking Frame, Wheel Chair,
-	 * 			Back Brace -> Visible, Not Visible, 
-	 * 			Leg Brace -> Visible, Not Visible,
-	 * 			Wheel Chair -> Assisted, Manual, Powered,
+	 * Medical Aid -> Artificial Limb, Back Brace, Crutches, Leg Brace, Walking Frame, Wheel Chair,
+	 * Back Brace -> Visible, Not Visible, 
+	 * Leg Brace -> Visible, Not Visible,
+	 * Wheel Chair -> Assisted, Manual, Powered,
 	 */
 
 	private static int bus, truck, car, motorBike, 
@@ -352,7 +360,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			}
 		});
 	}
-
+//================================================================================//
+	
 	public static int getBus() {
 		return bus;
 	}
@@ -480,6 +489,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	public static void setManualScooter(int manualScooter) {
 		CountingScreen.manualScooter = manualScooter;
 	}
+	
+	//===========================================================================//
 
 	/*
 	 * Launches the CustomDialogs class and sends the reference "vehicleDialog"
@@ -822,6 +833,11 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
+	/*
+	 * This class will handle the 15 minute countdown and subsequently save the data. 
+	 * @author Richard
+	 */
+	
 	private class CountDownTimer extends android.os.CountDownTimer{
 		
 		String ms;
@@ -866,8 +882,40 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			// In here we will do all the saving into an excel file etc.
 			// or we can send a message to CountingScreen to do the saving in there.
 			// or we can make a new class that will handle all the saving.
+			try {
+				saveData();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
+		/**
+		 * This method will save data every 15 minutes
+		 * @author Jean-Yves
+		 * @throws IOException 
+		 * @since 30/03/2015
+		 * 
+		 * For Date before Filename: We decided YYYY.MM.DD for organization.
+		 * if we go with date, month and then year we be mixed up when sorted by name.
+		 */
+		private void saveData() throws IOException {
+			String date = CountSetup.getTheDate();
+			String FILENAME = date+"_Counting_log.csv";
+			String entry1_title = CountSetup.getAreaDescript()+","+"Jean-Yves says this is just a test"+"\n";
+			
+			try {
+				FileOutputStream out = openFileOutput(FILENAME, Context.MODE_APPEND);
+				System.out.println(entry1_title);
+				out.write(entry1_title.getBytes());
+				out.close();
+			} catch (FileNotFoundException e) {
+					System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+			System.out.println("Data save complete");
+			//Toast.makeText(this, "Data save complete", Toast.LENGTH_SHORT).show();
+		}
+
 		@Override
 		public String toString() {
 			// TODO Auto-generated method stub
