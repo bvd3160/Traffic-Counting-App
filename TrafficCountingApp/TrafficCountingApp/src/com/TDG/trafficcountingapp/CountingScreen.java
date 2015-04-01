@@ -127,6 +127,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		directionFrom = null;
 	}
 	
+	private void defaultPedestrian(){
+		updateCurrentObjectTo("Pedestrian (No Aid)");
+		setCurrentlySelectedObject("Pedestrian (No Aid)");
+		updateCurrentlySelectedObject(pedestrian);
+	}
+	
 	private void updateCurrentObjectTo(String object){
 		txt_currentObject = (TextView) findViewById(R.id.cs_txt_currentlyselectedobject);
 		txt_currentObject.setText(object);
@@ -366,6 +372,14 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		return bus;
 	}
 
+	public String getCurrentlySelectedObject() {
+		return currentlySelectedObject;
+	}
+
+	public void setCurrentlySelectedObject(String currentlySelectedObject) {
+		this.currentlySelectedObject = currentlySelectedObject;
+	}
+
 	public static void setBus(int bus) {
 		CountingScreen.bus = bus;
 	}
@@ -490,6 +504,63 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		CountingScreen.manualScooter = manualScooter;
 	}
 	
+	public Integer getCurrentObjectCount(String object){
+		Integer objectCount = null;
+		switch (object) {
+		case "Bus":
+			objectCount = bus;
+			break;
+		case "Truck":
+			objectCount = truck;
+			break;
+		case "Car":
+			objectCount = car;
+			break;
+		case "Motor Bike":
+			objectCount = motorBike;
+			break;
+		case "Pedestrian (No Aid)":
+			objectCount = pedestrian;
+			break;
+		case "Cane (Poor Eyesight)":
+			objectCount = cane;
+			break;
+		case "Guide Dog":
+			objectCount = dog;
+			break;
+		case "Mobility Scooter":
+			objectCount = mobilityScooter;
+			break;
+		case "Walking Stick / Crutch (1)":
+			objectCount = crutches_1;
+			break;
+		case "Walking Sticks / Crutches (2)":
+			objectCount = crutches_2;
+			break;
+		case "Wheel Chair (Assisted)":
+			objectCount = wheelChair_assisted;
+			break;
+		case "Wheel Chair (Manual)":
+			objectCount = wheelChair_manual;
+			break;
+		case "Wheel Chair (Powered)":
+			objectCount = wheelChair_powered;
+			break;
+		case "Push Chair / Buggy":
+			objectCount = pushChair;
+			break;
+		case "Skateboard":
+			objectCount = skateboard;
+			break;
+		case "Manual Scooter":
+			objectCount = manualScooter;
+			break;
+		default:
+			break;
+		}
+		return objectCount;
+	}
+	
 	//===========================================================================//
 
 	/*
@@ -541,70 +612,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 */
 	@Override
 	public void sendClickMessage(String key, String value) {
-
-		// Checks which button was clicked by comparing the message sent from
-		// Custom_Dialogs to this class.
-		
-		switch (key) {
-		case "Bus":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Truck":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Car":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Motor Bike":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Pedestrian":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Cane":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Dog":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Mobility Scooter":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Walking Stick / Crutch (1)":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Walking Sticks / Crutches (2)":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Wheel Chair - Assisted":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Wheel Chair - Manual":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Wheel Chair - Powered":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Push Chair":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Skateboard":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Manual Scooter":
-			Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-			break;
-		case "Comment":
-			comments = value;
-			break;
-		default:
-			break;
-		}
-
-		// Setting the currently selected object to the object that the user chose.
-		if(!key.equals("Comment")){
-			updateCurrentObjectTo(value);
-		}
+		updateCurrentObjectTo(value);
+		updateCurrentlySelectedObject(getCurrentObjectCount(value));
 	}
 	
 	@Override
@@ -830,6 +839,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			increaseObjectCount();
 			increaseTotalCount();
 			initialiseDirectionFromTo();
+			defaultPedestrian();
 		}
 	}
 	
