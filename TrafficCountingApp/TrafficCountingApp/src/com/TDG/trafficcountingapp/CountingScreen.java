@@ -1,8 +1,14 @@
 package com.TDG.trafficcountingapp;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Date;
 
@@ -10,13 +16,18 @@ import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
 import com.TDG.trafficcountingapp.R.drawable;
 
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputFilter.LengthFilter;
 import android.text.format.DateFormat;
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Message;
+import android.provider.ContactsContract.Directory;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -91,6 +102,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		populateTimer();
 		populateButtons();
 		showCountingPanelAndButtons();
+		
 	}
 	
 	private void initialiseCountObjects(){
@@ -886,17 +898,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 
 		@Override
 		public void onFinish() {
-			// TODO Auto-generated method stub
 			txt_timer.setText("Completed.");
 			
 			// In here we will do all the saving into an excel file etc.
 			// or we can send a message to CountingScreen to do the saving in there.
 			// or we can make a new class that will handle all the saving.
-			try {
-				saveData();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			saveData();
 		}
 		
 		/**
@@ -908,22 +915,28 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 * For Date before Filename: We decided YYYY.MM.DD for organization.
 		 * if we go with date, month and then year we be mixed up when sorted by name.
 		 */
-		private void saveData() throws IOException {
-			String date = CountSetup.getTheDate();
-			String FILENAME = date+"_Counting_log.csv";
-			String entry1_title = CountSetup.getAreaDescript()+","+"Jean-Yves says this is just a test"+"\n";
-			
-			try {
-				FileOutputStream out = openFileOutput(FILENAME, Context.MODE_APPEND);
-				System.out.println(entry1_title);
-				out.write(entry1_title.getBytes());
-				out.close();
-			} catch (FileNotFoundException e) {
-					System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-			System.out.println("Data save complete");
-			//Toast.makeText(this, "Data save complete", Toast.LENGTH_SHORT).show();
+		private void saveData(){
+			//File csvfile = new File(Environment.getExternalStoragePublicDirectory("TDGDataFiles"), "Sensor_Data.csv");
+			File folder = Environment.getExternalStoragePublicDirectory("TDG_DATA");
+			String file = "Traffic_Count_Data.csv";
+			File csvfile = new File(folder, file);
+				try {
+					if(!folder.exists()){
+						folder.mkdir();
+					}
+					else{					
+					FileWriter writer = new FileWriter(csvfile, true);
+					writer.append("Time");
+					writer.append(',');
+					writer.append("Position");
+					writer.append('\n');
+					writer.flush();
+					writer.close();
+					}
+					Toast.makeText(getApplicationContext(), "Data save complete", Toast.LENGTH_LONG).show();
+				} catch (Exception e) {
+					Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+				}
 		}
 
 		@Override
