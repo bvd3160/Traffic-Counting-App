@@ -931,7 +931,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 						writer.close();
 						Toast.makeText(getApplicationContext(), "Data save complete", Toast.LENGTH_LONG).show();
 					}else{
-						Toast.makeText(getApplicationContext(), "Data not saved", Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), "Please mount your SD card", Toast.LENGTH_LONG).show();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
