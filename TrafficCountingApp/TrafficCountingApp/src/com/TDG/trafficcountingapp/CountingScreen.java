@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
@@ -891,6 +892,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			updateTimeRemaining(millisUntilFinished);
 			if(millisUntilFinished <= 1000){
 				onFinish();
+				/* The best place to put the saveData() method is here as putting it in
+				//onFinish() created the data save twice every instance. -Jean-Yves */
+				saveData();
 			}else{
 				txt_timer.setText(ms);
 			}
@@ -899,43 +903,38 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		@Override
 		public void onFinish() {
 			txt_timer.setText("Completed.");
-			
-			// In here we will do all the saving into an excel file etc.
-			// or we can send a message to CountingScreen to do the saving in there.
-			// or we can make a new class that will handle all the saving.
-			saveData();
 		}
 		
 		/**
 		 * This method will save data every 15 minutes
 		 * @author Jean-Yves
-		 * @throws IOException 
 		 * @since 30/03/2015
 		 * 
 		 * For Date before Filename: We decided YYYY.MM.DD for organization.
 		 * if we go with date, month and then year we be mixed up when sorted by name.
 		 */
 		private void saveData(){
-			//File csvfile = new File(Environment.getExternalStoragePublicDirectory("TDGDataFiles"), "Sensor_Data.csv");
+			String currentDate = CountSetup.updateDate();
 			File folder = Environment.getExternalStoragePublicDirectory("TDG_DATA");
-			String file = "Traffic_Count_Data.csv";
+			String file = currentDate+"_Traffic_Count_Data.csv";
 			File csvfile = new File(folder, file);
 				try {
 					if(!folder.exists()){
 						folder.mkdir();
+					}else if(folder.exists()){					
+						FileWriter writer = new FileWriter(csvfile, true);
+						writer.append("Location: " + "Main North Road / Cranford Street" + "\n \n");
+						writer.append("Date: " + "15/05/2015" + "\n");
+						writer.append("Time, Cars, Buses, Trucks, Motorcycles");
+						writer.append("\n \n \n");
+						writer.flush();
+						writer.close();
+						Toast.makeText(getApplicationContext(), "Data save complete", Toast.LENGTH_LONG).show();
+					}else{
+						Toast.makeText(getApplicationContext(), "Data not saved", Toast.LENGTH_LONG).show();
 					}
-					else{					
-					FileWriter writer = new FileWriter(csvfile, true);
-					writer.append("Time");
-					writer.append(',');
-					writer.append("Position");
-					writer.append('\n');
-					writer.flush();
-					writer.close();
-					}
-					Toast.makeText(getApplicationContext(), "Data save complete", Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
-					Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+					e.printStackTrace();
 				}
 		}
 

@@ -30,14 +30,31 @@ import android.widget.Toast;
 
 public class CountSetup extends ActionBarActivity implements Communicator{
 	
-	TextView surveyorName, currentDate, numAndNameStreet, 
-			suburb, city, postCode, areaDescription, intersectionType, comments;
+	TextView surveyorName;
+
+	static TextView currentDate;
+
+	TextView numAndNameStreet;
+
+	TextView suburb;
+
+	TextView city;
+
+	TextView postCode;
+
+	TextView areaDescription;
+
+	TextView intersectionType;
+
+	TextView comments;
 
 	private static String sName, theDate, streetNumAndName, suburbName, cityName, areaCode, areaDescript,
 						typeOfIntersection, commentSection;
 	
-	SimpleDateFormat dateForm;
-	Calendar calendar = Calendar.getInstance();
+	static SimpleDateFormat dateForm;
+	static SimpleDateFormat datFileDateForm;
+	
+	static Calendar calendar = Calendar.getInstance();
 	Button setDate, selectIntersectionType, submit;
 
 	@Override
@@ -58,9 +75,12 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		comments = (TextView) findViewById(R.id.comments);
 		submit = (Button) findViewById(R.id.submit);
 		
-		/////////////////////////////////////////////////////////////////////////////
-		//This block of code will catch the extra sent from MainScreen
-		//From here I can disable buttons of whatever else.
+		/*
+		 * This block of code will catch the extra sent from MainScreen
+		 * From here I can disable buttons of whatever else.
+		 * @author: Jean-Yves
+		 * @since: November 2014
+		 */
 		Intent intent = getIntent();
 		String clicked = intent.getStringExtra("nonIntBtn");
 		if(clicked != null){
@@ -70,21 +90,14 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 			intersectionType.setVisibility(4);
 			findViewById(R.id.textView4).setVisibility(4);
 		}
-		//////////////////////////////////////////////////////////////////////////////
 		
-		//Current Date setup
-		dateForm = new SimpleDateFormat("dd/MM/yyyy");
 		/*
-		setDate = (Button) findViewById(R.id.setDateBT);
-		setDate.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				updateDate();
-				//setDate(); <<< That's what we need to get working!
-			}
-		});
-		*/
+		 * Current Date setup
+		 * @author: Jean-Yves
+		 * @since: November 2014
+		 */
+		dateForm = new SimpleDateFormat("dd/MM/yyyy");
+		datFileDateForm = new SimpleDateFormat("yyyy.MM.dd");
 		
 		updateDate();	
 		preSubmissionChecks();
@@ -112,12 +125,13 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		new DatePickerDialog(getApplicationContext(), date, calendar.get(Calendar.YEAR), 
 				calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 	}
-	
+
 	/*
 	 *  Setting the currentDate TextView with the date user just selected
 	 */
-	public void updateDate(){
+	public static String updateDate(){
 		currentDate.setText(dateForm.format(calendar.getTime()));
+		return (datFileDateForm.format(calendar.getTime()));
 	}
 
 	
