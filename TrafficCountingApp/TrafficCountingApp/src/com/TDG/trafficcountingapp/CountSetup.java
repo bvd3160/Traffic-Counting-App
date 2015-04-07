@@ -133,6 +133,10 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		currentDate.setText(dateForm.format(calendar.getTime()));
 		return (datFileDateForm.format(calendar.getTime()));
 	}
+	
+	public static String getCurrentDate(){
+		return (dateForm.format(calendar.getTime()));
+	}
 
 	
 	/*

@@ -914,28 +914,49 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 * if we go with date, month and then year we be mixed up when sorted by name.
 		 */
 		private void saveData(){
-			String currentDate = CountSetup.updateDate();
+			String fileDate = CountSetup.updateDate();
+			String currentDate = CountSetup.getCurrentDate();
+			
 			File folder = Environment.getExternalStoragePublicDirectory("TDG_DATA");
-			String file = currentDate+"_Traffic_Count_Data.csv";
+			String file = fileDate+"_Traffic_Count_Data.csv";
 			File csvfile = new File(folder, file);
 				try {
 					if(!folder.exists()){
 						folder.mkdir();
-					}else if(folder.exists()){					
+					}else if(folder.exists()){
 						FileWriter writer = new FileWriter(csvfile, true);
-						writer.append("Location: " + "Main North Road / Cranford Street" + "\n \n");
-						writer.append("Date: " + "15/05/2015" + "\n");
-						writer.append("Time, Cars, Buses, Trucks, Motorcycles");
+						//Write the header for all data counts.
+						writeDataHeader(writer, currentDate);
+						
 						writer.append("\n \n \n");
 						writer.flush();
 						writer.close();
 						Toast.makeText(getApplicationContext(), "Data save complete", Toast.LENGTH_LONG).show();
+						CountDownTimer timer = new CountDownTimer(6000, 1000);
+						
 					}else{
 						Toast.makeText(getApplicationContext(), "Please mount your SD card", Toast.LENGTH_LONG).show();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+		}
+		
+		/*
+		 * Header for every data count. This will always look the same.
+		 */
+		public void writeDataHeader(FileWriter fileWriter, String currentDate) throws IOException{
+			String streetNumandName = CountSetup.getStreetNumAndName();
+			String suburbName = CountSetup.getSuburbName();
+			String city = CountSetup.getCityName();
+			String postCode = CountSetup.getAreaCode();
+			String locDescription = CountSetup.getAreaDescript();
+			//These should work, once we make sure the submit button sets the values from Textviews
+			fileWriter.append("Location: " + streetNumandName + 
+					", " + suburbName + ", "+ city +", " + postCode + ", " + "\n" + locDescription +
+					"\n \n");
+			fileWriter.append("Date: " + currentDate + "\n");
+			fileWriter.append("Time, Cars, Buses, Trucks, Motorcycles");
 		}
 
 		@Override
