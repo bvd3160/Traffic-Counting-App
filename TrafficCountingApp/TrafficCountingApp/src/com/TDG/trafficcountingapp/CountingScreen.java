@@ -64,6 +64,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			wheelChair_assisted, wheelChair_manual, wheelChair_powered,
 			pushChair, skateboard, manualScooter;
 
+	static int northWest, north, northEast, east, west, southWest, south, southEast;
+//	private String[] lastSelectedObjects = new String[3];
+//	private Integer[] lastSelectedCounts = new Integer[3];
+	
 	TextView txt_totalCount;
 	int totalCount;
 	String directionFrom;
@@ -75,6 +79,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	
 	String comments;
 	String currentlySelectedObject;
+	int currentlySelectedCount;
 	String intersectionType;
 	
 	Button btn_direction_nw, btn_direction_n, btn_direction_ne, btn_direction_w,
@@ -96,7 +101,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 		
 		// Initialises the current counting object to be a car
-		updateCurrentObjectTo("Car");
+		updateCurrentObjectTo("Pedestrian (No Aid)");
 				
 		initialiseCountObjects();
 		initialiseDirectionFromTo();
@@ -132,7 +137,23 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		skateboard = 0;
 		manualScooter = 0;
 		
-		updateCurrentlySelectedObject(car);
+		northWest = 0;
+		north = 0;
+		northEast = 0;
+		west = 0;
+		east = 0;
+		southWest = 0;
+		south = 0;
+		southEast = 0;
+		
+//		lastSelectedCounts[1] = pedestrian;
+//		lastSelectedObjects[1] = currentlySelectedObject;
+//		lastSelectedCounts[2] = null;
+//		lastSelectedObjects[2] = null;
+//		lastSelectedCounts[3] = null;
+//		lastSelectedObjects[3] = null;
+		
+		updateCurrentlySelectedObject(pedestrian);
 	}
 	
 	private void initialiseDirectionFromTo(){
@@ -150,8 +171,23 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		txt_currentObject = (TextView) findViewById(R.id.cs_txt_currentlyselectedobject);
 		txt_currentObject.setText(object);
 		
+//		updateLastSelectedObjectCount();
 		currentlySelectedObject = object;
 	}
+	
+	/*
+	 * This method updates the last 3 Count objects and stores them in an array.
+	 * The newest count object is stored in the first slot of the array and the rest are shuffled along.
+	 */
+//	private void updateLastSelectedObjectCount(){
+//		lastSelectedObjects[3] = lastSelectedObjects[2];
+//		lastSelectedObjects[2] = lastSelectedObjects[1];
+//		lastSelectedObjects[1] = currentlySelectedObject;
+//		
+//		lastSelectedCounts[3] = lastSelectedCounts[2];
+//		lastSelectedCounts[2] = lastSelectedCounts[1];
+//		lastSelectedCounts[1] = currentlySelectedCount;
+//	}
 	
 	/*
 	 * This method will determine what type of setup will be displayed in on the count panel
@@ -296,20 +332,28 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 */
 	private void populateDirectionButtons(){
 		btn_direction_nw = (Button)findViewById(R.id.cs_btn_direction_nw);
+		btn_direction_nw.setText("North-West (0)");
 		btn_direction_nw.setOnClickListener(this);
 		btn_direction_n = (Button)findViewById(R.id.cs_btn_direction_n);
+		btn_direction_n.setText("North (0)");
 		btn_direction_n.setOnClickListener(this);
 		btn_direction_ne = (Button)findViewById(R.id.cs_btn_direction_ne);
+		btn_direction_ne.setText("North-East (0)");
 		btn_direction_ne.setOnClickListener(this);
 		btn_direction_w = (Button)findViewById(R.id.cs_btn_direction_w);
+		btn_direction_w.setText("West (0)");
 		btn_direction_w.setOnClickListener(this);
 		btn_direction_e = (Button)findViewById(R.id.cs_btn_direction_e);
+		btn_direction_e.setText("East (0)");
 		btn_direction_e.setOnClickListener(this);
 		btn_direction_sw = (Button)findViewById(R.id.cs_btn_direction_sw);
+		btn_direction_sw.setText("South-West (0)");
 		btn_direction_sw.setOnClickListener(this);
 		btn_direction_s = (Button)findViewById(R.id.cs_btn_direction_s);
+		btn_direction_s.setText("South (0)");
 		btn_direction_s.setOnClickListener(this);
 		btn_direction_se = (Button)findViewById(R.id.cs_btn_direction_se);
+		btn_direction_se.setText("South-East (0)");
 		btn_direction_se.setOnClickListener(this);
 	}
 	
@@ -358,15 +402,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * (Will need to implement it correctly later when we get all the objects values working).
 	 */
 	private void populateCounterButtons(){
-		Button btn_increase = (Button) findViewById(R.id.cs_btn_increase);
-		btn_increase.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				increaseTotalCount();
-			}
-		});
-
 		Button btn_undo = (Button) findViewById(R.id.cs_btn_undo);
 		btn_undo.setOnClickListener(new View.OnClickListener() {
 
@@ -374,6 +409,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			public void onClick(View v) {
 				if(totalCount >= 1){
 					totalCount--;
+					
 				}
 				updateTotalCounter();
 			}
@@ -668,6 +704,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		updateAllCounts();
 	}
 	
+	/*
+	 * This will check to see if the direction from and direction to is not null before continuing.
+	 */
 	private void checkDirectionFrom(Button button){
 		if(directionTo == null && directionFrom == null){
 			directionFrom = String.valueOf(button.getText());
@@ -676,7 +715,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	
 	/*
 	 * This will check if directionFrom is not null before continuing.
-	 * 
 	 * 
 	 */
 	private void checkDirectionTo(Button button){
@@ -722,116 +760,115 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * Otherwise if there is no match, it will Toast "None of them match".
 	 */
 	private void increaseObjectCount(){
-		Integer currentObjectCount = null;
 		boolean passed = false;
 		switch (currentlySelectedObject) {
 		case "Bus":
 			bus++;
-			currentObjectCount = bus;
+			currentlySelectedCount = bus;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + bus, Toast.LENGTH_SHORT).show();
 			break;
 		case "Truck":
 			truck++;
-			currentObjectCount = truck;
+			currentlySelectedCount = truck;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + truck, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Car":
 			car++;
-			currentObjectCount = car;
+			currentlySelectedCount = car;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + car, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Motor Bike":
 			motorBike++;
-			currentObjectCount = motorBike;
+			currentlySelectedCount = motorBike;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + motorBike, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Pedestrian (No Aid)":
 			pedestrian++;
-			currentObjectCount = pedestrian;
+			currentlySelectedCount = pedestrian;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + pedestrian, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Cane (Poor Eyesight)":
 			cane++;
-			currentObjectCount = cane;
+			currentlySelectedCount = cane;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + cane, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Guide Dog":
 			dog++;
-			currentObjectCount = dog;
+			currentlySelectedCount = dog;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + dog, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Mobility Scooter":
 			mobilityScooter++;
-			currentObjectCount = mobilityScooter;
+			currentlySelectedCount = mobilityScooter;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + mobilityScooter, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Walking Stick / Crutch (1)":
 			crutches_1++;
-			currentObjectCount = crutches_1;
+			currentlySelectedCount = crutches_1;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + crutches, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Walking Sticks / Crutches (2)":
 			crutches_2++;
-			currentObjectCount = crutches_2;
+			currentlySelectedCount = crutches_2;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + crutches, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Wheel Chair (Assisted)":
 			wheelChair_assisted++;
-			currentObjectCount = wheelChair_assisted;
+			currentlySelectedCount = wheelChair_assisted;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_assisted, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Wheel Chair (Manual)":
 			wheelChair_manual++;
-			currentObjectCount = wheelChair_manual;
+			currentlySelectedCount = wheelChair_manual;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_manual, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Wheel Chair (Powered)":
 			wheelChair_powered++;
-			currentObjectCount = wheelChair_powered;
+			currentlySelectedCount = wheelChair_powered;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Push Chair / Buggy":
 			pushChair++;
-			currentObjectCount = pushChair;
+			currentlySelectedCount = pushChair;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Skateboard":
 			skateboard++;
-			currentObjectCount = skateboard;
+			currentlySelectedCount = skateboard;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
 			
 			break;
 		case "Manual Scooter":
 			manualScooter++;
-			currentObjectCount = manualScooter;
+			currentlySelectedCount = manualScooter;
 			passed = true;
 //			Toast.makeText(this, currentlySelectedObject + ": " + wheelChair_powered, Toast.LENGTH_SHORT).show();
 			
@@ -842,15 +879,59 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 		
 		if(passed){
-			Toast.makeText(this, currentlySelectedObject + ": " + currentObjectCount, Toast.LENGTH_SHORT).show();
-			updateCurrentlySelectedObject(currentObjectCount);
+			Toast.makeText(this, currentlySelectedObject + ": " + currentlySelectedCount, Toast.LENGTH_SHORT).show();
+			updateCurrentlySelectedObject(currentlySelectedCount);
 		}
 	}
 	
+	/*
+	 * This method is used to increment the value of where the pedestrian/vehicle went.
+	 */
+	private void updateDirectionCount(){
+		if(directionTo.contains("North-West")){
+			northWest++;
+			Toast.makeText(this, "North-West: " + northWest, Toast.LENGTH_SHORT).show();
+			btn_direction_nw.setText("North-West (" + northWest + ")");
+		}else if(directionTo.contains("North-East")){
+			northEast++;
+			Toast.makeText(this, "North-East: " + northEast, Toast.LENGTH_SHORT).show();
+			btn_direction_ne.setText("North-East (" + northEast + ")");
+		}else if(directionTo.contains("South-West")){
+			southWest++;
+			Toast.makeText(this, "South-West: " + southWest, Toast.LENGTH_SHORT).show();
+			btn_direction_sw.setText("South-West (" + southWest + ")");
+		}else if(directionTo.contains("South-East")){
+			southEast++;
+			Toast.makeText(this, "South-East: " + southEast, Toast.LENGTH_SHORT).show();
+			btn_direction_se.setText("South-East (" + southEast + ")");
+		}else if(directionTo.contains("North")){
+			north++;
+			Toast.makeText(this, "North: " + north, Toast.LENGTH_SHORT).show();
+			btn_direction_n.setText("North (" + north + ")");
+		}else if(directionTo.contains("East")){
+			east++;
+			Toast.makeText(this, "East: " + east, Toast.LENGTH_SHORT).show();
+			btn_direction_e.setText("East (" + east + ")");
+		}else if(directionTo.contains("South")){
+			south++;
+			Toast.makeText(this, "South: " + south, Toast.LENGTH_SHORT).show();
+			btn_direction_s.setText("South (" + south + ")");
+		}else if(directionTo.contains("West")){
+			west++;
+			Toast.makeText(this, "West: " + west, Toast.LENGTH_SHORT).show();
+			btn_direction_w.setText("West (" + west + ")");
+		}
+	}
+	
+	/*
+	 * This method checks to make sure that there is a value in direction from and direction to.
+	 * If this is true. It will begin to update all the counts then default the current selected object back to pedestrian.
+	 */
 	private void updateAllCounts(){
 		if(directionFrom != null && directionTo != null){
 			increaseObjectCount();
 			increaseTotalCount();
+			updateDirectionCount();
 			initialiseDirectionFromTo();
 			defaultPedestrian();
 		}
