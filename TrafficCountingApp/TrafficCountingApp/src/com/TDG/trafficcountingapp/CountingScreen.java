@@ -661,8 +661,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 */
 	@Override
 	public void sendClickMessage(String key, String value) {
-		updateCurrentObjectTo(value);
-		updateCurrentlySelectedObject(getCurrentObjectCount(value));
+		if(!key.equals("Comment")){
+			updateCurrentObjectTo(value);
+			updateCurrentlySelectedObject(getCurrentObjectCount(value));
+		}else{
+			comments = value;
+		}
 	}
 	
 	@Override
@@ -939,14 +943,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	
 	/*
 	 * This class will handle the 15 minute countdown and subsequently save the data. 
-	 * @author Richard
+	 * @author Richard and Jean-Yves
 	 */
 	
 	private class CountDownTimer extends android.os.CountDownTimer{
 		
-		String ms;
-		String minutes;
-		String seconds;
+		private String ms, minutes, seconds;
 		
 		public CountDownTimer(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
@@ -973,8 +975,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			updateTimeRemaining(millisUntilFinished);
 			if(millisUntilFinished <= 1000){
 				onFinish();
-				/* The best place to put the saveData() method is here as putting it in
-				//onFinish() created the data save twice every instance. -Jean-Yves */
+				/* The best place to put the saveData() method is here as putting it in 
+				 * onFinish() saved the data twice every instance. -Jean-Yves */
 				saveData();
 			}else{
 				txt_timer.setText(ms);
@@ -985,6 +987,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		public void onFinish() {
 			txt_timer.setText("Completed.");
 		}
+		
+		
 		
 		/**
 		 * This method will save data every 15 minutes
@@ -1003,46 +1007,85 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			File csvfile = new File(folder, file);
 				try {
 					if(!folder.exists()){
+						//Make the directory
 						folder.mkdir();
-					}else if(folder.exists()){
+						//Create the file to be written to
 						FileWriter writer = new FileWriter(csvfile, true);
 						//Write the header for all data counts.
 						writeDataHeader(writer, currentDate);
-						
-						writer.append("\n \n \n");
-						writer.flush();
-						writer.close();
-						Toast.makeText(getApplicationContext(), "Data save complete", Toast.LENGTH_LONG).show();
-						CountDownTimer timer = new CountDownTimer(6000, 1000);
-						
+						flushAndCloseWriter(writer);
+					}else if(folder.exists()){
+						//Open the file to be written to. Re-initialization is necessary in this case.
+						FileWriter writer = new FileWriter(csvfile, true);
+						//Write data entry.
+						if(intersectionType == "3 Way Intersection"){
+							flushAndCloseWriter(writer);
+							userMessage("Data save complete");
+						}else if(intersectionType == "4 Way Intersection"){
+							flushAndCloseWriter(writer);
+							userMessage("Data save complete");
+						}else if(intersectionType == "5 Way Intersection"){
+							flushAndCloseWriter(writer);
+							userMessage("Data save complete");
+						}else if(intersectionType == "6 Way Intersection"){
+							flushAndCloseWriter(writer);
+							userMessage("Data save complete");
+						}else{
+							
+						}
 					}else{
-						Toast.makeText(getApplicationContext(), "Please mount your SD card", Toast.LENGTH_LONG).show();
+						userMessage("Please mount your SD card");
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
 		
+		
 		/*
 		 * Header for every data count. This will always look the same.
+		 * @author: Jean-Yves
+		 * @since: 2 April 2015
 		 */
 		public void writeDataHeader(FileWriter fileWriter, String currentDate) throws IOException{
+			//These should work, once we make sure the submit button sets the values from Textviews
 			String streetNumandName = CountSetup.getStreetNumAndName();
 			String suburbName = CountSetup.getSuburbName();
 			String city = CountSetup.getCityName();
 			String postCode = CountSetup.getAreaCode();
 			String locDescription = CountSetup.getAreaDescript();
-			//These should work, once we make sure the submit button sets the values from Textviews
+			//Make sure the above string don't return null
+			
+			//The header will look like below:
+			/*
+			 * Location: 17 Example street, Ohio Town, Las Noches, 0600
+			 * Near the town Hall
+			 * 
+			 * Date: 17/12/2017
+			 * TIME, 			CARS, 	BUSES, 	TRUCKS, 	MOTORCYCLES
+			 * 8:00 to 8:15		25		2		13			7
+			 */
 			fileWriter.append("Location: " + streetNumandName + 
 					", " + suburbName + ", "+ city +", " + postCode + ", " + "\n" + locDescription +
 					"\n \n");
 			fileWriter.append("Date: " + currentDate + "\n");
 			fileWriter.append("Time, Cars, Buses, Trucks, Motorcycles");
+			flushAndCloseWriter(fileWriter);
+		}
+		
+		//To flush and subsequently close the opened file writer. -Jean-Yves
+		public void flushAndCloseWriter(FileWriter writer) throws IOException{
+			writer.flush();
+			writer.close();
+		}
+		
+		//Show the user a message. -Jean-Yves
+		public void userMessage(String message){
+			Toast.makeText(getApplicationContext(), message , Toast.LENGTH_LONG).show();
 		}
 
 		@Override
 		public String toString() {
-			// TODO Auto-generated method stub
 			return ms;
 		}
 	}
