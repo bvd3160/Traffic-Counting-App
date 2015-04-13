@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -950,9 +951,27 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		
 		private String ms, minutes, seconds;
 		
+		//Jean-Yves' Initializations
+		private SimpleDateFormat df = new SimpleDateFormat("h:mm a");
+		
+		private String sessionStartTime;
+		private String currentTime;
+
+		private Calendar cal = Calendar.getInstance();
+		
+		private int headerWriteCount = 0;
+		
+		//--------------------------------------------------------------
+		
 		public CountDownTimer(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
 			updateTimeRemaining(millisInFuture);
+			
+			currentTime = df.format(Calendar.getInstance().getTime());
+			cal.setTime(cal.getTime());
+			cal.add(Calendar.MINUTE, -15);
+			Date fifteenMinBefore = cal.getTime();
+		    sessionStartTime = df.format(fifteenMinBefore);
 		}
 
 		private void updateTimeRemaining(long millisUntilFinished){
@@ -1002,37 +1021,28 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			String fileDate = CountSetup.updateDate();
 			String currentDate = CountSetup.getCurrentDate();
 			
+			
+			
+			
 			File folder = Environment.getExternalStoragePublicDirectory("TDG_DATA");
 			String file = fileDate+"_Traffic_Count_Data.csv";
 			File csvfile = new File(folder, file);
 				try {
 					if(!folder.exists()){
 						//Make the directory
-						folder.mkdir();
-						//Create the file to be written to
-						FileWriter writer = new FileWriter(csvfile, true);
-						//Write the header for all data counts.
-						writeDataHeader(writer, currentDate);
-						flushAndCloseWriter(writer);
+						folder.mkdir();						
 					}else if(folder.exists()){
 						//Open the file to be written to. Re-initialization is necessary in this case.
 						FileWriter writer = new FileWriter(csvfile, true);
-						//Write data entry.
-						if(intersectionType == "3 Way Intersection"){
-							flushAndCloseWriter(writer);
-							userMessage("Data save complete");
-						}else if(intersectionType == "4 Way Intersection"){
-							flushAndCloseWriter(writer);
-							userMessage("Data save complete");
-						}else if(intersectionType == "5 Way Intersection"){
-							flushAndCloseWriter(writer);
-							userMessage("Data save complete");
-						}else if(intersectionType == "6 Way Intersection"){
-							flushAndCloseWriter(writer);
-							userMessage("Data save complete");
-						}else{
-							
+						//Write the header for all data counts.
+						if(headerWriteCount == 0){
+							writeDATA_HEADER(writer, currentDate);
+							headerWriteCount++;
 						}
+							saveDataBasedOnIntersectionType(writer);
+							flushAndCloseWriter(writer);
+						
+						
 					}else{
 						userMessage("Please mount your SD card");
 					}
@@ -1047,7 +1057,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 * @author: Jean-Yves
 		 * @since: 2 April 2015
 		 */
-		public void writeDataHeader(FileWriter fileWriter, String currentDate) throws IOException{
+		public void writeDATA_HEADER(FileWriter fileWriter, String currentDate) throws IOException{
 			//These should work, once we make sure the submit button sets the values from Textviews
 			String streetNumandName = CountSetup.getStreetNumAndName();
 			String suburbName = CountSetup.getSuburbName();
@@ -1069,8 +1079,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					", " + suburbName + ", "+ city +", " + postCode + ", " + "\n" + locDescription +
 					"\n \n");
 			fileWriter.append("Date: " + currentDate + "\n");
-			fileWriter.append("Time, Cars, Buses, Trucks, Motorcycles");
-			flushAndCloseWriter(fileWriter);
+			fileWriter.append("Time, Cars, Buses, Trucks, Motorcycles \n");
 		}
 		
 		//To flush and subsequently close the opened file writer. -Jean-Yves
@@ -1082,6 +1091,33 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		//Show the user a message. -Jean-Yves
 		public void userMessage(String message){
 			Toast.makeText(getApplicationContext(), message , Toast.LENGTH_LONG).show();
+		}
+		
+		//Save the data based on the intersectionType that was selected by the user. -Jean-Yves
+		public void saveDataBasedOnIntersectionType(FileWriter writer) throws IOException {
+			switch (intersectionType) {
+			case "3 Way Intersection":
+				writer.append(sessionStartTime + " TO " + currentTime + "," + "\n");
+				userMessage("Data save complete");
+				break;
+			case "4 Way Intersection":
+				writer.append(sessionStartTime + " TO " + currentTime + "," + "\n");
+				userMessage("Data save complete");
+				break;
+			case "5 Way Intersection":
+				writer.append(sessionStartTime + " TO " + currentTime + "," + "\n");
+				userMessage("Data save complete");
+				break;
+			case "6 Way Intersection":
+				writer.append(sessionStartTime + " TO " + currentTime + "," + "\n");
+				userMessage("Data save complete");
+				break;
+		
+			default:
+				userMessage("You didn't choose an Intersection Type");
+				userMessage("Data not saved!");
+				break;
+			}
 		}
 
 		@Override
