@@ -65,7 +65,34 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			wheelChair_assisted, wheelChair_manual, wheelChair_powered,
 			pushChair, skateboard, manualScooter;
 
-	static int northWest, north, northEast, east, west, southWest, south, southEast;
+	static int northWestTotal, northTotal, northEastTotal, eastTotal, westTotal, southWestTotal, southTotal, southEastTotal;
+	static int carNorthWest, carNorth, carNorthEast, carEast, carWest, carSouthWest, carSouth, carSouthEast;
+	static int busNorthWest, busNorth, busNorthEast, busEast, busWest, busSouthWest, busSouth, busSouthEast;
+	static int truckNorthWest, truckNorth, truckNorthEast, truckEast, truckWest, truckSouthWest, truckSouth, truckSouthEast;
+	static int motorbikeNorthWest, motorbikeNorth, motorbikeNorthEast, motorbikeEast, motorbikeWest, motorbikeSouthWest,
+				motorbikeSouth, motorbikeSouthEast;
+	static int pedestrianNorthWest, pedestrianNorth, pedestrianNorthEast, pedestrianEast, pedestrianWest, pedestrianSouthWest,
+				pedestrianSouth, pedestrianSouthEast;
+	static int crutches1NorthWest, crutches1North, crutches1NorthEast, crutches1East, crutches1West, crutches1SouthWest,
+				crutches1South, crutches1SouthEast;
+	static int crutches2NorthWest, crutches2North, crutches2NorthEast, crutches2East, crutches2West, crutches2SouthWest,
+				crutches2South, crutches2SouthEast;
+	static int caneNorthWest, caneNorth, caneNorthEast, caneEast, caneWest, caneSouthWest, caneSouth, caneSouthEast;
+	static int dogNorthWest, dogNorth, dogNorthEast, dogEast, dogWest, dogSouthWest, dogSouth, dogSouthEast;
+	static int mobilityscooterNorthWest, mobilityscooterNorth, mobilityscooterNorthEast, mobilityscooterEast,
+				mobilityscooterWest, mobilityscooterSouthWest, mobilityscooterSouth, mobilityscooterSouthEast;
+	static int wheelchair_assistedNorthWest, wheelchair_assistedNorth, wheelchair_assistedNorthEast, wheelchair_assistedEast,
+				wheelchair_assistedWest, wheelchair_assistedSouthWest, wheelchair_assistedSouth, wheelchair_assistedSouthEast;
+	static int wheelchair_manualNorthWest, wheelchair_manualNorth, wheelchair_manualNorthEast, wheelchair_manualEast,
+				wheelchair_manualWest, wheelchair_manualSouthWest, wheelchair_manualSouth, wheelchair_manualSouthEast;
+	static int wheelchair_poweredNorthWest, wheelchair_poweredNorth, wheelchair_poweredNorthEast, wheelchair_poweredEast,
+				wheelchair_poweredWest, wheelchair_poweredSouthWest, wheelchair_poweredSouth, wheelchair_poweredSouthEast;
+	static int pushchairNorthWest, pushchairNorth, pushchairNorthEast, pushchairEast, pushchairWest, pushchairSouthWest,
+				pushchairSouth, pushchairSouthEast;
+	static int skateboardNorthWest, skateboardNorth, skateboardNorthEast, skateboardEast, skateboardWest, skateboardSouthWest,
+				skateboardSouth, skateboardSouthEast;
+	static int manualscooterNorthWest, manualscooterNorth, manualscooterNorthEast, manualscooterEast, manualscooterWest, manualscooterSouthWest,
+				manualscooterSouth, manualscooterSouthEast;
 //	private String[] lastSelectedObjects = new String[3];
 //	private Integer[] lastSelectedCounts = new Integer[3];
 	
@@ -117,35 +144,20 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		txt_totalCount = (TextView) findViewById(R.id.cs_txt_totalCounter);
 		txt_totalCount.setText("Total Count: " + totalCount);
 		
-		bus = 0;
-		truck = 0;
-		car = 0;
-		motorBike = 0;
+		initialiseBus();
+		initialiseCar();
+		initialiseTruck();
+		initialiseMotorBike();
 		
-		pedestrian = 0;
-		crutches_1 = 0;
-		crutches_2 = 0;
-		
-		cane = 0;
-		dog = 0;
-		mobilityScooter = 0;
-		
-		wheelChair_assisted = 0;
-		wheelChair_manual = 0;
-		wheelChair_powered = 0;
-		
-		pushChair = 0;
-		skateboard = 0;
-		manualScooter = 0;
-		
-		northWest = 0;
-		north = 0;
-		northEast = 0;
-		west = 0;
-		east = 0;
-		southWest = 0;
-		south = 0;
-		southEast = 0;
+		initialisePedestrian();
+		initialiseCrutches();
+		initialiseCane();
+		initialiseDog();
+		initialisePushchair();
+		initialiseScooter();
+		initialiseWheelchair();
+		initialiseSkateboard();
+		initialiseDirectionTotal();
 		
 //		lastSelectedCounts[1] = pedestrian;
 //		lastSelectedObjects[1] = currentlySelectedObject;
@@ -160,6 +172,201 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	private void initialiseDirectionFromTo(){
 		directionTo = null;
 		directionFrom = null;
+	}
+	
+	private void initialiseBus(){
+		bus = 0;
+		busNorthWest = 0;
+		busNorth = 0;
+		busNorthEast = 0;
+		busEast = 0;
+		busWest = 0;
+		busSouthWest = 0;
+		busSouth = 0;
+		busSouthEast = 0;
+	}
+	
+	private void initialiseCar(){
+		car = 0;
+		carNorthWest = 0;
+		carNorth = 0;
+		carNorthEast = 0;
+		carEast = 0;
+		carWest = 0;
+		carSouthWest = 0;
+		carSouth = 0;
+		carSouthEast = 0;
+	}
+
+	private void initialiseTruck(){
+		truck = 0;
+		truckNorthWest = 0;
+		truckNorth = 0;
+		truckNorthEast = 0;
+		truckEast = 0;
+		truckWest = 0;
+		truckSouthWest = 0;
+		truckSouth = 0;
+		truckSouthEast = 0;
+	}
+
+	private void initialiseMotorBike(){
+		motorBike = 0;
+		motorbikeNorthWest = 0;
+		motorbikeNorth = 0;
+		motorbikeNorthEast = 0;
+		motorbikeEast = 0;
+		motorbikeWest = 0;
+		motorbikeSouthWest = 0;
+		motorbikeSouth = 0;
+		motorbikeSouthEast = 0;
+	}
+
+	private void initialisePedestrian(){
+		pedestrian = 0;
+		pedestrianNorthWest = 0;
+		pedestrianNorth = 0;
+		pedestrianNorthEast = 0;
+		pedestrianEast = 0;
+		pedestrianWest = 0;
+		pedestrianSouthWest = 0;
+		pedestrianSouth = 0;
+		pedestrianSouthEast = 0;
+	}
+
+	private void initialiseCrutches(){
+		crutches_1 = 0;
+		crutches1NorthWest = 0;
+		crutches1North = 0;
+		crutches1NorthEast = 0;
+		crutches1East = 0;
+		crutches1West = 0;
+		crutches1SouthWest = 0;
+		crutches1South = 0;
+		crutches1SouthEast = 0;
+		
+		crutches_2 = 0;
+		crutches2NorthWest = 0;
+		crutches2North = 0;
+		crutches2NorthEast = 0;
+		crutches2East = 0;
+		crutches2West = 0;
+		crutches2SouthWest = 0;
+		crutches2South = 0;
+		crutches2SouthEast = 0;
+	}
+
+	private void initialiseCane(){
+		cane = 0;
+		caneNorthWest = 0;
+		caneNorth = 0;
+		caneNorthEast = 0;
+		caneEast = 0;
+		caneWest = 0;
+		caneSouthWest = 0;
+		caneSouth = 0;
+		caneSouthEast = 0;
+	}
+
+	private void initialiseDog(){
+		dog = 0;
+		dogNorthWest = 0;
+		dogNorth = 0;
+		dogNorthEast = 0;
+		dogEast = 0;
+		dogWest = 0;
+		dogSouthWest = 0;
+		dogSouth = 0;
+		dogSouthEast = 0;
+	}
+	
+	private void initialiseScooter(){
+		mobilityScooter= 0;
+		mobilityscooterNorthWest = 0;
+		mobilityscooterNorth = 0;
+		mobilityscooterNorthEast = 0;
+		mobilityscooterEast = 0;
+		mobilityscooterWest = 0;
+		mobilityscooterSouthWest = 0;
+		mobilityscooterSouth = 0;
+		mobilityscooterSouthEast = 0;
+		
+		manualScooter= 0;
+		manualscooterNorthWest = 0;
+		manualscooterNorth = 0;
+		manualscooterNorthEast = 0;
+		manualscooterEast = 0;
+		manualscooterWest = 0;
+		manualscooterSouthWest = 0;
+		manualscooterSouth = 0;
+		manualscooterSouthEast = 0;
+	}
+
+	private void initialiseWheelchair(){
+		wheelChair_assisted = 0;
+		wheelchair_assistedNorthWest = 0;
+		wheelchair_assistedNorth = 0;
+		wheelchair_assistedNorthEast = 0;
+		wheelchair_assistedEast = 0;
+		wheelchair_assistedWest = 0;
+		wheelchair_assistedSouthWest = 0;
+		wheelchair_assistedSouth = 0;
+		wheelchair_assistedSouthEast = 0;
+		
+		wheelChair_manual = 0;
+		wheelchair_manualNorthWest = 0;
+		wheelchair_manualNorth = 0;
+		wheelchair_manualNorthEast = 0;
+		wheelchair_manualEast = 0;
+		wheelchair_manualWest = 0;
+		wheelchair_manualSouthWest = 0;
+		wheelchair_manualSouth = 0;
+		wheelchair_manualSouthEast = 0;
+		
+		wheelChair_powered = 0;
+		wheelchair_poweredNorthWest = 0;
+		wheelchair_poweredNorth = 0;
+		wheelchair_poweredNorthEast = 0;
+		wheelchair_poweredEast = 0;
+		wheelchair_poweredWest = 0;
+		wheelchair_poweredSouthWest = 0;
+		wheelchair_poweredSouth = 0;
+		wheelchair_poweredSouthEast = 0;
+	}
+
+	private void initialisePushchair(){
+		pushChair = 0;
+		pushchairNorthWest = 0;
+		pushchairNorth = 0;
+		pushchairNorthEast = 0;
+		pushchairEast = 0;
+		pushchairWest = 0;
+		pushchairSouthWest = 0;
+		pushchairSouth = 0;
+		pushchairSouthEast = 0;
+	}
+
+	private void initialiseSkateboard(){
+		skateboard = 0;
+		skateboardNorthWest = 0;
+		skateboardNorth = 0;
+		skateboardNorthEast = 0;
+		skateboardEast = 0;
+		skateboardWest = 0;
+		skateboardSouthWest = 0;
+		skateboardSouth = 0;
+		skateboardSouthEast = 0;
+	}
+	
+	private void initialiseDirectionTotal(){
+		northWestTotal = 0;
+		northTotal = 0;
+		northEastTotal = 0;
+		westTotal = 0;
+		eastTotal = 0;
+		southWestTotal = 0;
+		southTotal = 0;
+		southEastTotal = 0;
 	}
 	
 	private void defaultPedestrian(){
@@ -894,37 +1101,37 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 */
 	private void updateDirectionCount(){
 		if(directionTo.contains("North-West")){
-			northWest++;
-			Toast.makeText(this, "North-West: " + northWest, Toast.LENGTH_SHORT).show();
-			btn_direction_nw.setText("North-West (" + northWest + ")");
+			northWestTotal++;
+			Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionTo.contains("North-East")){
-			northEast++;
-			Toast.makeText(this, "North-East: " + northEast, Toast.LENGTH_SHORT).show();
-			btn_direction_ne.setText("North-East (" + northEast + ")");
+			northEastTotal++;
+			Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionTo.contains("South-West")){
-			southWest++;
-			Toast.makeText(this, "South-West: " + southWest, Toast.LENGTH_SHORT).show();
-			btn_direction_sw.setText("South-West (" + southWest + ")");
+			southWestTotal++;
+			Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionTo.contains("South-East")){
-			southEast++;
-			Toast.makeText(this, "South-East: " + southEast, Toast.LENGTH_SHORT).show();
-			btn_direction_se.setText("South-East (" + southEast + ")");
+			southEastTotal++;
+			Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionTo.contains("North")){
-			north++;
-			Toast.makeText(this, "North: " + north, Toast.LENGTH_SHORT).show();
-			btn_direction_n.setText("North (" + north + ")");
+			northTotal++;
+			Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionTo.contains("East")){
-			east++;
-			Toast.makeText(this, "East: " + east, Toast.LENGTH_SHORT).show();
-			btn_direction_e.setText("East (" + east + ")");
+			eastTotal++;
+			Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionTo.contains("South")){
-			south++;
-			Toast.makeText(this, "South: " + south, Toast.LENGTH_SHORT).show();
-			btn_direction_s.setText("South (" + south + ")");
+			southTotal++;
+			Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionTo.contains("West")){
-			west++;
-			Toast.makeText(this, "West: " + west, Toast.LENGTH_SHORT).show();
-			btn_direction_w.setText("West (" + west + ")");
+			westTotal++;
+			Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+			btn_direction_w.setText("West (" + westTotal + ")");
 		}
 	}
 	
