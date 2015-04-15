@@ -1097,41 +1097,829 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	}
 	
 	/*
-	 * This method is used to increment the value of where the pedestrian/vehicle went.
+	 * This method is used to increment the total and individual value of the pedestrian/vehicle counts that went a certain direction.
 	 */
 	private void updateDirectionCount(){
-		if(directionTo.contains("North-West")){
-			northWestTotal++;
-			Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
-		}else if(directionTo.contains("North-East")){
-			northEastTotal++;
-			Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
-		}else if(directionTo.contains("South-West")){
-			southWestTotal++;
-			Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
-		}else if(directionTo.contains("South-East")){
-			southEastTotal++;
-			Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
-		}else if(directionTo.contains("North")){
-			northTotal++;
-			Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_n.setText("North (" + northTotal + ")");
-		}else if(directionTo.contains("East")){
-			eastTotal++;
-			Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_e.setText("East (" + eastTotal + ")");
-		}else if(directionTo.contains("South")){
-			southTotal++;
-			Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_s.setText("South (" + southTotal + ")");
-		}else if(directionTo.contains("West")){
-			westTotal++;
-			Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
-			btn_direction_w.setText("West (" + westTotal + ")");
+		switch (currentlySelectedObject) {
+		case "Bus":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				busNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Bus: " + busNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				busNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Bus: " + busNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				busSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Bus: " + busSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				busSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Bus: " + busSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				busNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Bus: " + busNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				busEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Bus: " + busEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				busSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Bus: " + busSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				busWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Bus: " + busWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Truck":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				truckWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Truck: " + truckNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				truckNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Truck: " + truckNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				truckSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Truck: " + truckSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				truckSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Truck: " + truckSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				truckNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Truck: " + truckNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				truckEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Truck: " + truckEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				truckSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Truck: " + truckSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				truckWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Truck: " + truckWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Car":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				carNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Car: " + carNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				carNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Car: " + carNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				carSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Car: " + carSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				carSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Car: " + carSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				carNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Car: " + carNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				carEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Car: " + carEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				carSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Car: " + carSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				carWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Car: " + carWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Motor Bike":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				motorbikeNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-MotorBike: " + motorbikeNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				motorbikeNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-MotorBike: " + motorbikeNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				motorbikeSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-MotorBike: " + motorbikeSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				motorbikeSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-MotorBike: " + motorbikeSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				motorbikeNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-MotorBike: " + motorbikeNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				motorbikeEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-MotorBike: " + motorbikeEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				motorbikeSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-MotorBike: " + motorbikeSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				motorbikeWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-MotorBike: " + motorbikeWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Pedestrian (No Aid)":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				pedestrianNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Pedestrian: " + pedestrianNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				pedestrianNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Pedestrian: " + pedestrianNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				pedestrianSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Pedestrian: " + pedestrianSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				pedestrianSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+				Toast.makeText(this, "South-East-Pedestrian: " + pedestrianSouthEast, Toast.LENGTH_SHORT).show();
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				pedestrianNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Pedestrian: " + pedestrianNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				pedestrianEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Pedestrian: " + pedestrianEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				pedestrianSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Pedestrian: " + pedestrianSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				pedestrianWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Pedestrian: " + pedestrianWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Cane (Poor Eyesight)":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				caneNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Cane: " + caneNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				caneNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Cane: " + caneNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				caneSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Cane: " + caneSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				caneSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Cane: " + caneSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				caneNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Cane: " + caneNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				caneEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Cane: " + caneEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				caneSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Cane: " + caneSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				caneWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Cane: " + caneWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Guide Dog":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				dogNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Dog: " + dogNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				dogNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Dog: " + dogNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				dogSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Dog: " + dogSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				dogSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Dog: " + dogSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				dogNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Dog: " + dogNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				dogEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Dog: " + dogEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				dogSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Dog: " + dogSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				dogWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Dog: " + dogWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Mobility Scooter":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				mobilityscooterNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-MobilityScooter: " + mobilityscooterNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				mobilityscooterNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-MobilityScooter: " + mobilityscooterNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				mobilityscooterSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-MobilityScooter: " + mobilityscooterSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				mobilityscooterSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-MobilityScooter: " + mobilityscooterSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				mobilityscooterNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-MobilityScooter: " + mobilityscooterNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				mobilityscooterEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-MobilityScooter: " + mobilityscooterEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				mobilityscooterSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-MobilityScooter: " + mobilityscooterSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				mobilityscooterWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-MobilityScooter: " + mobilityscooterWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Walking Stick / Crutch (1)":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				crutches1NorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Crutches1: " + crutches1NorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				crutches1NorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Crutches1: " + crutches1NorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				crutches1SouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Crutches1: " + crutches1SouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				crutches1SouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Crutches1: " + crutches1SouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				crutches1North++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Crutches1: " + crutches1North, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				crutches1East++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Crutches1: " + crutches1East, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				crutches1South++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Crutches1: " + crutches1South, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				crutches1West++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Crutches1: " + crutches1West, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Walking Sticks / Crutches (2)":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				crutches2NorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Crutches2: " + crutches2NorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				crutches2NorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Crutches2: " + crutches2NorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				crutches2SouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Crutches2: " + crutches2SouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				crutches2SouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Crutches2: " + crutches2SouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				crutches2North++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Crutches2: " + crutches2North, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				crutches2East++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Crutches2: " + crutches2East, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				crutches2South++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Crutches2: " + crutches2South, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				crutches2West++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Crutches2: " + crutches2West, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Wheel Chair (Assisted)":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				wheelchair_assistedNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-WheelChairAssisted: " + wheelchair_assistedNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				wheelchair_assistedNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-WheelChairAssisted: " + wheelchair_assistedNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				wheelchair_assistedSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-WheelChairAssisted: " + wheelchair_assistedSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				wheelchair_assistedSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-WheelChairAssisted: " + wheelchair_assistedSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				wheelchair_assistedNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-WheelChairAssisted: " + wheelchair_assistedNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				wheelchair_assistedEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-WheelChairAssisted: " + wheelchair_assistedEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				wheelchair_assistedSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-WheelChairAssisted: " + wheelchair_assistedSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				wheelchair_assistedWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-WheelChairAssisted: " + wheelchair_assistedWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Wheel Chair (Manual)":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				wheelchair_manualNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-WheelChairManual: " + wheelchair_manualNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				wheelchair_manualNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-WheelChairManual: " + wheelchair_manualNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				wheelchair_manualSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-WheelChairManual: " + wheelchair_manualSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				wheelchair_manualSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-WheelChairManual: " + wheelchair_manualSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				wheelchair_manualNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-WheelChairManual: " + wheelchair_manualNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				wheelchair_manualEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-WheelChairManual: " + wheelchair_manualEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				wheelchair_manualSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-WheelChairManual: " + wheelchair_manualSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				wheelchair_manualWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-WheelChairManual: " + wheelchair_manualWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Wheel Chair (Powered)":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				wheelchair_poweredNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-WheelChairPowered: " + wheelchair_poweredNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				wheelchair_poweredNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-WheelChairPowered: " + wheelchair_poweredNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				wheelchair_poweredSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-WheelChairPowered: " + wheelchair_poweredSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				wheelchair_poweredSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-WheelChairPowered: " + wheelchair_poweredSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				wheelchair_poweredNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-WheelChairPowered: " + wheelchair_poweredNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				wheelchair_poweredEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-WheelChairPowered: " + wheelchair_poweredEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				wheelchair_poweredSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-WheelChairPowered: " + wheelchair_poweredSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				wheelchair_poweredWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-WheelChairPowered: " + wheelchair_poweredWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Push Chair / Buggy":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				pushchairNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-PushChair: " + pushchairNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				pushchairNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-PushChair: " + pushchairNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				pushchairSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-PushChair: " + pushchairSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				pushchairSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-PushChair: " + pushchairSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				pushchairNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-PushChair: " + pushchairNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				pushchairEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-PushChair: " + pushchairEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				pushchairSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-PushChair: " + pushchairSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				pushchairWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-PushChair: " + pushchairWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Skateboard":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				skateboardNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-Skateboard: " + skateboardNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				skateboardNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-Skateboard: " + skateboardNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				skateboardSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-Skateboard: " + skateboardSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				skateboardSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-Skateboard: " + skateboardSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				skateboardNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-Skateboard: " + skateboardNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				skateboardEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-Skateboard: " + skateboardEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				skateboardSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-Skateboard: " + skateboardSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				skateboardWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-Skateboard: " + skateboardWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		case "Manual Scooter":
+			if(directionTo.contains("North-West")){
+				northWestTotal++;
+				manualscooterNorthWest++;
+				Toast.makeText(this, "North-West: " + northWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-West-ManualScooter: " + manualscooterNorthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}else if(directionTo.contains("North-East")){
+				northEastTotal++;
+				manualscooterNorthEast++;
+				Toast.makeText(this, "North-East: " + northEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-East-ManualScooter: " + manualscooterNorthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}else if(directionTo.contains("South-West")){
+				southWestTotal++;
+				manualscooterSouthWest++;
+				Toast.makeText(this, "South-West: " + southWestTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-West-ManualScooter: " + manualscooterSouthWest, Toast.LENGTH_SHORT).show();
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}else if(directionTo.contains("South-East")){
+				southEastTotal++;
+				manualscooterSouthEast++;
+				Toast.makeText(this, "South-East: " + southEastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-East-ManualScooter: " + manualscooterSouthEast, Toast.LENGTH_SHORT).show();
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}else if(directionTo.contains("North")){
+				northTotal++;
+				manualscooterNorth++;
+				Toast.makeText(this, "North: " + northTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "North-ManualScooter: " + manualscooterNorth, Toast.LENGTH_SHORT).show();
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}else if(directionTo.contains("East")){
+				eastTotal++;
+				manualscooterEast++;
+				Toast.makeText(this, "East: " + eastTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "East-ManualScooter: " + manualscooterEast, Toast.LENGTH_SHORT).show();
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}else if(directionTo.contains("South")){
+				southTotal++;
+				manualscooterSouth++;
+				Toast.makeText(this, "South: " + southTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "South-ManualScooter: " + manualscooterSouth, Toast.LENGTH_SHORT).show();
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}else if(directionTo.contains("West")){
+				westTotal++;
+				manualscooterWest++;
+				Toast.makeText(this, "West: " + westTotal, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "West-ManualScooter: " + manualscooterWest, Toast.LENGTH_SHORT).show();
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+			break;
+		default:
+			Toast.makeText(this, "None of them match", Toast.LENGTH_SHORT).show();
+			break;
 		}
 	}
 	
