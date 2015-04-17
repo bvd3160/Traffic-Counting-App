@@ -2067,14 +2067,37 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			 * Near the town Hall
 			 * 
 			 * Date: 17/12/2017
-			 * TIME, 			CARS, 	BUSES, 	TRUCKS, 	MOTORCYCLES
-			 * 8:00 to 8:15		25		2		13			7
+			 * 					From WEST to SOUTH							From WEST to EAST...
+			 * 
+			 * TIME 			CARS 	BUSES 	TRUCKS	 	MOTORCYCLES		CARS	BUSES...	
+			 * 8:00 to 8:15		25		2		13			7				2		6
 			 */
 			fileWriter.append("Location: " + streetNumandName + 
 					", " + suburbName + ", "+ city +", " + postCode + ", " + "\n" + locDescription +
 					"\n \n");
 			fileWriter.append("Date: " + currentDate + "\n");
-			fileWriter.append("Time, Cars, Buses, Trucks, Motorcycles \n");
+			//Need to write directions From and To -Jean-Yves
+			switch (intersectionType) {
+			case "3 Way Intersection":
+				fileWriter.append(" ,From WEST to EAST, , , , , From WEST to SOUTH, , , , , From SOUTH to WEST, , , , , From SOUTH to EAST, From EAST to SOUTH, , , , From EAST to SOUTH");
+				fileWriter.append("\n \n");
+				fileWriter.append("Time, Cars, Buses, Trucks, Motorcycles, , Cars, Buses, Trucks, Motorcycles, , Cars, Buses, Trucks, Motorcycles, , Cars, Buses, Trucks, Motorcycles, , Cars, Buses, Trucks, Motorcycles ");
+				fileWriter.append("\n");
+				break;
+			case "4 Way Intersection":
+				
+				break;
+			case "5 Way Intersection":
+				
+				break;
+			case "6 Way Intersection":
+				
+				break;
+		
+			default:
+				userMessage("Data not saved!");
+				break;
+			}
 		}
 		
 		//To flush and subsequently close the opened file writer. -Jean-Yves
@@ -2092,7 +2115,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		public void saveDataBasedOnIntersectionType(FileWriter writer) throws IOException {
 			switch (intersectionType) {
 			case "3 Way Intersection":
-				writer.append(sessionStartTime + " TO " + currentTime + "," + "\n");
+				writer.append(sessionStartTime + " TO " + currentTime + ",");
+				writer.append(car+ "," + bus+ "," + truck + "," + motorBike + ",");
+				writer.append("\n");
 				userMessage("Data save complete");
 				break;
 			case "4 Way Intersection":
