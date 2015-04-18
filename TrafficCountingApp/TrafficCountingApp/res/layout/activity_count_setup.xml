@@ -136,15 +136,6 @@
         android:text="@string/intersection_picture"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/textView5"
-        android:text="@string/comments"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
     <Button
         android:id="@+id/addPic"
         style="?android:attr/buttonStyleSmall"
@@ -208,5 +199,35 @@
         android:layout_toLeftOf="@+id/textView4"
         android:text="@string/setDateBtn"
         android:onClick="showDateDialog" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_centerVertical="true"
+        android:text="@string/comments"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/weatherComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignTop="@+id/linearLayout1"
+        android:text="@string/weatherComment_tv" 
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <EditText
+        android:id="@+id/weatherComment_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/weatherComment"
+        android:layout_alignBottom="@+id/weatherComment"
+        android:layout_alignRight="@+id/comments"
+        android:layout_toRightOf="@+id/weatherComment"
+        android:ems="10"
+        android:hint="@string/weatherComment_ET_hint"
+        android:inputType="text" />
 
 </RelativeLayout>

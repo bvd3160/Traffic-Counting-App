@@ -47,9 +47,11 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	TextView intersectionType;
 
 	TextView comments;
+	
+	TextView weatherComment_et;
 
 	private static String sName, theDate, streetNumAndName, suburbName, cityName, areaCode, areaDescript,
-						typeOfIntersection, commentSection;
+						typeOfIntersection, weatherCommentSection, commentSection;
 	
 	static SimpleDateFormat dateForm;
 	static SimpleDateFormat datFileDateForm;
@@ -72,6 +74,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		areaDescription = (TextView) findViewById(R.id.areaDescription);
 		intersectionType = (TextView) findViewById(R.id.intersectionType);
 		selectIntersectionType = (Button) findViewById(R.id.selectIntersection);
+		weatherComment_et = (TextView) findViewById(R.id.weatherComment_et);
 		comments = (TextView) findViewById(R.id.comments);
 		submit = (Button) findViewById(R.id.submit);
 		
@@ -166,6 +169,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 				String areaCode = postCode.getText().toString().trim();
 				String areaDescript = areaDescription.getText().toString().trim();
 				String intersectionKind = intersectionType.getText().toString().trim();
+				String weatherComment = weatherComment_et.getText().toString().trim();
 				String commentArea = comments.getText().toString().trim();
 				//boolean completed = true;
 				
@@ -221,6 +225,13 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					System.out.println("3.4-Area Description: "+getAreaDescript());
 				}else{
 					Toast.makeText(CountSetup.this, "Please provide a Description of the area", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
+				if(!weatherComment.isEmpty()){
+					CountSetup.setWeatherCommentSection(weatherComment);
+					System.out.println("3.5-Weahter Commnent: "+getWeatherCommentSection());
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide a description of current weather conditions", Toast.LENGTH_LONG).show();
 					completed = false;
 				}
 				
@@ -302,6 +313,14 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 
 	public static void setTypeOfIntersection(String typeOfIntersection) {
 		CountSetup.typeOfIntersection = typeOfIntersection;
+	}
+
+	public static String getWeatherCommentSection() {
+		return weatherCommentSection;
+	}
+
+	public static void setWeatherCommentSection(String weatherCommentSection) {
+		CountSetup.weatherCommentSection = weatherCommentSection;
 	}
 
 	public static String getCommentSection() {
