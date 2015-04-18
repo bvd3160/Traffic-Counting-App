@@ -45,6 +45,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			csd_btn_pushchair, csd_btn_skateboard, csd_btn_manualScooter;
 	
 	TextView dialogComments;
+	
 	String comment;
 	
 	String date;

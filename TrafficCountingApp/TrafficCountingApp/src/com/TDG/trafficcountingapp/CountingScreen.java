@@ -104,6 +104,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	TextView txt_currentObject;
 	TextView txt_timer;
 	TextView txt_currentObjectCount;
+	TextView commentViewable;
 	
 	String comments;
 	String currentlySelectedObject;
@@ -123,6 +124,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		comments = getIntent().getStringExtra("Comments");
+		
+		commentViewable = (TextView) findViewById(R.id.tv_commentText);
+		commentViewable.setText(getIntent().getStringExtra("Comments"));
+		
 		intersectionType = getIntent().getStringExtra("IntersectionType");
 		if(intersectionType == null){
 			intersectionType = "No Intersection";

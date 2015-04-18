@@ -98,5 +98,6 @@
     <string name="csi_txt_4way">4 Way</string>
     <string name="csi_txt_5way">5 Way</string>
     <string name="csi_txt_6way">6 Way</string>
+    <string name="tv_commentTextViewable_CS">Your comments will appear here.</string>
     
 </resources>
