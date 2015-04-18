@@ -335,7 +335,7 @@ int id homeAsUp 0x7f09000a
 int id icon 0x7f09002a
 int id ifRoom 0x7f090011
 int id image 0x7f090027
-int id intersectionButton 0x7f09006b
+int id intersectionButton 0x7f09006a
 int id intersectionType 0x7f09004b
 int id linearLayout1 0x7f090045
 int id listMode 0x7f090006
@@ -343,7 +343,7 @@ int id list_item 0x7f090029
 int id loadSpinner 0x7f09006f
 int id middle 0x7f090018
 int id never 0x7f090012
-int id nonIntersectionButton 0x7f09006a
+int id nonIntersectionButton 0x7f09006b
 int id none 0x7f090019
 int id normal 0x7f090007
 int id postcode 0x7f090049

@@ -1,5 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
@@ -9,57 +10,82 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.TDG.trafficcountingapp.MainScreen$PlaceholderFragment" >
 
-    <Button
-        android:id="@+id/nonIntersectionButton"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/grey"
-        android:layout_alignBottom="@+id/intersectionButton"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:textSize="25sp"
-        android:onClick="nonIntersectionCountSetup"
-        android:text="@string/nonIntersectionButton" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/intersectionButton"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/grey"
-        android:textSize="25sp"
-        android:onClick="intersectionCountSetup"
-        android:layout_alignLeft="@+id/aboutButton"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="46dp"
-        android:text="@string/intersectionButton" />
+        <Button
+            android:id="@+id/intersectionButton"
+            android:layout_width="320dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/grey"
+            android:onClick="intersectionCountSetup"
+            android:text="@string/intersectionButton"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
 
-    <Button
-        android:id="@+id/aboutButton"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/grey"
-        android:onClick="about"
-        android:textSize="25sp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/intersectionButton"
-        android:layout_marginLeft="67dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/aboutButton" />
+        <LinearLayout
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/helpButton"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/grey"
-        android:onClick="help"
-        android:textSize="25sp"
-        android:layout_alignBaseline="@+id/aboutButton"
-        android:layout_alignBottom="@+id/aboutButton"
-        android:layout_alignLeft="@+id/nonIntersectionButton"
-        android:text="@string/helpButton" />
+        <Button
+            android:id="@+id/nonIntersectionButton"
+            android:layout_width="320dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/grey"
+            android:onClick="nonIntersectionCountSetup"
+            android:text="@string/nonIntersectionButton"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
 
-</RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/aboutButton"
+            android:layout_width="320dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/grey"
+            android:onClick="about"
+            android:text="@string/aboutButton"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/helpButton"
+            android:layout_width="320dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/grey"
+            android:onClick="help"
+            android:text="@string/helpButton"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

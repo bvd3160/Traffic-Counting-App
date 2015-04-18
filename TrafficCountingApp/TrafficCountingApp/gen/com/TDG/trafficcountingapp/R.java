@@ -1092,7 +1092,7 @@ containing a value of this type.
         public static final int icon=0x7f09002a;
         public static final int ifRoom=0x7f090011;
         public static final int image=0x7f090027;
-        public static final int intersectionButton=0x7f09006b;
+        public static final int intersectionButton=0x7f09006a;
         public static final int intersectionType=0x7f09004b;
         public static final int linearLayout1=0x7f090045;
         public static final int listMode=0x7f090006;
@@ -1100,7 +1100,7 @@ containing a value of this type.
         public static final int loadSpinner=0x7f09006f;
         public static final int middle=0x7f090018;
         public static final int never=0x7f090012;
-        public static final int nonIntersectionButton=0x7f09006a;
+        public static final int nonIntersectionButton=0x7f09006b;
         public static final int none=0x7f090019;
         public static final int normal=0x7f090007;
         public static final int postcode=0x7f090049;
