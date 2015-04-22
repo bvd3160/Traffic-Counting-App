@@ -38,6 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="3dp"
             android:text="@string/csis_n" />
 
         <Button
@@ -45,6 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="3dp"
             android:text="@string/csis_ne" />
     </LinearLayout>
 
@@ -93,6 +95,7 @@
             android:id="@+id/csis_btn_s"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:layout_weight="1"
             android:text="@string/csis_s" />
 
@@ -100,6 +103,7 @@
             android:id="@+id/csis_btn_se"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:layout_weight="1"
             android:text="@string/csis_se" />
     </LinearLayout>

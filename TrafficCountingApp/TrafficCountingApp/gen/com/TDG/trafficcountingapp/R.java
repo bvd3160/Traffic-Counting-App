@@ -990,7 +990,8 @@ containing a value of this type.
         public static final int intersection_5=0x7f02005d;
         public static final int intersection_6=0x7f02005e;
         public static final int small_grey=0x7f02005f;
-        public static final int tdgsplash=0x7f020060;
+        public static final int small_grey_red=0x7f020060;
+        public static final int tdgsplash=0x7f020061;
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f050076;

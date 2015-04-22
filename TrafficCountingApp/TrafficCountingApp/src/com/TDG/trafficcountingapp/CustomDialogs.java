@@ -3,6 +3,7 @@ package com.TDG.trafficcountingapp;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -242,34 +243,42 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		csis_btn_nw = (Button)view.findViewById(R.id.csis_btn_nw);
 		csis_btn_nw.setOnClickListener(this);
 		csis_btn_nw_clicked = false;
+		csis_btn_nw.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_btn_n = (Button)view.findViewById(R.id.csis_btn_n);
 		csis_btn_n.setOnClickListener(this);
 		csis_btn_n_clicked = false;
+		csis_btn_n.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_btn_ne = (Button)view.findViewById(R.id.csis_btn_ne);
 		csis_btn_ne.setOnClickListener(this);
 		csis_btn_ne_clicked = false;
+		csis_btn_ne.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_btn_w = (Button)view.findViewById(R.id.csis_btn_w);
 		csis_btn_w.setOnClickListener(this);
 		csis_btn_w_clicked = false;
+		csis_btn_w.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_btn_e = (Button)view.findViewById(R.id.csis_btn_e);
 		csis_btn_e.setOnClickListener(this);
 		csis_btn_e_clicked = false;
+		csis_btn_e.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_btn_sw = (Button)view.findViewById(R.id.csis_btn_sw);
 		csis_btn_sw.setOnClickListener(this);
 		csis_btn_sw_clicked = false;
+		csis_btn_sw.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_btn_s = (Button)view.findViewById(R.id.csis_btn_s);
 		csis_btn_s.setOnClickListener(this);
 		csis_btn_s_clicked = false;
+		csis_btn_s.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_btn_se = (Button)view.findViewById(R.id.csis_btn_se);
 		csis_btn_se.setOnClickListener(this);
 		csis_btn_se_clicked = false;
+		csis_btn_se.setBackgroundResource(R.drawable.small_grey_red);
 		
 		csis_txt_approachleft = (TextView)view.findViewById(R.id.csis_txt_approachleft);
 		intersectionType = getArguments().getString("intersectionType");
@@ -396,36 +405,60 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	private void checkIntersection(int approachRequired){
 		if(csis_btn_nw.isPressed()){
 			csis_btn_nw_clicked = checkIntersectionClickedButton(csis_btn_nw_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - nw", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "NW Enabled - " + csis_btn_nw_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_nw_clicked){
+				csis_btn_nw.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_nw.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}else if(csis_btn_n.isPressed()){
 			csis_btn_n_clicked = checkIntersectionClickedButton(csis_btn_n_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - n", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "N Enabled - " + csis_btn_n_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_n_clicked){
+				csis_btn_n.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_n.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}else if(csis_btn_ne.isPressed()){
 			csis_btn_ne_clicked = checkIntersectionClickedButton(csis_btn_ne_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - ne", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "NE Enabled - " + csis_btn_ne_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_ne_clicked){
+				csis_btn_ne.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_ne.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}else if(csis_btn_w.isPressed()){
 			csis_btn_w_clicked = checkIntersectionClickedButton(csis_btn_w_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - w", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "W Enabled - " + csis_btn_w_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_w_clicked){
+				csis_btn_w.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_w.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}else if(csis_btn_e.isPressed()){
 			csis_btn_e_clicked = checkIntersectionClickedButton(csis_btn_e_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - e", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "E Enabled - " + csis_btn_e_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_e_clicked){
+				csis_btn_e.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_e.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}else if(csis_btn_sw.isPressed()){
 			csis_btn_sw_clicked = checkIntersectionClickedButton(csis_btn_sw_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - sw", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "SW Enabled - " + csis_btn_sw_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_sw_clicked){
+				csis_btn_sw.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_sw.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}else if(csis_btn_s.isPressed()){
 			csis_btn_s_clicked = checkIntersectionClickedButton(csis_btn_s_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - s", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "S Enabled - " + csis_btn_s_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_s_clicked){
+				csis_btn_s.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_s.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}else if(csis_btn_se.isPressed()){
 			csis_btn_se_clicked = checkIntersectionClickedButton(csis_btn_se_clicked, approachRequired);
-			Toast.makeText(getActivity(), approachRequired + " - se", Toast.LENGTH_SHORT).show();
-			Toast.makeText(getActivity(), "SE Enabled - " + csis_btn_se_clicked, Toast.LENGTH_SHORT).show();
+			if(csis_btn_se_clicked){
+				csis_btn_se.setBackgroundResource(R.drawable.small_grey);
+			}else{
+				csis_btn_se.setBackgroundResource(R.drawable.small_grey_red);
+			}
 		}
 		
 		if(approachRequired == intersectionCount && csis_btn_submit.isPressed()){

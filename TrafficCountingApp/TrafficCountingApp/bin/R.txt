@@ -235,7 +235,8 @@ int drawable intersection_4 0x7f02005c
 int drawable intersection_5 0x7f02005d
 int drawable intersection_6 0x7f02005e
 int drawable small_grey 0x7f02005f
-int drawable tdgsplash 0x7f020060
+int drawable small_grey_red 0x7f020060
+int drawable tdgsplash 0x7f020061
 int id RelativeLayout1 0x7f050076
 int id TextView02 0x7f050040
 int id aboutButton 0x7f05006f
