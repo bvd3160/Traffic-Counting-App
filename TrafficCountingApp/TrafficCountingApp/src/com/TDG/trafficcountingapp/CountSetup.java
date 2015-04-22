@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 public class CountSetup extends ActionBarActivity implements Communicator{
 	
+	boolean SKIPCHECKS = true;
+	
 	TextView surveyorName;
 
 	static TextView currentDate;
@@ -58,6 +60,8 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	
 	static Calendar calendar = Calendar.getInstance();
 	Button setDate, selectIntersectionType, submit;
+	
+	boolean[] intersectionPicked;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,10 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		weatherComment_et = (TextView) findViewById(R.id.weatherComment_et);
 		comments = (TextView) findViewById(R.id.comments);
 		submit = (Button) findViewById(R.id.submit);
+		intersectionPicked = new boolean[8];
+		for(int x = 0; x < 8; x++){
+			intersectionPicked[x] = false;
+		}
 		
 		/*
 		 * This block of code will catch the extra sent from MainScreen
@@ -151,13 +159,10 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 			@Override
 			public void onClick(View v) {
 				
-				/*
-				 * For now
-				 */
-				boolean completed = true;
-				if(completed){
+				if(SKIPCHECKS){
 					String commentArea = comments.getText().toString().trim();
 					CountSetup.setCommentSection(commentArea);
+					
 					submitCountScreen(v);
 				}else{
 				
@@ -171,7 +176,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 				String intersectionKind = intersectionType.getText().toString().trim();
 				String weatherComment = weatherComment_et.getText().toString().trim();
 				String commentArea = comments.getText().toString().trim();
-				//boolean completed = true;
+				boolean completed = true;
 				
 				//====CHECKS and SETTING values to variable for later referencing later====
 				
@@ -338,6 +343,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		 */
 		intent.putExtra("Comments", getCommentSection());
 		intent.putExtra("IntersectionType", getTypeOfIntersection());
+		intent.putExtra("IntersectionsPicked", intersectionPicked);
 		startActivityForResult(intent, 1);
 	}
 	
@@ -385,14 +391,32 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		return super.onOptionsItemSelected(item);
 	}
 
+	@SuppressLint("NewApi")
 	@Override
-	public void sendClickMessage(String key, String value) {
+	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue) {
 		if(key.equals("IntersectionType")){
-			CountSetup.setTypeOfIntersection(value);
-			intersectionType.setText(value);
+			CountSetup.setTypeOfIntersection(stringValue);
+			intersectionType.setText(stringValue);
+			FragmentManager manager = getFragmentManager();
+			CustomDialogs dialog = new CustomDialogs();
+			Bundle args = new Bundle();
+			args.putString("intersectionType", getTypeOfIntersection());
+			dialog.setArguments(args);
+			dialog.show(manager, "intersectionSetupDialog");
 		} else if(key.equals("Date")){
-			CountSetup.setTheDate(value);
-			currentDate.setText(value);
+			CountSetup.setTheDate(stringValue);
+			currentDate.setText(stringValue);
+		} else if(key.equals("Intersection Setup")){
+			intersectionPicked = booleanValue;
+			Toast.makeText(CountSetup.this, "Intersection Setup worked", Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 1 " + intersectionPicked[0], Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 2 " + intersectionPicked[1], Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 3 " + intersectionPicked[2], Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 4 " + intersectionPicked[3], Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 5 " + intersectionPicked[4], Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 6 " + intersectionPicked[5], Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 7 " + intersectionPicked[6], Toast.LENGTH_SHORT).show();
+			Toast.makeText(CountSetup.this, "Result 8 " + intersectionPicked[7], Toast.LENGTH_SHORT).show();
 		}
 	}
 }

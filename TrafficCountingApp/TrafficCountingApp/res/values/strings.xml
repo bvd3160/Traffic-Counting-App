@@ -102,4 +102,16 @@
     <string name="weatherComment_tv">Weather</string>
     <string name="weatherComment_ET_hint">Enter the current weather condition</string>
     
+    <!-- Count Setup Intersection Setup Dialog-->
+    <string name="csis_instruction">Please click on the buttons to enable the approach/exit at an intersection</string>
+    <string name="csis_nw">North-West</string>
+    <string name="csis_n">North</string>
+    <string name="csis_ne">North-East</string>
+    <string name="csis_w">West</string>
+    <string name="csis_e">East</string>
+    <string name="csis_sw">South-West</string>
+    <string name="csis_s">South</string>
+    <string name="csis_se">South-East</string>
+    <string name="csis_txt_approachleft">Approaches Left: 0</string>
+    
 </resources>

@@ -110,6 +110,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	String currentlySelectedObject;
 	int currentlySelectedCount;
 	String intersectionType;
+	boolean[] intersectionsPicked;
 	
 	Button btn_direction_nw, btn_direction_n, btn_direction_ne, btn_direction_w,
 	 btn_direction_e, btn_direction_sw, btn_direction_s, btn_direction_se;
@@ -132,6 +133,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(intersectionType == null){
 			intersectionType = "No Intersection";
 		}
+		
+		intersectionsPicked = getIntent().getBooleanArrayExtra("IntersectionsPicked");
 		
 		// Initialises the current counting object to be a car
 		updateCurrentObjectTo("Pedestrian (No Aid)");
@@ -413,110 +416,62 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		switch (intersectionType) {
 		case "3 Way Intersection":
 			countPanel.setImageResource(drawable.intersection_3);			
-			setVisibilityDirectionButtons(setVisibleButtons(3));
-			
 			break;
 		case "4 Way Intersection":
 			countPanel.setImageResource(drawable.intersection_4);
-			setVisibilityDirectionButtons(setVisibleButtons(4));
-			
 			break;
 		case "5 Way Intersection":
 			countPanel.setImageResource(drawable.intersection_5);
-			setVisibilityDirectionButtons(setVisibleButtons(5));
-			
 			break;
 		case "6 Way Intersection":
 			countPanel.setImageResource(drawable.intersection_6);
-			setVisibilityDirectionButtons(setVisibleButtons(6));
-			
 			break;
-	
 		default:
 			countPanel.setVisibility(8);
-			setVisibilityDirectionButtons(setVisibleButtons(0));
 			break;
 		}
+		
+		setVisibilityDirectionButtons();
 	}
 	
 	/*
-	 * This method will do a check to see which button will need to be visible
-	 * depending on which intersection was chosen.
-	 * 
-	 * The way this is set up is that it will follow this rule:
-	 * 
-	 *    0   1   2       NW   N   NE
-	 *    3       4       W         E
-	 *    5   6   7       SW   S   SE
-	 *    
-	 * The above is the number which corresponds to the layout of the button
-	 * 
-	 * @param intersectionWay is how many entrances/exits the intersection has.
+	 * This sets the visibility of the buttons for the directions
+	 * The order of the intersectionPicked boolean array is set to:
+	 * intersectionPicked[0] = North-West
+	 * intersectionPicked[1] = North
+	 * intersectionPicked[2] = North-East
+	 * intersectionPicked[3] = West
+	 * intersectionPicked[4] = East
+	 * intersectionPicked[5] = South-West
+	 * intersectionPicked[6] = South
+	 * intersectionPicked[7] = South-East
 	 */
-	private boolean[] setVisibleButtons(int intersectionWay){
-		boolean[] visibleButtons = new boolean [8];
-		
-		for (int i = 0; i < visibleButtons.length; i++) {
-			visibleButtons[i] = false;
-		}
-		
-		if(intersectionWay == 3){
-			visibleButtons[3] = true;
-			visibleButtons[4] = true;
-			visibleButtons[6] = true;
-		}else if(intersectionWay == 4){
-			visibleButtons[1] = true;
-			visibleButtons[3] = true;
-			visibleButtons[4] = true;
-			visibleButtons[6] = true;
-		}else if(intersectionWay == 5){
-			visibleButtons[1] = true;
-			visibleButtons[3] = true;
-			visibleButtons[4] = true;
-			visibleButtons[6] = true;
-			visibleButtons[7] = true;
-		}else if(intersectionWay == 6){
-			visibleButtons[0] = true;
-			visibleButtons[1] = true;
-			visibleButtons[2] = true;
-			visibleButtons[5] = true;
-			visibleButtons[6] = true;
-			visibleButtons[7] = true;
-		}
-		
-		return visibleButtons;
-	}
-	
-	/*
-	 * This method will set whether it will be visible or not.
-	 * 
-	 * @param visibleButtons has an array of booleans.
-	 * If the value is true, the button will be visible. Otherwise, it will be not visible.
-	 */
-	private void setVisibilityDirectionButtons(boolean[] visibleButtons){
-		if(!visibleButtons[0]){
-			btn_direction_nw.setVisibility(4);
-		}
-		if(!visibleButtons[1]){
-			btn_direction_n.setVisibility(4);
-		}
-		if(!visibleButtons[2]){
-			btn_direction_ne.setVisibility(4);
-		}
-		if(!visibleButtons[3]){
-			btn_direction_w.setVisibility(4);
-		}
-		if(!visibleButtons[4]){
-			btn_direction_e.setVisibility(4);
-		}
-		if(!visibleButtons[5]){
-			btn_direction_sw.setVisibility(4);
-		}
-		if(!visibleButtons[6]){
-			btn_direction_s.setVisibility(4);
-		}
-		if(!visibleButtons[7]){
-			btn_direction_se.setVisibility(4);
+	private void setVisibilityDirectionButtons(){
+		if(!intersectionType.equals("No Intersection")){
+			if(!intersectionsPicked[0]){
+				btn_direction_nw.setVisibility(4);
+			}
+			if(!intersectionsPicked[1]){
+				btn_direction_n.setVisibility(4);
+			}
+			if(!intersectionsPicked[2]){
+				btn_direction_ne.setVisibility(4);
+			}
+			if(!intersectionsPicked[3]){
+				btn_direction_w.setVisibility(4);
+			}
+			if(!intersectionsPicked[4]){
+				btn_direction_e.setVisibility(4);
+			}
+			if(!intersectionsPicked[5]){
+				btn_direction_sw.setVisibility(4);
+			}
+			if(!intersectionsPicked[6]){
+				btn_direction_s.setVisibility(4);
+			}
+			if(!intersectionsPicked[7]){
+				btn_direction_se.setVisibility(4);
+			}
 		}
 	}
 
@@ -873,12 +828,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * CountingScreen class.
 	 */
 	@Override
-	public void sendClickMessage(String key, String value) {
+	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue) {
 		if(!key.equals("Comment")){
-			updateCurrentObjectTo(value);
-			updateCurrentlySelectedObject(getCurrentObjectCount(value));
+			updateCurrentObjectTo(stringValue);
+			updateCurrentlySelectedObject(getCurrentObjectCount(stringValue));
 		}else{
-			comments = value;
+			comments = stringValue;
 		}
 	}
 	
