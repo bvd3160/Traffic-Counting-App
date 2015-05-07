@@ -73,6 +73,7 @@
     <string name="cs_btn_direction_sw">South-West</string>
     <string name="cs_btn_direction_s">South</string>
     <string name="cs_btn_direction_se">South-East</string>
+    <string name="cs_btn_intersection_name">Add/Change Intersection Name</string>
     
     <!-- Counting Screen Dialog -->
     <string name="title_activity_counting_screen__dialog">CountingScreen_Dialog</string>
@@ -113,5 +114,16 @@
     <string name="csis_s">South</string>
     <string name="csis_se">South-East</string>
     <string name="csis_txt_approachleft">Approaches Left: 0</string>
+    
+    <!-- Coutning Screen Intersection Name Changer -->
+    <string name="csn_txt_instructions">Please insert the name of the street below</string>
+    <string name="csn_txt_nw">North-West</string>
+    <string name="csn_txt_n">North</string>
+    <string name="csn_txt_ne">North-East</string>
+    <string name="csn_txt_w">West</string>
+    <string name="csn_txt_e">East</string>
+    <string name="csn_txt_sw">South-West</string>
+    <string name="csn_txt_s">South</string>
+    <string name="csn_txt_se">South-East</string>
     
 </resources>

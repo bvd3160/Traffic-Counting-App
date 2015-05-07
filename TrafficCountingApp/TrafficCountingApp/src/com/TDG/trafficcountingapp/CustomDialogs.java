@@ -29,19 +29,20 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	Button csc_btn_submit;
 	Button csda_btn_submit;
 	Button csis_btn_submit;
+	Button csn_btn_submit;
 	
 	boolean csi_intersections = false;
 	boolean csd_countObjects = false;
 	boolean csd_countObjects_vehicles = false;
 	boolean csda_date = false;
 	boolean csc_comments = false;
+	boolean csn_intersection_name_picker = false;
 	boolean csis_intersection_setup = false;
 	
 	Button csi_btn_intersection3,csi_btn_intersection4,
 			csi_btn_intersection5,csi_btn_intersection6;
 	
 	Button csd_btn_bus, csd_btn_truck, csd_btn_car, csd_btn_motorBike ,
-	
 			csd_btn_pedestrian, csd_btn_crutches_1, csd_btn_crutches_2, 
 			csd_btn_cane, csd_btn_dog, csd_btn_mobilityScooter, 
 			csd_btn_wheelChair_assisted, csd_btn_wheelChair_manual, csd_btn_wheelChair_powered, 
@@ -49,8 +50,16 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	
 	Button csis_btn_nw, csis_btn_n, csis_btn_ne, csis_btn_w, csis_btn_e, csis_btn_sw,
 			csis_btn_s, csis_btn_se;
+	
 	boolean csis_btn_nw_clicked, csis_btn_n_clicked, csis_btn_ne_clicked, csis_btn_w_clicked,
 			csis_btn_e_clicked, csis_btn_sw_clicked, csis_btn_s_clicked, csis_btn_se_clicked;
+
+	TextView csn_txtfield_nw, csn_txtfield_n, csn_txtfield_ne, csn_txtfield_w, 
+			csn_txtfield_e, csn_txtfield_sw, csn_txtfield_s, csn_txtfield_se;
+	
+	boolean[] intersectionsPicked;
+	String[] intersectionNames;
+	
 	TextView csis_txt_approachleft;
 	String intersectionType;
 	int intersectionCount;
@@ -96,6 +105,10 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			break;
 		case "intersectionSetupDialog":
 			view = populateIntersectionSetupDialog(inflater);
+			break;
+		case "intersectionNamePicker":
+			view = populateIntersectionNamePicker(inflater);
+			break;
 		default:
 			break;
 		}
@@ -112,7 +125,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		if(btn_close != null){
 			if(view.getId() == btn_close.getId()){
 				dismiss();
-			}else if(csi_intersections){
+			} else if(csi_intersections){
 				onClickIntersection(view);
 			} else if(csd_countObjects){
 				onClickCountObjects(view);
@@ -120,6 +133,8 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 				onClickDate(view);
 			} else if(csc_comments){
 				onClickComments(view);
+			} else if(csn_intersection_name_picker){
+				onClickIntersectionNamePicker(view);
 			}
 		}else{
 			if(csis_intersection_setup){
@@ -289,6 +304,60 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		return view;
 	}
 	
+	private View populateIntersectionNamePicker(LayoutInflater inflater){
+		View view = inflater.inflate(R.layout.dialog_counting_screen_intersection_name, null);
+		getDialog().setTitle("Intersection Name Changer");
+		btn_close = (Button)view.findViewById(R.id.csn_btn_close);
+		csn_intersection_name_picker = true;
+		csn_btn_submit = (Button)view.findViewById(R.id.csn_btn_submit);
+		csn_btn_submit.setOnClickListener(this);
+		intersectionsPicked = getArguments().getBooleanArray("IntersectionsPicked");
+		
+		intersectionNames = new String[8];
+		view.findViewById(R.id.csn_txt_middle).setVisibility(4);
+		
+		csn_txtfield_nw = (TextView)view.findViewById(R.id.csn_txtfield_nw);
+		csn_txtfield_n = (TextView)view.findViewById(R.id.csn_txtfield_n);
+		csn_txtfield_ne = (TextView)view.findViewById(R.id.csn_txtfield_ne);
+		csn_txtfield_w = (TextView)view.findViewById(R.id.csn_txtfield_w);
+		csn_txtfield_e = (TextView)view.findViewById(R.id.csn_txtfield_e);
+		csn_txtfield_sw = (TextView)view.findViewById(R.id.csn_txtfield_sw);
+		csn_txtfield_s = (TextView)view.findViewById(R.id.csn_txtfield_s);
+		csn_txtfield_se = (TextView)view.findViewById(R.id.csn_txtfield_se);
+		
+		for(int x = 0; x < intersectionsPicked.length; x++){
+			if(!intersectionsPicked[x]){
+				if(x == 0){
+					view.findViewById(R.id.csn_txt_nw).setVisibility(4);
+					csn_txtfield_nw.setVisibility(4);
+				}else if(x == 1){
+					view.findViewById(R.id.csn_txt_n).setVisibility(4);
+					csn_txtfield_n.setVisibility(4);					
+				}else if(x == 2){
+					view.findViewById(R.id.csn_txt_ne).setVisibility(4);
+					csn_txtfield_ne.setVisibility(4);
+				}else if(x == 3){
+					view.findViewById(R.id.csn_txt_w).setVisibility(4);
+					csn_txtfield_w.setVisibility(4);
+				}else if(x == 4){
+					view.findViewById(R.id.csn_txt_e).setVisibility(4);
+					csn_txtfield_e.setVisibility(4);
+				}else if(x == 5){
+					view.findViewById(R.id.csn_txt_sw).setVisibility(4);
+					csn_txtfield_sw.setVisibility(4);
+				}else if(x == 6){
+					view.findViewById(R.id.csn_txt_s).setVisibility(4);
+					csn_txtfield_s.setVisibility(4);
+				}else if(x == 7){
+					view.findViewById(R.id.csn_txt_se).setVisibility(4);
+					csn_txtfield_se.setVisibility(4);
+				}
+			}
+		}
+		
+		return view;
+	}
+	
 	////////////////////////////////////////////////////////////
 	// End of Populate methods
 	////////////////////////////////////////////////////////////
@@ -299,13 +368,13 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	
 	private void onClickIntersection(View view){
 		if(view.getId() == csi_btn_intersection3.getId()){
-			useCommunicator("IntersectionType", "3 Way Intersection", null);
+			useCommunicator("IntersectionType", "3 Way Intersection", null, null);
 		}else if(view.getId() == csi_btn_intersection4.getId()){
-			useCommunicator("IntersectionType", "4 Way Intersection", null);
+			useCommunicator("IntersectionType", "4 Way Intersection", null, null);
 		}else if(view.getId() == csi_btn_intersection5.getId()){
-			useCommunicator("IntersectionType", "5 Way Intersection", null);
+			useCommunicator("IntersectionType", "5 Way Intersection", null, null);
 		}else if(view.getId() == csi_btn_intersection6.getId()){
-			useCommunicator("IntersectionType", "6 Way Intersection", null);
+			useCommunicator("IntersectionType", "6 Way Intersection", null, null);
 		}
 	}
 	
@@ -319,41 +388,41 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	
 	private void onClickCountObjectsVehicles(View view){
 		if(view.getId() == csd_btn_bus.getId()){
-			useCommunicator("Bus", "Bus", null);
+			useCommunicator("Bus", "Bus", null, null);
 		}else if(view.getId() == csd_btn_truck.getId()){
-			useCommunicator("Truck", "Truck", null);
+			useCommunicator("Truck", "Truck", null, null);
 		}else if(view.getId() == csd_btn_car.getId()){
-			useCommunicator("Car", "Car", null);
+			useCommunicator("Car", "Car", null, null);
 		}else if(view.getId() == csd_btn_motorBike.getId()){
-			useCommunicator("Motor Bike", "Motor Bike", null);
+			useCommunicator("Motor Bike", "Motor Bike", null, null);
 		}
 	}
 	
 	private void onClickCountObjectsPedestrians(View view){
 		if(view.getId() == csd_btn_pedestrian.getId()){
-			useCommunicator("Pedestrian", "Pedestrian (No Aid)", null);
+			useCommunicator("Pedestrian", "Pedestrian (No Aid)", null, null);
 		}else if(view.getId() == csd_btn_cane.getId()){
-			useCommunicator("Cane", "Cane (Poor Eyesight)", null);
+			useCommunicator("Cane", "Cane (Poor Eyesight)", null, null);
 		}else if(view.getId() == csd_btn_dog.getId()){
-			useCommunicator("Dog", "Guide Dog", null);
+			useCommunicator("Dog", "Guide Dog", null, null);
 		}else if(view.getId() == csd_btn_mobilityScooter.getId()){
-			useCommunicator("Mobility Scooter", "Mobility Scooter", null);
+			useCommunicator("Mobility Scooter", "Mobility Scooter", null, null);
 		}else if(view.getId() == csd_btn_crutches_1.getId()){
-			useCommunicator("Crutches_1", "Walking Stick / Crutch (1)", null);
+			useCommunicator("Crutches_1", "Walking Stick / Crutch (1)", null, null);
 		}else if(view.getId() == csd_btn_crutches_2.getId()){
-			useCommunicator("Crutches_2", "Walking Sticks / Crutches (2)", null);
+			useCommunicator("Crutches_2", "Walking Sticks / Crutches (2)", null, null);
 		}else if(view.getId() == csd_btn_wheelChair_assisted.getId()){
-			useCommunicator("Wheel Chair - Assisted", "Wheel Chair (Assisted)", null);
+			useCommunicator("Wheel Chair - Assisted", "Wheel Chair (Assisted)", null, null);
 		}else if(view.getId() == csd_btn_wheelChair_manual.getId()){
-			useCommunicator("Wheel Chair - Manual", "Wheel Chair (Manual)", null);
+			useCommunicator("Wheel Chair - Manual", "Wheel Chair (Manual)", null, null);
 		}else if(view.getId() == csd_btn_wheelChair_powered.getId()){
-			useCommunicator("Wheel Chair - Powered", "Wheel Chair (Powered)", null);
+			useCommunicator("Wheel Chair - Powered", "Wheel Chair (Powered)", null, null);
 		}else if(view.getId() == csd_btn_pushchair.getId()){
-			useCommunicator("Push Chair", "Push Chair / Buggy", null);
+			useCommunicator("Push Chair", "Push Chair / Buggy", null, null);
 		}else if(view.getId() == csd_btn_skateboard.getId()){
-			useCommunicator("Skateboard", "Skateboard", null);
+			useCommunicator("Skateboard", "Skateboard", null, null);
 		}else if(view.getId() == csd_btn_manualScooter.getId()){
-			useCommunicator("Manual Scooter", "Manual Scooter", null);
+			useCommunicator("Manual Scooter", "Manual Scooter", null, null);
 		}
 	}
 	
@@ -369,13 +438,13 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		}
 		
 		date = day + "/" + month + "/" + datePicker.getYear();
-		communicator.sendClickMessage("Date", date, null);
+		communicator.sendClickMessage("Date", date, null, null);
 		dismiss();
 	}
 	
 	private void onClickComments(View view){
 		comment = dialogComments.getText().toString().trim();
-		communicator.sendClickMessage("Comment", comment, null);
+		communicator.sendClickMessage("Comment", comment, null, null);
 		dismiss();
 	}
 	
@@ -471,7 +540,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			result[5] = csis_btn_sw_clicked;
 			result[6] = csis_btn_s_clicked;
 			result[7] = csis_btn_se_clicked;
-			useCommunicator("Intersection Setup", null, result);
+			useCommunicator("Intersection Setup", null, result, null);
 		}
 	}
 	
@@ -491,16 +560,77 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	// End of OnClickIntersectionSetup
 	////////////////////////////////////////////////////////////
 	
+	private void onClickIntersectionNamePicker(View view){
+		if(csn_btn_submit.isPressed()){
+			for(int x = 0; x < intersectionNames.length; x++){
+				if(intersectionsPicked[x]){
+					if(x == 0){
+						if(csn_txtfield_nw.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_nw.getText().toString();
+						}
+					}else if(x == 1){
+						if(csn_txtfield_n.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_n.getText().toString();	
+						}
+					}else if(x == 2){
+						if(csn_txtfield_ne.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_ne.getText().toString();
+						}
+					}else if(x == 3){
+						if(csn_txtfield_w.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_w.getText().toString();
+						}
+					}else if(x == 4){
+						if(csn_txtfield_e.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_e.getText().toString();
+						}
+					}else if(x == 5){
+						if(csn_txtfield_sw.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_sw.getText().toString();
+						}
+					}else if(x == 6){
+						if(csn_txtfield_s.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_s.getText().toString();
+						}
+					}else if(x == 7){
+						if(csn_txtfield_se.getText().toString().equals("")){
+							intersectionNames[x] = null;
+						}else{
+							intersectionNames[x] = csn_txtfield_se.getText().toString();
+						}
+					}
+					//Toast.makeText(getActivity(), x + ": " + intersectionNames[x], Toast.LENGTH_SHORT).show();
+				}	
+			}
+		}
+		
+		useCommunicator("IntersectionNamePicker", null, null, intersectionNames);
+	}
+	
 	////////////////////////////////////////////////////////////
 	// End of onClick methods
 	////////////////////////////////////////////////////////////
 	
 	interface Communicator{
-		public void sendClickMessage(String key, String stringValue, boolean[] booleanValue);
+		public void sendClickMessage(String key, String stringValue, boolean[] booleanArrayValue, String[] stringArrayValue);
 	}
 	
-	private void useCommunicator(String key, String stringValue, boolean[] booleanValue){
-		communicator.sendClickMessage(key, stringValue, booleanValue);
+	private void useCommunicator(String key, String stringValue, boolean[] booleanArrayValue, String[] stringArrayValue){
+		communicator.sendClickMessage(key, stringValue, booleanArrayValue, stringArrayValue);
 		dismiss();
 	}
 }

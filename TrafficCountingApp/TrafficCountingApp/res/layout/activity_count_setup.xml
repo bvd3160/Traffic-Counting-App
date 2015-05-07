@@ -40,7 +40,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/csn_txt_ne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/cs_txt_timer"
@@ -56,7 +56,7 @@
         android:layout_alignLeft="@+id/dateSetup"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/dateSetup"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/csn_txt_ne"
         android:orientation="vertical" >
 
         <EditText
@@ -99,9 +99,9 @@
         android:id="@+id/intersectionType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_toRightOf="@+id/textView4"
+        android:layout_alignBaseline="@+id/csn_txt_w"
+        android:layout_alignBottom="@+id/csn_txt_w"
+        android:layout_toRightOf="@+id/csn_txt_w"
         android:ems="10"
         android:hint="@string/hint_intersection_type" />
 
@@ -109,15 +109,15 @@
         android:id="@+id/surveyorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_toLeftOf="@+id/textView4"
+        android:layout_alignBaseline="@+id/csn_txt_w"
+        android:layout_alignBottom="@+id/csn_txt_w"
+        android:layout_toLeftOf="@+id/csn_txt_w"
         android:ems="10"
         android:hint="@string/hint_full_name"
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/csn_txt_w"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/cov_txt_objectName"
@@ -128,11 +128,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/csn_txt_e"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/dateSetup"
-        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignLeft="@+id/csn_txt_w"
         android:text="@string/intersection_picture"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -162,8 +162,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/submit"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView6"
-        android:layout_toRightOf="@+id/textView6"
+        android:layout_below="@+id/csn_txt_sw"
+        android:layout_toRightOf="@+id/csn_txt_sw"
         android:ems="10"
         android:hint="@string/hint_comments" >
 
@@ -175,7 +175,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView3"
+        android:layout_above="@+id/csn_txt_ne"
         android:layout_alignRight="@+id/comments"
         android:text="@string/btnLbl_remove_picture" />
 
@@ -195,16 +195,16 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_toLeftOf="@+id/textView4"
+        android:layout_alignBottom="@+id/csn_txt_e"
+        android:layout_toLeftOf="@+id/csn_txt_w"
         android:text="@string/setDateBtn"
         android:onClick="showDateDialog" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/csn_txt_sw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignLeft="@+id/csn_txt_e"
         android:layout_centerVertical="true"
         android:text="@string/comments"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -213,7 +213,7 @@
         android:id="@+id/weatherComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignLeft="@+id/csn_txt_sw"
         android:layout_alignTop="@+id/linearLayout1"
         android:text="@string/weatherComment_tv" 
         android:textAppearance="?android:attr/textAppearanceMedium"/>

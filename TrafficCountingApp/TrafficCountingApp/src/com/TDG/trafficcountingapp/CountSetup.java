@@ -99,7 +99,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 			//Toast.makeText(CountSetup.this, clicked, Toast.LENGTH_LONG).show();
 			selectIntersectionType.setVisibility(4);
 			intersectionType.setVisibility(4);
-			findViewById(R.id.textView4).setVisibility(4);
+			findViewById(R.id.csn_txt_w).setVisibility(4);
 		}
 		
 		/*
@@ -393,7 +393,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 
 	@SuppressLint("NewApi")
 	@Override
-	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue) {
+	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue, String[] stringArrayValue) {
 		if(key.equals("IntersectionType")){
 			CountSetup.setTypeOfIntersection(stringValue);
 			intersectionType.setText(stringValue);
@@ -408,15 +408,6 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 			currentDate.setText(stringValue);
 		} else if(key.equals("Intersection Setup")){
 			intersectionPicked = booleanValue;
-			Toast.makeText(CountSetup.this, "Intersection Setup worked", Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 1 " + intersectionPicked[0], Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 2 " + intersectionPicked[1], Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 3 " + intersectionPicked[2], Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 4 " + intersectionPicked[3], Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 5 " + intersectionPicked[4], Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 6 " + intersectionPicked[5], Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 7 " + intersectionPicked[6], Toast.LENGTH_SHORT).show();
-			Toast.makeText(CountSetup.this, "Result 8 " + intersectionPicked[7], Toast.LENGTH_SHORT).show();
 		}
 	}
 }

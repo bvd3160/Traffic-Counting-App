@@ -53,13 +53,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	/*
 	 * An 'Count Object' in this project will be used as the term for the following: (Unless we can find a better name for them) 
 	 * 
-	 * Heavy -> Truck, Bus, Tractor?(Not sure if we count this) 
-	 * Light Vehicle -> Car, Motorbike?(Not sure if we count this)
-	 * Pedestrian -> Pedestrian(Normal), Bike(Only if it crosses using the crossing), Cane, Dog, Medical Aid, Scooter, Other(User needs to specify)
-	 * Medical Aid -> Artificial Limb, Back Brace, Crutches, Leg Brace, Walking Frame, Wheel Chair,
-	 * Back Brace -> Visible, Not Visible, 
-	 * Leg Brace -> Visible, Not Visible,
-	 * Wheel Chair -> Assisted, Manual, Powered,
+	 * Vehicles -> Bus, Car, Truck, Motorbike
+	 * Pedestrian -> Pedestrian(No Aid), Crutches1, Crutches2, Cane, Guide Dog,
+	 * 					Mobility Scooter, Wheelchair(Assisted, Manual, Powered),
+	 * 					Push Chair, Skateboard, Manual Scooter
 	 */
 
 	private static int bus, truck, car, motorBike, 
@@ -384,6 +381,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	int currentlySelectedCount;
 	String intersectionType;
 	boolean[] intersectionsPicked;
+	String[] intersectionPickedNames;
 	
 	Button btn_direction_nw, btn_direction_n, btn_direction_ne, btn_direction_w,
 	 btn_direction_e, btn_direction_sw, btn_direction_s, btn_direction_se;
@@ -444,6 +442,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		initialiseWheelchair();
 		initialiseSkateboard();
 		initialiseDirectionTotal();
+		initialiseIntersectionName();
 		
 //		lastSelectedCounts[1] = pedestrian;
 //		lastSelectedObjects[1] = currentlySelectedObject;
@@ -465,6 +464,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
+	private void initialiseIntersectionName(){
+		intersectionPickedNames = new String[8];
+	}
+	
 	private void initialiseDirectionButtonClicked(){
 		btn_direction_nw_clicked = false;
 		btn_direction_n_clicked = false;
@@ -475,6 +478,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		btn_direction_s_clicked = false;
 		btn_direction_se_clicked =false;
 	}
+	
+	//Methods which initilise the count objects
 	
 	private void initialiseBus(){
 		bus = 0;
@@ -1556,6 +1561,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		southEastToSouthSkateboard = 0;
 	}
 	
+	////////////////////////////////////////////////////////////////////////
+	
 	private void initialiseDirectionTotal(){
 		northWestTotal = 0;
 		northTotal = 0;
@@ -2044,14 +2051,27 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * CountingScreen class.
 	 */
 	@Override
-	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue) {
-		if(!key.equals("Comment")){
+	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue, String[] stringArrayValue) {
+		if(key.equals("IntersectionNamePicker")){
+			intersectionPickedNames = stringArrayValue;
+			updateAllDirectionalButtons();
+		}else if(!key.equals("Comment")){
 			updateCurrentObjectTo(stringValue);
 			updateCurrentlySelectedObject(getCurrentObjectCount(stringValue));
 		}else{
 			comments = stringValue;
 			commentViewable.setText(comments);
 		}
+	}
+	
+	@SuppressLint("NewApi")
+	public void showIntersectionNamePicker(View view){
+		FragmentManager manager = getFragmentManager();
+		CustomDialogs dialog = new CustomDialogs();
+		Bundle args = new Bundle();
+		args.putBooleanArray("IntersectionsPicked", intersectionsPicked);
+		dialog.setArguments(args);
+		dialog.show(manager, "intersectionNamePicker");
 	}
 	
 	@Override
@@ -2192,8 +2212,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			result = true;
 		}
 		
-		Toast.makeText(this, "DirectionFromFound: " + directionFromFound + " || DirectionToFound: " + directionToFound, Toast.LENGTH_SHORT).show();
-		
+//		Toast.makeText(this, "DirectionFromFound: " + directionFromFound + " || DirectionToFound: " + directionToFound, Toast.LENGTH_SHORT).show();
 		
 		return result;
 	}
@@ -2308,7 +2327,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 		
 		if(passed){
-			Toast.makeText(this, currentlySelectedObject + ": " + currentlySelectedCount, Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, currentlySelectedObject + ": " + currentlySelectedCount, Toast.LENGTH_SHORT).show();
 			updateCurrentlySelectedObject(currentlySelectedCount);
 		}
 	}
@@ -2321,6 +2340,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		increaseObjectCount();
 		increaseTotalCount();
 		updateDirectionCount();
+		updateAllDirectionalButtons();
 		initialiseDirectionFromTo();
 		defaultPedestrian();
 		resetDirectionButtonBackground();
@@ -2404,231 +2424,177 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
+	//Methods to check the directionTo and directionFrom of count objects
+	
 	private void checkBus(int directionFromPosition, int directionToPosition){
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthBus++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastBus++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestBus++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastBus++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestBus++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthBus++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastBus++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestBus++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastBus++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestBus++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastBus++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestBus++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthBus++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastBus++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestBus++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthBus++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestBus++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastBus++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestBus++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthBus++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastBus++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestBus++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthBus++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastBus++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastBus++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestBus++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthBus++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastBus++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestBus++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthBus++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastBus++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestBus++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestBus++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthBus++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastBus++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestBus++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthBus++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastBus++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestBus++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastBus++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthBus++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastBus++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestBus++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthBus++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastBus++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestBus++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastBus++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestBus++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastBus++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestBus++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthBus++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastBus++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestBus++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastBus++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestBus++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthBus++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -2636,227 +2602,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCar++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCar++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCar++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCar++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCar++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCar++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCar++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCar++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCar++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCar++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCar++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCar++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCar++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCar++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCar++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCar++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCar++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCar++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCar++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCar++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCar++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCar++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCar++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCar++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCar++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCar++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCar++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCar++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCar++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCar++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCar++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCar++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCar++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCar++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCar++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCar++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCar++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCar++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCar++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCar++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCar++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCar++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCar++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCar++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCar++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCar++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCar++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCar++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCar++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCar++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCar++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCar++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCar++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCar++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCar++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCar++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -2864,227 +2774,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthTruck++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastTruck++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestTruck++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastTruck++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestTruck++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthTruck++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastTruck++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestTruck++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastTruck++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestTruck++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastTruck++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestTruck++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthTruck++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastTruck++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestTruck++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthTruck++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestTruck++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastTruck++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestTruck++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthTruck++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastTruck++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestTruck++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthTruck++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastTruck++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastTruck++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestTruck++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthTruck++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastTruck++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestTruck++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthTruck++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastTruck++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestTruck++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestTruck++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthTruck++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastTruck++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestTruck++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthTruck++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastTruck++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestTruck++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastTruck++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthTruck++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastTruck++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestTruck++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthTruck++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastTruck++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestTruck++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastTruck++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestTruck++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastTruck++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestTruck++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthTruck++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastTruck++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestTruck++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastTruck++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestTruck++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthTruck++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -3092,227 +2946,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthMotorBike++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastMotorBike++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestMotorBike++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastMotorBike++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestMotorBike++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthMotorBike++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastMotorBike++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestMotorBike++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastMotorBike++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestMotorBike++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastMotorBike++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestMotorBike++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthMotorBike++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastMotorBike++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestMotorBike++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthMotorBike++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestMotorBike++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastMotorBike++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestMotorBike++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthMotorBike++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastMotorBike++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestMotorBike++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthMotorBike++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastMotorBike++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastMotorBike++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestMotorBike++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthMotorBike++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastMotorBike++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestMotorBike++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthMotorBike++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastMotorBike++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestMotorBike++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestMotorBike++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthMotorBike++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastMotorBike++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestMotorBike++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthMotorBike++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastMotorBike++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestMotorBike++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastMotorBike++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthMotorBike++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastMotorBike++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestMotorBike++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthMotorBike++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastMotorBike++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestMotorBike++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastMotorBike++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestMotorBike++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastMotorBike++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestMotorBike++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthMotorBike++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastMotorBike++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestMotorBike++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastMotorBike++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestMotorBike++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthMotorBike++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -3320,227 +3118,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthPedestrian++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastPedestrian++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestPedestrian++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastPedestrian++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestPedestrian++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthPedestrian++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastPedestrian++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestPedestrian++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastPedestrian++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestPedestrian++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastPedestrian++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestPedestrian++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthPedestrian++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastPedestrian++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestPedestrian++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthPedestrian++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestPedestrian++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastPedestrian++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestPedestrian++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthPedestrian++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastPedestrian++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestPedestrian++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthPedestrian++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastPedestrian++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastPedestrian++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestPedestrian++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthPedestrian++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastPedestrian++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestPedestrian++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthPedestrian++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastPedestrian++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestPedestrian++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestPedestrian++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthPedestrian++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastPedestrian++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestPedestrian++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthPedestrian++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastPedestrian++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestPedestrian++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastPedestrian++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthPedestrian++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastPedestrian++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestPedestrian++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthPedestrian++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastPedestrian++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestPedestrian++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastPedestrian++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestPedestrian++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastPedestrian++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestPedestrian++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthPedestrian++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastPedestrian++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestPedestrian++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastPedestrian++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestPedestrian++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthPedestrian++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -3548,227 +3290,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCrutches1++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCrutches1++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCrutches1++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCrutches1++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCrutches1++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCrutches1++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCrutches1++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCrutches1++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCrutches1++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCrutches1++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCrutches1++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCrutches1++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCrutches1++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCrutches1++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCrutches1++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCrutches1++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCrutches1++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCrutches1++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCrutches1++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCrutches1++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCrutches1++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCrutches1++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCrutches1++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCrutches1++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCrutches1++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCrutches1++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCrutches1++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCrutches1++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCrutches1++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCrutches1++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCrutches1++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCrutches1++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCrutches1++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCrutches1++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCrutches1++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCrutches1++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCrutches1++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCrutches1++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCrutches1++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCrutches1++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCrutches1++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCrutches1++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCrutches1++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCrutches1++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCrutches1++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCrutches1++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCrutches1++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCrutches1++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCrutches1++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCrutches1++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCrutches1++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCrutches1++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCrutches1++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCrutches1++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCrutches1++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCrutches1++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -3776,227 +3462,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCrutches2++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCrutches2++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCrutches2++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCrutches2++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCrutches2++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCrutches2++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCrutches2++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCrutches2++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCrutches2++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCrutches2++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCrutches2++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCrutches2++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCrutches2++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCrutches2++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCrutches2++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCrutches2++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCrutches2++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCrutches2++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCrutches2++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCrutches2++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCrutches2++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCrutches2++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCrutches2++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCrutches2++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCrutches2++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCrutches2++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCrutches2++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCrutches2++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCrutches2++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCrutches2++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCrutches2++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCrutches2++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCrutches2++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCrutches2++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCrutches2++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCrutches2++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCrutches2++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCrutches2++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCrutches2++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCrutches2++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCrutches2++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCrutches2++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCrutches2++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCrutches2++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCrutches2++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCrutches2++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCrutches2++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCrutches2++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCrutches2++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCrutches2++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCrutches2++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCrutches2++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCrutches2++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCrutches2++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCrutches2++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCrutches2++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -4004,227 +3634,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCane++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCane++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCane++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCane++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCane++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCane++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCane++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCane++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCane++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCane++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCane++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCane++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCane++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCane++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCane++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCane++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCane++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCane++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCane++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCane++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCane++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCane++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCane++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCane++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCane++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCane++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCane++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCane++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCane++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCane++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCane++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCane++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCane++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCane++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCane++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCane++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCane++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCane++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCane++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCane++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCane++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCane++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCane++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCane++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCane++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCane++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCane++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCane++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCane++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCane++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCane++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCane++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCane++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCane++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCane++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCane++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -4232,227 +3806,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthDog++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastDog++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestDog++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastDog++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestDog++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthDog++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastDog++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestDog++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastDog++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestDog++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastDog++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestDog++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthDog++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastDog++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestDog++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthDog++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestDog++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastDog++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestDog++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthDog++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastDog++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestDog++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthDog++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastDog++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastDog++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestDog++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthDog++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastDog++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestDog++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthDog++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastDog++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestDog++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestDog++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthDog++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastDog++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestDog++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthDog++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastDog++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestDog++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastDog++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthDog++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastDog++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestDog++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthDog++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastDog++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestDog++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastDog++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestDog++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastDog++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestDog++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthDog++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastDog++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestDog++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastDog++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestDog++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthDog++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -4460,227 +3978,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthMobilityScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastMobilityScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestMobilityScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastMobilityScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestMobilityScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthMobilityScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastMobilityScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestMobilityScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastMobilityScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestMobilityScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastMobilityScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestMobilityScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthMobilityScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastMobilityScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestMobilityScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthMobilityScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestMobilityScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastMobilityScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestMobilityScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthMobilityScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastMobilityScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestMobilityScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthMobilityScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastMobilityScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastMobilityScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestMobilityScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthMobilityScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastMobilityScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestMobilityScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthMobilityScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastMobilityScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestMobilityScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestMobilityScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthMobilityScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastMobilityScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestMobilityScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthMobilityScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastMobilityScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestMobilityScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastMobilityScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthMobilityScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastMobilityScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestMobilityScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthMobilityScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastMobilityScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestMobilityScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastMobilityScooter++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestMobilityScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastMobilityScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestMobilityScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthMobilityScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastMobilityScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestMobilityScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastMobilityScooter++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestMobilityScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthMobilityScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -4688,227 +4150,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthWheelChairAssisted++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastWheelChairAssisted++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestWheelChairAssisted++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastWheelChairAssisted++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestWheelChairAssisted++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthWheelChairAssisted++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastWheelChairAssisted++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestWheelChairAssisted++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastWheelChairAssisted++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestWheelChairAssisted++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastWheelChairAssisted++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestWheelChairAssisted++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthWheelChairAssisted++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastWheelChairAssisted++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestWheelChairAssisted++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthWheelChairAssisted++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestWheelChairAssisted++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastWheelChairAssisted++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestWheelChairAssisted++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthWheelChairAssisted++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastWheelChairAssisted++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestWheelChairAssisted++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthWheelChairAssisted++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastWheelChairAssisted++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastWheelChairAssisted++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestWheelChairAssisted++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthWheelChairAssisted++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastWheelChairAssisted++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestWheelChairAssisted++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthWheelChairAssisted++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastWheelChairAssisted++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestWheelChairAssisted++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestWheelChairAssisted++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthWheelChairAssisted++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastWheelChairAssisted++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestWheelChairAssisted++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthWheelChairAssisted++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastWheelChairAssisted++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestWheelChairAssisted++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastWheelChairAssisted++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthWheelChairAssisted++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastWheelChairAssisted++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestWheelChairAssisted++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthWheelChairAssisted++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastWheelChairAssisted++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestWheelChairAssisted++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastWheelChairAssisted++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestWheelChairAssisted++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastWheelChairAssisted++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestWheelChairAssisted++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthWheelChairAssisted++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastWheelChairAssisted++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestWheelChairAssisted++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastWheelChairAssisted++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestWheelChairAssisted++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthWheelChairAssisted++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -4916,227 +4322,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthWheelChairManual++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastWheelChairManual++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestWheelChairManual++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastWheelChairManual++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestWheelChairManual++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthWheelChairManual++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastWheelChairManual++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestWheelChairManual++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastWheelChairManual++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestWheelChairManual++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastWheelChairManual++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestWheelChairManual++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthWheelChairManual++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastWheelChairManual++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestWheelChairManual++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthWheelChairManual++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestWheelChairManual++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastWheelChairManual++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestWheelChairManual++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthWheelChairManual++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastWheelChairManual++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestWheelChairManual++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthWheelChairManual++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastWheelChairManual++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastWheelChairManual++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestWheelChairManual++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthWheelChairManual++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastWheelChairManual++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestWheelChairManual++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthWheelChairManual++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastWheelChairManual++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestWheelChairManual++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestWheelChairManual++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthWheelChairManual++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastWheelChairManual++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestWheelChairManual++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthWheelChairManual++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastWheelChairManual++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestWheelChairManual++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastWheelChairManual++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthWheelChairManual++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastWheelChairManual++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestWheelChairManual++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthWheelChairManual++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastWheelChairManual++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestWheelChairManual++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastWheelChairManual++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestWheelChairManual++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastWheelChairManual++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestWheelChairManual++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthWheelChairManual++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastWheelChairManual++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestWheelChairManual++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastWheelChairManual++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestWheelChairManual++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthWheelChairManual++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -5144,227 +4494,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthWheelChairPowered++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastWheelChairPowered++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestWheelChairPowered++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastWheelChairPowered++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestWheelChairPowered++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthWheelChairPowered++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastWheelChairPowered++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestWheelChairPowered++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastWheelChairPowered++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestWheelChairPowered++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastWheelChairPowered++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestWheelChairPowered++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthWheelChairPowered++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastWheelChairPowered++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestWheelChairPowered++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthWheelChairPowered++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestWheelChairPowered++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastWheelChairPowered++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestWheelChairPowered++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthWheelChairPowered++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastWheelChairPowered++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestWheelChairPowered++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthWheelChairPowered++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastWheelChairPowered++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastWheelChairPowered++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestWheelChairPowered++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthWheelChairPowered++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastWheelChairPowered++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestWheelChairPowered++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthWheelChairPowered++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastWheelChairPowered++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestWheelChairPowered++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestWheelChairPowered++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthWheelChairPowered++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastWheelChairPowered++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestWheelChairPowered++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthWheelChairPowered++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastWheelChairPowered++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestWheelChairPowered++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastWheelChairPowered++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthWheelChairPowered++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastWheelChairPowered++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestWheelChairPowered++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthWheelChairPowered++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastWheelChairPowered++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestWheelChairPowered++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastWheelChairPowered++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestWheelChairPowered++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastWheelChairPowered++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestWheelChairPowered++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthWheelChairPowered++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastWheelChairPowered++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestWheelChairPowered++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastWheelChairPowered++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestWheelChairPowered++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthWheelChairPowered++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -5372,227 +4666,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthPushChair++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastPushChair++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestPushChair++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastPushChair++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestPushChair++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthPushChair++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastPushChair++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestPushChair++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastPushChair++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestPushChair++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastPushChair++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestPushChair++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthPushChair++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastPushChair++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestPushChair++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthPushChair++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestPushChair++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastPushChair++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestPushChair++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthPushChair++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastPushChair++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestPushChair++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthPushChair++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastPushChair++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastPushChair++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestPushChair++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthPushChair++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastPushChair++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestPushChair++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthPushChair++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastPushChair++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestPushChair++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestPushChair++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthPushChair++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastPushChair++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestPushChair++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthPushChair++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastPushChair++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestPushChair++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastPushChair++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthPushChair++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastPushChair++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestPushChair++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthPushChair++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastPushChair++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestPushChair++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastPushChair++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestPushChair++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastPushChair++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestPushChair++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthPushChair++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastPushChair++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestPushChair++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastPushChair++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestPushChair++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthPushChair++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -5600,227 +4838,171 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthSkateboard++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastSkateboard++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestSkateboard++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastSkateboard++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestSkateboard++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthSkateboard++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastSkateboard++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestSkateboard++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastSkateboard++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestSkateboard++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastSkateboard++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestSkateboard++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthSkateboard++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastSkateboard++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestSkateboard++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthSkateboard++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestSkateboard++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastSkateboard++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestSkateboard++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthSkateboard++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastSkateboard++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestSkateboard++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthSkateboard++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastSkateboard++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastSkateboard++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestSkateboard++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthSkateboard++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastSkateboard++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestSkateboard++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthSkateboard++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastSkateboard++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestSkateboard++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestSkateboard++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthSkateboard++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastSkateboard++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestSkateboard++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthSkateboard++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastSkateboard++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestSkateboard++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastSkateboard++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthSkateboard++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastSkateboard++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestSkateboard++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthSkateboard++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastSkateboard++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestSkateboard++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastSkateboard++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestSkateboard++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastSkateboard++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestSkateboard++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthSkateboard++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastSkateboard++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestSkateboard++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastSkateboard++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestSkateboard++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthSkateboard++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
 	
@@ -5828,229 +5010,235 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthManualScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastManualScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestManualScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastManualScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestManualScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthManualScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastManualScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestManualScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West(" + northWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastManualScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East(" + northEastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestManualScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastManualScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestManualScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthManualScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastManualScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestManualScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthManualScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestManualScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastManualScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestManualScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthManualScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastManualScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestManualScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthManualScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastManualScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastManualScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestManualScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthManualScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastManualScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestManualScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthManualScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastManualScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestManualScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestManualScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthManualScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastManualScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestManualScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthManualScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastManualScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestManualScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastManualScooter++;
 			eastTotal++;
-			btn_direction_e.setText("East (" + eastTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthManualScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastManualScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestManualScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthManualScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastManualScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestManualScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastManualScooter++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestManualScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastManualScooter++;
 			southEastTotal++;
-			btn_direction_se.setText("South-East (" + southEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestManualScooter++;
 			northWestTotal++;
-			btn_direction_nw.setText("North-West (" + northWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthManualScooter++;
 			northTotal++;
-			btn_direction_n.setText("North (" + northTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastManualScooter++;
 			northEastTotal++;
-			btn_direction_ne.setText("North-East (" + northEastTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestManualScooter++;
 			westTotal++;
-			btn_direction_w.setText("West (" + westTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastManualScooter++;
 			eastTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestManualScooter++;
 			southWestTotal++;
-			btn_direction_sw.setText("South-West (" + southWestTotal + ")");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthManualScooter++;
 			southTotal++;
-			btn_direction_s.setText("South (" + southTotal + ")");
 		}
 	}
+	
+	private void updateAllDirectionalButtons(){
+		if(btn_direction_nw != null){
+			if(intersectionPickedNames[0] != null){
+				btn_direction_nw.setText(intersectionPickedNames[0] + " (" + northWestTotal + ")");
+			}else{
+				btn_direction_nw.setText("North-West (" + northWestTotal + ")");
+			}
+		}
+		if(btn_direction_n != null){
+			if(intersectionPickedNames[1] != null){
+				btn_direction_n.setText(intersectionPickedNames[1] + " (" + northTotal + ")");
+			}else{
+				btn_direction_n.setText("North (" + northTotal + ")");
+			}
+		}
+		if(btn_direction_ne != null){
+			if(intersectionPickedNames[2] != null){
+				btn_direction_ne.setText(intersectionPickedNames[2] + " (" + northEastTotal + ")");
+			}else{
+				btn_direction_ne.setText("North-East (" + northEastTotal + ")");
+			}
+		}
+		if(btn_direction_w != null){
+			if(intersectionPickedNames[3] != null){
+				btn_direction_w.setText(intersectionPickedNames[3] + " (" + westTotal + ")");
+			}else{
+				btn_direction_w.setText("West (" + westTotal + ")");
+			}
+		}
+		if(btn_direction_e != null){
+			if(intersectionPickedNames[4] != null){
+				btn_direction_e.setText(intersectionPickedNames[4] + " (" + eastTotal + ")");
+			}else{
+				btn_direction_e.setText("East (" + eastTotal + ")");
+			}
+		}
+		if(btn_direction_sw != null){
+			if(intersectionPickedNames[5] != null){
+				btn_direction_sw.setText(intersectionPickedNames[5] + " (" + southWestTotal + ")");
+			}else{
+				btn_direction_sw.setText("South-West (" + southWestTotal + ")");
+			}
+		}
+		if(btn_direction_s != null){
+			if(intersectionPickedNames[6] != null){
+				btn_direction_s.setText(intersectionPickedNames[6] + " (" + southTotal + ")");
+			}else{
+				btn_direction_s.setText("South (" + southTotal + ")");
+			}
+		}
+		if(btn_direction_se != null){
+			if(intersectionPickedNames[7] != null){
+				btn_direction_se.setText(intersectionPickedNames[7] + " (" + southEastTotal + ")");
+			}else{
+				btn_direction_se.setText("South-East (" + southEastTotal + ")");
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
 	/*
 	 * This class will handle the 15 minute countdown and subsequently save the data. 
 	 * @author Richard and Jean-Yves
