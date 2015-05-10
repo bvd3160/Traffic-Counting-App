@@ -56,6 +56,9 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 
 	TextView csn_txtfield_nw, csn_txtfield_n, csn_txtfield_ne, csn_txtfield_w, 
 			csn_txtfield_e, csn_txtfield_sw, csn_txtfield_s, csn_txtfield_se;
+	TextView csn_txt_nw, csn_txt_n, csn_txt_ne, csn_txt_w, csn_txt_e,
+			csn_txt_sw, csn_txt_s, csn_txt_se; 
+	
 	
 	boolean[] intersectionsPicked;
 	String[] intersectionNames;
@@ -317,41 +320,73 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		view.findViewById(R.id.csn_txt_middle).setVisibility(4);
 		
 		csn_txtfield_nw = (TextView)view.findViewById(R.id.csn_txtfield_nw);
+		csn_txt_nw = (TextView)view.findViewById(R.id.csn_txt_nw);
 		csn_txtfield_n = (TextView)view.findViewById(R.id.csn_txtfield_n);
+		csn_txt_n = (TextView)view.findViewById(R.id.csn_txt_n);
 		csn_txtfield_ne = (TextView)view.findViewById(R.id.csn_txtfield_ne);
+		csn_txt_ne = (TextView)view.findViewById(R.id.csn_txt_ne);
 		csn_txtfield_w = (TextView)view.findViewById(R.id.csn_txtfield_w);
+		csn_txt_w = (TextView)view.findViewById(R.id.csn_txt_w);
 		csn_txtfield_e = (TextView)view.findViewById(R.id.csn_txtfield_e);
+		csn_txt_e = (TextView)view.findViewById(R.id.csn_txt_e);
 		csn_txtfield_sw = (TextView)view.findViewById(R.id.csn_txtfield_sw);
+		csn_txt_sw = (TextView)view.findViewById(R.id.csn_txt_sw);
 		csn_txtfield_s = (TextView)view.findViewById(R.id.csn_txtfield_s);
+		csn_txt_s = (TextView)view.findViewById(R.id.csn_txt_s);
 		csn_txtfield_se = (TextView)view.findViewById(R.id.csn_txtfield_se);
+		csn_txt_se = (TextView)view.findViewById(R.id.csn_txt_se);
 		
+		boolean intersectionFound = false;
 		for(int x = 0; x < intersectionsPicked.length; x++){
 			if(!intersectionsPicked[x]){
 				if(x == 0){
-					view.findViewById(R.id.csn_txt_nw).setVisibility(4);
+					csn_txt_nw.setVisibility(4);
 					csn_txtfield_nw.setVisibility(4);
 				}else if(x == 1){
-					view.findViewById(R.id.csn_txt_n).setVisibility(4);
-					csn_txtfield_n.setVisibility(4);					
+					csn_txt_n.setVisibility(4);
+					csn_txtfield_n.setVisibility(4);
 				}else if(x == 2){
-					view.findViewById(R.id.csn_txt_ne).setVisibility(4);
+					csn_txt_ne.setVisibility(4);
 					csn_txtfield_ne.setVisibility(4);
 				}else if(x == 3){
-					view.findViewById(R.id.csn_txt_w).setVisibility(4);
+					csn_txt_w.setVisibility(4);
 					csn_txtfield_w.setVisibility(4);
 				}else if(x == 4){
-					view.findViewById(R.id.csn_txt_e).setVisibility(4);
+					csn_txt_e.setVisibility(4);
 					csn_txtfield_e.setVisibility(4);
 				}else if(x == 5){
-					view.findViewById(R.id.csn_txt_sw).setVisibility(4);
+					csn_txt_sw.setVisibility(4);
 					csn_txtfield_sw.setVisibility(4);
 				}else if(x == 6){
-					view.findViewById(R.id.csn_txt_s).setVisibility(4);
+					csn_txt_s.setVisibility(4);
 					csn_txtfield_s.setVisibility(4);
 				}else if(x == 7){
-					view.findViewById(R.id.csn_txt_se).setVisibility(4);
+					csn_txt_se.setVisibility(4);
 					csn_txtfield_se.setVisibility(4);
 				}
+			}else{
+				intersectionFound = true;
+			}
+		}
+		
+		if(!intersectionFound){
+			for(int x = 0; x < intersectionsPicked.length; x++){
+				csn_txt_nw.setVisibility(0);
+				csn_txtfield_nw.setVisibility(0);
+				csn_txt_n.setVisibility(0);
+				csn_txtfield_n.setVisibility(0);
+				csn_txt_ne.setVisibility(0);
+				csn_txtfield_ne.setVisibility(0);
+				csn_txt_w.setVisibility(0);
+				csn_txtfield_w.setVisibility(0);
+				csn_txt_e.setVisibility(0);
+				csn_txtfield_e.setVisibility(0);
+				csn_txt_sw.setVisibility(0);
+				csn_txtfield_sw.setVisibility(0);
+				csn_txt_s.setVisibility(0);
+				csn_txtfield_s.setVisibility(0);
+				csn_txt_se.setVisibility(0);
+				csn_txtfield_se.setVisibility(0);
 			}
 		}
 		
