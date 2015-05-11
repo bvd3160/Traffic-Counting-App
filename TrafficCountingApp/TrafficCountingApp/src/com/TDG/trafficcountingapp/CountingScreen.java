@@ -383,6 +383,13 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	boolean[] intersectionsPicked;
 	String[] intersectionPickedNames;
 	
+	//Saving Related
+	static boolean locationHeaderAppended;
+	static boolean endOfWritingCoutablesRow;
+ 	static boolean endOfIntersectionCountsHeader;
+	static boolean endOfAppendingCountables;
+	static boolean endOfFromAndToPositionsHeader;
+	
 	Button btn_direction_nw, btn_direction_n, btn_direction_ne, btn_direction_w,
 	 btn_direction_e, btn_direction_sw, btn_direction_s, btn_direction_se;
 	
@@ -427,6 +434,11 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		populateButtons();
 		showCountingPanelAndButtons();
 		
+		locationHeaderAppended = false;
+		endOfWritingCoutablesRow = false;
+		endOfIntersectionCountsHeader = false;
+		endOfAppendingCountables = false;
+		endOfFromAndToPositionsHeader = false;
 	}
 	
 	private void initialiseCountObjects(){
@@ -5259,7 +5271,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		
 		private String sessionStartTime;
 		private String currentTime;
-		private boolean directionTitleAppended;
+		private int dataRowsWritten = 1;
 
 		private Calendar cal = Calendar.getInstance();
 		
@@ -5328,7 +5340,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				try {
 					if(!folder.exists()){
 						//Make the directory
-						folder.mkdir();						
+						folder.mkdir();
 					
 					}if(folder.exists()){
 						//Open the file to be written to. Re-initialization is necessary in this case.
@@ -5350,16 +5362,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 * @author: Jean-Yves
 		 * @since: 2 April 2015
 		 */
-		public void writeIntersectionCountData(FileWriter fileWriter) throws IOException{
-			//These should work, once we make sure the submit button sets the values from Textviews
-			String streetNumandName = CountSetup.getStreetNumAndName();
-			String currentDate = CountSetup.getCurrentDate();
-			String suburbName = CountSetup.getSuburbName();
-			String city = CountSetup.getCityName();
-			String postCode = CountSetup.getAreaCode();
-			String locDescription = CountSetup.getAreaDescript();
-			//Make sure the above string don't return null
-			
+		public void writeIntersectionCountData(FileWriter fileWriter) throws IOException{			
 			//The header will look like below: -Jean-Yves
 			/*
 			 * Location: 17 Example street, Ohio Town, Las Noches, 0600
@@ -5371,513 +5374,813 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			 * TIME 			CARS 	BUSES 	TRUCKS	 	MOTORCYCLES		CARS	BUSES...	
 			 * 8:00 to 8:15		25		2		13			7				2		6
 			 */
+			appendLocationHeader(fileWriter);
+			appendFromAndToPostionsHeader(fileWriter);
+			appendIntersectionCountsHeader(fileWriter);
 			
-			fileWriter.append("Location: " + streetNumandName + 
-					", " + suburbName + ", "+ city +", " + postCode + ", " + "\n" + locDescription +
-					"\n \n");
-			fileWriter.append("Date: " + currentDate + "\n");
-				
-				for(int x = 0; x < 8; x++){
-					userMessage("Passed first FOR");
-					if(intersectionsPicked[x]){
-						directionTitleAppended = false;
-						for(int y = 0; y < 8; y++){
-							userMessage("Passed second FOR");
-							if(intersectionsPicked[y] && y != x){
-								userMessage("Made TO comparison with Array");
-								//FROM NORTH-WEST TO ...
-								if(x == 0 && y == 1){
-									//North-west To North
-									userMessage("Reached North-West to North IF");
-									if (! directionTitleAppended) {
-										fileWriter.append(" ,From North-West to North , , , , , , , , , , , , , , , , , ,");
-										fileWriter.append("\n \n");
-										//flushAndCloseWriter(fileWriter);
-										appendIntersectionCountsHeader(fileWriter);
-										directionTitleAppended = true;
-									}
-									appendCountables(fileWriter, northWestToNorthCar, northWestToNorthBus, northWestToNorthTruck,
-													northWestToNorthMotorBike, northWestToNorthPedestrian, northWestToNorthCrutches1,
-													northWestToNorthCrutches2, northWestToNorthCane, northWestToNorthDog, northWestToNorthMobilityScooter,
-													northWestToNorthWheelChairAssisted, northWestToNorthWheelChairManual, northWestToNorthWheelChairPowered,
-													northWestToNorthPushChair, northWestToNorthSkateboard, northWestToNorthManualScooter);
-									userMessage("Data save complete");
-								}else if(x == 0 && y == 2){
-									//North-west to North-East
-									if (! directionTitleAppended) {
-										fileWriter.append(" ,From North-West to North-East , , , , , , , , , , , , , , , , , ,");
-										fileWriter.append("\n \n");
-										flushAndCloseWriter(fileWriter);
-										appendIntersectionCountsHeader(fileWriter);
-										directionTitleAppended = true;
-									}
-									appendCountables(fileWriter, northWestToNorthEastCar, northWestToNorthEastBus, northWestToNorthEastTruck,
-											northWestToNorthEastMotorBike, northWestToNorthEastPedestrian, northWestToNorthEastCrutches1,
-											northWestToNorthEastCrutches2, northWestToNorthEastCane, northWestToNorthEastDog, northWestToNorthEastMobilityScooter,
-											northWestToNorthEastWheelChairAssisted, northWestToNorthEastWheelChairManual, northWestToNorthEastWheelChairPowered,
-											northWestToNorthEastPushChair, northWestToNorthEastSkateboard, northWestToNorthEastManualScooter);
-									userMessage("Data save complete");
-								}else if(x == 0 && y == 3){
-									//North-west to West
-									if (! directionTitleAppended) {
-										fileWriter.append(" ,From North-West to West , , , , , , , , , , , , , , , , , ,");
-										fileWriter.append("\n \n");
-										flushAndCloseWriter(fileWriter);
-										appendIntersectionCountsHeader(fileWriter);
-										directionTitleAppended = true;
-									}
-									appendCountables(fileWriter, northWestToWestCar, northWestToWestBus, northWestToWestTruck,
-											northWestToWestMotorBike, northWestToWestPedestrian, northWestToWestCrutches1,
-											northWestToWestCrutches2, northWestToWestCane, northWestToWestDog, northWestToWestMobilityScooter,
-											northWestToWestWheelChairAssisted, northWestToWestWheelChairManual, northWestToWestWheelChairPowered,
-											northWestToWestPushChair, northWestToWestSkateboard, northWestToWestManualScooter);
-									userMessage("Data save complete");
-								}else if(x == 0 && y == 4){
-									//North-west to East
-									if (! directionTitleAppended) {
-										fileWriter.append(" ,From North-West to East , , , , , , , , , , , , , , , , , ,");
-										fileWriter.append("\n \n");
-										flushAndCloseWriter(fileWriter);
-										appendIntersectionCountsHeader(fileWriter);
-										directionTitleAppended = true;
-									}
-									appendCountables(fileWriter, northWestToEastCar, northWestToEastBus, northWestToEastTruck,
-											northWestToEastMotorBike, northWestToEastPedestrian, northWestToEastCrutches1,
-											northWestToEastCrutches2, northWestToEastCane, northWestToEastDog, northWestToEastMobilityScooter,
-											northWestToEastWheelChairAssisted, northWestToEastWheelChairManual, northWestToEastWheelChairPowered,
-											northWestToEastPushChair, northWestToEastSkateboard, northWestToEastManualScooter);
-									userMessage("Data save complete");
-								}else if(x == 0 && y == 5){
-									//North-west to South-West
-									if (! directionTitleAppended) {
-										fileWriter.append(" ,From North-West to SouthWest , , , , , , , , , , , , , , , , , ,");
-										fileWriter.append("\n \n");
-										flushAndCloseWriter(fileWriter);
-										appendIntersectionCountsHeader(fileWriter);
-										directionTitleAppended = true;
-									}
-									appendCountables(fileWriter, northWestToSouthWestCar, northWestToSouthWestBus, northWestToSouthWestTruck,
-											northWestToSouthWestMotorBike, northWestToSouthWestPedestrian, northWestToSouthWestCrutches1,
-											northWestToSouthWestCrutches2, northWestToSouthWestCane, northWestToSouthWestDog, northWestToSouthWestMobilityScooter,
-											northWestToSouthWestWheelChairAssisted, northWestToSouthWestWheelChairManual, northWestToSouthWestWheelChairPowered,
-											northWestToSouthWestPushChair, northWestToSouthWestSkateboard, northWestToSouthWestManualScooter);
-									userMessage("Data save complete");
-								}else if(x == 0 && y == 6){
-									//North-west to South
-									if (! directionTitleAppended) {
-										fileWriter.append(" ,From North-West to South , , , , , , , , , , , , , , , , , ,");
-										fileWriter.append("\n \n");
-										flushAndCloseWriter(fileWriter);
-										appendIntersectionCountsHeader(fileWriter);
-										directionTitleAppended = true;
-									}
-									appendCountables(fileWriter, northWestToSouthCar, northWestToSouthBus, northWestToSouthTruck,
-											northWestToSouthMotorBike, northWestToSouthPedestrian, northWestToSouthCrutches1,
-											northWestToSouthCrutches2, northWestToSouthCane, northWestToSouthDog, northWestToSouthMobilityScooter,
-											northWestToSouthWheelChairAssisted, northWestToSouthWheelChairManual, northWestToSouthWheelChairPowered,
-											northWestToSouthPushChair, northWestToSouthSkateboard, northWestToSouthManualScooter);
-									userMessage("Data save complete");
-								}else if(x == 0 && y == 7){
-									//North-west to South-East
-									if (! directionTitleAppended) {
-										fileWriter.append(" ,From North-West to South-East , , , , , , , , , , , , , , , , , ,");
-										fileWriter.append("\n \n");
-										flushAndCloseWriter(fileWriter);
-										appendIntersectionCountsHeader(fileWriter);
-										directionTitleAppended = true;
-									}
-									appendCountables(fileWriter, northWestToSouthEastCar, northWestToSouthEastBus, northWestToSouthEastTruck,
-											northWestToSouthEastMotorBike, northWestToSouthEastPedestrian, northWestToSouthEastCrutches1,
-											northWestToSouthEastCrutches2, northWestToSouthEastCane, northWestToSouthEastDog, northWestToSouthEastMobilityScooter,
-											northWestToSouthEastWheelChairAssisted, northWestToSouthEastWheelChairManual, northWestToSouthEastWheelChairPowered,
-											northWestToSouthEastPushChair, northWestToSouthEastSkateboard, northWestToSouthEastManualScooter);
-									userMessage("Data save complete");
-								}//FROM NORTH TO ...
-								else if(x == 1 && y == 0){
-									//North to North-West
-									appendCountables(fileWriter, northToNorthWestCar, northToNorthWestBus, northToNorthWestTruck,
-											northToNorthWestMotorBike, northToNorthWestPedestrian, northToNorthWestCrutches1,
-											northToNorthWestCrutches2, northToNorthWestCane, northToNorthWestDog, northToNorthWestMobilityScooter,
-											northToNorthWestWheelChairAssisted, northToNorthWestWheelChairManual, northToNorthWestWheelChairPowered,
-											northToNorthWestPushChair, northToNorthWestSkateboard, northToNorthWestManualScooter);
-								}else if(x == 1 && y == 2){
-									//North to North-East
-									appendCountables(fileWriter, northToNorthEastCar, northToNorthEastBus, northToNorthEastTruck,
-											northToNorthEastMotorBike, northToNorthEastPedestrian, northToNorthEastCrutches1,
-											northToNorthEastCrutches2, northToNorthEastCane, northToNorthEastDog, northToNorthEastMobilityScooter,
-											northToNorthEastWheelChairAssisted, northToNorthEastWheelChairManual, northToNorthEastWheelChairPowered,
-											northToNorthEastPushChair, northToNorthEastSkateboard, northToNorthEastManualScooter);
-								}else if(x == 1 && y == 3){
-									//North to West
-									appendCountables(fileWriter, northToWestCar, northToWestBus, northToWestTruck,
-											northToWestMotorBike, northToWestPedestrian, northToWestCrutches1,
-											northToWestCrutches2, northToWestCane, northToWestDog, northToWestMobilityScooter,
-											northToWestWheelChairAssisted, northToWestWheelChairManual, northToWestWheelChairPowered,
-											northToWestPushChair, northToWestSkateboard, northToWestManualScooter);
-								}else if(x == 1 && y == 4){
-									//North to East
-									appendCountables(fileWriter, northToEastCar, northToEastBus, northToEastTruck,
-											northToEastMotorBike, northToEastPedestrian, northToEastCrutches1,
-											northToEastCrutches2, northToEastCane, northToEastDog, northToEastMobilityScooter,
-											northToEastWheelChairAssisted, northToEastWheelChairManual, northToEastWheelChairPowered,
-											northToEastPushChair, northToEastSkateboard, northToEastManualScooter);
-								}else if(x == 1 && y == 5){
-									//North to South-West
-									appendCountables(fileWriter, northToSouthWestCar, northToSouthWestBus, northToSouthWestTruck,
-											northToSouthWestMotorBike, northToSouthWestPedestrian, northToSouthWestCrutches1,
-											northToSouthWestCrutches2, northToSouthWestCane, northToSouthWestDog, northToSouthWestMobilityScooter,
-											northToSouthWestWheelChairAssisted, northToSouthWestWheelChairManual, northToSouthWestWheelChairPowered,
-											northToSouthWestPushChair, northToSouthWestSkateboard, northToSouthWestManualScooter);
-								}else if(x == 1 && y == 6){
-									//North to South
-									appendCountables(fileWriter, northToSouthCar, northToSouthBus, northToSouthTruck,
-											northToSouthMotorBike, northToSouthPedestrian, northToSouthCrutches1,
-											northToSouthCrutches2, northToSouthCane, northToSouthDog, northToSouthMobilityScooter,
-											northToSouthWheelChairAssisted, northToSouthWheelChairManual, northToSouthWheelChairPowered,
-											northToSouthPushChair, northToSouthSkateboard, northToSouthManualScooter);
-								}else if(x == 1 && y == 7){
-									//North to South-East
-									appendCountables(fileWriter, northToSouthEastCar, northToSouthEastBus, northToSouthEastTruck,
-											northToSouthEastMotorBike, northToSouthEastPedestrian, northToSouthEastCrutches1,
-											northToSouthEastCrutches2, northToSouthEastCane, northToSouthEastDog, northToSouthEastMobilityScooter,
-											northToSouthEastWheelChairAssisted, northToSouthEastWheelChairManual, northToSouthEastWheelChairPowered,
-											northToSouthEastPushChair, northToSouthEastSkateboard, northToSouthEastManualScooter);
-								}//FROM NORTH-EAST TO ...
-								else if(x == 2 && y == 0){
-									//North-East to North-West
-									appendCountables(fileWriter, northEastToNorthWestCar, northEastToNorthWestBus, northEastToNorthWestTruck,
-											northEastToNorthWestMotorBike, northEastToNorthWestPedestrian, northEastToNorthWestCrutches1,
-											northEastToNorthWestCrutches2, northEastToNorthWestCane, northEastToNorthWestDog, northEastToNorthWestMobilityScooter,
-											northEastToNorthWestWheelChairAssisted, northEastToNorthWestWheelChairManual, northEastToNorthWestWheelChairPowered,
-											northEastToNorthWestPushChair, northEastToNorthWestSkateboard, northEastToNorthWestManualScooter);
-								}else if(x == 2 && y == 1){
-									//North-East to North
-									appendCountables(fileWriter, northEastToNorthCar, northEastToNorthBus, northEastToNorthTruck,
-											northEastToNorthMotorBike, northEastToNorthPedestrian, northEastToNorthCrutches1,
-											northEastToNorthCrutches2, northEastToNorthCane, northEastToNorthDog, northEastToNorthMobilityScooter,
-											northEastToNorthWheelChairAssisted, northEastToNorthWheelChairManual, northEastToNorthWheelChairPowered,
-											northEastToNorthPushChair, northEastToNorthSkateboard, northEastToNorthManualScooter);
-								}else if(x == 2 && y == 3){
-									//North-East to West
-									appendCountables(fileWriter, northEastToWestCar, northEastToWestBus, northEastToWestTruck,
-											northEastToWestMotorBike, northEastToWestPedestrian, northEastToWestCrutches1,
-											northEastToWestCrutches2, northEastToWestCane, northEastToWestDog, northEastToWestMobilityScooter,
-											northEastToWestWheelChairAssisted, northEastToWestWheelChairManual, northEastToWestWheelChairPowered,
-											northEastToWestPushChair, northEastToWestSkateboard, northEastToWestManualScooter);
-								}else if(x == 2 && y == 4){
-									//North-East to East
-									appendCountables(fileWriter, northEastToEastCar, northEastToEastBus, northEastToEastTruck,
-											northEastToEastMotorBike, northEastToEastPedestrian, northEastToEastCrutches1,
-											northEastToEastCrutches2, northEastToEastCane, northEastToEastDog, northEastToEastMobilityScooter,
-											northEastToEastWheelChairAssisted, northEastToEastWheelChairManual, northEastToEastWheelChairPowered,
-											northEastToEastPushChair, northEastToEastSkateboard, northEastToEastManualScooter);
-								}else if(x == 2 && y == 5){
-									//North-East to South-West
-									appendCountables(fileWriter, northEastToSouthWestCar, northEastToSouthWestBus, northEastToSouthWestTruck,
-											northEastToSouthWestMotorBike, northEastToSouthWestPedestrian, northEastToSouthWestCrutches1,
-											northEastToSouthWestCrutches2, northEastToSouthWestCane, northEastToSouthWestDog, northEastToSouthWestMobilityScooter,
-											northEastToSouthWestWheelChairAssisted, northEastToSouthWestWheelChairManual, northEastToSouthWestWheelChairPowered,
-											northEastToSouthWestPushChair, northEastToSouthWestSkateboard, northEastToSouthWestManualScooter);
-								}else if(x == 2 && y == 6){
-									//North-East to South
-									appendCountables(fileWriter, northEastToSouthCar, northEastToSouthBus, northEastToSouthTruck,
-											northEastToSouthMotorBike, northEastToSouthPedestrian, northEastToSouthCrutches1,
-											northEastToSouthCrutches2, northEastToSouthCane, northEastToSouthDog, northEastToSouthMobilityScooter,
-											northEastToSouthWheelChairAssisted, northEastToSouthWheelChairManual, northEastToSouthWheelChairPowered,
-											northEastToSouthPushChair, northEastToSouthSkateboard, northEastToSouthManualScooter);
-								}else if(x == 2 && y == 7){
-									//North-East to South-East
-									appendCountables(fileWriter, northEastToSouthEastCar, northEastToSouthEastBus, northEastToSouthEastTruck,
-											northEastToSouthEastMotorBike, northEastToSouthEastPedestrian, northEastToSouthEastCrutches1,
-											northEastToSouthEastCrutches2, northEastToSouthEastCane, northEastToSouthEastDog, northEastToSouthEastMobilityScooter,
-											northEastToSouthEastWheelChairAssisted, northEastToSouthEastWheelChairManual, northEastToSouthEastWheelChairPowered,
-											northEastToSouthEastPushChair, northEastToSouthEastSkateboard, northEastToSouthEastManualScooter);
-								}//FROM West TO ...
-								else if(x == 3 && y == 0){
-									//West to North-West
-									appendCountables(fileWriter, westToNorthWestCar, westToNorthWestBus, westToNorthWestTruck,
-											westToNorthWestMotorBike, westToNorthWestPedestrian, westToNorthWestCrutches1,
-											westToNorthWestCrutches2, westToNorthWestCane, westToNorthWestDog, westToNorthWestMobilityScooter,
-											westToNorthWestWheelChairAssisted, westToNorthWestWheelChairManual, westToNorthWestWheelChairPowered,
-											westToNorthWestPushChair, westToNorthWestSkateboard, westToNorthWestManualScooter);
-								}else if(x == 3 && y == 1){
-									//West to North
-									appendCountables(fileWriter, westToNorthCar, westToNorthBus, westToNorthTruck,
-											westToNorthMotorBike, westToNorthPedestrian, westToNorthCrutches1,
-											westToNorthCrutches2, westToNorthCane, westToNorthDog, westToNorthMobilityScooter,
-											westToNorthWheelChairAssisted, westToNorthWheelChairManual, westToNorthWheelChairPowered,
-											westToNorthPushChair, westToNorthSkateboard, westToNorthManualScooter);
-								}else if(x == 3 && y == 2){
-									//West to North-East
-									appendCountables(fileWriter, westToNorthEastCar, westToNorthEastBus, westToNorthEastTruck,
-											westToNorthEastMotorBike, westToNorthEastPedestrian, westToNorthEastCrutches1,
-											westToNorthEastCrutches2, westToNorthEastCane, westToNorthEastDog, westToNorthEastMobilityScooter,
-											westToNorthEastWheelChairAssisted, westToNorthEastWheelChairManual, westToNorthEastWheelChairPowered,
-											westToNorthEastPushChair, westToNorthEastSkateboard, westToNorthEastManualScooter);
-								}else if(x == 3 && y == 4){
-									//West to East
-									appendCountables(fileWriter, westToEastCar, westToEastBus, westToEastTruck,
-											westToEastMotorBike, westToEastPedestrian, westToEastCrutches1,
-											westToEastCrutches2, westToEastCane, westToEastDog, westToEastMobilityScooter,
-											westToEastWheelChairAssisted, westToEastWheelChairManual, westToEastWheelChairPowered,
-											westToEastPushChair, westToEastSkateboard, westToEastManualScooter);
-								}else if(x == 3 && y == 5){
-									//West to South-West
-									appendCountables(fileWriter, westToSouthWestCar, westToSouthWestBus, westToSouthWestTruck,
-											westToSouthWestMotorBike, westToSouthWestPedestrian, westToSouthWestCrutches1,
-											westToSouthWestCrutches2, westToSouthWestCane, westToSouthWestDog, westToSouthWestMobilityScooter,
-											westToSouthWestWheelChairAssisted, westToSouthWestWheelChairManual, westToSouthWestWheelChairPowered,
-											westToSouthWestPushChair, westToSouthWestSkateboard, westToSouthWestManualScooter);
-								}else if(x == 3 && y == 6){
-									//West to South
-									appendCountables(fileWriter, westToSouthCar, westToSouthBus, westToSouthTruck,
-											westToSouthMotorBike, westToSouthPedestrian, westToSouthCrutches1,
-											westToSouthCrutches2, westToSouthCane, westToSouthDog, westToSouthMobilityScooter,
-											westToSouthWheelChairAssisted, westToSouthWheelChairManual, westToSouthWheelChairPowered,
-											westToSouthPushChair, westToSouthSkateboard, westToSouthManualScooter);
-								}else if(x == 3 && y == 7){
-									//West to South-East
-									appendCountables(fileWriter, westToSouthEastCar, westToSouthEastBus, westToSouthEastTruck,
-											westToSouthEastMotorBike, westToSouthEastPedestrian, westToSouthEastCrutches1,
-											westToSouthEastCrutches2, westToSouthEastCane, westToSouthEastDog, westToSouthEastMobilityScooter,
-											westToSouthEastWheelChairAssisted, westToSouthEastWheelChairManual, westToSouthEastWheelChairPowered,
-											westToSouthEastPushChair, westToSouthEastSkateboard, westToSouthEastManualScooter);
-								}//FROM East TO ...
-								else if(x == 4 && y == 0){
-									//East to North-West
-									appendCountables(fileWriter, eastToNorthWestCar, eastToNorthWestBus, eastToNorthWestTruck,
-											eastToNorthWestMotorBike, eastToNorthWestPedestrian, eastToNorthWestCrutches1,
-											eastToNorthWestCrutches2, eastToNorthWestCane, eastToNorthWestDog, eastToNorthWestMobilityScooter,
-											eastToNorthWestWheelChairAssisted, eastToNorthWestWheelChairManual, eastToNorthWestWheelChairPowered,
-											eastToNorthWestPushChair, eastToNorthWestSkateboard, eastToNorthWestManualScooter);
-								}else if(x == 4 && y == 1){
-									//East to North
-									appendCountables(fileWriter, eastToNorthCar, eastToNorthBus, eastToNorthTruck,
-											eastToNorthMotorBike, eastToNorthPedestrian, eastToNorthCrutches1,
-											eastToNorthCrutches2, eastToNorthCane, eastToNorthDog, eastToNorthMobilityScooter,
-											eastToNorthWheelChairAssisted, eastToNorthWheelChairManual, eastToNorthWheelChairPowered,
-											eastToNorthPushChair, eastToNorthSkateboard, eastToNorthManualScooter);
-								}else if(x == 4 && y == 2){
-									//East to North-East
-									appendCountables(fileWriter, eastToNorthEastCar, eastToNorthEastBus, eastToNorthEastTruck,
-											eastToNorthEastMotorBike, eastToNorthEastPedestrian, eastToNorthEastCrutches1,
-											eastToNorthEastCrutches2, eastToNorthEastCane, eastToNorthEastDog, eastToNorthEastMobilityScooter,
-											eastToNorthEastWheelChairAssisted, eastToNorthEastWheelChairManual, eastToNorthEastWheelChairPowered,
-											eastToNorthEastPushChair, eastToNorthEastSkateboard, eastToNorthEastManualScooter);
-								}else if(x == 4 && y == 3){
-									//East to West
-									appendCountables(fileWriter, eastToWestCar, eastToWestBus, eastToWestTruck,
-											eastToWestMotorBike, eastToWestPedestrian, eastToWestCrutches1,
-											eastToWestCrutches2, eastToWestCane, eastToWestDog, eastToWestMobilityScooter,
-											eastToWestWheelChairAssisted, eastToWestWheelChairManual, eastToWestWheelChairPowered,
-											eastToWestPushChair, eastToWestSkateboard, eastToWestManualScooter);
-								}else if(x == 4 && y == 5){
-									//East to South-West
-									appendCountables(fileWriter, eastToSouthWestCar, eastToSouthWestBus, eastToSouthWestTruck,
-											eastToSouthWestMotorBike, eastToSouthWestPedestrian, eastToSouthWestCrutches1,
-											eastToSouthWestCrutches2, eastToSouthWestCane, eastToSouthWestDog, eastToSouthWestMobilityScooter,
-											eastToSouthWestWheelChairAssisted, eastToSouthWestWheelChairManual, eastToSouthWestWheelChairPowered,
-											eastToSouthWestPushChair, eastToSouthWestSkateboard, eastToSouthWestManualScooter);
-								}else if(x == 4 && y == 6){
-									//East to South
-									appendCountables(fileWriter, eastToSouthCar, eastToSouthBus, eastToSouthTruck,
-											eastToSouthMotorBike, eastToSouthPedestrian, eastToSouthCrutches1,
-											eastToSouthCrutches2, eastToSouthCane, eastToSouthDog, eastToSouthMobilityScooter,
-											eastToSouthWheelChairAssisted, eastToSouthWheelChairManual, eastToSouthWheelChairPowered,
-											eastToSouthPushChair, eastToSouthSkateboard, eastToSouthManualScooter);
-								}else if(x == 4 && y == 7){
-									//East to South-East
-									appendCountables(fileWriter, eastToSouthEastCar, eastToSouthEastBus, eastToSouthEastTruck,
-											eastToSouthEastMotorBike, eastToSouthEastPedestrian, eastToSouthEastCrutches1,
-											eastToSouthEastCrutches2, eastToSouthEastCane, eastToSouthEastDog, eastToSouthEastMobilityScooter,
-											eastToSouthEastWheelChairAssisted, eastToSouthEastWheelChairManual, eastToSouthEastWheelChairPowered,
-											eastToSouthEastPushChair, eastToSouthEastSkateboard, eastToSouthEastManualScooter);
-								}//FROM South-West TO ...
-								else if(x == 5 && y == 0){
-									//South-West to North-West
-									appendCountables(fileWriter, southWestToNorthWestCar, southWestToNorthWestBus, southWestToNorthWestTruck,
-											southWestToNorthWestMotorBike, southWestToNorthWestPedestrian, southWestToNorthWestCrutches1,
-											southWestToNorthWestCrutches2, southWestToNorthWestCane, southWestToNorthWestDog, southWestToNorthWestMobilityScooter,
-											southWestToNorthWestWheelChairAssisted, southWestToNorthWestWheelChairManual, southWestToNorthWestWheelChairPowered,
-											southWestToNorthWestPushChair, southWestToNorthWestSkateboard, southWestToNorthWestManualScooter);
-								}else if(x == 5 && y == 1){
-									//South-West to North
-									appendCountables(fileWriter, southWestToNorthCar, southWestToNorthBus, southWestToNorthTruck,
-											southWestToNorthMotorBike, southWestToNorthPedestrian, southWestToNorthCrutches1,
-											southWestToNorthCrutches2, southWestToNorthCane, southWestToNorthDog, southWestToNorthMobilityScooter,
-											southWestToNorthWheelChairAssisted, southWestToNorthWheelChairManual, southWestToNorthWheelChairPowered,
-											southWestToNorthPushChair, southWestToNorthSkateboard, southWestToNorthManualScooter);
-								}else if(x == 5 && y == 2){
-									//South-West to North-East
-									appendCountables(fileWriter, southWestToNorthEastCar, southWestToNorthEastBus, southWestToNorthEastTruck,
-											southWestToNorthEastMotorBike, southWestToNorthEastPedestrian, southWestToNorthEastCrutches1,
-											southWestToNorthEastCrutches2, southWestToNorthEastCane, southWestToNorthEastDog, southWestToNorthEastMobilityScooter,
-											southWestToNorthEastWheelChairAssisted, southWestToNorthEastWheelChairManual, southWestToNorthEastWheelChairPowered,
-											southWestToNorthEastPushChair, southWestToNorthEastSkateboard, southWestToNorthEastManualScooter);
-								}else if(x == 5 && y == 3){
-									//South-West to West
-									appendCountables(fileWriter, southWestToWestCar, southWestToWestBus, southWestToWestTruck,
-											southWestToWestMotorBike, southWestToWestPedestrian, southWestToWestCrutches1,
-											southWestToWestCrutches2, southWestToWestCane, southWestToWestDog, southWestToWestMobilityScooter,
-											southWestToWestWheelChairAssisted, southWestToWestWheelChairManual, southWestToWestWheelChairPowered,
-											southWestToWestPushChair, southWestToWestSkateboard, southWestToWestManualScooter);
-								}else if(x == 5 && y == 4){
-									//South-West to East
-									appendCountables(fileWriter, southWestToEastCar, southWestToEastBus, southWestToEastTruck,
-											southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
-											southWestToEastCrutches2, southWestToEastCane, southWestToEastDog, southWestToEastMobilityScooter,
-											southWestToEastWheelChairAssisted, southWestToEastWheelChairManual, southWestToEastWheelChairPowered,
-											southWestToEastPushChair, southWestToEastSkateboard, southWestToEastManualScooter);
-								}else if(x == 5 && y == 6){
-									//South-West to South
-									appendCountables(fileWriter, southWestToSouthCar, southWestToSouthBus, southWestToSouthTruck,
-											southWestToSouthMotorBike, southWestToSouthPedestrian, southWestToSouthCrutches1,
-											southWestToSouthCrutches2, southWestToSouthCane, southWestToSouthDog, southWestToSouthMobilityScooter,
-											southWestToSouthWheelChairAssisted, southWestToSouthWheelChairManual, southWestToSouthWheelChairPowered,
-											southWestToSouthPushChair, southWestToSouthSkateboard, southWestToSouthManualScooter);
-								}else if(x == 5 && y == 7){
-									//South-West to South-East
-									appendCountables(fileWriter, southWestToSouthEastCar, southWestToSouthEastBus, southWestToSouthEastTruck,
-											southWestToSouthEastMotorBike, southWestToSouthEastPedestrian, southWestToSouthEastCrutches1,
-											southWestToSouthEastCrutches2, southWestToSouthEastCane, southWestToSouthEastDog, southWestToSouthEastMobilityScooter,
-											southWestToSouthEastWheelChairAssisted, southWestToSouthEastWheelChairManual, southWestToSouthEastWheelChairPowered,
-											southWestToSouthEastPushChair, southWestToSouthEastSkateboard, southWestToSouthEastManualScooter);
-								}//FROM South TO ...
-								else if(x == 6 && y == 0){
-									//South to North-West
-									appendCountables(fileWriter, southToNorthWestCar, southToNorthWestBus, southToNorthWestTruck,
-											southToNorthWestMotorBike, southToNorthWestPedestrian, southToNorthWestCrutches1,
-											southToNorthWestCrutches2, southToNorthWestCane, southToNorthWestDog, southToNorthWestMobilityScooter,
-											southToNorthWestWheelChairAssisted, southToNorthWestWheelChairManual, southToNorthWestWheelChairPowered,
-											southToNorthWestPushChair, southToNorthWestSkateboard, southToNorthWestManualScooter);
-								}else if(x == 6 && y == 1){
-									//South to North
-									appendCountables(fileWriter, southToNorthCar, southToNorthBus, southToNorthTruck,
-											southToNorthMotorBike, southToNorthPedestrian, southToNorthCrutches1,
-											southToNorthCrutches2, southToNorthCane, southToNorthDog, southToNorthMobilityScooter,
-											southToNorthWheelChairAssisted, southToNorthWheelChairManual, southToNorthWheelChairPowered,
-											southToNorthPushChair, southToNorthSkateboard, southToNorthManualScooter);
-								}else if(x == 6 && y == 2){
-									//South to North-East
-									appendCountables(fileWriter, southToNorthEastCar, southToNorthEastBus, southToNorthEastTruck,
-											southToNorthEastMotorBike, southToNorthEastPedestrian, southToNorthEastCrutches1,
-											southToNorthEastCrutches2, southToNorthEastCane, southToNorthEastDog, southToNorthEastMobilityScooter,
-											southToNorthEastWheelChairAssisted, southToNorthEastWheelChairManual, southToNorthEastWheelChairPowered,
-											southToNorthEastPushChair, southToNorthEastSkateboard, southToNorthEastManualScooter);
-								}else if(x == 6 && y == 3){
-									//South to West
-									appendCountables(fileWriter, southToWestCar, southToWestBus, southToWestTruck,
-											southToWestMotorBike, southToWestPedestrian, southToWestCrutches1,
-											southToWestCrutches2, southToWestCane, southToWestDog, southToWestMobilityScooter,
-											southToWestWheelChairAssisted, southToWestWheelChairManual, southToWestWheelChairPowered,
-											southToWestPushChair, southToWestSkateboard, southToWestManualScooter);
-								}else if(x == 6 && y == 4){
-									//South to East
-									appendCountables(fileWriter, southToEastCar, southToEastBus, southToEastTruck,
-											southToEastMotorBike, southToEastPedestrian, southToEastCrutches1,
-											southToEastCrutches2, southToEastCane, southToEastDog, southToEastMobilityScooter,
-											southToEastWheelChairAssisted, southToEastWheelChairManual, southToEastWheelChairPowered,
-											southToEastPushChair, southToEastSkateboard, southToEastManualScooter);
-								}else if(x == 6 && y == 5){
-									//South to South-West
-									appendCountables(fileWriter, southToSouthWestCar, southToSouthWestBus, southToSouthWestTruck,
-											southToSouthWestMotorBike, southToSouthWestPedestrian, southToSouthWestCrutches1,
-											southToSouthWestCrutches2, southToSouthWestCane, southToSouthWestDog, southToSouthWestMobilityScooter,
-											southToSouthWestWheelChairAssisted, southToSouthWestWheelChairManual, southToSouthWestWheelChairPowered,
-											southToSouthWestPushChair, southToSouthWestSkateboard, southToSouthWestManualScooter);
-								}else if(x == 6 && y == 7){
-									//South to South-East
-									appendCountables(fileWriter, southToSouthEastCar, southToSouthEastBus, southToSouthEastTruck,
-											southToSouthEastMotorBike, southToSouthEastPedestrian, southToSouthEastCrutches1,
-											southToSouthEastCrutches2, southToSouthEastCane, southToSouthEastDog, southToSouthEastMobilityScooter,
-											southToSouthEastWheelChairAssisted, southToSouthEastWheelChairManual, southToSouthEastWheelChairPowered,
-											southToSouthEastPushChair, southToSouthEastSkateboard, southToSouthEastManualScooter);
-								}//FROM South-East TO ...
-								else if(x == 7 && y == 0){
-									//South-East to North-West
-									appendCountables(fileWriter, southEastToNorthWestCar, southEastToNorthWestBus, southEastToNorthWestTruck,
-											southEastToNorthWestMotorBike, southEastToNorthWestPedestrian, southEastToNorthWestCrutches1,
-											southEastToNorthWestCrutches2, southEastToNorthWestCane, southEastToNorthWestDog, southEastToNorthWestMobilityScooter,
-											southEastToNorthWestWheelChairAssisted, southEastToNorthWestWheelChairManual, southEastToNorthWestWheelChairPowered,
-											southEastToNorthWestPushChair, southEastToNorthWestSkateboard, southEastToNorthWestManualScooter);
-								}else if(x == 7 && y == 1){
-									//South-East to North
-									appendCountables(fileWriter, southEastToNorthCar, southEastToNorthBus, southEastToNorthTruck,
-											southEastToNorthMotorBike, southEastToNorthPedestrian, southEastToNorthCrutches1,
-											southEastToNorthCrutches2, southEastToNorthCane, southEastToNorthDog, southEastToNorthMobilityScooter,
-											southEastToNorthWheelChairAssisted, southEastToNorthWheelChairManual, southEastToNorthWheelChairPowered,
-											southEastToNorthPushChair, southEastToNorthSkateboard, southEastToNorthManualScooter);
-								}else if(x == 7 && y == 2){
-									//South-East to North-East
-									appendCountables(fileWriter, southEastToNorthEastCar, southEastToNorthEastBus, southEastToNorthEastTruck,
-											southEastToNorthEastMotorBike, southEastToNorthEastPedestrian, southEastToNorthEastCrutches1,
-											southEastToNorthEastCrutches2, southEastToNorthEastCane, southEastToNorthEastDog, southEastToNorthEastMobilityScooter,
-											southEastToNorthEastWheelChairAssisted, southEastToNorthEastWheelChairManual, southEastToNorthEastWheelChairPowered,
-											southEastToNorthEastPushChair, southEastToNorthEastSkateboard, southEastToNorthEastManualScooter);
-								}else if(x == 7 && y == 3){
-									//South-East to West
-									appendCountables(fileWriter, southEastToWestCar, southEastToWestBus, southEastToWestTruck,
-											southEastToWestMotorBike, southEastToWestPedestrian, southEastToWestCrutches1,
-											southEastToWestCrutches2, southEastToWestCane, southEastToWestDog, southEastToWestMobilityScooter,
-											southEastToWestWheelChairAssisted, southEastToWestWheelChairManual, southEastToWestWheelChairPowered,
-											southEastToWestPushChair, southEastToWestSkateboard, southEastToWestManualScooter);
-								}else if(x == 7 && y == 4){
-									//South-East to East
-									appendCountables(fileWriter, southEastToEastCar, southEastToEastBus, southEastToEastTruck,
-											southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
-											southEastToEastCrutches2, southEastToEastCane, southEastToEastDog, southEastToEastMobilityScooter,
-											southEastToEastWheelChairAssisted, southEastToEastWheelChairManual, southEastToEastWheelChairPowered,
-											southEastToEastPushChair, southEastToEastSkateboard, southEastToEastManualScooter);
-								}else if(x == 7 && y == 5){
-									//South-East to South-West
-									appendCountables(fileWriter, southEastToSouthWestCar, southEastToSouthWestBus, southEastToSouthWestTruck,
-											southEastToSouthWestMotorBike, southEastToSouthWestPedestrian, southEastToSouthWestCrutches1,
-											southEastToSouthWestCrutches2, southEastToSouthWestCane, southEastToSouthWestDog, southEastToSouthWestMobilityScooter,
-											southEastToSouthWestWheelChairAssisted, southEastToSouthWestWheelChairManual, southEastToSouthWestWheelChairPowered,
-											southEastToSouthWestPushChair, southEastToSouthWestSkateboard, southEastToSouthWestManualScooter);
-								}else if(x == 7 && y == 6){
-									//South-East to South
-									appendCountables(fileWriter, southEastToSouthCar, southEastToSouthBus, southEastToSouthTruck,
-											southEastToSouthMotorBike, southEastToSouthPedestrian, southEastToSouthCrutches1,
-											southEastToSouthCrutches2, southEastToSouthCane, southEastToSouthDog, southEastToSouthMobilityScooter,
-											southEastToSouthWheelChairAssisted, southEastToSouthWheelChairManual, southEastToSouthWheelChairPowered,
-											southEastToSouthPushChair, southEastToSouthSkateboard, southEastToSouthManualScooter);
-								}else{
-									userMessage("Nothing was saved!");
-									break;
-								}
+			for (int x = 0; x < 8; x++) {
+				if(intersectionsPicked[x]){
+					for (int y = 0; y < 8; y++) {
+						if(intersectionsPicked[y] && y != x){
+							//FROM NORTH-WEST TO ...
+							if(x == 0 && y == 1){
+								//DIRECTION: North-west To North
+								appendCountables(fileWriter, northWestToNorthCar, northWestToNorthBus, northWestToNorthTruck,
+												northWestToNorthMotorBike, northWestToNorthPedestrian, northWestToNorthCrutches1,
+												northWestToNorthCrutches2, northWestToNorthCane, northWestToNorthDog, northWestToNorthMobilityScooter,
+												northWestToNorthWheelChairAssisted, northWestToNorthWheelChairManual, northWestToNorthWheelChairPowered,
+												northWestToNorthPushChair, northWestToNorthSkateboard, northWestToNorthManualScooter);
+								userMessage("Data save complete");
+							}else if(x == 0 && y == 2){
+								//North-west to North-East
+								appendCountables(fileWriter, northWestToNorthEastCar, northWestToNorthEastBus, northWestToNorthEastTruck,
+										northWestToNorthEastMotorBike, northWestToNorthEastPedestrian, northWestToNorthEastCrutches1,
+										northWestToNorthEastCrutches2, northWestToNorthEastCane, northWestToNorthEastDog, northWestToNorthEastMobilityScooter,
+										northWestToNorthEastWheelChairAssisted, northWestToNorthEastWheelChairManual, northWestToNorthEastWheelChairPowered,
+										northWestToNorthEastPushChair, northWestToNorthEastSkateboard, northWestToNorthEastManualScooter);
+								userMessage("Data save complete");
+							}else if(x == 0 && y == 3){
+								//North-west to West
+								appendCountables(fileWriter, northWestToWestCar, northWestToWestBus, northWestToWestTruck,
+										northWestToWestMotorBike, northWestToWestPedestrian, northWestToWestCrutches1,
+										northWestToWestCrutches2, northWestToWestCane, northWestToWestDog, northWestToWestMobilityScooter,
+										northWestToWestWheelChairAssisted, northWestToWestWheelChairManual, northWestToWestWheelChairPowered,
+										northWestToWestPushChair, northWestToWestSkateboard, northWestToWestManualScooter);
+								userMessage("Data save complete");
+								
+							}else if(x == 0 && y == 4){
+								//North-west to East
+								appendCountables(fileWriter, northWestToEastCar, northWestToEastBus, northWestToEastTruck,
+										northWestToEastMotorBike, northWestToEastPedestrian, northWestToEastCrutches1,
+										northWestToEastCrutches2, northWestToEastCane, northWestToEastDog, northWestToEastMobilityScooter,
+										northWestToEastWheelChairAssisted, northWestToEastWheelChairManual, northWestToEastWheelChairPowered,
+										northWestToEastPushChair, northWestToEastSkateboard, northWestToEastManualScooter);
+								userMessage("Data save complete");
+								
+							}else if(x == 0 && y == 5){
+								//North-west to South-West
+								appendCountables(fileWriter, northWestToSouthWestCar, northWestToSouthWestBus, northWestToSouthWestTruck,
+										northWestToSouthWestMotorBike, northWestToSouthWestPedestrian, northWestToSouthWestCrutches1,
+										northWestToSouthWestCrutches2, northWestToSouthWestCane, northWestToSouthWestDog, northWestToSouthWestMobilityScooter,
+										northWestToSouthWestWheelChairAssisted, northWestToSouthWestWheelChairManual, northWestToSouthWestWheelChairPowered,
+										northWestToSouthWestPushChair, northWestToSouthWestSkateboard, northWestToSouthWestManualScooter);
+								userMessage("Data save complete");
+								
+							}else if(x == 0 && y == 6){
+								//North-west to South
+								appendCountables(fileWriter, northWestToSouthCar, northWestToSouthBus, northWestToSouthTruck,
+										northWestToSouthMotorBike, northWestToSouthPedestrian, northWestToSouthCrutches1,
+										northWestToSouthCrutches2, northWestToSouthCane, northWestToSouthDog, northWestToSouthMobilityScooter,
+										northWestToSouthWheelChairAssisted, northWestToSouthWheelChairManual, northWestToSouthWheelChairPowered,
+										northWestToSouthPushChair, northWestToSouthSkateboard, northWestToSouthManualScooter);
+								userMessage("Data save complete");
+							}else if(x == 0 && y == 7){
+								//North-west to South-East
+								appendCountables(fileWriter, northWestToSouthEastCar, northWestToSouthEastBus, northWestToSouthEastTruck,
+										northWestToSouthEastMotorBike, northWestToSouthEastPedestrian, northWestToSouthEastCrutches1,
+										northWestToSouthEastCrutches2, northWestToSouthEastCane, northWestToSouthEastDog, northWestToSouthEastMobilityScooter,
+										northWestToSouthEastWheelChairAssisted, northWestToSouthEastWheelChairManual, northWestToSouthEastWheelChairPowered,
+										northWestToSouthEastPushChair, northWestToSouthEastSkateboard, northWestToSouthEastManualScooter);
+								userMessage("Data save complete");
+								
+							}
+							
+							//FROM NORTH TO ...
+							else if(x == 1 && y == 0){
+								//North to North-West
+								appendCountables(fileWriter, northToNorthWestCar, northToNorthWestBus, northToNorthWestTruck,
+										northToNorthWestMotorBike, northToNorthWestPedestrian, northToNorthWestCrutches1,
+										northToNorthWestCrutches2, northToNorthWestCane, northToNorthWestDog, northToNorthWestMobilityScooter,
+										northToNorthWestWheelChairAssisted, northToNorthWestWheelChairManual, northToNorthWestWheelChairPowered,
+										northToNorthWestPushChair, northToNorthWestSkateboard, northToNorthWestManualScooter);
+								
+							}else if(x == 1 && y == 2){
+								//North to North-East
+								appendCountables(fileWriter, northToNorthEastCar, northToNorthEastBus, northToNorthEastTruck,
+										northToNorthEastMotorBike, northToNorthEastPedestrian, northToNorthEastCrutches1,
+										northToNorthEastCrutches2, northToNorthEastCane, northToNorthEastDog, northToNorthEastMobilityScooter,
+										northToNorthEastWheelChairAssisted, northToNorthEastWheelChairManual, northToNorthEastWheelChairPowered,
+										northToNorthEastPushChair, northToNorthEastSkateboard, northToNorthEastManualScooter);
+								
+							}else if(x == 1 && y == 3){
+								//North to West
+								appendCountables(fileWriter, northToWestCar, northToWestBus, northToWestTruck,
+										northToWestMotorBike, northToWestPedestrian, northToWestCrutches1,
+										northToWestCrutches2, northToWestCane, northToWestDog, northToWestMobilityScooter,
+										northToWestWheelChairAssisted, northToWestWheelChairManual, northToWestWheelChairPowered,
+										northToWestPushChair, northToWestSkateboard, northToWestManualScooter);
+								
+							}else if(x == 1 && y == 4){
+								//North to East
+								appendCountables(fileWriter, northToEastCar, northToEastBus, northToEastTruck,
+										northToEastMotorBike, northToEastPedestrian, northToEastCrutches1,
+										northToEastCrutches2, northToEastCane, northToEastDog, northToEastMobilityScooter,
+										northToEastWheelChairAssisted, northToEastWheelChairManual, northToEastWheelChairPowered,
+										northToEastPushChair, northToEastSkateboard, northToEastManualScooter);
+								
+							}else if(x == 1 && y == 5){
+								//North to South-West
+								appendCountables(fileWriter, northToSouthWestCar, northToSouthWestBus, northToSouthWestTruck,
+										northToSouthWestMotorBike, northToSouthWestPedestrian, northToSouthWestCrutches1,
+										northToSouthWestCrutches2, northToSouthWestCane, northToSouthWestDog, northToSouthWestMobilityScooter,
+										northToSouthWestWheelChairAssisted, northToSouthWestWheelChairManual, northToSouthWestWheelChairPowered,
+										northToSouthWestPushChair, northToSouthWestSkateboard, northToSouthWestManualScooter);
+								
+							}else if(x == 1 && y == 6){
+								//North to South
+								appendCountables(fileWriter, northToSouthCar, northToSouthBus, northToSouthTruck,
+										northToSouthMotorBike, northToSouthPedestrian, northToSouthCrutches1,
+										northToSouthCrutches2, northToSouthCane, northToSouthDog, northToSouthMobilityScooter,
+										northToSouthWheelChairAssisted, northToSouthWheelChairManual, northToSouthWheelChairPowered,
+										northToSouthPushChair, northToSouthSkateboard, northToSouthManualScooter);
+								
+							}else if(x == 1 && y == 7){
+								//North to South-East
+								appendCountables(fileWriter, northToSouthEastCar, northToSouthEastBus, northToSouthEastTruck,
+										northToSouthEastMotorBike, northToSouthEastPedestrian, northToSouthEastCrutches1,
+										northToSouthEastCrutches2, northToSouthEastCane, northToSouthEastDog, northToSouthEastMobilityScooter,
+										northToSouthEastWheelChairAssisted, northToSouthEastWheelChairManual, northToSouthEastWheelChairPowered,
+										northToSouthEastPushChair, northToSouthEastSkateboard, northToSouthEastManualScooter);
+								
+							}
+							
+							//FROM NORTH-EAST TO ...
+							else if(x == 2 && y == 0){
+								//North-East to North-West
+								appendCountables(fileWriter, northEastToNorthWestCar, northEastToNorthWestBus, northEastToNorthWestTruck,
+										northEastToNorthWestMotorBike, northEastToNorthWestPedestrian, northEastToNorthWestCrutches1,
+										northEastToNorthWestCrutches2, northEastToNorthWestCane, northEastToNorthWestDog, northEastToNorthWestMobilityScooter,
+										northEastToNorthWestWheelChairAssisted, northEastToNorthWestWheelChairManual, northEastToNorthWestWheelChairPowered,
+										northEastToNorthWestPushChair, northEastToNorthWestSkateboard, northEastToNorthWestManualScooter);
+								
+							}else if(x == 2 && y == 1){
+								//North-East to North
+								appendCountables(fileWriter, northEastToNorthCar, northEastToNorthBus, northEastToNorthTruck,
+										northEastToNorthMotorBike, northEastToNorthPedestrian, northEastToNorthCrutches1,
+										northEastToNorthCrutches2, northEastToNorthCane, northEastToNorthDog, northEastToNorthMobilityScooter,
+										northEastToNorthWheelChairAssisted, northEastToNorthWheelChairManual, northEastToNorthWheelChairPowered,
+										northEastToNorthPushChair, northEastToNorthSkateboard, northEastToNorthManualScooter);
+								
+							}else if(x == 2 && y == 3){
+								//North-East to West
+								appendCountables(fileWriter, northEastToWestCar, northEastToWestBus, northEastToWestTruck,
+										northEastToWestMotorBike, northEastToWestPedestrian, northEastToWestCrutches1,
+										northEastToWestCrutches2, northEastToWestCane, northEastToWestDog, northEastToWestMobilityScooter,
+										northEastToWestWheelChairAssisted, northEastToWestWheelChairManual, northEastToWestWheelChairPowered,
+										northEastToWestPushChair, northEastToWestSkateboard, northEastToWestManualScooter);
+								
+							}else if(x == 2 && y == 4){
+								//North-East to East
+								appendCountables(fileWriter, northEastToEastCar, northEastToEastBus, northEastToEastTruck,
+										northEastToEastMotorBike, northEastToEastPedestrian, northEastToEastCrutches1,
+										northEastToEastCrutches2, northEastToEastCane, northEastToEastDog, northEastToEastMobilityScooter,
+										northEastToEastWheelChairAssisted, northEastToEastWheelChairManual, northEastToEastWheelChairPowered,
+										northEastToEastPushChair, northEastToEastSkateboard, northEastToEastManualScooter);
+								
+							}else if(x == 2 && y == 5){
+								//North-East to South-West
+								appendCountables(fileWriter, northEastToSouthWestCar, northEastToSouthWestBus, northEastToSouthWestTruck,
+										northEastToSouthWestMotorBike, northEastToSouthWestPedestrian, northEastToSouthWestCrutches1,
+										northEastToSouthWestCrutches2, northEastToSouthWestCane, northEastToSouthWestDog, northEastToSouthWestMobilityScooter,
+										northEastToSouthWestWheelChairAssisted, northEastToSouthWestWheelChairManual, northEastToSouthWestWheelChairPowered,
+										northEastToSouthWestPushChair, northEastToSouthWestSkateboard, northEastToSouthWestManualScooter);
+								
+							}else if(x == 2 && y == 6){
+								//North-East to South
+								appendCountables(fileWriter, northEastToSouthCar, northEastToSouthBus, northEastToSouthTruck,
+										northEastToSouthMotorBike, northEastToSouthPedestrian, northEastToSouthCrutches1,
+										northEastToSouthCrutches2, northEastToSouthCane, northEastToSouthDog, northEastToSouthMobilityScooter,
+										northEastToSouthWheelChairAssisted, northEastToSouthWheelChairManual, northEastToSouthWheelChairPowered,
+										northEastToSouthPushChair, northEastToSouthSkateboard, northEastToSouthManualScooter);
+								
+							}else if(x == 2 && y == 7){
+								//North-East to South-East
+								appendCountables(fileWriter, northEastToSouthEastCar, northEastToSouthEastBus, northEastToSouthEastTruck,
+										northEastToSouthEastMotorBike, northEastToSouthEastPedestrian, northEastToSouthEastCrutches1,
+										northEastToSouthEastCrutches2, northEastToSouthEastCane, northEastToSouthEastDog, northEastToSouthEastMobilityScooter,
+										northEastToSouthEastWheelChairAssisted, northEastToSouthEastWheelChairManual, northEastToSouthEastWheelChairPowered,
+										northEastToSouthEastPushChair, northEastToSouthEastSkateboard, northEastToSouthEastManualScooter);
+								
+							}
+							
+							//FROM West TO ...
+							else if(x == 3 && y == 0){
+								//West to North-West
+								appendCountables(fileWriter, westToNorthWestCar, westToNorthWestBus, westToNorthWestTruck,
+										westToNorthWestMotorBike, westToNorthWestPedestrian, westToNorthWestCrutches1,
+										westToNorthWestCrutches2, westToNorthWestCane, westToNorthWestDog, westToNorthWestMobilityScooter,
+										westToNorthWestWheelChairAssisted, westToNorthWestWheelChairManual, westToNorthWestWheelChairPowered,
+										westToNorthWestPushChair, westToNorthWestSkateboard, westToNorthWestManualScooter);
+							
+							}else if(x == 3 && y == 1){
+								//West to North
+								appendCountables(fileWriter, westToNorthCar, westToNorthBus, westToNorthTruck,
+										westToNorthMotorBike, westToNorthPedestrian, westToNorthCrutches1,
+										westToNorthCrutches2, westToNorthCane, westToNorthDog, westToNorthMobilityScooter,
+										westToNorthWheelChairAssisted, westToNorthWheelChairManual, westToNorthWheelChairPowered,
+										westToNorthPushChair, westToNorthSkateboard, westToNorthManualScooter);
+							
+							}else if(x == 3 && y == 2){
+								//West to North-East
+								appendCountables(fileWriter, westToNorthEastCar, westToNorthEastBus, westToNorthEastTruck,
+										westToNorthEastMotorBike, westToNorthEastPedestrian, westToNorthEastCrutches1,
+										westToNorthEastCrutches2, westToNorthEastCane, westToNorthEastDog, westToNorthEastMobilityScooter,
+										westToNorthEastWheelChairAssisted, westToNorthEastWheelChairManual, westToNorthEastWheelChairPowered,
+										westToNorthEastPushChair, westToNorthEastSkateboard, westToNorthEastManualScooter);
+								
+							}else if(x == 3 && y == 4){
+								//West to East
+								appendCountables(fileWriter, westToEastCar, westToEastBus, westToEastTruck,
+										westToEastMotorBike, westToEastPedestrian, westToEastCrutches1,
+										westToEastCrutches2, westToEastCane, westToEastDog, westToEastMobilityScooter,
+										westToEastWheelChairAssisted, westToEastWheelChairManual, westToEastWheelChairPowered,
+										westToEastPushChair, westToEastSkateboard, westToEastManualScooter);
+							
+							}else if(x == 3 && y == 5){
+								//West to South-West
+								appendCountables(fileWriter, westToSouthWestCar, westToSouthWestBus, westToSouthWestTruck,
+										westToSouthWestMotorBike, westToSouthWestPedestrian, westToSouthWestCrutches1,
+										westToSouthWestCrutches2, westToSouthWestCane, westToSouthWestDog, westToSouthWestMobilityScooter,
+										westToSouthWestWheelChairAssisted, westToSouthWestWheelChairManual, westToSouthWestWheelChairPowered,
+										westToSouthWestPushChair, westToSouthWestSkateboard, westToSouthWestManualScooter);
+							
+							}else if(x == 3 && y == 6){
+								//West to South
+								appendCountables(fileWriter, westToSouthCar, westToSouthBus, westToSouthTruck,
+										westToSouthMotorBike, westToSouthPedestrian, westToSouthCrutches1,
+										westToSouthCrutches2, westToSouthCane, westToSouthDog, westToSouthMobilityScooter,
+										westToSouthWheelChairAssisted, westToSouthWheelChairManual, westToSouthWheelChairPowered,
+										westToSouthPushChair, westToSouthSkateboard, westToSouthManualScooter);
+							
+							}else if(x == 3 && y == 7){
+								//West to South-East
+								appendCountables(fileWriter, westToSouthEastCar, westToSouthEastBus, westToSouthEastTruck,
+										westToSouthEastMotorBike, westToSouthEastPedestrian, westToSouthEastCrutches1,
+										westToSouthEastCrutches2, westToSouthEastCane, westToSouthEastDog, westToSouthEastMobilityScooter,
+										westToSouthEastWheelChairAssisted, westToSouthEastWheelChairManual, westToSouthEastWheelChairPowered,
+										westToSouthEastPushChair, westToSouthEastSkateboard, westToSouthEastManualScooter);
+								
+							}
+							
+							//FROM East TO ...
+							else if(x == 4 && y == 0){
+								//East to North-West
+								appendCountables(fileWriter, eastToNorthWestCar, eastToNorthWestBus, eastToNorthWestTruck,
+										eastToNorthWestMotorBike, eastToNorthWestPedestrian, eastToNorthWestCrutches1,
+										eastToNorthWestCrutches2, eastToNorthWestCane, eastToNorthWestDog, eastToNorthWestMobilityScooter,
+										eastToNorthWestWheelChairAssisted, eastToNorthWestWheelChairManual, eastToNorthWestWheelChairPowered,
+										eastToNorthWestPushChair, eastToNorthWestSkateboard, eastToNorthWestManualScooter);
+								
+							}else if(x == 4 && y == 1){
+								//East to North
+								appendCountables(fileWriter, eastToNorthCar, eastToNorthBus, eastToNorthTruck,
+										eastToNorthMotorBike, eastToNorthPedestrian, eastToNorthCrutches1,
+										eastToNorthCrutches2, eastToNorthCane, eastToNorthDog, eastToNorthMobilityScooter,
+										eastToNorthWheelChairAssisted, eastToNorthWheelChairManual, eastToNorthWheelChairPowered,
+										eastToNorthPushChair, eastToNorthSkateboard, eastToNorthManualScooter);
+								
+							}else if(x == 4 && y == 2){
+								//East to North-East
+								appendCountables(fileWriter, eastToNorthEastCar, eastToNorthEastBus, eastToNorthEastTruck,
+										eastToNorthEastMotorBike, eastToNorthEastPedestrian, eastToNorthEastCrutches1,
+										eastToNorthEastCrutches2, eastToNorthEastCane, eastToNorthEastDog, eastToNorthEastMobilityScooter,
+										eastToNorthEastWheelChairAssisted, eastToNorthEastWheelChairManual, eastToNorthEastWheelChairPowered,
+										eastToNorthEastPushChair, eastToNorthEastSkateboard, eastToNorthEastManualScooter);
+								
+							}else if(x == 4 && y == 3){
+								//East to West
+								appendCountables(fileWriter, eastToWestCar, eastToWestBus, eastToWestTruck,
+										eastToWestMotorBike, eastToWestPedestrian, eastToWestCrutches1,
+										eastToWestCrutches2, eastToWestCane, eastToWestDog, eastToWestMobilityScooter,
+										eastToWestWheelChairAssisted, eastToWestWheelChairManual, eastToWestWheelChairPowered,
+										eastToWestPushChair, eastToWestSkateboard, eastToWestManualScooter);
+								
+							}else if(x == 4 && y == 5){
+								//East to South-West
+								appendCountables(fileWriter, eastToSouthWestCar, eastToSouthWestBus, eastToSouthWestTruck,
+										eastToSouthWestMotorBike, eastToSouthWestPedestrian, eastToSouthWestCrutches1,
+										eastToSouthWestCrutches2, eastToSouthWestCane, eastToSouthWestDog, eastToSouthWestMobilityScooter,
+										eastToSouthWestWheelChairAssisted, eastToSouthWestWheelChairManual, eastToSouthWestWheelChairPowered,
+										eastToSouthWestPushChair, eastToSouthWestSkateboard, eastToSouthWestManualScooter);
+								
+							}else if(x == 4 && y == 6){
+								//East to South
+								appendCountables(fileWriter, eastToSouthCar, eastToSouthBus, eastToSouthTruck,
+										eastToSouthMotorBike, eastToSouthPedestrian, eastToSouthCrutches1,
+										eastToSouthCrutches2, eastToSouthCane, eastToSouthDog, eastToSouthMobilityScooter,
+										eastToSouthWheelChairAssisted, eastToSouthWheelChairManual, eastToSouthWheelChairPowered,
+										eastToSouthPushChair, eastToSouthSkateboard, eastToSouthManualScooter);
+								
+							}else if(x == 4 && y == 7){
+								//East to South-East
+								appendCountables(fileWriter, eastToSouthEastCar, eastToSouthEastBus, eastToSouthEastTruck,
+										eastToSouthEastMotorBike, eastToSouthEastPedestrian, eastToSouthEastCrutches1,
+										eastToSouthEastCrutches2, eastToSouthEastCane, eastToSouthEastDog, eastToSouthEastMobilityScooter,
+										eastToSouthEastWheelChairAssisted, eastToSouthEastWheelChairManual, eastToSouthEastWheelChairPowered,
+										eastToSouthEastPushChair, eastToSouthEastSkateboard, eastToSouthEastManualScooter);
+							
+							}
+							
+							//FROM South-West TO ...
+							else if(x == 5 && y == 0){
+								//South-West to North-West
+								appendCountables(fileWriter, southWestToNorthWestCar, southWestToNorthWestBus, southWestToNorthWestTruck,
+										southWestToNorthWestMotorBike, southWestToNorthWestPedestrian, southWestToNorthWestCrutches1,
+										southWestToNorthWestCrutches2, southWestToNorthWestCane, southWestToNorthWestDog, southWestToNorthWestMobilityScooter,
+										southWestToNorthWestWheelChairAssisted, southWestToNorthWestWheelChairManual, southWestToNorthWestWheelChairPowered,
+										southWestToNorthWestPushChair, southWestToNorthWestSkateboard, southWestToNorthWestManualScooter);
+								
+							}else if(x == 5 && y == 1){
+								//South-West to North
+								appendCountables(fileWriter, southWestToNorthCar, southWestToNorthBus, southWestToNorthTruck,
+										southWestToNorthMotorBike, southWestToNorthPedestrian, southWestToNorthCrutches1,
+										southWestToNorthCrutches2, southWestToNorthCane, southWestToNorthDog, southWestToNorthMobilityScooter,
+										southWestToNorthWheelChairAssisted, southWestToNorthWheelChairManual, southWestToNorthWheelChairPowered,
+										southWestToNorthPushChair, southWestToNorthSkateboard, southWestToNorthManualScooter);
+								
+							}else if(x == 5 && y == 2){
+								//South-West to North-East
+								appendCountables(fileWriter, southWestToNorthEastCar, southWestToNorthEastBus, southWestToNorthEastTruck,
+										southWestToNorthEastMotorBike, southWestToNorthEastPedestrian, southWestToNorthEastCrutches1,
+										southWestToNorthEastCrutches2, southWestToNorthEastCane, southWestToNorthEastDog, southWestToNorthEastMobilityScooter,
+										southWestToNorthEastWheelChairAssisted, southWestToNorthEastWheelChairManual, southWestToNorthEastWheelChairPowered,
+										southWestToNorthEastPushChair, southWestToNorthEastSkateboard, southWestToNorthEastManualScooter);
+							
+							}else if(x == 5 && y == 3){
+								//South-West to West
+								appendCountables(fileWriter, southWestToWestCar, southWestToWestBus, southWestToWestTruck,
+										southWestToWestMotorBike, southWestToWestPedestrian, southWestToWestCrutches1,
+										southWestToWestCrutches2, southWestToWestCane, southWestToWestDog, southWestToWestMobilityScooter,
+										southWestToWestWheelChairAssisted, southWestToWestWheelChairManual, southWestToWestWheelChairPowered,
+										southWestToWestPushChair, southWestToWestSkateboard, southWestToWestManualScooter);
+							
+							}else if(x == 5 && y == 4){
+								//South-West to East
+								appendCountables(fileWriter, southWestToEastCar, southWestToEastBus, southWestToEastTruck,
+										southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
+										southWestToEastCrutches2, southWestToEastCane, southWestToEastDog, southWestToEastMobilityScooter,
+										southWestToEastWheelChairAssisted, southWestToEastWheelChairManual, southWestToEastWheelChairPowered,
+										southWestToEastPushChair, southWestToEastSkateboard, southWestToEastManualScooter);
+								
+							}else if(x == 5 && y == 6){
+								//South-West to South
+								appendCountables(fileWriter, southWestToSouthCar, southWestToSouthBus, southWestToSouthTruck,
+										southWestToSouthMotorBike, southWestToSouthPedestrian, southWestToSouthCrutches1,
+										southWestToSouthCrutches2, southWestToSouthCane, southWestToSouthDog, southWestToSouthMobilityScooter,
+										southWestToSouthWheelChairAssisted, southWestToSouthWheelChairManual, southWestToSouthWheelChairPowered,
+										southWestToSouthPushChair, southWestToSouthSkateboard, southWestToSouthManualScooter);
+								
+							}else if(x == 5 && y == 7){
+								//South-West to South-East
+								appendCountables(fileWriter, southWestToSouthEastCar, southWestToSouthEastBus, southWestToSouthEastTruck,
+										southWestToSouthEastMotorBike, southWestToSouthEastPedestrian, southWestToSouthEastCrutches1,
+										southWestToSouthEastCrutches2, southWestToSouthEastCane, southWestToSouthEastDog, southWestToSouthEastMobilityScooter,
+										southWestToSouthEastWheelChairAssisted, southWestToSouthEastWheelChairManual, southWestToSouthEastWheelChairPowered,
+										southWestToSouthEastPushChair, southWestToSouthEastSkateboard, southWestToSouthEastManualScooter);
+								
+							}
+							
+							//FROM South TO ...
+							else if(x == 6 && y == 0){
+								//South to North-West
+								appendCountables(fileWriter, southToNorthWestCar, southToNorthWestBus, southToNorthWestTruck,
+										southToNorthWestMotorBike, southToNorthWestPedestrian, southToNorthWestCrutches1,
+										southToNorthWestCrutches2, southToNorthWestCane, southToNorthWestDog, southToNorthWestMobilityScooter,
+										southToNorthWestWheelChairAssisted, southToNorthWestWheelChairManual, southToNorthWestWheelChairPowered,
+										southToNorthWestPushChair, southToNorthWestSkateboard, southToNorthWestManualScooter);
+								
+							}else if(x == 6 && y == 1){
+								//South to North
+								appendCountables(fileWriter, southToNorthCar, southToNorthBus, southToNorthTruck,
+										southToNorthMotorBike, southToNorthPedestrian, southToNorthCrutches1,
+										southToNorthCrutches2, southToNorthCane, southToNorthDog, southToNorthMobilityScooter,
+										southToNorthWheelChairAssisted, southToNorthWheelChairManual, southToNorthWheelChairPowered,
+										southToNorthPushChair, southToNorthSkateboard, southToNorthManualScooter);
+								
+							}else if(x == 6 && y == 2){
+								//South to North-East
+								appendCountables(fileWriter, southToNorthEastCar, southToNorthEastBus, southToNorthEastTruck,
+										southToNorthEastMotorBike, southToNorthEastPedestrian, southToNorthEastCrutches1,
+										southToNorthEastCrutches2, southToNorthEastCane, southToNorthEastDog, southToNorthEastMobilityScooter,
+										southToNorthEastWheelChairAssisted, southToNorthEastWheelChairManual, southToNorthEastWheelChairPowered,
+										southToNorthEastPushChair, southToNorthEastSkateboard, southToNorthEastManualScooter);
+								
+							}else if(x == 6 && y == 3){
+								//South to West
+								appendCountables(fileWriter, southToWestCar, southToWestBus, southToWestTruck,
+										southToWestMotorBike, southToWestPedestrian, southToWestCrutches1,
+										southToWestCrutches2, southToWestCane, southToWestDog, southToWestMobilityScooter,
+										southToWestWheelChairAssisted, southToWestWheelChairManual, southToWestWheelChairPowered,
+										southToWestPushChair, southToWestSkateboard, southToWestManualScooter);
+								
+							}else if(x == 6 && y == 4){
+								//South to East
+								appendCountables(fileWriter, southToEastCar, southToEastBus, southToEastTruck,
+										southToEastMotorBike, southToEastPedestrian, southToEastCrutches1,
+										southToEastCrutches2, southToEastCane, southToEastDog, southToEastMobilityScooter,
+										southToEastWheelChairAssisted, southToEastWheelChairManual, southToEastWheelChairPowered,
+										southToEastPushChair, southToEastSkateboard, southToEastManualScooter);
+								
+							}else if(x == 6 && y == 5){
+								//South to South-West
+								appendCountables(fileWriter, southToSouthWestCar, southToSouthWestBus, southToSouthWestTruck,
+										southToSouthWestMotorBike, southToSouthWestPedestrian, southToSouthWestCrutches1,
+										southToSouthWestCrutches2, southToSouthWestCane, southToSouthWestDog, southToSouthWestMobilityScooter,
+										southToSouthWestWheelChairAssisted, southToSouthWestWheelChairManual, southToSouthWestWheelChairPowered,
+										southToSouthWestPushChair, southToSouthWestSkateboard, southToSouthWestManualScooter);
+								
+							}else if(x == 6 && y == 7){
+								//South to South-East
+								appendCountables(fileWriter, southToSouthEastCar, southToSouthEastBus, southToSouthEastTruck,
+										southToSouthEastMotorBike, southToSouthEastPedestrian, southToSouthEastCrutches1,
+										southToSouthEastCrutches2, southToSouthEastCane, southToSouthEastDog, southToSouthEastMobilityScooter,
+										southToSouthEastWheelChairAssisted, southToSouthEastWheelChairManual, southToSouthEastWheelChairPowered,
+										southToSouthEastPushChair, southToSouthEastSkateboard, southToSouthEastManualScooter);
+								
+							}
+							
+							//FROM South-East TO ...
+							else if(x == 7 && y == 0){
+								//South-East to North-West
+								appendCountables(fileWriter, southEastToNorthWestCar, southEastToNorthWestBus, southEastToNorthWestTruck,
+										southEastToNorthWestMotorBike, southEastToNorthWestPedestrian, southEastToNorthWestCrutches1,
+										southEastToNorthWestCrutches2, southEastToNorthWestCane, southEastToNorthWestDog, southEastToNorthWestMobilityScooter,
+										southEastToNorthWestWheelChairAssisted, southEastToNorthWestWheelChairManual, southEastToNorthWestWheelChairPowered,
+										southEastToNorthWestPushChair, southEastToNorthWestSkateboard, southEastToNorthWestManualScooter);
+								
+							}else if(x == 7 && y == 1){
+								//South-East to North
+								appendCountables(fileWriter, southEastToNorthCar, southEastToNorthBus, southEastToNorthTruck,
+										southEastToNorthMotorBike, southEastToNorthPedestrian, southEastToNorthCrutches1,
+										southEastToNorthCrutches2, southEastToNorthCane, southEastToNorthDog, southEastToNorthMobilityScooter,
+										southEastToNorthWheelChairAssisted, southEastToNorthWheelChairManual, southEastToNorthWheelChairPowered,
+										southEastToNorthPushChair, southEastToNorthSkateboard, southEastToNorthManualScooter);
+								
+							}else if(x == 7 && y == 2){
+								//South-East to North-East
+								appendCountables(fileWriter, southEastToNorthEastCar, southEastToNorthEastBus, southEastToNorthEastTruck,
+										southEastToNorthEastMotorBike, southEastToNorthEastPedestrian, southEastToNorthEastCrutches1,
+										southEastToNorthEastCrutches2, southEastToNorthEastCane, southEastToNorthEastDog, southEastToNorthEastMobilityScooter,
+										southEastToNorthEastWheelChairAssisted, southEastToNorthEastWheelChairManual, southEastToNorthEastWheelChairPowered,
+										southEastToNorthEastPushChair, southEastToNorthEastSkateboard, southEastToNorthEastManualScooter);
+								
+							}else if(x == 7 && y == 3){
+								//South-East to West
+								appendCountables(fileWriter, southEastToWestCar, southEastToWestBus, southEastToWestTruck,
+										southEastToWestMotorBike, southEastToWestPedestrian, southEastToWestCrutches1,
+										southEastToWestCrutches2, southEastToWestCane, southEastToWestDog, southEastToWestMobilityScooter,
+										southEastToWestWheelChairAssisted, southEastToWestWheelChairManual, southEastToWestWheelChairPowered,
+										southEastToWestPushChair, southEastToWestSkateboard, southEastToWestManualScooter);
+							
+							}else if(x == 7 && y == 4){
+								//South-East to East
+								appendCountables(fileWriter, southEastToEastCar, southEastToEastBus, southEastToEastTruck,
+										southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
+										southEastToEastCrutches2, southEastToEastCane, southEastToEastDog, southEastToEastMobilityScooter,
+										southEastToEastWheelChairAssisted, southEastToEastWheelChairManual, southEastToEastWheelChairPowered,
+										southEastToEastPushChair, southEastToEastSkateboard, southEastToEastManualScooter);
+								
+							}else if(x == 7 && y == 5){
+								//South-East to South-West
+								appendCountables(fileWriter, southEastToSouthWestCar, southEastToSouthWestBus, southEastToSouthWestTruck,
+										southEastToSouthWestMotorBike, southEastToSouthWestPedestrian, southEastToSouthWestCrutches1,
+										southEastToSouthWestCrutches2, southEastToSouthWestCane, southEastToSouthWestDog, southEastToSouthWestMobilityScooter,
+										southEastToSouthWestWheelChairAssisted, southEastToSouthWestWheelChairManual, southEastToSouthWestWheelChairPowered,
+										southEastToSouthWestPushChair, southEastToSouthWestSkateboard, southEastToSouthWestManualScooter);
+							
+							}else if(x == 7 && y == 6){
+								//South-East to South
+								appendCountables(fileWriter, southEastToSouthCar, southEastToSouthBus, southEastToSouthTruck,
+										southEastToSouthMotorBike, southEastToSouthPedestrian, southEastToSouthCrutches1,
+										southEastToSouthCrutches2, southEastToSouthCane, southEastToSouthDog, southEastToSouthMobilityScooter,
+										southEastToSouthWheelChairAssisted, southEastToSouthWheelChairManual, southEastToSouthWheelChairPowered,
+										southEastToSouthPushChair, southEastToSouthSkateboard, southEastToSouthManualScooter);
+							
 							}
 						}
 					}
 				}
+			}if(dataRowsWritten >= 1){
 				fileWriter.append("\n");
+				userMessage("Available 15 Min session data successfully written!");
+			}
 		}
 		
-		//Append the re-occurring header labels, cars, buses, trucks, etc- Jean-Yves
-		private void appendIntersectionCountsHeader(FileWriter fWriter) throws IOException {
-			fWriter.append(", Cars, Buses, Trucks, Motorbikes, Pedestrians(No Aid), Walking Sticks Crutch(1), Walking Sticks Crutch(2)," +
-					"		Cane(poor eyesight), Guide Dog, Mobility Scooter, Wheelchair(assisted), Wheelchair(manual), Wheelchair(powered)," +
-					"		Push Chair/Buggy, Skateboard, Manual Scooter, ,\n");
+		/*
+		 * Append details about the location the count is taking place, ONCE.
+		 * @author: Jean-Yves
+		 * @since: April 20 2014
+		 */
+		private void appendLocationHeader(FileWriter fileWriter) throws IOException {
+			//These should work, once we make sure the submit button sets the values from Textviews
+			String streetNumandName = CountSetup.getStreetNumAndName();
+			String currentDate = CountSetup.getCurrentDate();
+			String suburbName = CountSetup.getSuburbName();
+			String city = CountSetup.getCityName();
+			String postCode = CountSetup.getAreaCode();
+			String locDescription = CountSetup.getAreaDescript();
+			//Make sure the above string don't return null	
+		
+			if(!locationHeaderAppended){
+				fileWriter.append("Location: " + streetNumandName + 
+						", " + suburbName + ", "+ city +", " + postCode + ", " + "\n" + locDescription +
+						"\n \n");
+				fileWriter.append("Date: " + currentDate + "\n \n");
+				locationHeaderAppended = true;
+			}
 		}
+		
+		/*
+		 * Append the different To and From positions
+		 * @author: Jean-Yves
+		 * @since: May 2 2014
+		 */
+		private void appendFromAndToPostionsHeader(FileWriter fWriter) throws IOException {
+			for (int f = 0; f < 8; f++) {
+				if(intersectionsPicked[f]){
+					for (int t = 0; t < 8; t++) {
+						if(intersectionsPicked[t] && t != f){
+							if(!endOfFromAndToPositionsHeader){
+								//FROM NORTH-WEST TO ...
+								if(f == 0 && t == 1){
+									//DIRECTION: North-west To North
+									fWriter.append("From North-West to North , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 0 && t == 2){
+									//North-west to North-East
+									fWriter.append("From North-West to North-East , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 0 && t == 3){
+									//North-west to West
+									fWriter.append("From North-West to West , , , , , , , , , , , , , , , , , ,");									
+								}else if(f == 0 && t == 4){
+									//North-west to East
+									fWriter.append("From North-West to East , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 0 && t == 5){
+									//North-west to South-West
+									fWriter.append("From North-West to South-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 0 && t == 6){
+									//North-west to South
+									fWriter.append("From North-West to South , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 0 && t == 7){
+									//North-west to South-East
+									fWriter.append("From North-West to South-East , , , , , , , , , , , , , , , , , ,");
+								}
+								
+								//FROM NORTH TO ...
+								else if(f == 1 && t == 0){
+									//North to North-West
+									fWriter.append("From North to North-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 1 && t == 2){
+									//North to North-East
+									fWriter.append("From North to North-East , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 1 && t == 3){
+									//North to West
+									fWriter.append("From North to West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 1 && t == 4){
+									//North to East
+									fWriter.append("From North to East , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 1 && t == 5){
+									//North to South-West
+									fWriter.append("From North to South-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 1 && t == 6){
+									//North to South
+									fWriter.append("From North to South , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 1 && t == 7){
+									//North to South-East
+									fWriter.append("From North to South-East , , , , , , , , , , , , , , , , , ,");
+								}
+								
+								//FROM NORTH-EAST TO ...
+								else if(f == 2 && t == 0){
+									//North-East to North-West
+									fWriter.append("From North-East to North-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 2 && t == 1){
+									//North-East to North
+									fWriter.append("From North-East to North , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 2 && t == 3){
+									//North-East to West
+									fWriter.append("From North-East to West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 2 && t == 4){
+									//North-East to East
+									fWriter.append("From North-East to East , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 2 && t == 5){
+									//North-East to South-West
+									fWriter.append("From North-East to South-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 2 && t == 6){
+									//North-East to South
+									fWriter.append("From North-East to South , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 2 && t == 7){
+									//North-East to South-East
+									fWriter.append("From North-East to South-East , , , , , , , , , , , , , , , , , ,");
+								}
+								
+								//FROM West TO ...
+								else if(f == 3 && t == 0){
+									//West to North-West
+									fWriter.append("From West to North-West , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 3 && t == 1){
+									//West to North
+									fWriter.append("From West to North , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 3 && t == 2){
+									//West to North-East
+									fWriter.append("From West to North-East , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 3 && t == 4){
+									//West to East
+									fWriter.append("From West to East , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 3 && t == 5){
+									//West to South-West
+									fWriter.append("From West to South-West , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 3 && t == 6){
+									//West to South
+									fWriter.append("From West to South , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 3 && t == 7){
+									//West to South-East
+									fWriter.append("From West to South-East , , , , , , , , , , , , , , , , , ,");
+								}
+								
+								//FROM East TO ...
+								else if(f == 4 && t == 0){
+									//East to North-West
+									fWriter.append("From East to North-West , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 4 && t == 1){
+									//East to North
+									fWriter.append("From East to North , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 4 && t == 2){
+									//East to North-East
+									fWriter.append("From East to North-East , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 4 && t == 3){
+									//East to West
+									fWriter.append("From East to West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 4 && t == 5){
+									//East to South-West
+									fWriter.append("From East to South-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 4 && t == 6){
+									//East to South
+									fWriter.append("From East to South , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 4 && t == 7){
+									//East to South-East
+									fWriter.append("From East to South-East , , , , , , , , , , , , , , , , , ,");
+								}
+								
+								//FROM South-West TO ...
+								else if(f == 5 && t == 0){
+									//South-West to North-West
+									fWriter.append("From South-West to North-West , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 5 && t == 1){
+									//South-West to North
+									fWriter.append("From South-West to North , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 5 && t == 2){
+									//South-West to North-East
+									fWriter.append("From South-West to North-East , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 5 && t == 3){
+									//South-West to West
+									fWriter.append("From South-West to West , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 5 && t == 4){
+									//South-West to East
+									fWriter.append("From South-West to East , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 5 && t == 6){
+									//South-West to South
+									fWriter.append("From South-West to South , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 5 && t == 7){
+									//South-West to South-East
+									fWriter.append("From South-West to South-East , , , , , , , , , , , , , , , , , ,");
+								}
+								
+								//FROM South TO ...
+								else if(f == 6 && t == 0){
+									//South to North-West
+									fWriter.append("From South to North-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 6 && t == 1){
+									//South to North
+									fWriter.append("From South to North , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 6 && t == 2){
+									//South to North-East
+									fWriter.append("From South to North-East , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 6 && t == 3){
+									//South to West
+									fWriter.append("From South to South-West , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 6 && t == 4){
+									//South to East
+									fWriter.append("From South to East , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 6 && t == 5){
+									//South to South-West
+									fWriter.append("From South to South-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 6 && t == 7){
+									//South to South-East
+									fWriter.append("From South to South-East , , , , , , , , , , , , , , , , , ,");
+								}
+								
+								//FROM South-East TO ...
+								else if(f == 7 && t == 0){
+									//South-East to North-West
+									fWriter.append("From South-East to North-West , , , , , , , , , , , , , , , , , ,");
+								}else if(f == 7 && t == 1){
+									//South-East to North
+									fWriter.append("From South-East to North , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 7 && t == 2){
+									//South-East to North-East
+									fWriter.append("From South-East to North-East , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 7 && t == 3){
+									//South-East to West
+									fWriter.append("From South-East to West , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 7 && t == 4){
+									//South-East to East
+									fWriter.append("From South-East to East , , , , , , , , , , , , , , , , , ,");
+									
+								}else if(f == 7 && t == 5){
+									//South-East to South-West
+									fWriter.append("From South-East to South-West , , , , , , , , , , , , , , , , , ,");
+								
+								}else if(f == 7 && t == 6){
+									//South-East to South
+									fWriter.append("From South-East to South , , , , , , , , , , , , , , , , , , ,");
+								}
+							}							
+						}
+					}
+				}
+			}if(!endOfFromAndToPositionsHeader){
+				fWriter.append("\n \n");
+				endOfFromAndToPositionsHeader = true;
+				userMessage("End of Countables header has been reached!");
+			}
+		}
+		
 
+		/*
+		 * Append the re-occurring header labels, cars, buses, trucks, etc
+		 * @auhor: Jean-Yves
+		 * @since: May 3 2015
+		 */
+		private void appendIntersectionCountsHeader(FileWriter fWriter) throws IOException {
+			for (int f = 0; f < 8; f++) {
+				if(intersectionsPicked[f]){
+					for (int t = 0; t < 8; t++) {
+						if(intersectionsPicked[t] && t != f){
+							if(!endOfIntersectionCountsHeader){
+								fWriter.append("TIME, CARS, BUSES, TRUCKS, MOTORBIKES, PEDESTRIANS(No Aid), WALKING STICKS- CRUTCH(1), WALKING STICKS- CRUTCH(2)," +
+										"CANE(poor eyesight), GUIDE DOG, MOBILITY SCOOTER, WHEELCHAIR (assisted), WHEELCHAIR (manual), WHEELCHAIR (powered)," +
+										"PUSH CHAIR/BUGGY, SKATEBOARD, MANUAL SCOOTER, ,");
+								userMessage("Countables header successfully written");
+							}
+						}
+					}
+				}
+			}if(!endOfIntersectionCountsHeader){
+				fWriter.append("\n");
+				endOfIntersectionCountsHeader = true;
+				userMessage("End of Countables header has been reached!");
+			}
+		}
+		
+		/*
+		 * This method will append specific data about specific intersections as instructed. e.g:
+		 * Data of Cars From South to North.
+		 * @auhor: Jean-Yves
+		 * @since: May 3 2015
+		 */
 		private void appendCountables(FileWriter writer, int cars, int buses, int trucks, int motorcycles, int pedestrian,
 										int wsCrutchOne, int wsCrutchTwo, int cane, int guideDog, int mobilityScooter, int wheelchairA,
 										int wheelchairM, int wheelchairP, int pcBuggy, int skateboard, int manualScooter) throws IOException{
 			writer.append(sessionStartTime + " TO " + currentTime + ",");
 			writer.append(cars+","+buses+","+trucks+","+motorcycles+","+pedestrian+","+wsCrutchOne+","+wsCrutchTwo+","+cane+","+guideDog+","+mobilityScooter+","+ 
-							 wheelchairA+","+wheelchairM+","+wheelchairP+","+pcBuggy+","+skateboard+","+manualScooter+","+",");
-			flushAndCloseWriter(writer);
+					 wheelchairA+","+wheelchairM+","+wheelchairP+","+pcBuggy+","+skateboard+","+manualScooter+","+",");
 		}
 		
-		//To flush and subsequently close the opened file writer. -Jean-Yves
+		/* To flush and subsequently close the opened file writer. -Jean-Yves
+		 *@auhor: Jean-Yves
+		 *@since: April 3 2015
+		 */
+		
 		public void flushAndCloseWriter(FileWriter fWriter) throws IOException{
 			fWriter.flush();
 			fWriter.close();
 		}
 		
-		//Show the user a message. -Jean-Yves
+		/* Display a message to the user.
+		 *@auhor: Jean-Yves
+		 *@since: April 6 2015
+		 */
 		public void userMessage(String message){
-			Toast.makeText(getApplicationContext(), message , Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), message , Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
