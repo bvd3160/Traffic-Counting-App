@@ -410,19 +410,21 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		
 		commentViewable = (TextView) findViewById(R.id.tv_commentText);
 		commentViewable.setText(comments);
-	
+		
+		intersectionsPicked = getIntent().getBooleanArrayExtra("IntersectionsPicked");
 		intersectionType = getIntent().getStringExtra("IntersectionType");
+		
 		if(intersectionType == null){
 			intersectionType = "No Intersection";
+			for (int x = 0; x < intersectionsPicked.length; x++) {
+				intersectionsPicked[x] = true;
+			}
 		}
-		
 		
 		//Sets the Vehicle button to be invisible if no intersection was chosen (Pretty much Pedestrian Count)
 		if(intersectionType.equals("No Intersection")){
 			findViewById(R.id.cs_btn_vehicles).setVisibility(4);
 		}
-		
-		intersectionsPicked = getIntent().getBooleanArrayExtra("IntersectionsPicked");
 		
 		// Initialises the current counting object to be a car
 		updateCurrentObjectTo("Pedestrian (No Aid)");

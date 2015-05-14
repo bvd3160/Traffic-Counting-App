@@ -39,6 +39,9 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	boolean csn_intersection_name_picker = false;
 	boolean csis_intersection_setup = false;
 	
+	TextView csi_txt_intersection3, csi_txt_intersection4,
+	 		csi_txt_intersection5,  csi_txt_intersection6;
+	
 	Button csi_btn_intersection3,csi_btn_intersection4,
 			csi_btn_intersection5,csi_btn_intersection6;
 	
@@ -126,7 +129,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	@Override
 	public void onClick(View view) {
 		if(btn_close != null){
-			if(view.getId() == btn_close.getId()){
+			if(btn_close.isPressed()){
 				dismiss();
 			} else if(csi_intersections){
 				onClickIntersection(view);
@@ -211,6 +214,15 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		getDialog().setTitle("Intersections");
 		btn_close = (Button)view.findViewById(R.id.csi_btn_close);
 		csi_intersections = true;
+		
+		csi_txt_intersection3 = (TextView)view.findViewById(R.id.csi_txt_3way);
+		csi_txt_intersection3.setOnClickListener(this);
+		csi_txt_intersection4 = (TextView)view.findViewById(R.id.csi_txt_4way);
+		csi_txt_intersection4.setOnClickListener(this);
+		csi_txt_intersection5 = (TextView)view.findViewById(R.id.csi_txt_5way);
+		csi_txt_intersection5.setOnClickListener(this);
+		csi_txt_intersection6 = (TextView)view.findViewById(R.id.csi_txt_6way);
+		csi_txt_intersection6.setOnClickListener(this);
 		
 		csi_btn_intersection3 = (Button)view.findViewById(R.id.csi_btn_3way);
 		csi_btn_intersection3.setOnClickListener(this);
@@ -402,13 +414,13 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	////////////////////////////////////////////////////////////
 	
 	private void onClickIntersection(View view){
-		if(view.getId() == csi_btn_intersection3.getId()){
+		if(csi_txt_intersection3.isPressed() || csi_btn_intersection3.isPressed()){
 			useCommunicator("IntersectionType", "3 Way Intersection", null, null);
-		}else if(view.getId() == csi_btn_intersection4.getId()){
+		}else if(csi_txt_intersection4.isPressed() || csi_btn_intersection4.isPressed()){
 			useCommunicator("IntersectionType", "4 Way Intersection", null, null);
-		}else if(view.getId() == csi_btn_intersection5.getId()){
+		}else if(csi_txt_intersection5.isPressed() || csi_btn_intersection5.isPressed()){
 			useCommunicator("IntersectionType", "5 Way Intersection", null, null);
-		}else if(view.getId() == csi_btn_intersection6.getId()){
+		}else if(csi_txt_intersection6.isPressed() || csi_btn_intersection6.isPressed()){
 			useCommunicator("IntersectionType", "6 Way Intersection", null, null);
 		}
 	}
@@ -422,41 +434,41 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	}
 	
 	private void onClickCountObjectsVehicles(View view){
-		if(view.getId() == csd_btn_bus.getId()){
+		if(csd_btn_bus.isPressed()){
 			useCommunicator("Bus", "Bus", null, null);
-		}else if(view.getId() == csd_btn_truck.getId()){
+		}else if(csd_btn_truck.isPressed()){
 			useCommunicator("Truck", "Truck", null, null);
-		}else if(view.getId() == csd_btn_car.getId()){
+		}else if(csd_btn_car.isPressed()){
 			useCommunicator("Car", "Car", null, null);
-		}else if(view.getId() == csd_btn_motorBike.getId()){
+		}else if(csd_btn_motorBike.isPressed()){
 			useCommunicator("Motor Bike", "Motor Bike", null, null);
 		}
 	}
 	
 	private void onClickCountObjectsPedestrians(View view){
-		if(view.getId() == csd_btn_pedestrian.getId()){
+		if(csd_btn_pedestrian.isPressed()){
 			useCommunicator("Pedestrian", "Pedestrian (No Aid)", null, null);
-		}else if(view.getId() == csd_btn_cane.getId()){
+		}else if(csd_btn_cane.isPressed()){
 			useCommunicator("Cane", "Cane (Poor Eyesight)", null, null);
-		}else if(view.getId() == csd_btn_dog.getId()){
+		}else if(csd_btn_dog.isPressed()){
 			useCommunicator("Dog", "Guide Dog", null, null);
-		}else if(view.getId() == csd_btn_mobilityScooter.getId()){
+		}else if(csd_btn_mobilityScooter.isPressed()){
 			useCommunicator("Mobility Scooter", "Mobility Scooter", null, null);
-		}else if(view.getId() == csd_btn_crutches_1.getId()){
+		}else if(csd_btn_crutches_1.isPressed()){
 			useCommunicator("Crutches_1", "Walking Stick / Crutch (1)", null, null);
-		}else if(view.getId() == csd_btn_crutches_2.getId()){
+		}else if(csd_btn_crutches_2.isPressed()){
 			useCommunicator("Crutches_2", "Walking Sticks / Crutches (2)", null, null);
-		}else if(view.getId() == csd_btn_wheelChair_assisted.getId()){
+		}else if(csd_btn_wheelChair_assisted.isPressed()){
 			useCommunicator("Wheel Chair - Assisted", "Wheel Chair (Assisted)", null, null);
-		}else if(view.getId() == csd_btn_wheelChair_manual.getId()){
+		}else if(csd_btn_wheelChair_manual.isPressed()){
 			useCommunicator("Wheel Chair - Manual", "Wheel Chair (Manual)", null, null);
-		}else if(view.getId() == csd_btn_wheelChair_powered.getId()){
+		}else if(csd_btn_wheelChair_powered.isPressed()){
 			useCommunicator("Wheel Chair - Powered", "Wheel Chair (Powered)", null, null);
-		}else if(view.getId() == csd_btn_pushchair.getId()){
+		}else if(csd_btn_pushchair.isPressed()){
 			useCommunicator("Push Chair", "Push Chair / Buggy", null, null);
-		}else if(view.getId() == csd_btn_skateboard.getId()){
+		}else if(csd_btn_skateboard.isPressed()){
 			useCommunicator("Skateboard", "Skateboard", null, null);
-		}else if(view.getId() == csd_btn_manualScooter.getId()){
+		}else if(csd_btn_manualScooter.isPressed()){
 			useCommunicator("Manual Scooter", "Manual Scooter", null, null);
 		}
 	}

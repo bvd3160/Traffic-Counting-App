@@ -77,6 +77,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		postCode = (TextView) findViewById(R.id.postcode);
 		areaDescription = (TextView) findViewById(R.id.areaDescription);
 		intersectionType = (TextView) findViewById(R.id.intersectionType);
+		intersectionType.setClickable(false);
 		selectIntersectionType = (Button) findViewById(R.id.selectIntersection);
 		weatherComment_et = (TextView) findViewById(R.id.weatherComment_et);
 		comments = (TextView) findViewById(R.id.comments);
