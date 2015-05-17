@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class CountSetup extends ActionBarActivity implements Communicator{
 	
-	boolean SKIPCHECKS = true;
+	boolean SKIPCHECKS = false;
 	
 	TextView surveyorName;
 
