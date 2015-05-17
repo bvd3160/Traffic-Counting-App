@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -368,6 +370,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	//	private String[] lastSelectedObjects = new String[3];
 	//	private Integer[] lastSelectedCounts = new Integer[3];
 	
+	private Deque<String> lastSelectedObject;
+	private Deque<Integer>	lastSelectedCount;
+	
 	TextView txt_totalCount;
 	int totalCount;
 	
@@ -396,6 +401,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	boolean btn_direction_nw_clicked, btn_direction_n_clicked, btn_direction_ne_clicked,
 			btn_direction_w_clicked, btn_direction_e_clicked, btn_direction_sw_clicked,
 			btn_direction_s_clicked, btn_direction_se_clicked;
+	
+	Button btn_undo;
 	
 	//Testing purposes
 	Button btn_start, btn_stop;
@@ -470,6 +477,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 //		lastSelectedObjects[2] = null;
 //		lastSelectedCounts[3] = null;
 //		lastSelectedObjects[3] = null;
+		lastSelectedObject = new ArrayDeque<String>();
+		lastSelectedCount = new ArrayDeque<Integer>();
 		
 		updateCurrentlySelectedObject(pedestrian);
 	}
@@ -1813,18 +1822,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * (Will need to implement it correctly later when we get all the objects values working).
 	 */
 	private void populateCounterButtons(){
-		Button btn_undo = (Button) findViewById(R.id.cs_btn_undo);
-		btn_undo.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if(totalCount >= 1){
-					totalCount--;
-					
-				}
-				updateTotalCounter();
-			}
-		});
+		btn_undo = (Button) findViewById(R.id.cs_btn_undo);
+		btn_undo.setOnClickListener(this);
 	}
 //================================================================================//
 	
@@ -2109,75 +2108,3860 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	
 	@Override
 	public void onClick(View v) {
-		if(btn_direction_nw.isPressed()){
-			btn_direction_nw_clicked = reverseButtonClicked(btn_direction_nw_clicked);
-			if(btn_direction_nw_clicked){
-				btn_direction_nw.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_nw.setBackgroundResource(R.drawable.small_grey_red);
+		if(btn_undo.isPressed()){
+			if(totalCount >= 1 && !lastSelectedObject.isEmpty()){
+				decreaseUndoButton();
+				updateTotalCounter();
+				updateAllCounts(false);
 			}
-			checkDirectionFromAndTo(0);
-		}else if(btn_direction_n.isPressed()){
-			btn_direction_n_clicked = reverseButtonClicked(btn_direction_n_clicked);
-			if(btn_direction_n_clicked){
-				btn_direction_n.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_n.setBackgroundResource(R.drawable.small_grey_red);
+		}else{
+			if(btn_direction_nw.isPressed()){
+				btn_direction_nw_clicked = reverseButtonClicked(btn_direction_nw_clicked);
+				if(btn_direction_nw_clicked){
+					btn_direction_nw.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_nw.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(0);
+			}else if(btn_direction_n.isPressed()){
+				btn_direction_n_clicked = reverseButtonClicked(btn_direction_n_clicked);
+				if(btn_direction_n_clicked){
+					btn_direction_n.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_n.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(1);
+			}else if(btn_direction_ne.isPressed()){
+				btn_direction_ne_clicked = reverseButtonClicked(btn_direction_ne_clicked);
+				if(btn_direction_ne_clicked){
+					btn_direction_ne.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_ne.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(2);
+			}else if(btn_direction_w.isPressed()){
+				btn_direction_w_clicked = reverseButtonClicked(btn_direction_w_clicked);
+				if(btn_direction_w_clicked){
+					btn_direction_w.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_w.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(3);
+			}else if(btn_direction_e.isPressed()){
+				btn_direction_e_clicked = reverseButtonClicked(btn_direction_e_clicked);
+				if(btn_direction_e_clicked){
+					btn_direction_e.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_e.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(4);
+			}else if(btn_direction_sw.isPressed()){
+				btn_direction_sw_clicked = reverseButtonClicked(btn_direction_sw_clicked);
+				if(btn_direction_sw_clicked){
+					btn_direction_sw.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_sw.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(5);
+			}else if(btn_direction_s.isPressed()){
+				btn_direction_s_clicked = reverseButtonClicked(btn_direction_s_clicked);
+				if(btn_direction_s_clicked){
+					btn_direction_s.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_s.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(6);
+			}else if(btn_direction_se.isPressed()){
+				btn_direction_se_clicked = reverseButtonClicked(btn_direction_se_clicked);
+				if(btn_direction_se_clicked){
+					btn_direction_se.setBackgroundResource(R.drawable.small_grey);
+				}else{
+					btn_direction_se.setBackgroundResource(R.drawable.small_grey_red);
+				}
+				checkDirectionFromAndTo(7);
 			}
-			checkDirectionFromAndTo(1);
-		}else if(btn_direction_ne.isPressed()){
-			btn_direction_ne_clicked = reverseButtonClicked(btn_direction_ne_clicked);
-			if(btn_direction_ne_clicked){
-				btn_direction_ne.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_ne.setBackgroundResource(R.drawable.small_grey_red);
+		
+			if(checkIfPass()){
+				updateAllCounts(true);
 			}
-			checkDirectionFromAndTo(2);
-		}else if(btn_direction_w.isPressed()){
-			btn_direction_w_clicked = reverseButtonClicked(btn_direction_w_clicked);
-			if(btn_direction_w_clicked){
-				btn_direction_w.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_w.setBackgroundResource(R.drawable.small_grey_red);
-			}
-			checkDirectionFromAndTo(3);
-		}else if(btn_direction_e.isPressed()){
-			btn_direction_e_clicked = reverseButtonClicked(btn_direction_e_clicked);
-			if(btn_direction_e_clicked){
-				btn_direction_e.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_e.setBackgroundResource(R.drawable.small_grey_red);
-			}
-			checkDirectionFromAndTo(4);
-		}else if(btn_direction_sw.isPressed()){
-			btn_direction_sw_clicked = reverseButtonClicked(btn_direction_sw_clicked);
-			if(btn_direction_sw_clicked){
-				btn_direction_sw.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_sw.setBackgroundResource(R.drawable.small_grey_red);
-			}
-			checkDirectionFromAndTo(5);
-		}else if(btn_direction_s.isPressed()){
-			btn_direction_s_clicked = reverseButtonClicked(btn_direction_s_clicked);
-			if(btn_direction_s_clicked){
-				btn_direction_s.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_s.setBackgroundResource(R.drawable.small_grey_red);
-			}
-			checkDirectionFromAndTo(6);
-		}else if(btn_direction_se.isPressed()){
-			btn_direction_se_clicked = reverseButtonClicked(btn_direction_se_clicked);
-			if(btn_direction_se_clicked){
-				btn_direction_se.setBackgroundResource(R.drawable.small_grey);
-			}else{
-				btn_direction_se.setBackgroundResource(R.drawable.small_grey_red);
-			}
-			checkDirectionFromAndTo(7);
+		}
+	}
+	
+	private void decreaseUndoButton(){
+		if(lastSelectedObject.contains("Bus")){
+			decreaseBus();
+		}else if(lastSelectedObject.contains("Car")){
+			decreaseCar();
+		}else if(lastSelectedObject.contains("Truck")){
+			decreaseTruck();
+		}else if(lastSelectedObject.contains("Motorbike")){
+			decreaseMotorBike();
+		}else if(lastSelectedObject.contains("Pedestrian")){
+			decreasePedestrian();
+		}else if(lastSelectedObject.contains("Crutches1")){
+			decreaseCrutches1();
+		}else if(lastSelectedObject.contains("Crutches2")){
+			decreaseCrutches2();
+		}else if(lastSelectedObject.contains("Cane")){
+			decreaseCane();
+		}else if(lastSelectedObject.contains("Dog")){
+			decreaseDog();
+		}else if(lastSelectedObject.contains("MobilityScooter")){
+			decreaseMobilityScooter();
+		}else if(lastSelectedObject.contains("WheelChairAssisted")){
+			decreaseWheelChairAssisted();
+		}else if(lastSelectedObject.contains("WheelChairManual")){
+			decreaseWheelChairManual();
+		}else if(lastSelectedObject.contains("WheelChairPowered")){
+			decreaseWheelChairPowered();
+		}else if(lastSelectedObject.contains("Pushchair")){
+			decreasePushChair();
+		}else if(lastSelectedObject.contains("Skateboard")){
+			decreaseSkateboard();
+		}else if(lastSelectedObject.contains("ManualScooter")){
+			decreaseManualScooter();
 		}
 		
-		if(checkIfPass()){
-			updateAllCounts();
+		
+		//Removes the top object off the stack
+		lastSelectedObject.pop();
+		totalCount--;
+	}
+	
+	private void decreaseBus(){
+		if(lastSelectedObject.peek().equals("northWestToNorthBus")){
+			northWestToNorthBus--;
+			northTotal--;
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastBus")){
+			northWestToNorthEastBus--;
+			northEastTotal--;
+		}else if(lastSelectedObject.peek().equals("northWestToWestBus")){
+			northWestToWestBus--;
+			westTotal--;
+		}else if(lastSelectedObject.peek().equals("northWestToEastBus")){
+			northWestToEastBus--;
+			eastTotal--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestBus")){
+			northWestToSouthWestBus--;
+			southWestTotal--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthBus")){
+			northWestToSouthBus--;
+			southTotal--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastBus")){
+			northWestToSouthEastBus--;
+			southEastTotal--;
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestBus")){
+			northToNorthWestBus--;
+			northWestTotal--;
+		}else if(lastSelectedObject.peek().equals("northToNorthEastBus")){
+			northToNorthEastBus--;
+			northEastTotal--;
+		}else if(lastSelectedObject.peek().equals("northToWestBus")){
+			northToWestBus--;
+			westTotal--;
+		}else if(lastSelectedObject.peek().equals("northToEastBus")){
+			northToEastBus--;
+			eastTotal--;
+		}else if(lastSelectedObject.peek().equals("northToSouthWestBus")){
+			northToSouthWestBus--;
+			southWestTotal--;
+		}else if(lastSelectedObject.peek().equals("northToSouthBus")){
+			northToSouthBus--;
+			southTotal--;
+		}else if(lastSelectedObject.peek().equals("northToSouthEastBus")){
+			northToSouthEastBus--;
+			southEastTotal--;
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestBus")){
+			northEastToNorthWestBus--;
+			northWestTotal--;
+		}else if(lastSelectedObject.peek().equals("northEastToNorthBus")){
+			northEastToNorthBus--;
+			northTotal--;
+		}else if(lastSelectedObject.peek().equals("northEastToWestBus")){
+			northEastToWestBus--;
+			westTotal--;
+		}else if(lastSelectedObject.peek().equals("northEastToEastBus")){
+			northEastToEastBus--;
+			eastTotal--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestBus")){
+			northEastToSouthWestBus--;
+			southWestTotal--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthBus")){
+			northEastToSouthBus--;
+			southTotal--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastBus")){
+			northEastToSouthEastBus--;
+			southEastTotal--;
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestBus")){
+			westToNorthWestBus--;
+			northWestTotal--;
+		}else if(lastSelectedObject.peek().equals("westToNorthBus")){
+			westToNorthBus--;
+			northTotal--;
+		}else if(lastSelectedObject.peek().equals("westToNorthEastBus")){
+			westToNorthEastBus--;
+			northEastTotal--;
+		}else if(lastSelectedObject.peek().equals("westToEastBus")){
+			westToEastBus--;
+			eastTotal--;
+		}else if(lastSelectedObject.peek().equals("westToSouthWestBus")){
+			westToSouthWestBus--;
+			southWestTotal--;
+		}else if(lastSelectedObject.peek().equals("westToSouthBus")){
+			westToSouthBus--;
+			southTotal--;
+		}else if(lastSelectedObject.peek().equals("westToSouthEastBus")){
+			westToSouthEastBus--;
+			southEastTotal--;
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestBus")){
+			eastToNorthWestBus--;
+			northWestTotal--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthBus")){
+			eastToNorthBus--;
+			northTotal--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastBus")){
+			eastToNorthEastBus--;
+			northEastTotal--;
+		}else if(lastSelectedObject.peek().equals("eastToWestBus")){
+			eastToWestBus--;
+			westTotal--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestBus")){
+			eastToSouthWestBus--;
+			southWestTotal--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthBus")){
+			eastToSouthBus--;
+			southTotal--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastBus")){
+			eastToSouthEastBus--;
+			southEastTotal--;
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestBus")){
+			southWestToNorthWestBus--;
+			northWestTotal--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthBus")){
+			southWestToNorthBus--;
+			northTotal--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastBus")){
+			southWestToNorthEastBus--;
+			northEastTotal--;
+		}else if(lastSelectedObject.peek().equals("southWestToWestBus")){
+			southWestToWestBus--;
+			westTotal--;
+		}else if(lastSelectedObject.peek().equals("southWestToEastBus")){
+			southWestToEastBus--;
+			eastTotal--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthBus")){
+			southWestToSouthBus--;
+			southTotal--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastBus")){
+			southWestToSouthEastBus--;
+			southEastTotal--;
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestBus")){
+			southToNorthWestBus--;
+			northWestTotal--;
+		}else if(lastSelectedObject.peek().equals("southToNorthBus")){
+			southToNorthBus--;
+			northTotal--;
+		}else if(lastSelectedObject.peek().equals("southToNorthEastBus")){
+			southToNorthEastBus--;
+			northEastTotal--;
+		}else if(lastSelectedObject.peek().equals("southToWestBus")){
+			southToWestBus--;
+			westTotal--;
+		}else if(lastSelectedObject.peek().equals("southToEastBus")){
+			southToEastBus--;
+			eastTotal--;
+		}else if(lastSelectedObject.peek().equals("southToSouthWestBus")){
+			southToSouthWestBus--;
+			southWestTotal--;
+		}else if(lastSelectedObject.peek().equals("southToSouthEastBus")){
+			southToSouthEastBus--;
+			southEastTotal--;
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestBus")){
+			southEastToNorthWestBus--;
+			northWestTotal--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthBus")){
+			southEastToNorthBus--;
+			northTotal--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastBus")){
+			southEastToNorthEastBus--;
+			northEastTotal--;
+		}else if(lastSelectedObject.peek().equals("southEastToWestBus")){
+			southEastToWestBus--;
+			westTotal--;
+		}else if(lastSelectedObject.peek().equals("southEastToEastBus")){
+			southEastToEastBus--;
+			eastTotal--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestBus")){
+			southEastToSouthWestBus--;
+			southWestTotal--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthBus")){
+			southEastToSouthBus--;
+			southTotal--;
+			///////////////////////////////////////////////////////////////
 		}
+		bus--;
+	}
+	
+	private void decreaseCar(){
+		if(lastSelectedObject.peek().equals("northWestToNorthCar")){
+			northWestToNorthCar--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastCar")){
+			northWestToNorthEastCar--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestCar")){
+			northWestToWestCar--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastCar")){
+			northWestToEastCar--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestCar")){
+			northWestToSouthWestCar--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthCar")){
+			northWestToSouthCar--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastCar")){
+			northWestToSouthEastCar--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestCar")){
+			northToNorthWestCar--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastCar")){
+			northToNorthEastCar--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestCar")){
+			northToWestCar--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastCar")){
+			northToEastCar--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestCar")){
+			northToSouthWestCar--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthCar")){
+			northToSouthCar--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastCar")){
+			northToSouthEastCar--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestCar")){
+			northEastToNorthWestCar--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthCar")){
+			northEastToNorthCar--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestCar")){
+			northEastToWestCar--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastCar")){
+			northEastToEastCar--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestCar")){
+			northEastToSouthWestCar--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthCar")){
+			northEastToSouthCar--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastCar")){
+			northEastToSouthEastCar--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestCar")){
+			westToNorthWestCar--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthCar")){
+			westToNorthCar--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastCar")){
+			westToNorthEastCar--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastCar")){
+			westToEastCar--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestCar")){
+			westToSouthWestCar--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthCar")){
+			westToSouthCar--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastCar")){
+			westToSouthEastCar--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestCar")){
+			eastToNorthWestCar--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthCar")){
+			eastToNorthCar--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastCar")){
+			eastToNorthEastCar--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestCar")){
+			eastToWestCar--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestCar")){
+			eastToSouthWestCar--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthCar")){
+			eastToSouthCar--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastCar")){
+			eastToSouthEastCar--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestCar")){
+			southWestToNorthWestCar--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthCar")){
+			southWestToNorthCar--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastCar")){
+			southWestToNorthEastCar--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestCar")){
+			southWestToWestCar--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastCar")){
+			southWestToEastCar--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthCar")){
+			southWestToSouthCar--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastCar")){
+			southWestToSouthEastCar--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestCar")){
+			southToNorthWestCar--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthCar")){
+			southToNorthCar--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastCar")){
+			southToNorthEastCar--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestCar")){
+			southToWestCar--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastCar")){
+			southToEastCar--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestCar")){
+			southToSouthWestCar--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastCar")){
+			southToSouthEastCar--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestCar")){
+			southEastToNorthWestCar--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthCar")){
+			southEastToNorthCar--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastCar")){
+			southEastToNorthEastCar--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestCar")){
+			southEastToWestCar--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastCar")){
+			southEastToEastCar--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestCar")){
+			southEastToSouthWestCar--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthCar")){
+			southEastToSouthCar--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		car--;
+	}
+	
+	private void decreaseTruck(){
+		if(lastSelectedObject.peek().equals("northWestToNorthTruck")){
+			northWestToNorthTruck--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastTruck")){
+			northWestToNorthEastTruck--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestTruck")){
+			northWestToWestTruck--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastTruck")){
+			northWestToEastTruck--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestTruck")){
+			northWestToSouthWestTruck--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthTruck")){
+			northWestToSouthTruck--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastTruck")){
+			northWestToSouthEastTruck--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestTruck")){
+			northToNorthWestTruck--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastTruck")){
+			northToNorthEastTruck--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestTruck")){
+			northToWestTruck--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastTruck")){
+			northToEastTruck--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestTruck")){
+			northToSouthWestTruck--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthTruck")){
+			northToSouthTruck--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastTruck")){
+			northToSouthEastTruck--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestTruck")){
+			northEastToNorthWestTruck--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthTruck")){
+			northEastToNorthTruck--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestTruck")){
+			northEastToWestTruck--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastTruck")){
+			northEastToEastTruck--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestTruck")){
+			northEastToSouthWestTruck--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthTruck")){
+			northEastToSouthTruck--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastTruck")){
+			northEastToSouthEastTruck--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestTruck")){
+			westToNorthWestTruck--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthTruck")){
+			westToNorthTruck--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastTruck")){
+			westToNorthEastTruck--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastTruck")){
+			westToEastTruck--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestTruck")){
+			westToSouthWestTruck--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthTruck")){
+			westToSouthTruck--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastTruck")){
+			westToSouthEastTruck--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestTruck")){
+			eastToNorthWestTruck--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthTruck")){
+			eastToNorthTruck--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastTruck")){
+			eastToNorthEastTruck--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestTruck")){
+			eastToWestTruck--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestTruck")){
+			eastToSouthWestTruck--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthTruck")){
+			eastToSouthTruck--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastTruck")){
+			eastToSouthEastTruck--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestTruck")){
+			southWestToNorthWestTruck--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthTruck")){
+			southWestToNorthTruck--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastTruck")){
+			southWestToNorthEastTruck--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestTruck")){
+			southWestToWestTruck--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastTruck")){
+			southWestToEastTruck--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthTruck")){
+			southWestToSouthTruck--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastTruck")){
+			southWestToSouthEastTruck--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestTruck")){
+			southToNorthWestTruck--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthTruck")){
+			southToNorthTruck--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastTruck")){
+			southToNorthEastTruck--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestTruck")){
+			southToWestTruck--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastTruck")){
+			southToEastTruck--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestTruck")){
+			southToSouthWestTruck--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastTruck")){
+			southToSouthEastTruck--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestTruck")){
+			southEastToNorthWestTruck--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthTruck")){
+			southEastToNorthTruck--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastTruck")){
+			southEastToNorthEastTruck--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestTruck")){
+			southEastToWestTruck--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastTruck")){
+			southEastToEastTruck--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestTruck")){
+			southEastToSouthWestTruck--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthTruck")){
+			southEastToSouthTruck--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		truck--;
+	}
+	
+	private void decreaseMotorBike(){
+		if(lastSelectedObject.peek().equals("northWestToNorthMotorBike")){
+			northWestToNorthMotorBike--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastMotorBike")){
+			northWestToNorthEastMotorBike--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestMotorBike")){
+			northWestToWestMotorBike--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastMotorBike")){
+			northWestToEastMotorBike--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestMotorBike")){
+			northWestToSouthWestMotorBike--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthMotorBike")){
+			northWestToSouthMotorBike--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastMotorBike")){
+			northWestToSouthEastMotorBike--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestMotorBike")){
+			northToNorthWestMotorBike--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastMotorBike")){
+			northToNorthEastMotorBike--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestMotorBike")){
+			northToWestMotorBike--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastMotorBike")){
+			northToEastMotorBike--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestMotorBike")){
+			northToSouthWestMotorBike--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthMotorBike")){
+			northToSouthMotorBike--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastMotorBike")){
+			northToSouthEastMotorBike--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestMotorBike")){
+			northEastToNorthWestMotorBike--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthMotorBike")){
+			northEastToNorthMotorBike--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestMotorBike")){
+			northEastToWestMotorBike--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastMotorBike")){
+			northEastToEastMotorBike--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestMotorBike")){
+			northEastToSouthWestMotorBike--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthMotorBike")){
+			northEastToSouthMotorBike--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastMotorBike")){
+			northEastToSouthEastMotorBike--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestMotorBike")){
+			westToNorthWestMotorBike--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthMotorBike")){
+			westToNorthMotorBike--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastMotorBike")){
+			westToNorthEastMotorBike--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastMotorBike")){
+			westToEastMotorBike--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestMotorBike")){
+			westToSouthWestMotorBike--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthMotorBike")){
+			westToSouthMotorBike--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastMotorBike")){
+			westToSouthEastMotorBike--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestMotorBike")){
+			eastToNorthWestMotorBike--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthMotorBike")){
+			eastToNorthMotorBike--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastMotorBike")){
+			eastToNorthEastMotorBike--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestMotorBike")){
+			eastToWestMotorBike--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestMotorBike")){
+			eastToSouthWestMotorBike--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthMotorBike")){
+			eastToSouthMotorBike--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastMotorBike")){
+			eastToSouthEastMotorBike--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestMotorBike")){
+			southWestToNorthWestMotorBike--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthMotorBike")){
+			southWestToNorthMotorBike--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastMotorBike")){
+			southWestToNorthEastMotorBike--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestMotorBike")){
+			southWestToWestMotorBike--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastMotorBike")){
+			southWestToEastMotorBike--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthMotorBike")){
+			southWestToSouthMotorBike--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastMotorBike")){
+			southWestToSouthEastMotorBike--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestMotorBike")){
+			southToNorthWestMotorBike--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthMotorBike")){
+			southToNorthMotorBike--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastMotorBike")){
+			southToNorthEastMotorBike--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestMotorBike")){
+			southToWestMotorBike--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastMotorBike")){
+			southToEastMotorBike--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestMotorBike")){
+			southToSouthWestMotorBike--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastMotorBike")){
+			southToSouthEastMotorBike--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestMotorBike")){
+			southEastToNorthWestMotorBike--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthMotorBike")){
+			southEastToNorthMotorBike--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastMotorBike")){
+			southEastToNorthEastMotorBike--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestMotorBike")){
+			southEastToWestMotorBike--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastMotorBike")){
+			southEastToEastMotorBike--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestMotorBike")){
+			southEastToSouthWestMotorBike--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthMotorBike")){
+			southEastToSouthMotorBike--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		motorBike--;
+	}
+	
+	private void decreasePedestrian(){
+		if(lastSelectedObject.peek().equals("northWestToNorthPedestrian")){
+			northWestToNorthPedestrian--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastPedestrian")){
+			northWestToNorthEastPedestrian--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestPedestrian")){
+			northWestToWestPedestrian--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastPedestrian")){
+			northWestToEastPedestrian--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestPedestrian")){
+			northWestToSouthWestPedestrian--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthPedestrian")){
+			northWestToSouthPedestrian--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastPedestrian")){
+			northWestToSouthEastPedestrian--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestPedestrian")){
+			northToNorthWestPedestrian--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastPedestrian")){
+			northToNorthEastPedestrian--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestPedestrian")){
+			northToWestPedestrian--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastPedestrian")){
+			northToEastPedestrian--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestPedestrian")){
+			northToSouthWestPedestrian--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthPedestrian")){
+			northToSouthPedestrian--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastPedestrian")){
+			northToSouthEastPedestrian--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestPedestrian")){
+			northEastToNorthWestPedestrian--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthPedestrian")){
+			northEastToNorthPedestrian--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestPedestrian")){
+			northEastToWestPedestrian--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastPedestrian")){
+			northEastToEastPedestrian--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestPedestrian")){
+			northEastToSouthWestPedestrian--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthPedestrian")){
+			northEastToSouthPedestrian--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastPedestrian")){
+			northEastToSouthEastPedestrian--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestPedestrian")){
+			westToNorthWestPedestrian--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthPedestrian")){
+			westToNorthPedestrian--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastPedestrian")){
+			westToNorthEastPedestrian--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastPedestrian")){
+			westToEastPedestrian--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestPedestrian")){
+			westToSouthWestPedestrian--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthPedestrian")){
+			westToSouthPedestrian--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastPedestrian")){
+			westToSouthEastPedestrian--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestPedestrian")){
+			eastToNorthWestPedestrian--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthPedestrian")){
+			eastToNorthPedestrian--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastPedestrian")){
+			eastToNorthEastPedestrian--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestPedestrian")){
+			eastToWestPedestrian--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestPedestrian")){
+			eastToSouthWestPedestrian--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthPedestrian")){
+			eastToSouthPedestrian--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastPedestrian")){
+			eastToSouthEastPedestrian--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestPedestrian")){
+			southWestToNorthWestPedestrian--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthPedestrian")){
+			southWestToNorthPedestrian--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastPedestrian")){
+			southWestToNorthEastPedestrian--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestPedestrian")){
+			southWestToWestPedestrian--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastPedestrian")){
+			southWestToEastPedestrian--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthPedestrian")){
+			southWestToSouthPedestrian--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastPedestrian")){
+			southWestToSouthEastPedestrian--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestPedestrian")){
+			southToNorthWestPedestrian--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthPedestrian")){
+			southToNorthPedestrian--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastPedestrian")){
+			southToNorthEastPedestrian--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestPedestrian")){
+			southToWestPedestrian--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastPedestrian")){
+			southToEastPedestrian--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestPedestrian")){
+			southToSouthWestPedestrian--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastPedestrian")){
+			southToSouthEastPedestrian--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestPedestrian")){
+			southEastToNorthWestPedestrian--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthPedestrian")){
+			southEastToNorthPedestrian--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastPedestrian")){
+			southEastToNorthEastPedestrian--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestPedestrian")){
+			southEastToWestPedestrian--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastPedestrian")){
+			southEastToEastPedestrian--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestPedestrian")){
+			southEastToSouthWestPedestrian--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthPedestrian")){
+			southEastToSouthPedestrian--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		pedestrian--;
+	}
+	
+	private void decreaseCrutches1(){
+		if(lastSelectedObject.peek().equals("northWestToNorthCrutches1")){
+			northWestToNorthCrutches1--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastCrutches1")){
+			northWestToNorthEastCrutches1--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestCrutches1")){
+			northWestToWestCrutches1--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastCrutches1")){
+			northWestToEastCrutches1--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestCrutches1")){
+			northWestToSouthWestCrutches1--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthCrutches1")){
+			northWestToSouthCrutches1--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastCrutches1")){
+			northWestToSouthEastCrutches1--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestCrutches1")){
+			northToNorthWestCrutches1--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastCrutches1")){
+			northToNorthEastCrutches1--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestCrutches1")){
+			northToWestCrutches1--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastCrutches1")){
+			northToEastCrutches1--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestCrutches1")){
+			northToSouthWestCrutches1--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthCrutches1")){
+			northToSouthCrutches1--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastCrutches1")){
+			northToSouthEastCrutches1--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestCrutches1")){
+			northEastToNorthWestCrutches1--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthCrutches1")){
+			northEastToNorthCrutches1--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestCrutches1")){
+			northEastToWestCrutches1--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastCrutches1")){
+			northEastToEastCrutches1--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestCrutches1")){
+			northEastToSouthWestCrutches1--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthCrutches1")){
+			northEastToSouthCrutches1--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastCrutches1")){
+			northEastToSouthEastCrutches1--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestCrutches1")){
+			westToNorthWestCrutches1--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthCrutches1")){
+			westToNorthCrutches1--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastCrutches1")){
+			westToNorthEastCrutches1--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastCrutches1")){
+			westToEastCrutches1--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestCrutches1")){
+			westToSouthWestCrutches1--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthCrutches1")){
+			westToSouthCrutches1--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastCrutches1")){
+			westToSouthEastCrutches1--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestCrutches1")){
+			eastToNorthWestCrutches1--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthCrutches1")){
+			eastToNorthCrutches1--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastCrutches1")){
+			eastToNorthEastCrutches1--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestCrutches1")){
+			eastToWestCrutches1--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestCrutches1")){
+			eastToSouthWestCrutches1--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthCrutches1")){
+			eastToSouthCrutches1--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastCrutches1")){
+			eastToSouthEastCrutches1--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestCrutches1")){
+			southWestToNorthWestCrutches1--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthCrutches1")){
+			southWestToNorthCrutches1--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastCrutches1")){
+			southWestToNorthEastCrutches1--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestCrutches1")){
+			southWestToWestCrutches1--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastCrutches1")){
+			southWestToEastCrutches1--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthCrutches1")){
+			southWestToSouthCrutches1--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastCrutches1")){
+			southWestToSouthEastCrutches1--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestCrutches1")){
+			southToNorthWestCrutches1--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthCrutches1")){
+			southToNorthCrutches1--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastCrutches1")){
+			southToNorthEastCrutches1--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestCrutches1")){
+			southToWestCrutches1--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastCrutches1")){
+			southToEastCrutches1--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestCrutches1")){
+			southToSouthWestCrutches1--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastCrutches1")){
+			southToSouthEastCrutches1--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestCrutches1")){
+			southEastToNorthWestCrutches1--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthCrutches1")){
+			southEastToNorthCrutches1--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastCrutches1")){
+			southEastToNorthEastCrutches1--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestCrutches1")){
+			southEastToWestCrutches1--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastCrutches1")){
+			southEastToEastCrutches1--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestCrutches1")){
+			southEastToSouthWestCrutches1--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthCrutches1")){
+			southEastToSouthCrutches1--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		crutches_1--;
+	}
+	
+	private void decreaseCrutches2(){
+		if(lastSelectedObject.peek().equals("northWestToNorthCrutches2")){
+			northWestToNorthCrutches2--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastCrutches2")){
+			northWestToNorthEastCrutches2--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestCrutches2")){
+			northWestToWestCrutches2--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastCrutches2")){
+			northWestToEastCrutches2--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestCrutches2")){
+			northWestToSouthWestCrutches2--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthCrutches2")){
+			northWestToSouthCrutches2--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastCrutches2")){
+			northWestToSouthEastCrutches2--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestCrutches2")){
+			northToNorthWestCrutches2--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastCrutches2")){
+			northToNorthEastCrutches2--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestCrutches2")){
+			northToWestCrutches2--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastCrutches2")){
+			northToEastCrutches2--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestCrutches2")){
+			northToSouthWestCrutches2--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthCrutches2")){
+			northToSouthCrutches2--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastCrutches2")){
+			northToSouthEastCrutches2--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestCrutches2")){
+			northEastToNorthWestCrutches2--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthCrutches2")){
+			northEastToNorthCrutches2--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestCrutches2")){
+			northEastToWestCrutches2--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastCrutches2")){
+			northEastToEastCrutches2--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestCrutches2")){
+			northEastToSouthWestCrutches2--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthCrutches2")){
+			northEastToSouthCrutches2--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastCrutches2")){
+			northEastToSouthEastCrutches2--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestCrutches2")){
+			westToNorthWestCrutches2--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthCrutches2")){
+			westToNorthCrutches2--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastCrutches2")){
+			westToNorthEastCrutches2--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastCrutches2")){
+			westToEastCrutches2--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestCrutches2")){
+			westToSouthWestCrutches2--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthCrutches2")){
+			westToSouthCrutches2--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastCrutches2")){
+			westToSouthEastCrutches2--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestCrutches2")){
+			eastToNorthWestCrutches2--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthCrutches2")){
+			eastToNorthCrutches2--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastCrutches2")){
+			eastToNorthEastCrutches2--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestCrutches2")){
+			eastToWestCrutches2--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestCrutches2")){
+			eastToSouthWestCrutches2--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthCrutches2")){
+			eastToSouthCrutches2--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastCrutches2")){
+			eastToSouthEastCrutches2--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestCrutches2")){
+			southWestToNorthWestCrutches2--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthCrutches2")){
+			southWestToNorthCrutches2--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastCrutches2")){
+			southWestToNorthEastCrutches2--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestCrutches2")){
+			southWestToWestCrutches2--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastCrutches2")){
+			southWestToEastCrutches2--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthCrutches2")){
+			southWestToSouthCrutches2--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastCrutches2")){
+			southWestToSouthEastCrutches2--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestCrutches2")){
+			southToNorthWestCrutches2--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthCrutches2")){
+			southToNorthCrutches2--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastCrutches2")){
+			southToNorthEastCrutches2--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestCrutches2")){
+			southToWestCrutches2--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastCrutches2")){
+			southToEastCrutches2--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestCrutches2")){
+			southToSouthWestCrutches2--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastCrutches2")){
+			southToSouthEastCrutches2--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestCrutches2")){
+			southEastToNorthWestCrutches2--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthCrutches2")){
+			southEastToNorthCrutches2--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastCrutches2")){
+			southEastToNorthEastCrutches2--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestCrutches2")){
+			southEastToWestCrutches2--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastCrutches2")){
+			southEastToEastCrutches2--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestCrutches2")){
+			southEastToSouthWestCrutches2--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthCrutches2")){
+			southEastToSouthCrutches2--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		crutches_2--;
+	}
+	
+	private void decreaseCane(){
+		if(lastSelectedObject.peek().equals("northWestToNorthCane")){
+			northWestToNorthCane--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastCane")){
+			northWestToNorthEastCane--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestCane")){
+			northWestToWestCane--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastCane")){
+			northWestToEastCane--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestCane")){
+			northWestToSouthWestCane--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthCane")){
+			northWestToSouthCane--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastCane")){
+			northWestToSouthEastCane--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestCane")){
+			northToNorthWestCane--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastCane")){
+			northToNorthEastCane--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestCane")){
+			northToWestCane--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastCane")){
+			northToEastCane--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestCane")){
+			northToSouthWestCane--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthCane")){
+			northToSouthCane--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastCane")){
+			northToSouthEastCane--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestCane")){
+			northEastToNorthWestCane--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthCane")){
+			northEastToNorthCane--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestCane")){
+			northEastToWestCane--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastCane")){
+			northEastToEastCane--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestCane")){
+			northEastToSouthWestCane--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthCane")){
+			northEastToSouthCane--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastCane")){
+			northEastToSouthEastCane--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestCane")){
+			westToNorthWestCane--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthCane")){
+			westToNorthCane--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastCane")){
+			westToNorthEastCane--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastCane")){
+			westToEastCane--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestCane")){
+			westToSouthWestCane--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthCane")){
+			westToSouthCane--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastCane")){
+			westToSouthEastCane--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestCane")){
+			eastToNorthWestCane--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthCane")){
+			eastToNorthCane--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastCane")){
+			eastToNorthEastCane--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestCane")){
+			eastToWestCane--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestCane")){
+			eastToSouthWestCane--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthCane")){
+			eastToSouthCane--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastCane")){
+			eastToSouthEastCane--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestCane")){
+			southWestToNorthWestCane--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthCane")){
+			southWestToNorthCane--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastCane")){
+			southWestToNorthEastCane--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestCane")){
+			southWestToWestCane--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastCane")){
+			southWestToEastCane--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthCane")){
+			southWestToSouthCane--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastCane")){
+			southWestToSouthEastCane--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestCane")){
+			southToNorthWestCane--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthCane")){
+			southToNorthCane--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastCane")){
+			southToNorthEastCane--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestCane")){
+			southToWestCane--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastCane")){
+			southToEastCane--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestCane")){
+			southToSouthWestCane--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastCane")){
+			southToSouthEastCane--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestCane")){
+			southEastToNorthWestCane--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthCane")){
+			southEastToNorthCane--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastCane")){
+			southEastToNorthEastCane--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestCane")){
+			southEastToWestCane--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastCane")){
+			southEastToEastCane--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestCane")){
+			southEastToSouthWestCane--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthCane")){
+			southEastToSouthCane--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		cane--;
+	}
+	
+	private void decreaseDog(){
+		if(lastSelectedObject.peek().equals("northWestToNorthDog")){
+			northWestToNorthDog--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastDog")){
+			northWestToNorthEastDog--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestDog")){
+			northWestToWestDog--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastDog")){
+			northWestToEastDog--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestDog")){
+			northWestToSouthWestDog--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthDog")){
+			northWestToSouthDog--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastDog")){
+			northWestToSouthEastDog--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestDog")){
+			northToNorthWestDog--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastDog")){
+			northToNorthEastDog--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestDog")){
+			northToWestDog--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastDog")){
+			northToEastDog--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestDog")){
+			northToSouthWestDog--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthDog")){
+			northToSouthDog--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastDog")){
+			northToSouthEastDog--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestDog")){
+			northEastToNorthWestDog--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthDog")){
+			northEastToNorthDog--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestDog")){
+			northEastToWestDog--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastDog")){
+			northEastToEastDog--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestDog")){
+			northEastToSouthWestDog--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthDog")){
+			northEastToSouthDog--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastDog")){
+			northEastToSouthEastDog--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestDog")){
+			westToNorthWestDog--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthDog")){
+			westToNorthDog--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastDog")){
+			westToNorthEastDog--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastDog")){
+			westToEastDog--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestDog")){
+			westToSouthWestDog--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthDog")){
+			westToSouthDog--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastDog")){
+			westToSouthEastDog--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestDog")){
+			eastToNorthWestDog--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthDog")){
+			eastToNorthDog--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastDog")){
+			eastToNorthEastDog--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestDog")){
+			eastToWestDog--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestDog")){
+			eastToSouthWestDog--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthDog")){
+			eastToSouthDog--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastDog")){
+			eastToSouthEastDog--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestDog")){
+			southWestToNorthWestDog--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthDog")){
+			southWestToNorthDog--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastDog")){
+			southWestToNorthEastDog--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestDog")){
+			southWestToWestDog--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastDog")){
+			southWestToEastDog--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthDog")){
+			southWestToSouthDog--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastDog")){
+			southWestToSouthEastDog--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestDog")){
+			southToNorthWestDog--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthDog")){
+			southToNorthDog--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastDog")){
+			southToNorthEastDog--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestDog")){
+			southToWestDog--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastDog")){
+			southToEastDog--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestDog")){
+			southToSouthWestDog--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastDog")){
+			southToSouthEastDog--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestDog")){
+			southEastToNorthWestDog--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthDog")){
+			southEastToNorthDog--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastDog")){
+			southEastToNorthEastDog--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestDog")){
+			southEastToWestDog--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastDog")){
+			southEastToEastDog--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestDog")){
+			southEastToSouthWestDog--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthDog")){
+			southEastToSouthDog--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		dog--;
+	}
+	
+	private void decreaseMobilityScooter(){
+		if(lastSelectedObject.peek().equals("northWestToNorthMobilityScooter")){
+			northWestToNorthMobilityScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastMobilityScooter")){
+			northWestToNorthEastMobilityScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestMobilityScooter")){
+			northWestToWestMobilityScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastMobilityScooter")){
+			northWestToEastMobilityScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestMobilityScooter")){
+			northWestToSouthWestMobilityScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthMobilityScooter")){
+			northWestToSouthMobilityScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastMobilityScooter")){
+			northWestToSouthEastMobilityScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestMobilityScooter")){
+			northToNorthWestMobilityScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastMobilityScooter")){
+			northToNorthEastMobilityScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestMobilityScooter")){
+			northToWestMobilityScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastMobilityScooter")){
+			northToEastMobilityScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestMobilityScooter")){
+			northToSouthWestMobilityScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthMobilityScooter")){
+			northToSouthMobilityScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastMobilityScooter")){
+			northToSouthEastMobilityScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestMobilityScooter")){
+			northEastToNorthWestMobilityScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthMobilityScooter")){
+			northEastToNorthMobilityScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestMobilityScooter")){
+			northEastToWestMobilityScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastMobilityScooter")){
+			northEastToEastMobilityScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestMobilityScooter")){
+			northEastToSouthWestMobilityScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthMobilityScooter")){
+			northEastToSouthMobilityScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastMobilityScooter")){
+			northEastToSouthEastMobilityScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestMobilityScooter")){
+			westToNorthWestMobilityScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthMobilityScooter")){
+			westToNorthMobilityScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastMobilityScooter")){
+			westToNorthEastMobilityScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastMobilityScooter")){
+			westToEastMobilityScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestMobilityScooter")){
+			westToSouthWestMobilityScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthMobilityScooter")){
+			westToSouthMobilityScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastMobilityScooter")){
+			westToSouthEastMobilityScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestMobilityScooter")){
+			eastToNorthWestMobilityScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthMobilityScooter")){
+			eastToNorthMobilityScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastMobilityScooter")){
+			eastToNorthEastMobilityScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestMobilityScooter")){
+			eastToWestMobilityScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestMobilityScooter")){
+			eastToSouthWestMobilityScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthMobilityScooter")){
+			eastToSouthMobilityScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastMobilityScooter")){
+			eastToSouthEastMobilityScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestMobilityScooter")){
+			southWestToNorthWestMobilityScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthMobilityScooter")){
+			southWestToNorthMobilityScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastMobilityScooter")){
+			southWestToNorthEastMobilityScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestMobilityScooter")){
+			southWestToWestMobilityScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastMobilityScooter")){
+			southWestToEastMobilityScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthMobilityScooter")){
+			southWestToSouthMobilityScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastMobilityScooter")){
+			southWestToSouthEastMobilityScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestMobilityScooter")){
+			southToNorthWestMobilityScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthMobilityScooter")){
+			southToNorthMobilityScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastMobilityScooter")){
+			southToNorthEastMobilityScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestMobilityScooter")){
+			southToWestMobilityScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastMobilityScooter")){
+			southToEastMobilityScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestMobilityScooter")){
+			southToSouthWestMobilityScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastMobilityScooter")){
+			southToSouthEastMobilityScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestMobilityScooter")){
+			southEastToNorthWestMobilityScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthMobilityScooter")){
+			southEastToNorthMobilityScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastMobilityScooter")){
+			southEastToNorthEastMobilityScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestMobilityScooter")){
+			southEastToWestMobilityScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastMobilityScooter")){
+			southEastToEastMobilityScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestMobilityScooter")){
+			southEastToSouthWestMobilityScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthMobilityScooter")){
+			southEastToSouthMobilityScooter--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		mobilityScooter--;
+	}
+	
+	private void decreaseWheelChairAssisted(){
+		if(lastSelectedObject.peek().equals("northWestToNorthWheelChairAssisted")){
+			northWestToNorthWheelChairAssisted--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelChairAssisted")){
+			northWestToNorthEastWheelChairAssisted--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestWheelChairAssisted")){
+			northWestToWestWheelChairAssisted--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastWheelChairAssisted")){
+			northWestToEastWheelChairAssisted--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelChairAssisted")){
+			northWestToSouthWestWheelChairAssisted--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelChairAssisted")){
+			northWestToSouthWheelChairAssisted--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelChairAssisted")){
+			northWestToSouthEastWheelChairAssisted--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelChairAssisted")){
+			northToNorthWestWheelChairAssisted--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelChairAssisted")){
+			northToNorthEastWheelChairAssisted--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestWheelChairAssisted")){
+			northToWestWheelChairAssisted--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastWheelChairAssisted")){
+			northToEastWheelChairAssisted--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelChairAssisted")){
+			northToSouthWestWheelChairAssisted--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWheelChairAssisted")){
+			northToSouthWheelChairAssisted--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelChairAssisted")){
+			northToSouthEastWheelChairAssisted--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelChairAssisted")){
+			northEastToNorthWestWheelChairAssisted--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelChairAssisted")){
+			northEastToNorthWheelChairAssisted--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestWheelChairAssisted")){
+			northEastToWestWheelChairAssisted--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastWheelChairAssisted")){
+			northEastToEastWheelChairAssisted--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelChairAssisted")){
+			northEastToSouthWestWheelChairAssisted--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelChairAssisted")){
+			northEastToSouthWheelChairAssisted--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelChairAssisted")){
+			northEastToSouthEastWheelChairAssisted--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelChairAssisted")){
+			westToNorthWestWheelChairAssisted--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthWheelChairAssisted")){
+			westToNorthWheelChairAssisted--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelChairAssisted")){
+			westToNorthEastWheelChairAssisted--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastWheelChairAssisted")){
+			westToEastWheelChairAssisted--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelChairAssisted")){
+			westToSouthWestWheelChairAssisted--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWheelChairAssisted")){
+			westToSouthWheelChairAssisted--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelChairAssisted")){
+			westToSouthEastWheelChairAssisted--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelChairAssisted")){
+			eastToNorthWestWheelChairAssisted--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthWheelChairAssisted")){
+			eastToNorthWheelChairAssisted--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelChairAssisted")){
+			eastToNorthEastWheelChairAssisted--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestWheelChairAssisted")){
+			eastToWestWheelChairAssisted--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelChairAssisted")){
+			eastToSouthWestWheelChairAssisted--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWheelChairAssisted")){
+			eastToSouthWheelChairAssisted--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelChairAssisted")){
+			eastToSouthEastWheelChairAssisted--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelChairAssisted")){
+			southWestToNorthWestWheelChairAssisted--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelChairAssisted")){
+			southWestToNorthWheelChairAssisted--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelChairAssisted")){
+			southWestToNorthEastWheelChairAssisted--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestWheelChairAssisted")){
+			southWestToWestWheelChairAssisted--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastWheelChairAssisted")){
+			southWestToEastWheelChairAssisted--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelChairAssisted")){
+			southWestToSouthWheelChairAssisted--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelChairAssisted")){
+			southWestToSouthEastWheelChairAssisted--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelChairAssisted")){
+			southToNorthWestWheelChairAssisted--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthWheelChairAssisted")){
+			southToNorthWheelChairAssisted--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelChairAssisted")){
+			southToNorthEastWheelChairAssisted--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestWheelChairAssisted")){
+			southToWestWheelChairAssisted--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastWheelChairAssisted")){
+			southToEastWheelChairAssisted--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelChairAssisted")){
+			southToSouthWestWheelChairAssisted--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelChairAssisted")){
+			southToSouthEastWheelChairAssisted--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelChairAssisted")){
+			southEastToNorthWestWheelChairAssisted--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelChairAssisted")){
+			southEastToNorthWheelChairAssisted--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelChairAssisted")){
+			southEastToNorthEastWheelChairAssisted--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestWheelChairAssisted")){
+			southEastToWestWheelChairAssisted--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastWheelChairAssisted")){
+			southEastToEastWheelChairAssisted--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelChairAssisted")){
+			southEastToSouthWestWheelChairAssisted--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelChairAssisted")){
+			southEastToSouthWheelChairAssisted--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		wheelChair_assisted--;
+	}
+	
+	private void decreaseWheelChairManual(){
+		if(lastSelectedObject.peek().equals("northWestToNorthWheelChairManual")){
+			northWestToNorthWheelChairManual--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelChairManual")){
+			northWestToNorthEastWheelChairManual--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestWheelChairManual")){
+			northWestToWestWheelChairManual--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastWheelChairManual")){
+			northWestToEastWheelChairManual--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelChairManual")){
+			northWestToSouthWestWheelChairManual--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelChairManual")){
+			northWestToSouthWheelChairManual--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelChairManual")){
+			northWestToSouthEastWheelChairManual--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelChairManual")){
+			northToNorthWestWheelChairManual--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelChairManual")){
+			northToNorthEastWheelChairManual--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestWheelChairManual")){
+			northToWestWheelChairManual--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastWheelChairManual")){
+			northToEastWheelChairManual--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelChairManual")){
+			northToSouthWestWheelChairManual--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWheelChairManual")){
+			northToSouthWheelChairManual--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelChairManual")){
+			northToSouthEastWheelChairManual--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelChairManual")){
+			northEastToNorthWestWheelChairManual--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelChairManual")){
+			northEastToNorthWheelChairManual--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestWheelChairManual")){
+			northEastToWestWheelChairManual--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastWheelChairManual")){
+			northEastToEastWheelChairManual--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelChairManual")){
+			northEastToSouthWestWheelChairManual--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelChairManual")){
+			northEastToSouthWheelChairManual--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelChairManual")){
+			northEastToSouthEastWheelChairManual--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelChairManual")){
+			westToNorthWestWheelChairManual--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthWheelChairManual")){
+			westToNorthWheelChairManual--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelChairManual")){
+			westToNorthEastWheelChairManual--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastWheelChairManual")){
+			westToEastWheelChairManual--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelChairManual")){
+			westToSouthWestWheelChairManual--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWheelChairManual")){
+			westToSouthWheelChairManual--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelChairManual")){
+			westToSouthEastWheelChairManual--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelChairManual")){
+			eastToNorthWestWheelChairManual--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthWheelChairManual")){
+			eastToNorthWheelChairManual--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelChairManual")){
+			eastToNorthEastWheelChairManual--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestWheelChairManual")){
+			eastToWestWheelChairManual--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelChairManual")){
+			eastToSouthWestWheelChairManual--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWheelChairManual")){
+			eastToSouthWheelChairManual--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelChairManual")){
+			eastToSouthEastWheelChairManual--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelChairManual")){
+			southWestToNorthWestWheelChairManual--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelChairManual")){
+			southWestToNorthWheelChairManual--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelChairManual")){
+			southWestToNorthEastWheelChairManual--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestWheelChairManual")){
+			southWestToWestWheelChairManual--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastWheelChairManual")){
+			southWestToEastWheelChairManual--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelChairManual")){
+			southWestToSouthWheelChairManual--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelChairManual")){
+			southWestToSouthEastWheelChairManual--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelChairManual")){
+			southToNorthWestWheelChairManual--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthWheelChairManual")){
+			southToNorthWheelChairManual--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelChairManual")){
+			southToNorthEastWheelChairManual--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestWheelChairManual")){
+			southToWestWheelChairManual--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastWheelChairManual")){
+			southToEastWheelChairManual--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelChairManual")){
+			southToSouthWestWheelChairManual--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelChairManual")){
+			southToSouthEastWheelChairManual--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelChairManual")){
+			southEastToNorthWestWheelChairManual--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelChairManual")){
+			southEastToNorthWheelChairManual--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelChairManual")){
+			southEastToNorthEastWheelChairManual--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestWheelChairManual")){
+			southEastToWestWheelChairManual--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastWheelChairManual")){
+			southEastToEastWheelChairManual--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelChairManual")){
+			southEastToSouthWestWheelChairManual--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelChairManual")){
+			southEastToSouthWheelChairManual--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		wheelChair_manual--;
+	}
+	
+	private void decreaseWheelChairPowered(){
+		if(lastSelectedObject.peek().equals("northWestToNorthWheelChairPowered")){
+			northWestToNorthWheelChairPowered--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelChairPowered")){
+			northWestToNorthEastWheelChairPowered--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestWheelChairPowered")){
+			northWestToWestWheelChairPowered--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastWheelChairPowered")){
+			northWestToEastWheelChairPowered--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelChairPowered")){
+			northWestToSouthWestWheelChairPowered--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelChairPowered")){
+			northWestToSouthWheelChairPowered--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelChairPowered")){
+			northWestToSouthEastWheelChairPowered--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelChairPowered")){
+			northToNorthWestWheelChairPowered--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelChairPowered")){
+			northToNorthEastWheelChairPowered--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestWheelChairPowered")){
+			northToWestWheelChairPowered--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastWheelChairPowered")){
+			northToEastWheelChairPowered--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelChairPowered")){
+			northToSouthWestWheelChairPowered--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWheelChairPowered")){
+			northToSouthWheelChairPowered--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelChairPowered")){
+			northToSouthEastWheelChairPowered--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelChairPowered")){
+			northEastToNorthWestWheelChairPowered--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelChairPowered")){
+			northEastToNorthWheelChairPowered--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestWheelChairPowered")){
+			northEastToWestWheelChairPowered--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastWheelChairPowered")){
+			northEastToEastWheelChairPowered--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelChairPowered")){
+			northEastToSouthWestWheelChairPowered--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelChairPowered")){
+			northEastToSouthWheelChairPowered--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelChairPowered")){
+			northEastToSouthEastWheelChairPowered--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelChairPowered")){
+			westToNorthWestWheelChairPowered--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthWheelChairPowered")){
+			westToNorthWheelChairPowered--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelChairPowered")){
+			westToNorthEastWheelChairPowered--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastWheelChairPowered")){
+			westToEastWheelChairPowered--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelChairPowered")){
+			westToSouthWestWheelChairPowered--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWheelChairPowered")){
+			westToSouthWheelChairPowered--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelChairPowered")){
+			westToSouthEastWheelChairPowered--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelChairPowered")){
+			eastToNorthWestWheelChairPowered--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthWheelChairPowered")){
+			eastToNorthWheelChairPowered--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelChairPowered")){
+			eastToNorthEastWheelChairPowered--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestWheelChairPowered")){
+			eastToWestWheelChairPowered--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelChairPowered")){
+			eastToSouthWestWheelChairPowered--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWheelChairPowered")){
+			eastToSouthWheelChairPowered--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelChairPowered")){
+			eastToSouthEastWheelChairPowered--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelChairPowered")){
+			southWestToNorthWestWheelChairPowered--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelChairPowered")){
+			southWestToNorthWheelChairPowered--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelChairPowered")){
+			southWestToNorthEastWheelChairPowered--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestWheelChairPowered")){
+			southWestToWestWheelChairPowered--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastWheelChairPowered")){
+			southWestToEastWheelChairPowered--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelChairPowered")){
+			southWestToSouthWheelChairPowered--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelChairPowered")){
+			southWestToSouthEastWheelChairPowered--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelChairPowered")){
+			southToNorthWestWheelChairPowered--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthWheelChairPowered")){
+			southToNorthWheelChairPowered--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelChairPowered")){
+			southToNorthEastWheelChairPowered--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestWheelChairPowered")){
+			southToWestWheelChairPowered--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastWheelChairPowered")){
+			southToEastWheelChairPowered--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelChairPowered")){
+			southToSouthWestWheelChairPowered--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelChairPowered")){
+			southToSouthEastWheelChairPowered--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelChairPowered")){
+			southEastToNorthWestWheelChairPowered--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelChairPowered")){
+			southEastToNorthWheelChairPowered--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelChairPowered")){
+			southEastToNorthEastWheelChairPowered--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestWheelChairPowered")){
+			southEastToWestWheelChairPowered--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastWheelChairPowered")){
+			southEastToEastWheelChairPowered--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelChairPowered")){
+			southEastToSouthWestWheelChairPowered--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelChairPowered")){
+			southEastToSouthWheelChairPowered--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		wheelChair_powered--;
+	}
+	
+	private void decreasePushChair(){
+		if(lastSelectedObject.peek().equals("northWestToNorthPushChair")){
+			northWestToNorthPushChair--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastPushChair")){
+			northWestToNorthEastPushChair--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestPushChair")){
+			northWestToWestPushChair--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastPushChair")){
+			northWestToEastPushChair--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestPushChair")){
+			northWestToSouthWestPushChair--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthPushChair")){
+			northWestToSouthPushChair--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastPushChair")){
+			northWestToSouthEastPushChair--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestPushChair")){
+			northToNorthWestPushChair--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastPushChair")){
+			northToNorthEastPushChair--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestPushChair")){
+			northToWestPushChair--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastPushChair")){
+			northToEastPushChair--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestPushChair")){
+			northToSouthWestPushChair--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthPushChair")){
+			northToSouthPushChair--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastPushChair")){
+			northToSouthEastPushChair--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestPushChair")){
+			northEastToNorthWestPushChair--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthPushChair")){
+			northEastToNorthPushChair--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestPushChair")){
+			northEastToWestPushChair--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastPushChair")){
+			northEastToEastPushChair--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestPushChair")){
+			northEastToSouthWestPushChair--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthPushChair")){
+			northEastToSouthPushChair--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastPushChair")){
+			northEastToSouthEastPushChair--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestPushChair")){
+			westToNorthWestPushChair--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthPushChair")){
+			westToNorthPushChair--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastPushChair")){
+			westToNorthEastPushChair--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastPushChair")){
+			westToEastPushChair--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestPushChair")){
+			westToSouthWestPushChair--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthPushChair")){
+			westToSouthPushChair--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastPushChair")){
+			westToSouthEastPushChair--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestPushChair")){
+			eastToNorthWestPushChair--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthPushChair")){
+			eastToNorthPushChair--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastPushChair")){
+			eastToNorthEastPushChair--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestPushChair")){
+			eastToWestPushChair--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestPushChair")){
+			eastToSouthWestPushChair--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthPushChair")){
+			eastToSouthPushChair--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastPushChair")){
+			eastToSouthEastPushChair--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestPushChair")){
+			southWestToNorthWestPushChair--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthPushChair")){
+			southWestToNorthPushChair--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastPushChair")){
+			southWestToNorthEastPushChair--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestPushChair")){
+			southWestToWestPushChair--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastPushChair")){
+			southWestToEastPushChair--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthPushChair")){
+			southWestToSouthPushChair--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastPushChair")){
+			southWestToSouthEastPushChair--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestPushChair")){
+			southToNorthWestPushChair--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthPushChair")){
+			southToNorthPushChair--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastPushChair")){
+			southToNorthEastPushChair--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestPushChair")){
+			southToWestPushChair--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastPushChair")){
+			southToEastPushChair--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestPushChair")){
+			southToSouthWestPushChair--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastPushChair")){
+			southToSouthEastPushChair--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestPushChair")){
+			southEastToNorthWestPushChair--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthPushChair")){
+			southEastToNorthPushChair--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastPushChair")){
+			southEastToNorthEastPushChair--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestPushChair")){
+			southEastToWestPushChair--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastPushChair")){
+			southEastToEastPushChair--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestPushChair")){
+			southEastToSouthWestPushChair--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthPushChair")){
+			southEastToSouthPushChair--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		pushChair--;
+	}
+	
+	private void decreaseSkateboard(){
+		if(lastSelectedObject.peek().equals("northWestToNorthSkateboard")){
+			northWestToNorthSkateboard--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastSkateboard")){
+			northWestToNorthEastSkateboard--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestSkateboard")){
+			northWestToWestSkateboard--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastSkateboard")){
+			northWestToEastSkateboard--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestSkateboard")){
+			northWestToSouthWestSkateboard--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthSkateboard")){
+			northWestToSouthSkateboard--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastSkateboard")){
+			northWestToSouthEastSkateboard--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestSkateboard")){
+			northToNorthWestSkateboard--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastSkateboard")){
+			northToNorthEastSkateboard--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestSkateboard")){
+			northToWestSkateboard--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastSkateboard")){
+			northToEastSkateboard--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestSkateboard")){
+			northToSouthWestSkateboard--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthSkateboard")){
+			northToSouthSkateboard--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastSkateboard")){
+			northToSouthEastSkateboard--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestSkateboard")){
+			northEastToNorthWestSkateboard--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthSkateboard")){
+			northEastToNorthSkateboard--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestSkateboard")){
+			northEastToWestSkateboard--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastSkateboard")){
+			northEastToEastSkateboard--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestSkateboard")){
+			northEastToSouthWestSkateboard--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthSkateboard")){
+			northEastToSouthSkateboard--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastSkateboard")){
+			northEastToSouthEastSkateboard--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestSkateboard")){
+			westToNorthWestSkateboard--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthSkateboard")){
+			westToNorthSkateboard--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastSkateboard")){
+			westToNorthEastSkateboard--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastSkateboard")){
+			westToEastSkateboard--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestSkateboard")){
+			westToSouthWestSkateboard--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthSkateboard")){
+			westToSouthSkateboard--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastSkateboard")){
+			westToSouthEastSkateboard--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestSkateboard")){
+			eastToNorthWestSkateboard--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthSkateboard")){
+			eastToNorthSkateboard--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastSkateboard")){
+			eastToNorthEastSkateboard--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestSkateboard")){
+			eastToWestSkateboard--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestSkateboard")){
+			eastToSouthWestSkateboard--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthSkateboard")){
+			eastToSouthSkateboard--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastSkateboard")){
+			eastToSouthEastSkateboard--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestSkateboard")){
+			southWestToNorthWestSkateboard--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthSkateboard")){
+			southWestToNorthSkateboard--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastSkateboard")){
+			southWestToNorthEastSkateboard--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestSkateboard")){
+			southWestToWestSkateboard--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastSkateboard")){
+			southWestToEastSkateboard--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthSkateboard")){
+			southWestToSouthSkateboard--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastSkateboard")){
+			southWestToSouthEastSkateboard--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestSkateboard")){
+			southToNorthWestSkateboard--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthSkateboard")){
+			southToNorthSkateboard--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastSkateboard")){
+			southToNorthEastSkateboard--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestSkateboard")){
+			southToWestSkateboard--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastSkateboard")){
+			southToEastSkateboard--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestSkateboard")){
+			southToSouthWestSkateboard--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastSkateboard")){
+			southToSouthEastSkateboard--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestSkateboard")){
+			southEastToNorthWestSkateboard--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthSkateboard")){
+			southEastToNorthSkateboard--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastSkateboard")){
+			southEastToNorthEastSkateboard--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestSkateboard")){
+			southEastToWestSkateboard--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastSkateboard")){
+			southEastToEastSkateboard--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestSkateboard")){
+			southEastToSouthWestSkateboard--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthSkateboard")){
+			southEastToSouthSkateboard--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		skateboard--;
+	}
+	
+	private void decreaseManualScooter(){
+		if(lastSelectedObject.peek().equals("northWestToNorthManualScooter")){
+			northWestToNorthManualScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastManualScooter")){
+			northWestToNorthEastManualScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToWestManualScooter")){
+			northWestToWestManualScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToEastManualScooter")){
+			northWestToEastManualScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestManualScooter")){
+			northWestToSouthWestManualScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthManualScooter")){
+			northWestToSouthManualScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastManualScooter")){
+			northWestToSouthEastManualScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northToNorthWestManualScooter")){
+			northToNorthWestManualScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToNorthEastManualScooter")){
+			northToNorthEastManualScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToWestManualScooter")){
+			northToWestManualScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToEastManualScooter")){
+			northToEastManualScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthWestManualScooter")){
+			northToSouthWestManualScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthManualScooter")){
+			northToSouthManualScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northToSouthEastManualScooter")){
+			northToSouthEastManualScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestManualScooter")){
+			northEastToNorthWestManualScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToNorthManualScooter")){
+			northEastToNorthManualScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToWestManualScooter")){
+			northEastToWestManualScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToEastManualScooter")){
+			northEastToEastManualScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestManualScooter")){
+			northEastToSouthWestManualScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthManualScooter")){
+			northEastToSouthManualScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastManualScooter")){
+			northEastToSouthEastManualScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("westToNorthWestManualScooter")){
+			westToNorthWestManualScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthManualScooter")){
+			westToNorthManualScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToNorthEastManualScooter")){
+			westToNorthEastManualScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToEastManualScooter")){
+			westToEastManualScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthWestManualScooter")){
+			westToSouthWestManualScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthManualScooter")){
+			westToSouthManualScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("westToSouthEastManualScooter")){
+			westToSouthEastManualScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestManualScooter")){
+			eastToNorthWestManualScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthManualScooter")){
+			eastToNorthManualScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastManualScooter")){
+			eastToNorthEastManualScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToWestManualScooter")){
+			eastToWestManualScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestManualScooter")){
+			eastToSouthWestManualScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthManualScooter")){
+			eastToSouthManualScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastManualScooter")){
+			eastToSouthEastManualScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestManualScooter")){
+			southWestToNorthWestManualScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthManualScooter")){
+			southWestToNorthManualScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastManualScooter")){
+			southWestToNorthEastManualScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToWestManualScooter")){
+			southWestToWestManualScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToEastManualScooter")){
+			southWestToEastManualScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthManualScooter")){
+			southWestToSouthManualScooter--;
+			southTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastManualScooter")){
+			southWestToSouthEastManualScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southToNorthWestManualScooter")){
+			southToNorthWestManualScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthManualScooter")){
+			southToNorthManualScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToNorthEastManualScooter")){
+			southToNorthEastManualScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToWestManualScooter")){
+			southToWestManualScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToEastManualScooter")){
+			southToEastManualScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthWestManualScooter")){
+			southToSouthWestManualScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southToSouthEastManualScooter")){
+			southToSouthEastManualScooter--;
+			southEastTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestManualScooter")){
+			southEastToNorthWestManualScooter--;
+			northWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthManualScooter")){
+			southEastToNorthManualScooter--;
+			northTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastManualScooter")){
+			southEastToNorthEastManualScooter--;
+			northEastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToWestManualScooter")){
+			southEastToWestManualScooter--;
+			westTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToEastManualScooter")){
+			southEastToEastManualScooter--;
+			eastTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestManualScooter")){
+			southEastToSouthWestManualScooter--;
+			southWestTotal--;
+			
+		}else if(lastSelectedObject.peek().equals("southEastToSouthManualScooter")){
+			southEastToSouthManualScooter--;
+			southTotal--;
+			
+			///////////////////////////////////////////////////////////////
+		}
+		manualScooter--;
 	}
 	
 	private boolean reverseButtonClicked(boolean buttonClicked){
@@ -2356,9 +6140,11 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * This method checks to make sure that there is a value in direction from and direction to.
 	 * If this is true. It will begin to update all the counts then default the current selected object back to pedestrian.
 	 */
-	private void updateAllCounts(){
-		increaseObjectCount();
-		increaseTotalCount();
+	private void updateAllCounts(boolean count){
+		if(count){
+			increaseObjectCount();
+			increaseTotalCount();
+		}
 		updateDirectionCount();
 		updateAllDirectionalButtons();
 		initialiseDirectionFromTo();
@@ -2447,174 +6233,246 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	//Methods to check the directionTo and directionFrom of count objects
 	
 	private void checkBus(int directionFromPosition, int directionToPosition){
-		if(directionFromPosition == 0 && directionToPosition == 1){
-			northWestToNorthBus++;
-			northTotal++;
-		}else if(directionFromPosition == 0 && directionToPosition == 2){
-			northWestToNorthEastBus++;
-			northEastTotal++;
-		}else if(directionFromPosition == 0 && directionToPosition == 3){
-			northWestToWestBus++;
-			westTotal++;
-		}else if(directionFromPosition == 0 && directionToPosition == 4){
-			northWestToEastBus++;
-			eastTotal++;
-		}else if(directionFromPosition == 0 && directionToPosition == 5){
-			northWestToSouthWestBus++;
-			southWestTotal++;
-		}else if(directionFromPosition == 0 && directionToPosition == 6){
-			northWestToSouthBus++;
-			southTotal++;
-		}else if(directionFromPosition == 0 && directionToPosition == 7){
-			northWestToSouthEastBus++;
-			southEastTotal++;
-		}else if(directionFromPosition == 1 && directionToPosition == 0){
-			northToNorthWestBus++;
-			northWestTotal++;
-		}else if(directionFromPosition == 1 && directionToPosition == 2){
-			northToNorthEastBus++;
-			northEastTotal++;
-		}else if(directionFromPosition == 1 && directionToPosition == 3){
-			northToWestBus++;
-			westTotal++;
-		}else if(directionFromPosition == 1 && directionToPosition == 4){
-			northToEastBus++;
-			eastTotal++;
-		}else if(directionFromPosition == 1 && directionToPosition == 5){
-			northToSouthWestBus++;
-			southWestTotal++;
-		}else if(directionFromPosition == 1 && directionToPosition == 6){
-			northToSouthBus++;
-			southTotal++;
-		}else if(directionFromPosition == 1 && directionToPosition == 7){
-			northToSouthEastBus++;
-			southEastTotal++;
-		} else if(directionFromPosition == 2 && directionToPosition == 0){
-			northEastToNorthWestBus++;
-			northWestTotal++;
-		}else if(directionFromPosition == 2 && directionToPosition == 1){
-			northEastToNorthBus++;
-			northTotal++;
-		}else if(directionFromPosition == 2 && directionToPosition == 3){
-			northEastToWestBus++;
-			westTotal++;
-		}else if(directionFromPosition == 2 && directionToPosition == 4){
-			northEastToEastBus++;
-			eastTotal++;
-		}else if(directionFromPosition == 2 && directionToPosition == 5){
-			northEastToSouthWestBus++;
-			southWestTotal++;
-		}else if(directionFromPosition == 2 && directionToPosition == 6){
-			northEastToSouthBus++;
-			southTotal++;
-		}else if(directionFromPosition == 2 && directionToPosition == 7){
-			northEastToSouthEastBus++;
-			southEastTotal++;
-		} else if(directionFromPosition == 3 && directionToPosition == 0){
-			westToNorthWestBus++;
-			northWestTotal++;
-		}else if(directionFromPosition == 3 && directionToPosition == 1){
-			westToNorthBus++;
-			northTotal++;
-		}else if(directionFromPosition == 3 && directionToPosition == 2){
-			westToNorthEastBus++;
-			northEastTotal++;
-		}else if(directionFromPosition == 3 && directionToPosition == 4){
-			westToEastBus++;
-			eastTotal++;
-		}else if(directionFromPosition == 3 && directionToPosition == 5){
-			westToSouthWestBus++;
-			southWestTotal++;
-		}else if(directionFromPosition == 3 && directionToPosition == 6){
-			westToSouthBus++;
-			southTotal++;
-		}else if(directionFromPosition == 3 && directionToPosition == 7){
-			westToSouthEastBus++;
-			southEastTotal++;
-		}else if(directionFromPosition == 4 && directionToPosition == 0){
-			eastToNorthWestBus++;
-			northWestTotal++;
-		}else if(directionFromPosition == 4 && directionToPosition == 1){
-			eastToNorthBus++;
-			northTotal++;
-		}else if(directionFromPosition == 4 && directionToPosition == 2){
-			eastToNorthEastBus++;
-			northEastTotal++;
-		}else if(directionFromPosition == 4 && directionToPosition == 3){
-			eastToWestBus++;
-			westTotal++;
-		}else if(directionFromPosition == 4 && directionToPosition == 5){
-			eastToSouthWestBus++;
-			southWestTotal++;
-		}else if(directionFromPosition == 4 && directionToPosition == 6){
-			eastToSouthBus++;
-			southTotal++;
-		}else if(directionFromPosition == 4 && directionToPosition == 7){
-			eastToSouthEastBus++;
-			southEastTotal++;
-		}else if(directionFromPosition == 5 && directionToPosition == 0){
-			southWestToNorthWestBus++;
-			northWestTotal++;
-		}else if(directionFromPosition == 5 && directionToPosition == 1){
-			southWestToNorthBus++;
-			northTotal++;
-		}else if(directionFromPosition == 5 && directionToPosition == 2){
-			southWestToNorthEastBus++;
-			northEastTotal++;
-		}else if(directionFromPosition == 5 && directionToPosition == 3){
-			southWestToWestBus++;
-			westTotal++;
-		}else if(directionFromPosition == 5 && directionToPosition == 4){
-			southWestToEastBus++;
-			eastTotal++;
-		}else if(directionFromPosition == 5 && directionToPosition == 6){
-			southWestToSouthBus++;
-			southTotal++;
-		}else if(directionFromPosition == 5 && directionToPosition == 7){
-			southWestToSouthEastBus++;
-			southEastTotal++;
-		}else if(directionFromPosition == 6 && directionToPosition == 0){
-			southToNorthWestBus++;
-			northWestTotal++;
-		}else if(directionFromPosition == 6 && directionToPosition == 1){
-			southToNorthBus++;
-			northTotal++;
-		}else if(directionFromPosition == 6 && directionToPosition == 2){
-			southToNorthEastBus++;
-			northEastTotal++;
-		}else if(directionFromPosition == 6 && directionToPosition == 3){
-			southToWestBus++;
-			westTotal++;
-		}else if(directionFromPosition == 6 && directionToPosition == 4){
-			southToEastBus++;
-			eastTotal++;
-		}else if(directionFromPosition == 6 && directionToPosition == 5){
-			southToSouthWestBus++;
-			southWestTotal++;
-		}else if(directionFromPosition == 6 && directionToPosition == 7){
-			southToSouthEastBus++;
-			southEastTotal++;
-		}else if(directionFromPosition == 7 && directionToPosition == 0){
-			southEastToNorthWestBus++;
-			northWestTotal++;
-		}else if(directionFromPosition == 7 && directionToPosition == 1){
-			southEastToNorthBus++;
-			northTotal++;
-		}else if(directionFromPosition == 7 && directionToPosition == 2){
-			southEastToNorthEastBus++;
-			northEastTotal++;
-		}else if(directionFromPosition == 7 && directionToPosition == 3){
-			southEastToWestBus++;
-			westTotal++;
-		}else if(directionFromPosition == 7 && directionToPosition == 4){
-			southEastToEastBus++;
-			eastTotal++;
-		}else if(directionFromPosition == 7 && directionToPosition == 5){
-			southEastToSouthWestBus++;
-			southWestTotal++;
-		}else if(directionFromPosition == 7 && directionToPosition == 6){
-			southEastToSouthBus++;
-			southTotal++;
+		if(directionFromPosition == 0){
+			if(directionToPosition == 1){
+				northWestToNorthBus++;
+				northTotal++;
+				lastSelectedObject.push("northWestToNorthBus");
+			}else if(directionToPosition == 2){
+				northWestToNorthEastBus++;
+				northEastTotal++;
+				lastSelectedObject.push("northWestToNorthEastBus");
+			}else if(directionToPosition == 3){
+				northWestToWestBus++;
+				westTotal++;
+				lastSelectedObject.push("northWestToWestBus");
+			}else if(directionToPosition == 4){
+				northWestToEastBus++;
+				eastTotal++;
+				lastSelectedObject.push("northWestToEastBus");
+			}else if(directionToPosition == 5){
+				northWestToSouthWestBus++;
+				southWestTotal++;
+				lastSelectedObject.push("northWestToSouthWestBus");
+			}else if(directionToPosition == 6){
+				northWestToSouthBus++;
+				southTotal++;
+				lastSelectedObject.push("northWestToSouthBus");
+			}else if(directionToPosition == 7){
+				northWestToSouthEastBus++;
+				southEastTotal++;
+				lastSelectedObject.push("northWestToSouthEastBus");
+			}
+		}else if(directionFromPosition == 1){
+			if(directionToPosition == 0){
+				northToNorthWestBus++;
+				northWestTotal++;
+				lastSelectedObject.push("northToNorthWestBus");
+			}else if(directionToPosition == 2){
+				northToNorthEastBus++;
+				northEastTotal++;
+				lastSelectedObject.push("northToNorthEastBus");
+			}else if(directionToPosition == 3){
+				northToWestBus++;
+				westTotal++;
+				lastSelectedObject.push("northToWestBus");
+			}else if(directionToPosition == 4){
+				northToEastBus++;
+				eastTotal++;
+				lastSelectedObject.push("northToEastBus");
+			}else if(directionToPosition == 5){
+				northToSouthWestBus++;
+				southWestTotal++;
+				lastSelectedObject.push("northToSouthWestBus");
+			}else if(directionToPosition == 6){
+				northToSouthBus++;
+				southTotal++;
+				lastSelectedObject.push("northToSouthBus");
+			}else if(directionToPosition == 7){
+				northToSouthEastBus++;
+				southEastTotal++;
+				lastSelectedObject.push("northToSouthEastBus");
+			}
+		} else if(directionFromPosition == 2){
+			if(directionToPosition == 0){
+				northEastToNorthWestBus++;
+				northWestTotal++;
+				lastSelectedObject.push("northEastToNorthWestBus");
+			}else if(directionToPosition == 1){
+				northEastToNorthBus++;
+				northTotal++;
+				lastSelectedObject.push("northEastToNorthBus");
+			}else if(directionToPosition == 3){
+				northEastToWestBus++;
+				westTotal++;
+				lastSelectedObject.push("northEastToWestBus");
+			}else if(directionToPosition == 4){
+				northEastToEastBus++;
+				eastTotal++;
+				lastSelectedObject.push("northEastToEastBus");
+			}else if(directionToPosition == 5){
+				northEastToSouthWestBus++;
+				southWestTotal++;
+				lastSelectedObject.push("northEastToSouthWestBus");
+			}else if(directionToPosition == 6){
+				northEastToSouthBus++;
+				southTotal++;
+				lastSelectedObject.push("northEastToSouthBus");
+			}else if(directionToPosition == 7){
+				northEastToSouthEastBus++;
+				southEastTotal++;
+				lastSelectedObject.push("northEastToSouthEastBus");
+			}
+		} else if(directionFromPosition == 3){
+			if(directionToPosition == 0){
+				westToNorthWestBus++;
+				northWestTotal++;
+				lastSelectedObject.push("westToNorthWestBus");
+			}else if(directionToPosition == 1){
+				westToNorthBus++;
+				northTotal++;
+				lastSelectedObject.push("westToNorthBus");
+			}else if(directionToPosition == 2){
+				westToNorthEastBus++;
+				northEastTotal++;
+				lastSelectedObject.push("westToNorthEastBus");
+			}else if(directionToPosition == 4){
+				westToEastBus++;
+				eastTotal++;
+				lastSelectedObject.push("westToEastBus");
+			}else if(directionToPosition == 5){
+				westToSouthWestBus++;
+				southWestTotal++;
+				lastSelectedObject.push("westToSouthWestBus");
+			}else if(directionToPosition == 6){
+				westToSouthBus++;
+				southTotal++;
+				lastSelectedObject.push("westToSouthBus");
+			}else if(directionToPosition == 7){
+				westToSouthEastBus++;
+				southEastTotal++;
+				lastSelectedObject.push("westToSouthWestBus");
+			}
+		}else if(directionFromPosition == 4){
+			if(directionToPosition == 0){
+				eastToNorthWestBus++;
+				northWestTotal++;
+				lastSelectedObject.push("eastToNorthWestBus");
+			}else if(directionToPosition == 1){
+				eastToNorthBus++;
+				northTotal++;
+				lastSelectedObject.push("eastToNorthBus");
+			}else if(directionToPosition == 2){
+				eastToNorthEastBus++;
+				northEastTotal++;
+				lastSelectedObject.push("eastToNorthEastBus");
+			}else if(directionToPosition == 3){
+				eastToWestBus++;
+				westTotal++;
+				lastSelectedObject.push("eastToWestBus");
+			}else if(directionToPosition == 5){
+				eastToSouthWestBus++;
+				southWestTotal++;
+				lastSelectedObject.push("eastToSouthWestBus");
+			}else if(directionToPosition == 6){
+				eastToSouthBus++;
+				southTotal++;
+				lastSelectedObject.push("eastToSouthBus");
+			}else if(directionToPosition == 7){
+				eastToSouthEastBus++;
+				southEastTotal++;
+				lastSelectedObject.push("eastToSouthEastBus");
+			}
+		}else if(directionFromPosition == 5){
+			if(directionToPosition == 0){
+				southWestToNorthWestBus++;
+				northWestTotal++;
+				lastSelectedObject.push("southWestToNorthWestBus");
+			}else if(directionToPosition == 1){
+				southWestToNorthBus++;
+				northTotal++;
+				lastSelectedObject.push("southWestToNorthBus");
+			}else if(directionToPosition == 2){
+				southWestToNorthEastBus++;
+				northEastTotal++;
+				lastSelectedObject.push("southWestToNorthEastBus");
+			}else if(directionToPosition == 3){
+				southWestToWestBus++;
+				westTotal++;
+				lastSelectedObject.push("southWestToWestBus");
+			}else if(directionToPosition == 4){
+				southWestToEastBus++;
+				eastTotal++;
+				lastSelectedObject.push("southWestToEastBus");
+			}else if(directionToPosition == 6){
+				southWestToSouthBus++;
+				southTotal++;
+				lastSelectedObject.push("southWestToSouthBus");
+			}else if(directionToPosition == 7){
+				southWestToSouthEastBus++;
+				southEastTotal++;
+				lastSelectedObject.push("southWestToSouthEastBus");
+			}
+		}else if(directionFromPosition == 6){
+			if(directionToPosition == 0){
+				southToNorthWestBus++;
+				northWestTotal++;
+				lastSelectedObject.push("southToNorthWestBus");
+			}else if(directionToPosition == 1){
+				southToNorthBus++;
+				northTotal++;
+				lastSelectedObject.push("southToNorthBus");
+			}else if(directionToPosition == 2){
+				southToNorthEastBus++;
+				northEastTotal++;
+				lastSelectedObject.push("southToNorthEastBus");
+			}else if(directionToPosition == 3){
+				southToWestBus++;
+				westTotal++;
+				lastSelectedObject.push("southToWestBus");
+			}else if(directionToPosition == 4){
+				southToEastBus++;
+				eastTotal++;
+				lastSelectedObject.push("southToEastBus");
+			}else if(directionToPosition == 5){
+				southToSouthWestBus++;
+				southWestTotal++;
+				lastSelectedObject.push("southToSouthWestBus");
+			}else if(directionToPosition == 7){
+				southToSouthEastBus++;
+				southEastTotal++;
+				lastSelectedObject.push("southToSouthEastBus");
+			}
+		}else if(directionFromPosition == 7){
+			if(directionToPosition == 0){
+				southEastToNorthWestBus++;
+				northWestTotal++;
+				lastSelectedObject.push("southEastToNorthWestBus");
+			}else if(directionToPosition == 1){
+				southEastToNorthBus++;
+				northTotal++;
+				lastSelectedObject.push("southEastToNorthBus");
+			}else if(directionToPosition == 2){
+				southEastToNorthEastBus++;
+				northEastTotal++;
+				lastSelectedObject.push("southEastToNorthEastBus");
+			}else if(directionToPosition == 3){
+				southEastToWestBus++;
+				westTotal++;
+				lastSelectedObject.push("southEastToWestBus");
+			}else if(directionToPosition == 4){
+				southEastToEastBus++;
+				eastTotal++;
+				lastSelectedObject.push("southEastToEastBus");
+			}else if(directionToPosition == 5){
+				southEastToSouthWestBus++;
+				southWestTotal++;
+				lastSelectedObject.push("southEastToSouthWestBus");
+			}else if(directionToPosition == 6){
+				southEastToSouthBus++;
+				southTotal++;
+				lastSelectedObject.push("southEastToSouthBus");
+			}
 		}
 	}
 	
