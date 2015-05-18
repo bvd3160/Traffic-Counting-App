@@ -337,6 +337,11 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		CountSetup.commentSection = commentSection;
 	}
 	
+	/*
+	 * This method just adds the extra data that will be used in CountingScreen.java
+	 * @author: Richard Fong
+	 * @since: 
+	 */
 	public void submitCountScreen(View view){
 		Intent intent = new Intent(this, CountingScreen.class);
 		/*
@@ -348,6 +353,11 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		startActivityForResult(intent, 1);
 	}
 	
+	/*
+	 * These methods allow the CustomDialog know which pop-up screen to display.
+	 * @author: Richad Fong
+	 * @since: 
+	 */
 	@SuppressLint("NewApi")
 	public void showIntersectionDialog(View view){
 		FragmentManager manager = getFragmentManager();
@@ -362,6 +372,12 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		dialog.show(manager, "dateDialog");
 	}
 	
+	/*
+	 * This method is used when the user goes to the CountSetup screen from the CountingScreen.
+	 * It updates the comment section in the CountSetup screen.
+	 * @author: Richard Fong
+	 * @since: 
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		    if (requestCode == 1) {
@@ -392,6 +408,13 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		return super.onOptionsItemSelected(item);
 	}
 
+	/*
+	 * This method is from the Communications class in CustomDialogs.
+	 * It allows CountSetup to get the data which was gathered in CustomDialogs
+	 * and updates the required information in CountSetup.
+	 * @author: Richard Fong
+	 * @since:
+	 */
 	@SuppressLint("NewApi")
 	@Override
 	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue, String[] stringArrayValue) {

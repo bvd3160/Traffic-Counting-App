@@ -367,11 +367,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				southEastToSouthWheelChairAssisted, southEastToSouthWheelChairManual, southEastToSouthWheelChairPowered,
 				southEastToSouthPushChair, southEastToSouthSkateboard, southEastToSouthManualScooter;
 	
-	//	private String[] lastSelectedObjects = new String[3];
-	//	private Integer[] lastSelectedCounts = new Integer[3];
-	
 	private Deque<String> lastSelectedObject;
-	private Deque<Integer>	lastSelectedCount;
 	
 	TextView txt_totalCount;
 	int totalCount;
@@ -439,7 +435,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		initialiseCountObjects();
 		initialiseDirectionButtonClicked();
 		initialiseDirectionFromTo();
-		populateTimer();
+		populateTimer(1);
 		populateButtons();
 		showCountingPanelAndButtons();
 		
@@ -450,6 +446,14 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		endOfFromAndToPositionsHeader = false;
 	}
 	
+	/*
+	 * This method initialises all all counting objects such as 
+	 * Cars, Bus, Trucks, Motorbikes, Pedestrians etc.
+	 * Initialises the totalcount and stack for the undo button.
+	 * Then it updates the current selected object to 'Pedestrian'.
+	 * @author: Richard Fong
+	 * @since:
+	 */
 	private void initialiseCountObjects(){
 		totalCount = 0;
 		txt_totalCount = (TextView) findViewById(R.id.cs_txt_totalCounter);
@@ -471,18 +475,17 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		initialiseDirectionTotal();
 		initialiseIntersectionName();
 		
-//		lastSelectedCounts[1] = pedestrian;
-//		lastSelectedObjects[1] = currentlySelectedObject;
-//		lastSelectedCounts[2] = null;
-//		lastSelectedObjects[2] = null;
-//		lastSelectedCounts[3] = null;
-//		lastSelectedObjects[3] = null;
 		lastSelectedObject = new ArrayDeque<String>();
-		lastSelectedCount = new ArrayDeque<Integer>();
 		
 		updateCurrentlySelectedObject(pedestrian);
 	}
 	
+	/*
+	 * This method initialises the DirectionFrom and the DirectionTo.
+	 * These arrays will be used to know where the count object came from and went.
+	 * @author: Richard Fong
+	 * @since:
+	 */
 	private void initialiseDirectionFromTo(){
 		directionFrom = new boolean[8];
 		directionTo = new boolean[8];
@@ -493,10 +496,23 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
+	/*
+	 * This method initialises the array for the intersection names that the user
+	 * may want to change.
+	 * @author: Richard Fong
+	 * @since: 
+	 */
 	private void initialiseIntersectionName(){
 		intersectionPickedNames = new String[8];
 	}
 	
+	/*
+	 * This method initialises all the directional buttons to false which will
+	 * be used later in choosing which directional button to enable using data
+	 * from CountSetup.
+	 * @author: Richard Fong
+	 * @since:
+	 */
 	private void initialiseDirectionButtonClicked(){
 		btn_direction_nw_clicked = false;
 		btn_direction_n_clicked = false;
@@ -508,8 +524,16 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		btn_direction_se_clicked =false;
 	}
 	
+	////////////////////////////////////////////////////
 	//Methods which initilise the count objects
+	////////////////////////////////////////////////////
 	
+	/*
+	 * The methods below initialises all the count objects with their directionFrom
+	 * and directionTo values to 0 as well as their total count.
+	 * @author: Richard Fong
+	 * @since: 
+	 */
 	private void initialiseBus(){
 		bus = 0;
 		
@@ -1591,7 +1615,15 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	}
 	
 	////////////////////////////////////////////////////////////////////////
+	// End of initialising Count objects
+	////////////////////////////////////////////////////////////////////////
 	
+	
+	/*
+	 * This method initialises the count for all directions.
+	 * @author: Richard Fong
+	 * @since:
+	 */
 	private void initialiseDirectionTotal(){
 		northWestTotal = 0;
 		northTotal = 0;
@@ -1603,6 +1635,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		southEastTotal = 0;
 	}
 	
+	/*
+	 * This method is used to set the currently selected object to Pedestrian
+	 * as well as updating the TextView to show Pedestrian.
+	 * @author: Richard Fong
+	 * @since: 
+	 */
 	private void defaultPedestrian(){
 		updateCurrentObjectTo("Pedestrian (No Aid)");
 		setCurrentlySelectedObject("Pedestrian (No Aid)");
@@ -1613,29 +1651,16 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		txt_currentObject = (TextView) findViewById(R.id.cs_txt_currentlyselectedobject);
 		txt_currentObject.setText(object);
 		
-//		updateLastSelectedObjectCount();
 		currentlySelectedObject = object;
 	}
-	
-	/*
-	 * This method updates the last 3 Count objects and stores them in an array.
-	 * The newest count object is stored in the first slot of the array and the rest are shuffled along.
-	 */
-//	private void updateLastSelectedObjectCount(){
-//		lastSelectedObjects[3] = lastSelectedObjects[2];
-//		lastSelectedObjects[2] = lastSelectedObjects[1];
-//		lastSelectedObjects[1] = currentlySelectedObject;
-//		
-//		lastSelectedCounts[3] = lastSelectedCounts[2];
-//		lastSelectedCounts[2] = lastSelectedCounts[1];
-//		lastSelectedCounts[1] = currentlySelectedCount;
-//	}
 	
 	/*
 	 * This method will determine what type of setup will be displayed in on the count panel
 	 * based on the intersection type selected in the CountSetup.
 	 * This method will also check which counting button needs to be visible depending on the type
 	 * of intersection.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	private void showCountingPanelAndButtons() {
 		ImageView countPanel = (ImageView) findViewById(R.id.countingPanel);
@@ -1671,6 +1696,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * intersectionPicked[5] = South-West
 	 * intersectionPicked[6] = South
 	 * intersectionPicked[7] = South-East
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	private void setVisibilityDirectionButtons(){
 		if(!intersectionType.equals("No Intersection")){
@@ -1702,12 +1729,20 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	}
 
 	/*
-	 * This will update the Total count counter. 
+	 * This will update the Total count counter.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	private void updateTotalCounter() {
 		txt_totalCount.setText("Total Count: " + totalCount);
 	}
 	
+	/*
+	 * This method will update the Textview at the top of the Counting Screen with
+	 * the currently selected object.
+	 * @author: Richard Fong
+	 * @since:
+	 */
 	private void updateCurrentlySelectedObject(int currentObject){
 		txt_currentObjectCount = (TextView) findViewById(R.id.cs_txt_currently_selected_count);
 		txt_currentObjectCount.setText(currentlySelectedObject + ": " + currentObject);
@@ -1715,6 +1750,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 
 	/*
 	 * This method will populate all the button methods
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	private void populateButtons() {
 		populateDirectionButtons();
@@ -1723,6 +1760,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	
 	/*
 	 * This method sets all the direction buttons to their correct id.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	private void populateDirectionButtons(){
 		btn_direction_nw = (Button)findViewById(R.id.cs_btn_direction_nw);
@@ -1766,6 +1805,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		btn_direction_se.setBackgroundResource(R.drawable.small_grey_red);
 	}
 	
+	/*
+	 * This method sets all the directional buttons background to a red lined
+	 * background to indicate that it's not selected.
+	 * @author: Richard Fone
+	 * @since:
+	 */
 	private void resetDirectionButtonBackground(){
 		btn_direction_nw.setBackgroundResource(R.drawable.small_grey_red);
 		btn_direction_n.setBackgroundResource(R.drawable.small_grey_red);
@@ -1777,7 +1822,13 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		btn_direction_se.setBackgroundResource(R.drawable.small_grey_red);
 	}
 	
-	private void populateTimer(){
+	/*
+	 * This method is used to initialise and populate the Timer so that it will be
+	 * running with 15 minute intervals.
+	 * @author: Richard Fong
+	 * @since:
+	 */
+	private void populateTimer(int timeInMinutes){
 		// Instantiates the CountDownTimer.
 		
 		/*
@@ -1788,10 +1839,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 * Also, start with the time + 500 milliseconds so we can display the initial number
 		 */
 		
-//15m	CountDownTimer countTimer = new CountDownTimer(900500, 500);
-		final CountDownTimer countTimer = new CountDownTimer(5500, 500);
+		int minutes = (timeInMinutes * 60000)+500;
+		final CountDownTimer countTimer = new CountDownTimer(minutes, 500);
 		
-		//Just for testing purposes we will have a start and stop button for the timer.
 				btn_start = (Button) findViewById(R.id.cs_btn_start);
 				btn_start.setOnClickListener(new OnClickListener() {
 					
@@ -1815,11 +1865,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	}
 	
 	/*
-	 * btn_increase is only here just to give it a way to increase the total count.
-	 * (Will need to remove it and replace it with working directions later).
-	 * 
-	 * btn_undo currently only removes a value from the count. 
-	 * (Will need to implement it correctly later when we get all the objects values working).
+	 * This method initialises the undo button which will be used later.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	private void populateCounterButtons(){
 		btn_undo = (Button) findViewById(R.id.cs_btn_undo);
@@ -2026,6 +2074,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * Launches the CustomDialogs class and sends the reference "vehicleDialog"
 	 * to that class to let that class know where it was called from. Then it
 	 * displays the dialog which is handled in Custom_Dialogs.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	@SuppressLint("NewApi")
 	public void showVehicleDialog(View view) {
@@ -2039,6 +2089,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * "pedestrianDialog" to that class to let that class know where it was
 	 * called from. Then it displays the dialog which is handled in
 	 * Custom_Dialogs.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	@SuppressLint("NewApi")
 	public void showPedestrianDialog(View view) {
@@ -2052,6 +2104,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * "commentsDialog" to that class to let that class know where it was
 	 * called from. Then it displays the dialog which is handled in
 	 * Custom_Dialogs.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	@SuppressLint("NewApi")
 	public void showCommentsDialog(View view) {
@@ -2068,6 +2122,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * returned is the message which is sent from Custom_Dialogs. This allows us
 	 * to know which button was clicked so we can make appropriate action in the
 	 * CountingScreen class.
+	 * @author: Richard Fong
+	 * @since:
 	 */
 	@Override
 	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue, String[] stringArrayValue) {
@@ -2188,37 +2244,37 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	}
 	
 	private void decreaseUndoButton(){
-		if(lastSelectedObject.contains("Bus")){
+		if(lastSelectedObject.peek().contains("Bus")){
 			decreaseBus();
-		}else if(lastSelectedObject.contains("Car")){
+		}else if(lastSelectedObject.peek().contains("Car")){
 			decreaseCar();
-		}else if(lastSelectedObject.contains("Truck")){
+		}else if(lastSelectedObject.peek().contains("Truck")){
 			decreaseTruck();
-		}else if(lastSelectedObject.contains("Motorbike")){
+		}else if(lastSelectedObject.peek().contains("Motorbike")){
 			decreaseMotorBike();
-		}else if(lastSelectedObject.contains("Pedestrian")){
+		}else if(lastSelectedObject.peek().contains("Pedestrian")){
 			decreasePedestrian();
-		}else if(lastSelectedObject.contains("Crutches1")){
+		}else if(lastSelectedObject.peek().contains("Crutches1")){
 			decreaseCrutches1();
-		}else if(lastSelectedObject.contains("Crutches2")){
+		}else if(lastSelectedObject.peek().contains("Crutches2")){
 			decreaseCrutches2();
-		}else if(lastSelectedObject.contains("Cane")){
+		}else if(lastSelectedObject.peek().contains("Cane")){
 			decreaseCane();
-		}else if(lastSelectedObject.contains("Dog")){
+		}else if(lastSelectedObject.peek().contains("Dog")){
 			decreaseDog();
-		}else if(lastSelectedObject.contains("MobilityScooter")){
+		}else if(lastSelectedObject.peek().contains("MobilityScooter")){
 			decreaseMobilityScooter();
-		}else if(lastSelectedObject.contains("WheelChairAssisted")){
+		}else if(lastSelectedObject.peek().contains("WheelChairAssisted")){
 			decreaseWheelChairAssisted();
-		}else if(lastSelectedObject.contains("WheelChairManual")){
+		}else if(lastSelectedObject.peek().contains("WheelChairManual")){
 			decreaseWheelChairManual();
-		}else if(lastSelectedObject.contains("WheelChairPowered")){
+		}else if(lastSelectedObject.peek().contains("WheelChairPowered")){
 			decreaseWheelChairPowered();
-		}else if(lastSelectedObject.contains("Pushchair")){
+		}else if(lastSelectedObject.peek().contains("Pushchair")){
 			decreasePushChair();
-		}else if(lastSelectedObject.contains("Skateboard")){
+		}else if(lastSelectedObject.peek().contains("Skateboard")){
 			decreaseSkateboard();
-		}else if(lastSelectedObject.contains("ManualScooter")){
+		}else if(lastSelectedObject.peek().contains("ManualScooter")){
 			decreaseManualScooter();
 		}
 		
@@ -6216,7 +6272,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			checkWheelChairPowered(directionFromPosition, directionToPosition);
 			break;
 		case "Push Chair / Buggy":
-			checkPushchair(directionFromPosition, directionToPosition);
+			checkPushChair(directionFromPosition, directionToPosition);
 			break;
 		case "Skateboard":
 			checkSkateboard(directionFromPosition, directionToPosition);
@@ -6480,171 +6536,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCar++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthCar");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCar++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastCar");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCar++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestCar");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCar++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastCar");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCar++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestCar");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCar++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthCar");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCar++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastCar");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCar++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestCar");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCar++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastCar");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCar++;
 			westTotal++;
+			lastSelectedObject.push("northToWestCar");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCar++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastCar");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCar++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestCar");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCar++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthCar");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCar++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastCar");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCar++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestCar");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCar++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthCar");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCar++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestCar");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCar++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastCar");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCar++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestCar");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCar++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthCar");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCar++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthWestCar");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCar++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestCar");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCar++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthCar");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCar++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastCar");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCar++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastCar");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCar++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestCar");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCar++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthCar");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCar++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastCar");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCar++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestCar");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCar++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthCar");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCar++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastCar");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCar++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestCar");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCar++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestCar");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCar++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthCar");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCar++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastCar");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCar++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestCar");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCar++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthCar");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCar++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastCar");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCar++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestCar");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCar++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastCar");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCar++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthCar");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCar++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEastCar");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCar++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestCar");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCar++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthCar");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCar++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastCar");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCar++;
 			westTotal++;
+			lastSelectedObject.push("southToWestCar");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCar++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastCar");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCar++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestCar");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCar++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastCar");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCar++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestCar");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCar++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthCar");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCar++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastCar");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCar++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestCar");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCar++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastCar");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCar++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestCar");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCar++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthCar");
 		}
 	}
 	
@@ -6652,171 +6764,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthTruck++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthTruck");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastTruck++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastTruck");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestTruck++;
 			westTotal++;
+			lastSelectedObject.push("northWestToEastTruck");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastTruck++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToWestTruck");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestTruck++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestTruck");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthTruck++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthTruck");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastTruck++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastTruck");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestTruck++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestTruck");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastTruck++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastTruck");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestTruck++;
 			westTotal++;
+			lastSelectedObject.push("northToWestTruck");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastTruck++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastTruck");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestTruck++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestTruck");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthTruck++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthTruck");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastTruck++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastTruck");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestTruck++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestTruck");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthTruck++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthTruck");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestTruck++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestTruck");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastTruck++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastTruck");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestTruck++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestTruck");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthTruck++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthTruck");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastTruck++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastTruck");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestTruck++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestTruck");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthTruck++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthTruck");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastTruck++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastTruck");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastTruck++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastTruck");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestTruck++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestTruck");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthTruck++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthTruck");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastTruck++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastTruck");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestTruck++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestTruck");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthTruck++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthTruck");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastTruck++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastTruck");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestTruck++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestTruck");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestTruck++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestTruck");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthTruck++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthTruck");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastTruck++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthWestTruck");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestTruck++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestTruck");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthTruck++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthTruck");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastTruck++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastTruck");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestTruck++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestTruck");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastTruck++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastTruck");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthTruck++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthWestTruck");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastTruck++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEastTruck");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestTruck++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestTruck");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthTruck++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthTruck");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastTruck++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastTruck");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestTruck++;
 			westTotal++;
+			lastSelectedObject.push("southToWestTruck");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastTruck++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastTruck");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestTruck++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestTruck");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastTruck++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastTruck");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestTruck++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestTruck");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthTruck++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthTruck");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastTruck++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastTruck");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestTruck++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestTruck");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastTruck++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastTruck");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestTruck++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestTruck");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthTruck++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthTruck");
 		}
 	}
 	
@@ -6824,171 +6992,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthMotorBike++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthMotorBike");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastMotorBike++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastMotorBike");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestMotorBike++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestMotorBike");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastMotorBike++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastMotorBike");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestMotorBike++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestMotorBike");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthMotorBike++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthMotorBike");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastMotorBike++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastMotorBike");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestMotorBike++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestMotorBike");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastMotorBike++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastMotorBike");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestMotorBike++;
 			westTotal++;
+			lastSelectedObject.push("northToWestMotorBike");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastMotorBike++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastMotorBike");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestMotorBike++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestMotorBike");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthMotorBike++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthMotorBike");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastMotorBike++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastMotorBike");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestMotorBike++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestMotorBike");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthMotorBike++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthMotorBike");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestMotorBike++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestMotorBike");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastMotorBike++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastMotorBike");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestMotorBike++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestMotorBike");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthMotorBike++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthMotorBike");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastMotorBike++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastMotorBike");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestMotorBike++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestMotorBike");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthMotorBike++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthMotorBike");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastMotorBike++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastMotorBike");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastMotorBike++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastMotorBike");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestMotorBike++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestMotorBike");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthMotorBike++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthMotorBike");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastMotorBike++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastMotorBike");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestMotorBike++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestMotorBike");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthMotorBike++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthMotorBike");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastMotorBike++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastMotorBike");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestMotorBike++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestMotorBike");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestMotorBike++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestMotorBike");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthMotorBike++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthMotorBike");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastMotorBike++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastMotorBike");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestMotorBike++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestMotorBike");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthMotorBike++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthMotorBike");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastMotorBike++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastMotorBike");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestMotorBike++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestMotorBike");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastMotorBike++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastMotorBike");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthMotorBike++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthMotorBike");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastMotorBike++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEastMotorBike");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestMotorBike++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestMotorBike");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthMotorBike++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthMotorBike");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastMotorBike++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastMotorBike");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestMotorBike++;
 			westTotal++;
+			lastSelectedObject.push("southToWestMotorBike");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastMotorBike++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastMotorBike");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestMotorBike++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestMotorBike");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastMotorBike++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastMotorBike");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestMotorBike++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestMotorBike");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthMotorBike++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthMotorBike");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastMotorBike++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastMotorBike");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestMotorBike++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestMotorBike");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastMotorBike++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastMotorBike");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestMotorBike++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestMotorBike");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthMotorBike++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthMotorBike");
 		}
 	}
 	
@@ -6996,171 +7220,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthPedestrian++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthPedestrian");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastPedestrian++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastPedestrian");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestPedestrian++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestPedestrian");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastPedestrian++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastPedestrian");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestPedestrian++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestPedestrian");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthPedestrian++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthPedestrian");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastPedestrian++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastPedestrian");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestPedestrian++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestPedestrian");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastPedestrian++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastPedestrian");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestPedestrian++;
 			westTotal++;
+			lastSelectedObject.push("northToWestPedestrian");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastPedestrian++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastPedestrian");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestPedestrian++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestPedestrian");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthPedestrian++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthPedestrian");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastPedestrian++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastPedestrian");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestPedestrian++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestPedestrian");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthPedestrian++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthPedestrian");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestPedestrian++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestPedestrian");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastPedestrian++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastPedestrian");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestPedestrian++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestPedestrian");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthPedestrian++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthPedestrian");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastPedestrian++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastPedestrian");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestPedestrian++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestPedestrian");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthPedestrian++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthPedestrian");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastPedestrian++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastPedestrian");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastPedestrian++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastPedestrian");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestPedestrian++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestPedestrian");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthPedestrian++;
 			southTotal++;
+			lastSelectedObject.push("westToNorthPedestrian");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastPedestrian++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastPedestrian");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestPedestrian++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestPedestrian");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthPedestrian++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthPedestrian");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastPedestrian++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastPedestrian");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestPedestrian++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestPedestrian");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestPedestrian++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestPedestrian");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthPedestrian++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthPedestrian");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastPedestrian++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastPedestrian");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestPedestrian++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestPedestrian");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthPedestrian++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthPedestrian");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastPedestrian++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastPedestrian");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestPedestrian++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestPedestrian");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastPedestrian++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastPedestrian");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthPedestrian++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthPedestrian");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastPedestrian++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEastPedestrian");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestPedestrian++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestPedestrian");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthPedestrian++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthPedestrian");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastPedestrian++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastPedestrian");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestPedestrian++;
 			westTotal++;
+			lastSelectedObject.push("southToWestPedestrian");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastPedestrian++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastPedestrian");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestPedestrian++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestPedestrian");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastPedestrian++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastPedestrian");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestPedestrian++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestPedestrian");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthPedestrian++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthPedestrian");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastPedestrian++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastPedestrian");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestPedestrian++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestPedestrian");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastPedestrian++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastPedestrian");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestPedestrian++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestPedestrian");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthPedestrian++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthPedestrian");
 		}
 	}
 	
@@ -7168,171 +7448,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCrutches1++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthCrutches1");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCrutches1++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastCrutches1");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCrutches1++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestCrutches1");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCrutches1++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastCrutches1");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCrutches1++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestCrutches1");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCrutches1++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthCrutches1");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCrutches1++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastCrutches1");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCrutches1++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestCrutches1");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCrutches1++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastCrutches1");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCrutches1++;
 			westTotal++;
+			lastSelectedObject.push("northToWestCrutches1");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCrutches1++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastCrutches1");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCrutches1++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestCrutches1");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCrutches1++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthCrutches1");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCrutches1++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastCrutches1");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCrutches1++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestCrutches1");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCrutches1++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthCrutches1");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCrutches1++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestCrutches1");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCrutches1++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastCrutches1");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCrutches1++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestCrutches1");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCrutches1++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthCrutches1");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCrutches1++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastCrutches1");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCrutches1++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestCrutches1");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCrutches1++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthCrutches1");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCrutches1++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastCrutches1");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCrutches1++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastCrutches1");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCrutches1++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestCrutches1");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCrutches1++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthCrutches1");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCrutches1++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastCrutches1");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCrutches1++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestCrutches1");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCrutches1++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthCrutches1");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCrutches1++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastCrutches1");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCrutches1++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestCrutches1");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCrutches1++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestCrutches1");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCrutches1++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthCrutches1");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCrutches1++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastCrutches1");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCrutches1++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestCrutches1");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCrutches1++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthCrutches1");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCrutches1++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastCrutches1");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCrutches1++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestCrutches1");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCrutches1++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastCrutches1");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCrutches1++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthCrutches1");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCrutches1++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEastCrutches1");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCrutches1++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestCrutches1");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCrutches1++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthCrutches1");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCrutches1++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastCrutches1");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCrutches1++;
 			westTotal++;
+			lastSelectedObject.push("southToWestCrutches1");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCrutches1++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastCrutches1");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCrutches1++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWesCrutches1");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCrutches1++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastCrutches1");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCrutches1++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestCrutches1");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCrutches1++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthCrutches1");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCrutches1++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastCrutches1");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCrutches1++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestCrutches1");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCrutches1++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastCrutches1");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCrutches1++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestCrutches1");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCrutches1++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthCrutches1");
 		}
 	}
 	
@@ -7340,171 +7676,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCrutches2++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthCrutches2");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCrutches2++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastCrutches2");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCrutches2++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestCrutches2");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCrutches2++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastCrutches2");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCrutches2++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestCrutches2");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCrutches2++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthCrutches2");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCrutches2++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastCrutches2");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCrutches2++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestCrutches2");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCrutches2++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastCrutches2");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCrutches2++;
 			westTotal++;
+			lastSelectedObject.push("northToWestCrutches2");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCrutches2++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastCrutches2");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCrutches2++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestCrutches2");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCrutches2++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthCrutches2");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCrutches2++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastCrutches2");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCrutches2++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestCrutches2");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCrutches2++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthWestCrutches2");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCrutches2++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestCrutches2");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCrutches2++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastCrutches2");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCrutches2++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestCrutches2");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCrutches2++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthCrutches2");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCrutches2++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastCrutches2");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCrutches2++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestCrutches2");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCrutches2++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthCrutches2");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCrutches2++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastCrutches2");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCrutches2++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastCrutches2");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCrutches2++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestCrutches2");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCrutches2++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthCrutches2");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCrutches2++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastCrutches2");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCrutches2++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestCrutches2");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCrutches2++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthCrutches2");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCrutches2++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastCrutches2");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCrutches2++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestCrutches2");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCrutches2++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestCrutches2");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCrutches2++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthCrutches2");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCrutches2++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastCrutches2");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCrutches2++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestCrutches2");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCrutches2++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthCrutches2");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCrutches2++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastCrutches2");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCrutches2++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestCrutches2");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCrutches2++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastCrutches2");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCrutches2++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthCrutches2");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCrutches2++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEastCrutches2");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCrutches2++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestCrutches2");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCrutches2++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthCrutches2");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCrutches2++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastCrutches2");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCrutches2++;
 			westTotal++;
+			lastSelectedObject.push("southToWestCrutches2");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCrutches2++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastCrutches2");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCrutches2++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestCrutches2");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCrutches2++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastCrutches2");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCrutches2++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestCrutches2");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCrutches2++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthCrutches2");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCrutches2++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastCrutches2");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCrutches2++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestCrutches2");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCrutches2++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastCrutches2");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCrutches2++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestCrutches2");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCrutches2++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthCrutches2");
 		}
 	}
 	
@@ -7512,171 +7904,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthCane++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthCane");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastCane++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastCane");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestCane++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestCane");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastCane++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastCane");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestCane++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestCane");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthCane++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthCane");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastCane++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastCane");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestCane++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestCane");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastCane++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastCane");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestCane++;
 			westTotal++;
+			lastSelectedObject.push("northToWestCane");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastCane++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastCane");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestCane++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestCane");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthCane++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthCane");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastCane++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastCane");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestCane++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestCane");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthCane++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthCane");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestCane++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestCane");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastCane++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastCane");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestCane++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestCane");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthCane++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthCane");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastCane++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastCane");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestCane++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestCane");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthCane++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthCane");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastCane++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastCane");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastCane++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastCane");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestCane++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestCane");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthCane++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthCane");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastCane++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastCane");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestCane++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestCane");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthCane++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthCane");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastCane++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastCane");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestCane++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestCane");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestCane++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestCane");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthCane++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthCane");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastCane++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastCane");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestCane++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestCane");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthCane++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthCane");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastCane++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastCane");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestCane++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestCane");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastCane++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastCane");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthCane++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthCane");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastCane++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEastCane");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestCane++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestCane");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthCane++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthCane");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastCane++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastCane");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestCane++;
 			westTotal++;
+			lastSelectedObject.push("southToWestCane");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastCane++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastCane");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestCane++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestCane");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastCane++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastCane");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestCane++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestCane");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthCane++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthCane");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastCane++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastCane");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestCane++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestCane");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastCane++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastCane");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestCane++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestCane");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthCane++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthCane");
 		}
 	}
 	
@@ -7684,171 +8132,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthDog++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthDog");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastDog++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastDog");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestDog++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestDog");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastDog++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastDog");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestDog++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestDog");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthDog++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthDog");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastDog++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastDog");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestDog++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestDog");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastDog++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastDog");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestDog++;
 			westTotal++;
+			lastSelectedObject.push("northToWestDog");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastDog++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastDog");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestDog++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestDog");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthDog++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthDog");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastDog++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastDog");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestDog++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestDog");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthDog++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthDog");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestDog++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestDog");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastDog++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastDog");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestDog++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestDog");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthDog++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthDog");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastDog++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastDog");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestDog++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestDog");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthDog++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthDog");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastDog++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastDog");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastDog++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastDog");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestDog++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestDog");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthDog++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthDog");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastDog++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastDog");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestDog++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestDog");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthDog++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthDog");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastDog++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastDog");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestDog++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestDog");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestDog++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestDog");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthDog++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthDog");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastDog++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastDog");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestDog++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestDog");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthDog++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthDog");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastDog++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastDog");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestDog++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestDog");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastDog++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastDog");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthDog++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthDog");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastDog++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasDog");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestDog++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestDog");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthDog++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthDog");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastDog++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastDog");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestDog++;
 			westTotal++;
+			lastSelectedObject.push("southToWestDog");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastDog++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastDog");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestDog++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestDog");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastDog++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastDog");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestDog++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestDog");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthDog++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthDog");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastDog++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastDog");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestDog++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestDog");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastDog++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastDog");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestDog++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestDog");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthDog++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthDog");
 		}
 	}
 	
@@ -7856,171 +8360,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthMobilityScooter++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthMobilityScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastMobilityScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastMobilityScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestMobilityScooter++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestMobilityScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastMobilityScooter++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastMobilityScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestMobilityScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestMobilityScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthMobilityScooter++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthMobilityScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastMobilityScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastMobilityScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestMobilityScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestMobilityScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastMobilityScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastMobilityScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestMobilityScooter++;
 			westTotal++;
+			lastSelectedObject.push("northToWestMobilityScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastMobilityScooter++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastMobilityScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestMobilityScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestMobilityScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthMobilityScooter++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthMobilityScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastMobilityScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastMobilityScooter");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestMobilityScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestMobilityScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthMobilityScooter++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthMobilityScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestMobilityScooter++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestMobilityScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastMobilityScooter++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastMobilityScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestMobilityScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestMobilityScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthMobilityScooter++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthMobilityScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastMobilityScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastMobilityScooter");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestMobilityScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestMobilityScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthMobilityScooter++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthMobilityScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastMobilityScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastMobilityScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastMobilityScooter++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastMobilityScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestMobilityScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestMobilityScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthMobilityScooter++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthMobilityScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastMobilityScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastMobilityScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestMobilityScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestMobilityScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthMobilityScooter++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthMobilityScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastMobilityScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastMobilityScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestMobilityScooter++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestMobilityScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestMobilityScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestMobilityScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthMobilityScooter++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthMobilityScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastMobilityScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastMobilityScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestMobilityScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestMobilityScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthMobilityScooter++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthMobilityScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastMobilityScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastMobilityScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestMobilityScooter++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestMobilityScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastMobilityScooter++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastMobilityScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthMobilityScooter++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthMobilityScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastMobilityScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasMobilityScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestMobilityScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestMobilityScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthMobilityScooter++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthMobilityScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastMobilityScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastMobilityScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestMobilityScooter++;
 			westTotal++;
+			lastSelectedObject.push("southToWestMobilityScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastMobilityScooter++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastMobilityScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestMobilityScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestMobilityScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastMobilityScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastMobilityScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestMobilityScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestMobilityScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthMobilityScooter++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthMobilityScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastMobilityScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastMobilityScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestMobilityScooter++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestMobilityScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastMobilityScooter++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastMobilityScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestMobilityScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestMobilityScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthMobilityScooter++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthMobilityScooter");
 		}
 	}
 	
@@ -8028,343 +8588,455 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthWheelChairAssisted++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthWheelChairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastWheelChairAssisted++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastWheelChairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestWheelChairAssisted++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestWheelChairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastWheelChairAssisted++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastWheelChairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestWheelChairAssisted++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestWheelChairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthWheelChairAssisted++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthWheelChairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastWheelChairAssisted++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastWheelChairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestWheelChairAssisted++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestWheelChairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastWheelChairAssisted++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastWheelChairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestWheelChairAssisted++;
 			westTotal++;
+			lastSelectedObject.push("northToWestWheelChairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastWheelChairAssisted++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastWheelChairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestWheelChairAssisted++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestWheelChairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthWheelChairAssisted++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthWheelChairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastWheelChairAssisted++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastWheelChairAssisted");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestWheelChairAssisted++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestWheelChairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthWheelChairAssisted++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthWheelChairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestWheelChairAssisted++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestWheelChairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastWheelChairAssisted++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastWheelChairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestWheelChairAssisted++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestWheelChairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthWheelChairAssisted++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthWheelChairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastWheelChairAssisted++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastWheelChairAssisted");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestWheelChairAssisted++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestWheelChairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthWheelChairAssisted++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthWheelChairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastWheelChairAssisted++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastWheelChairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastWheelChairAssisted++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastWheelChairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestWheelChairAssisted++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestWheelChairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthWheelChairAssisted++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthWheelChairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastWheelChairAssisted++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastWheelChairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestWheelChairAssisted++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestWheelChairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthWheelChairAssisted++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthWheelChairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastWheelChairAssisted++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastWheelChairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestWheelChairAssisted++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestWheelChairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestWheelChairAssisted++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestWheelChairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthWheelChairAssisted++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthWheelChairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastWheelChairAssisted++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastWheelChairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestWheelChairAssisted++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestWheelChairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthWheelChairAssisted++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthWheelChairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastWheelChairAssisted++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastWheelChairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestWheelChairAssisted++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestWheelChairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastWheelChairAssisted++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastWheelChairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthWheelChairAssisted++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthWheelChairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastWheelChairAssisted++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasWheelChairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestWheelChairAssisted++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestWheelChairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthWheelChairAssisted++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthWheelChairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastWheelChairAssisted++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastWheelChairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestWheelChairAssisted++;
 			westTotal++;
+			lastSelectedObject.push("southToWestWheelChairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastWheelChairAssisted++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastWheelChairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestWheelChairAssisted++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestWheelChairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastWheelChairAssisted++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastWheelChairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestWheelChairAssisted++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestWheelChairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthWheelChairAssisted++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthWheelChairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastWheelChairAssisted++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastWheelChairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestWheelChairAssisted++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestWheelChairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastWheelChairAssisted++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastWheelChairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestWheelChairAssisted++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestWheelChairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthWheelChairAssisted++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthWheelChairAssisted");
 		}
 	}
-	
+
 	private void checkWheelChairManual(int directionFromPosition, int directionToPosition){
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthWheelChairManual++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthWheelChairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastWheelChairManual++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastWheelChairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestWheelChairManual++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestWheelChairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastWheelChairManual++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastWheelChairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestWheelChairManual++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestWheelChairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthWheelChairManual++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthWheelChairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastWheelChairManual++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastWheelChairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestWheelChairManual++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestWheelChairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastWheelChairManual++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastWheelChairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestWheelChairManual++;
 			westTotal++;
+			lastSelectedObject.push("northToWestWheelChairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastWheelChairManual++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastWheelChairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestWheelChairManual++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestWheelChairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthWheelChairManual++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthWheelChairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastWheelChairManual++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastWheelChairManual");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestWheelChairManual++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestWheelChairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthWheelChairManual++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthWheelChairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestWheelChairManual++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestWheelChairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastWheelChairManual++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastWheelChairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestWheelChairManual++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestWheelChairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthWheelChairManual++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthWheelChairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastWheelChairManual++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastWheelChairManual");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestWheelChairManual++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestWheelChairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthWheelChairManual++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthWheelChairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastWheelChairManual++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastWheelChairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastWheelChairManual++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastWheelChairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestWheelChairManual++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestWheelChairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthWheelChairManual++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthWheelChairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastWheelChairManual++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastWheelChairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestWheelChairManual++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestWheelChairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthWheelChairManual++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthWheelChairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastWheelChairManual++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastWheelChairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestWheelChairManual++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestWheelChairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestWheelChairManual++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestWheelChairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthWheelChairManual++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthWheelChairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastWheelChairManual++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastWheelChairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestWheelChairManual++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestWheelChairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthWheelChairManual++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthWheelChairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastWheelChairManual++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastWheelChairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestWheelChairManual++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestWheelChairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastWheelChairManual++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastWheelChairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthWheelChairManual++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthWheelChairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastWheelChairManual++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasWheelChairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestWheelChairManual++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestWheelChairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthWheelChairManual++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthWheelChairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastWheelChairManual++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastWheelChairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestWheelChairManual++;
 			westTotal++;
+			lastSelectedObject.push("southToWestWheelChairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastWheelChairManual++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastWheelChairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestWheelChairManual++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestWheelChairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastWheelChairManual++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastWheelChairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestWheelChairManual++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestWheelChairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthWheelChairManual++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthWheelChairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastWheelChairManual++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastWheelChairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestWheelChairManual++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestWheelChairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastWheelChairManual++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastWheelChairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestWheelChairManual++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestWheelChairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthWheelChairManual++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthWheelChairManual");
 		}
 	}
 	
@@ -8372,343 +9044,455 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthWheelChairPowered++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthWheelChairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastWheelChairPowered++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastWheelChairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestWheelChairPowered++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestWheelChairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastWheelChairPowered++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastWheelChairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestWheelChairPowered++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestWheelChairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthWheelChairPowered++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthWheelChairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastWheelChairPowered++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastWheelChairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestWheelChairPowered++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestWheelChairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastWheelChairPowered++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastWheelChairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestWheelChairPowered++;
 			westTotal++;
+			lastSelectedObject.push("northToWestWheelChairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastWheelChairPowered++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastWheelChairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestWheelChairPowered++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestWheelChairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthWheelChairPowered++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthWheelChairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastWheelChairPowered++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastWheelChairPowered");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestWheelChairPowered++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestWheelChairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthWheelChairPowered++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthWheelChairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestWheelChairPowered++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestWheelChairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastWheelChairPowered++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastWheelChairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestWheelChairPowered++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestWheelChairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthWheelChairPowered++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthWheelChairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastWheelChairPowered++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastWheelChairPowered");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestWheelChairPowered++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestWheelChairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthWheelChairPowered++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthWheelChairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastWheelChairPowered++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastWheelChairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastWheelChairPowered++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastWheelChairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestWheelChairPowered++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestWheelChairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthWheelChairPowered++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthWheelChairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastWheelChairPowered++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastWheelChairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestWheelChairPowered++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestWheelChairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthWheelChairPowered++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthWheelChairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastWheelChairPowered++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastWheelChairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestWheelChairPowered++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestWheelChairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestWheelChairPowered++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestWheelChairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthWheelChairPowered++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthWheelChairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastWheelChairPowered++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastWheelChairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestWheelChairPowered++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestWheelChairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthWheelChairPowered++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthWheelChairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastWheelChairPowered++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastWheelChairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestWheelChairPowered++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestWheelChairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastWheelChairPowered++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastWheelChairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthWheelChairPowered++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthWheelChairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastWheelChairPowered++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasWheelChairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestWheelChairPowered++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestWheelChairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthWheelChairPowered++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthWheelChairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastWheelChairPowered++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastWheelChairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestWheelChairPowered++;
 			westTotal++;
+			lastSelectedObject.push("southToWestWheelChairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastWheelChairPowered++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastWheelChairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestWheelChairPowered++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestWheelChairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastWheelChairPowered++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastWheelChairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestWheelChairPowered++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestWheelChairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthWheelChairPowered++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthWheelChairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastWheelChairPowered++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastWheelChairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestWheelChairPowered++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestWheelChairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastWheelChairPowered++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastWheelChairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestWheelChairPowered++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestWheelChairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthWheelChairPowered++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthWheelChairPowered");
 		}
 	}
 	
-	private void checkPushchair(int directionFromPosition, int directionToPosition){
+	private void checkPushChair(int directionFromPosition, int directionToPosition){
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthPushChair++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthPushChair");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastPushChair++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastPushChair");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestPushChair++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestPushChair");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastPushChair++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastPushChair");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestPushChair++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestPushChair");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthPushChair++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthPushChair");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastPushChair++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastPushChair");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestPushChair++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestPushChair");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastPushChair++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastPushChair");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestPushChair++;
 			westTotal++;
+			lastSelectedObject.push("northToWestPushChair");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastPushChair++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastPushChair");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestPushChair++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestPushChair");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthPushChair++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthPushChair");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastPushChair++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastPushChair");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestPushChair++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestPushChair");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthPushChair++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthPushChair");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestPushChair++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestPushChair");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastPushChair++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastPushChair");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestPushChair++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestPushChair");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthPushChair++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthPushChair");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastPushChair++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastPushChair");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestPushChair++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestPushChair");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthPushChair++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthPushChair");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastPushChair++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastPushChair");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastPushChair++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastPushChair");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestPushChair++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestPushChair");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthPushChair++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthPushChair");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastPushChair++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastPushChair");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestPushChair++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestPushChair");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthPushChair++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthPushChair");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastPushChair++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastPushChair");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestPushChair++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestPushChair");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestPushChair++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestPushChair");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthPushChair++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthPushChair");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastPushChair++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastPushChair");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestPushChair++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestPushChair");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthPushChair++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthPushChair");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastPushChair++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastPushChair");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestPushChair++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestPushChair");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastPushChair++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastPushChair");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthPushChair++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthPushChair");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastPushChair++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasPushChair");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestPushChair++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestPushChair");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthPushChair++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthPushChair");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastPushChair++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastPushChair");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestPushChair++;
 			westTotal++;
+			lastSelectedObject.push("southToWestPushChair");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastPushChair++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastPushChair");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestPushChair++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestPushChair");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastPushChair++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastPushChair");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestPushChair++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestPushChair");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthPushChair++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthPushChair");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastPushChair++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastPushChair");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestPushChair++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestPushChair");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastPushChair++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastPushChair");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestPushChair++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestPushChair");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthPushChair++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthPushChair");
 		}
 	}
 	
@@ -8716,171 +9500,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthSkateboard++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthSkateboard");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastSkateboard++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastSkateboard");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestSkateboard++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestSkateboard");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastSkateboard++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastSkateboard");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestSkateboard++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestSkateboard");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthSkateboard++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthSkateboard");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastSkateboard++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastSkateboard");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestSkateboard++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestSkateboard");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastSkateboard++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastSkateboard");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestSkateboard++;
 			westTotal++;
+			lastSelectedObject.push("northToWestSkateboard");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastSkateboard++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastSkateboard");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestSkateboard++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestSkateboard");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthSkateboard++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthSkateboard");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastSkateboard++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastSkateboard");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestSkateboard++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestSkateboard");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthSkateboard++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthSkateboard");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestSkateboard++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestSkateboard");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastSkateboard++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastSkateboard");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestSkateboard++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestSkateboard");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthSkateboard++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthSkateboard");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastSkateboard++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastSkateboard");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestSkateboard++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestSkateboard");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthSkateboard++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthSkateboard");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastSkateboard++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastSkateboard");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastSkateboard++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastSkateboard");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestSkateboard++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestSkateboard");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthSkateboard++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthSkateboard");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastSkateboard++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastSkateboard");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestSkateboard++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestSkateboard");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthSkateboard++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthSkateboard");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastSkateboard++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastSkateboard");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestSkateboard++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestSkateboard");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestSkateboard++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestSkateboard");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthSkateboard++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthSkateboard");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastSkateboard++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastSkateboard");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestSkateboard++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestSkateboard");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthSkateboard++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthSkateboard");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastSkateboard++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastSkateboard");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestSkateboard++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestSkateboard");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastSkateboard++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastSkateboard");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthSkateboard++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthSkateboard");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastSkateboard++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasSkateboard");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestSkateboard++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestSkateboard");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthSkateboard++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthSkateboard");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastSkateboard++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastSkateboard");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestSkateboard++;
 			westTotal++;
+			lastSelectedObject.push("southToWestSkateboard");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastSkateboard++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastSkateboard");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestSkateboard++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestSkateboard");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastSkateboard++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastSkateboard");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestSkateboard++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestSkateboard");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthSkateboard++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthSkateboard");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastSkateboard++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastSkateboard");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestSkateboard++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestSkateboard");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastSkateboard++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastSkateboard");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestSkateboard++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestSkateboard");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthSkateboard++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthSkateboard");
 		}
 	}
 	
@@ -8888,171 +9728,227 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthManualScooter++;
 			northTotal++;
+			lastSelectedObject.push("northWestToNorthManualScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
 			northWestToNorthEastManualScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("northWestToNorthEastManualScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
 			northWestToWestManualScooter++;
 			westTotal++;
+			lastSelectedObject.push("northWestToWestManualScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
 			northWestToEastManualScooter++;
 			eastTotal++;
+			lastSelectedObject.push("northWestToEastManualScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
 			northWestToSouthWestManualScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("northWestToSouthWestManualScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
 			northWestToSouthManualScooter++;
 			southTotal++;
+			lastSelectedObject.push("northWestToSouthManualScooter");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
 			northWestToSouthEastManualScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("northWestToSouthEastManualScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
 			northToNorthWestManualScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("northToNorthWestManualScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
 			northToNorthEastManualScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("northToNorthEastManualScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
 			northToWestManualScooter++;
 			westTotal++;
+			lastSelectedObject.push("northToWestManualScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
 			northToEastManualScooter++;
 			eastTotal++;
+			lastSelectedObject.push("northToEastManualScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
 			northToSouthWestManualScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("northToSouthWestManualScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
 			northToSouthManualScooter++;
 			southTotal++;
+			lastSelectedObject.push("northToSouthManualScooter");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
 			northToSouthEastManualScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("northToSouthEastManualScooter");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
 			northEastToNorthWestManualScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("northEastToNorthWestManualScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
 			northEastToNorthManualScooter++;
 			northTotal++;
+			lastSelectedObject.push("northEastToNorthManualScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
 			northEastToWestManualScooter++;
 			westTotal++;
+			lastSelectedObject.push("northEastToWestManualScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
 			northEastToEastManualScooter++;
 			eastTotal++;
+			lastSelectedObject.push("northEastToEastManualScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
 			northEastToSouthWestManualScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("northEastToSouthWestManualScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
 			northEastToSouthManualScooter++;
 			southTotal++;
+			lastSelectedObject.push("northEastToSouthManualScooter");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
 			northEastToSouthEastManualScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("northEastToSouthEastManualScooter");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
 			westToNorthWestManualScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("westToNorthWestManualScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
 			westToNorthManualScooter++;
 			northTotal++;
+			lastSelectedObject.push("westToNorthManualScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
 			westToNorthEastManualScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("westToNorthEastManualScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
 			westToEastManualScooter++;
 			eastTotal++;
+			lastSelectedObject.push("westToEastManualScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
 			westToSouthWestManualScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("westToSouthWestManualScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthManualScooter++;
 			southTotal++;
+			lastSelectedObject.push("westToSouthManualScooter");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastManualScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("westToSouthEastManualScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
 			eastToNorthWestManualScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("eastToNorthWestManualScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
 			eastToNorthManualScooter++;
 			northTotal++;
+			lastSelectedObject.push("eastToNorthManualScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
 			eastToNorthEastManualScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("eastToNorthEastManualScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
 			eastToWestManualScooter++;
 			westTotal++;
+			lastSelectedObject.push("eastToWestManualScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
 			eastToSouthWestManualScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("eastToSouthWestManualScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
 			eastToSouthManualScooter++;
 			southTotal++;
+			lastSelectedObject.push("eastToSouthManualScooter");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
 			eastToSouthEastManualScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("eastToSouthEastManualScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
 			southWestToNorthWestManualScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("southWestToNorthWestManualScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
 			southWestToNorthManualScooter++;
 			northTotal++;
+			lastSelectedObject.push("southWestToNorthManualScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
 			southWestToNorthEastManualScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("southWestToNorthEastManualScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
 			southWestToWestManualScooter++;
 			westTotal++;
+			lastSelectedObject.push("southWestToWestManualScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
 			southWestToEastManualScooter++;
 			eastTotal++;
+			lastSelectedObject.push("southWestToEastManualScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
 			southWestToSouthManualScooter++;
 			southTotal++;
+			lastSelectedObject.push("southWestToSouthManualScooter");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
 			southWestToSouthEastManualScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("southWestToSouthEasManualScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
 			southToNorthWestManualScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("southToNorthWestManualScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
 			southToNorthManualScooter++;
 			northTotal++;
+			lastSelectedObject.push("southToNorthManualScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
 			southToNorthEastManualScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("southToNorthEastManualScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
 			southToWestManualScooter++;
 			westTotal++;
+			lastSelectedObject.push("southToWestManualScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
 			southToEastManualScooter++;
 			eastTotal++;
+			lastSelectedObject.push("southToEastManualScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
 			southToSouthWestManualScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("southToSouthWestManualScooter");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
 			southToSouthEastManualScooter++;
 			southEastTotal++;
+			lastSelectedObject.push("southToSouthEastManualScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
 			southEastToNorthWestManualScooter++;
 			northWestTotal++;
+			lastSelectedObject.push("southEastToNorthWestManualScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
 			southEastToNorthManualScooter++;
 			northTotal++;
+			lastSelectedObject.push("southEastToNorthManualScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
 			southEastToNorthEastManualScooter++;
 			northEastTotal++;
+			lastSelectedObject.push("southEastToNorthEastManualScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
 			southEastToWestManualScooter++;
 			westTotal++;
+			lastSelectedObject.push("southEastToWestManualScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
 			southEastToEastManualScooter++;
 			eastTotal++;
+			lastSelectedObject.push("southEastToEastManualScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
 			southEastToSouthWestManualScooter++;
 			southWestTotal++;
+			lastSelectedObject.push("southEastToSouthWestManualScooter");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
 			southEastToSouthManualScooter++;
 			southTotal++;
+			lastSelectedObject.push("southEastToSouthManualScooter");
 		}
 	}
 	
