@@ -421,7 +421,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		intersectionsPicked = getIntent().getBooleanArrayExtra("IntersectionsPicked");
 		intersectionType = getIntent().getStringExtra("IntersectionType");
 		
-		Toast.makeText(this, "intersectionType: " + intersectionType, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "intersectionType: " + intersectionType, Toast.LENGTH_SHORT).show();
 		
 		if(intersectionType == null){
 			intersectionType = "No Intersection";
