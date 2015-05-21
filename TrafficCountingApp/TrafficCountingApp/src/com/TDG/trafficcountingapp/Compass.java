@@ -26,7 +26,8 @@ public class Compass extends Activity implements SensorEventListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_count_setup_intersection_setup);
+        setContentView(R.layout.dialog_count_setup_intersection_setup);//<<<<<<<<<<<<<<<<<
+       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
         // our compass image 
         image = (ImageView) findViewById(R.id.csis_compass);
