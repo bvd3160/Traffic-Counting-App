@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.webkit.WebView.FindListener;
 import android.widget.Button;
@@ -89,7 +90,6 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
 		//This creates the view and decides which fragment to show depending on the tags which were given to them in CountingScreen.java.
 		View view = null;
 		

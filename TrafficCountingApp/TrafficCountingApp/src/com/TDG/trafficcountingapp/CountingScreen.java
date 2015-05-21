@@ -26,6 +26,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.InputFilter.LengthFilter;
 import android.text.format.DateFormat;
 import android.annotation.SuppressLint;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -37,6 +38,7 @@ import android.os.Message;
 import android.provider.ContactsContract.Directory;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -61,6 +63,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 * 					Push Chair, Skateboard, Manual Scooter
 	 */
 
+	private CountDownTimer countTimer;
+	
 	private static int bus, truck, car, motorBike, 
 			pedestrian, crutches_1, crutches_2,
 			cane, dog, mobilityScooter,
@@ -416,6 +420,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		
 		intersectionsPicked = getIntent().getBooleanArrayExtra("IntersectionsPicked");
 		intersectionType = getIntent().getStringExtra("IntersectionType");
+		
+		Toast.makeText(this, "intersectionType: " + intersectionType, Toast.LENGTH_SHORT).show();
 		
 		if(intersectionType == null){
 			intersectionType = "No Intersection";
@@ -1840,26 +1846,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 */
 		
 		int minutes = (timeInMinutes * 60000)+500;
-		final CountDownTimer countTimer = new CountDownTimer(minutes, 500);
-		
-				btn_start = (Button) findViewById(R.id.cs_btn_start);
-				btn_start.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						countTimer.start();
-					}
-				});
-				btn_stop = (Button) findViewById(R.id.cs_btn_stop);
-				btn_stop.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						countTimer.cancel();
-					}
-				});
-				
-		// Initilises the Timer TextView to 15 minutes
+		countTimer = new CountDownTimer(minutes, 500);
+		btn_start = (Button) findViewById(R.id.cs_btn_start);
+		btn_start.setOnClickListener(this);
+		btn_stop = (Button) findViewById(R.id.cs_btn_stop);
+		btn_stop.setOnClickListener(this);
+		// Initilises the Timer TextView to show the correct minutes
 		txt_timer = (TextView) findViewById(R.id.cs_txt_timer);
 		txt_timer.setText(countTimer.toString());
 	}
@@ -2170,8 +2162,15 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				updateTotalCounter();
 				updateAllCounts(false);
 			}
-		}else{
-			if(btn_direction_nw.isPressed()){
+		}else if(btn_start.isPressed()){
+			countTimer.startTime = countTimer.df.format(Calendar.getInstance().getTime());
+			countTimer.start();
+			countTimer.countTimerStarted = true;
+			countTimer.countTimerSaved = false;
+			countTimer.intersectionType = null;
+		}else if(btn_stop.isPressed()){
+			countTimer.onFinish();
+		}else if(btn_direction_nw.isPressed()){
 				btn_direction_nw_clicked = reverseButtonClicked(btn_direction_nw_clicked);
 				if(btn_direction_nw_clicked){
 					btn_direction_nw.setBackgroundResource(R.drawable.small_grey);
@@ -2179,7 +2178,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_nw.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(0);
-			}else if(btn_direction_n.isPressed()){
+		}else if(btn_direction_n.isPressed()){
 				btn_direction_n_clicked = reverseButtonClicked(btn_direction_n_clicked);
 				if(btn_direction_n_clicked){
 					btn_direction_n.setBackgroundResource(R.drawable.small_grey);
@@ -2187,7 +2186,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_n.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(1);
-			}else if(btn_direction_ne.isPressed()){
+		}else if(btn_direction_ne.isPressed()){
 				btn_direction_ne_clicked = reverseButtonClicked(btn_direction_ne_clicked);
 				if(btn_direction_ne_clicked){
 					btn_direction_ne.setBackgroundResource(R.drawable.small_grey);
@@ -2195,7 +2194,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_ne.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(2);
-			}else if(btn_direction_w.isPressed()){
+		}else if(btn_direction_w.isPressed()){
 				btn_direction_w_clicked = reverseButtonClicked(btn_direction_w_clicked);
 				if(btn_direction_w_clicked){
 					btn_direction_w.setBackgroundResource(R.drawable.small_grey);
@@ -2203,7 +2202,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_w.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(3);
-			}else if(btn_direction_e.isPressed()){
+		}else if(btn_direction_e.isPressed()){
 				btn_direction_e_clicked = reverseButtonClicked(btn_direction_e_clicked);
 				if(btn_direction_e_clicked){
 					btn_direction_e.setBackgroundResource(R.drawable.small_grey);
@@ -2211,7 +2210,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_e.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(4);
-			}else if(btn_direction_sw.isPressed()){
+		}else if(btn_direction_sw.isPressed()){
 				btn_direction_sw_clicked = reverseButtonClicked(btn_direction_sw_clicked);
 				if(btn_direction_sw_clicked){
 					btn_direction_sw.setBackgroundResource(R.drawable.small_grey);
@@ -2219,7 +2218,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_sw.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(5);
-			}else if(btn_direction_s.isPressed()){
+		}else if(btn_direction_s.isPressed()){
 				btn_direction_s_clicked = reverseButtonClicked(btn_direction_s_clicked);
 				if(btn_direction_s_clicked){
 					btn_direction_s.setBackgroundResource(R.drawable.small_grey);
@@ -2227,7 +2226,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_s.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(6);
-			}else if(btn_direction_se.isPressed()){
+		}else if(btn_direction_se.isPressed()){
 				btn_direction_se_clicked = reverseButtonClicked(btn_direction_se_clicked);
 				if(btn_direction_se_clicked){
 					btn_direction_se.setBackgroundResource(R.drawable.small_grey);
@@ -2235,11 +2234,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 					btn_direction_se.setBackgroundResource(R.drawable.small_grey_red);
 				}
 				checkDirectionFromAndTo(7);
-			}
+		}
 		
-			if(checkIfPass()){
+		if(checkIfPass()){
 				updateAllCounts(true);
-			}
 		}
 	}
 	
@@ -10021,12 +10019,15 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	private class CountDownTimer extends android.os.CountDownTimer{
 		
 		private String ms, minutes, seconds;
+		private boolean countTimerSaved;
+		private boolean countTimerStarted;
+		private String intersectionType;
 		
 		//-------------Jean-Yves' Initializations-----------------------
-		private SimpleDateFormat df = new SimpleDateFormat("h:mm a");
+		private String startTime;
+		private SimpleDateFormat df; 
 		
-		private String sessionStartTime;
-		private String currentTime;
+		private String generalComments;
 		private int dataRowsWritten = 1;
 
 		private Calendar cal = Calendar.getInstance();
@@ -10035,14 +10036,20 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		
 		public CountDownTimer(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
+			countTimerSaved = false;
+			countTimerStarted = false;
+			generalComments = CountSetup.getCommentSection();
+			df = new SimpleDateFormat("h:mm a");
+			startTime = df.format(Calendar.getInstance().getTime());
 			updateTimeRemaining(millisInFuture);
 			
 			//Get current time and subtract 15 minutes to get time started counting-Jean-Yves
-			currentTime = df.format(Calendar.getInstance().getTime());
-			cal.setTime(cal.getTime());
-			cal.add(Calendar.MINUTE, -15);
-			Date fifteenMinBefore = cal.getTime();
-		    sessionStartTime = df.format(fifteenMinBefore);
+
+//			currentTime = df.format(Calendar.getInstance().getTime());
+//			cal.setTime(cal.getTime());
+//			cal.add(Calendar.MINUTE, -15);
+//			Date fifteenMinBefore = cal.getTime();
+//		    sessionStartTime = df.format(fifteenMinBefore);
 		}
 
 		private void updateTimeRemaining(long millisUntilFinished){
@@ -10067,15 +10074,21 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				onFinish();
 				/* The best place to put the saveData() method is here as putting it in 
 				 * onFinish() saved the data twice every instance. -Jean-Yves */
-				saveData();
+				//saveData();
 			}else{
 				txt_timer.setText(ms);
 			}
 		}
 
 		@Override
-		public void onFinish() {
-			txt_timer.setText("Completed.");
+		public void onFinish() {			
+			if (!countTimerSaved && countTimerStarted){
+				countTimer.cancel();
+				countTimerSaved = true;
+				countTimerStarted = false;
+				txt_timer.setText("Completed.");
+				saveData();
+			}
 		}
 		
 		//------------------------Jean-Yves Kwibuka 1245654----------------------
@@ -10131,6 +10144,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			 * TIME 			CARS 	BUSES 	TRUCKS	 	MOTORCYCLES		CARS	BUSES...	
 			 * 8:00 to 8:15		25		2		13			7				2		6
 			 */
+			
 			appendLocationHeader(fileWriter);
 			appendFromAndToPostionsHeader(fileWriter);
 			appendIntersectionCountsHeader(fileWriter);
@@ -10146,49 +10160,49 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 												northWestToNorthMotorBike, northWestToNorthPedestrian, northWestToNorthCrutches1,
 												northWestToNorthCrutches2, northWestToNorthCane, northWestToNorthDog, northWestToNorthMobilityScooter,
 												northWestToNorthWheelChairAssisted, northWestToNorthWheelChairManual, northWestToNorthWheelChairPowered,
-												northWestToNorthPushChair, northWestToNorthSkateboard, northWestToNorthManualScooter);
+												northWestToNorthPushChair, northWestToNorthSkateboard, northWestToNorthManualScooter, generalComments);
 							}else if(x == 0 && y == 2){
 								//North-west to North-East
 								appendCountables(fileWriter, northWestToNorthEastCar, northWestToNorthEastBus, northWestToNorthEastTruck,
 										northWestToNorthEastMotorBike, northWestToNorthEastPedestrian, northWestToNorthEastCrutches1,
 										northWestToNorthEastCrutches2, northWestToNorthEastCane, northWestToNorthEastDog, northWestToNorthEastMobilityScooter,
 										northWestToNorthEastWheelChairAssisted, northWestToNorthEastWheelChairManual, northWestToNorthEastWheelChairPowered,
-										northWestToNorthEastPushChair, northWestToNorthEastSkateboard, northWestToNorthEastManualScooter);
+										northWestToNorthEastPushChair, northWestToNorthEastSkateboard, northWestToNorthEastManualScooter, generalComments);
 							}else if(x == 0 && y == 3){
 								//North-west to West
 								appendCountables(fileWriter, northWestToWestCar, northWestToWestBus, northWestToWestTruck,
 										northWestToWestMotorBike, northWestToWestPedestrian, northWestToWestCrutches1,
 										northWestToWestCrutches2, northWestToWestCane, northWestToWestDog, northWestToWestMobilityScooter,
 										northWestToWestWheelChairAssisted, northWestToWestWheelChairManual, northWestToWestWheelChairPowered,
-										northWestToWestPushChair, northWestToWestSkateboard, northWestToWestManualScooter);
+										northWestToWestPushChair, northWestToWestSkateboard, northWestToWestManualScooter, generalComments);
 							}else if(x == 0 && y == 4){
 								//North-west to East
 								appendCountables(fileWriter, northWestToEastCar, northWestToEastBus, northWestToEastTruck,
 										northWestToEastMotorBike, northWestToEastPedestrian, northWestToEastCrutches1,
 										northWestToEastCrutches2, northWestToEastCane, northWestToEastDog, northWestToEastMobilityScooter,
 										northWestToEastWheelChairAssisted, northWestToEastWheelChairManual, northWestToEastWheelChairPowered,
-										northWestToEastPushChair, northWestToEastSkateboard, northWestToEastManualScooter);
+										northWestToEastPushChair, northWestToEastSkateboard, northWestToEastManualScooter, generalComments);
 							}else if(x == 0 && y == 5){
 								//North-west to South-West
 								appendCountables(fileWriter, northWestToSouthWestCar, northWestToSouthWestBus, northWestToSouthWestTruck,
 										northWestToSouthWestMotorBike, northWestToSouthWestPedestrian, northWestToSouthWestCrutches1,
 										northWestToSouthWestCrutches2, northWestToSouthWestCane, northWestToSouthWestDog, northWestToSouthWestMobilityScooter,
 										northWestToSouthWestWheelChairAssisted, northWestToSouthWestWheelChairManual, northWestToSouthWestWheelChairPowered,
-										northWestToSouthWestPushChair, northWestToSouthWestSkateboard, northWestToSouthWestManualScooter);
+										northWestToSouthWestPushChair, northWestToSouthWestSkateboard, northWestToSouthWestManualScooter, generalComments);
 							}else if(x == 0 && y == 6){
 								//North-west to South
 								appendCountables(fileWriter, northWestToSouthCar, northWestToSouthBus, northWestToSouthTruck,
 										northWestToSouthMotorBike, northWestToSouthPedestrian, northWestToSouthCrutches1,
 										northWestToSouthCrutches2, northWestToSouthCane, northWestToSouthDog, northWestToSouthMobilityScooter,
 										northWestToSouthWheelChairAssisted, northWestToSouthWheelChairManual, northWestToSouthWheelChairPowered,
-										northWestToSouthPushChair, northWestToSouthSkateboard, northWestToSouthManualScooter);
+										northWestToSouthPushChair, northWestToSouthSkateboard, northWestToSouthManualScooter, generalComments);
 							}else if(x == 0 && y == 7){
 								//North-west to South-East
 								appendCountables(fileWriter, northWestToSouthEastCar, northWestToSouthEastBus, northWestToSouthEastTruck,
 										northWestToSouthEastMotorBike, northWestToSouthEastPedestrian, northWestToSouthEastCrutches1,
 										northWestToSouthEastCrutches2, northWestToSouthEastCane, northWestToSouthEastDog, northWestToSouthEastMobilityScooter,
 										northWestToSouthEastWheelChairAssisted, northWestToSouthEastWheelChairManual, northWestToSouthEastWheelChairPowered,
-										northWestToSouthEastPushChair, northWestToSouthEastSkateboard, northWestToSouthEastManualScooter);
+										northWestToSouthEastPushChair, northWestToSouthEastSkateboard, northWestToSouthEastManualScooter, generalComments);
 							}
 							
 							//FROM NORTH TO ...
@@ -10198,28 +10212,28 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northToNorthWestMotorBike, northToNorthWestPedestrian, northToNorthWestCrutches1,
 										northToNorthWestCrutches2, northToNorthWestCane, northToNorthWestDog, northToNorthWestMobilityScooter,
 										northToNorthWestWheelChairAssisted, northToNorthWestWheelChairManual, northToNorthWestWheelChairPowered,
-										northToNorthWestPushChair, northToNorthWestSkateboard, northToNorthWestManualScooter);
+										northToNorthWestPushChair, northToNorthWestSkateboard, northToNorthWestManualScooter, generalComments);
 							}else if(x == 1 && y == 2){
 								//North to North-East
 								appendCountables(fileWriter, northToNorthEastCar, northToNorthEastBus, northToNorthEastTruck,
 										northToNorthEastMotorBike, northToNorthEastPedestrian, northToNorthEastCrutches1,
 										northToNorthEastCrutches2, northToNorthEastCane, northToNorthEastDog, northToNorthEastMobilityScooter,
 										northToNorthEastWheelChairAssisted, northToNorthEastWheelChairManual, northToNorthEastWheelChairPowered,
-										northToNorthEastPushChair, northToNorthEastSkateboard, northToNorthEastManualScooter);
+										northToNorthEastPushChair, northToNorthEastSkateboard, northToNorthEastManualScooter, generalComments);
 							}else if(x == 1 && y == 3){
 								//North to West
 								appendCountables(fileWriter, northToWestCar, northToWestBus, northToWestTruck,
 										northToWestMotorBike, northToWestPedestrian, northToWestCrutches1,
 										northToWestCrutches2, northToWestCane, northToWestDog, northToWestMobilityScooter,
 										northToWestWheelChairAssisted, northToWestWheelChairManual, northToWestWheelChairPowered,
-										northToWestPushChair, northToWestSkateboard, northToWestManualScooter);
+										northToWestPushChair, northToWestSkateboard, northToWestManualScooter, generalComments);
 							}else if(x == 1 && y == 4){
 								//North to East
 								appendCountables(fileWriter, northToEastCar, northToEastBus, northToEastTruck,
 										northToEastMotorBike, northToEastPedestrian, northToEastCrutches1,
 										northToEastCrutches2, northToEastCane, northToEastDog, northToEastMobilityScooter,
 										northToEastWheelChairAssisted, northToEastWheelChairManual, northToEastWheelChairPowered,
-										northToEastPushChair, northToEastSkateboard, northToEastManualScooter);
+										northToEastPushChair, northToEastSkateboard, northToEastManualScooter, generalComments);
 								
 							}else if(x == 1 && y == 5){
 								//North to South-West
@@ -10227,7 +10241,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northToSouthWestMotorBike, northToSouthWestPedestrian, northToSouthWestCrutches1,
 										northToSouthWestCrutches2, northToSouthWestCane, northToSouthWestDog, northToSouthWestMobilityScooter,
 										northToSouthWestWheelChairAssisted, northToSouthWestWheelChairManual, northToSouthWestWheelChairPowered,
-										northToSouthWestPushChair, northToSouthWestSkateboard, northToSouthWestManualScooter);
+										northToSouthWestPushChair, northToSouthWestSkateboard, northToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 1 && y == 6){
 								//North to South
@@ -10235,7 +10249,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northToSouthMotorBike, northToSouthPedestrian, northToSouthCrutches1,
 										northToSouthCrutches2, northToSouthCane, northToSouthDog, northToSouthMobilityScooter,
 										northToSouthWheelChairAssisted, northToSouthWheelChairManual, northToSouthWheelChairPowered,
-										northToSouthPushChair, northToSouthSkateboard, northToSouthManualScooter);
+										northToSouthPushChair, northToSouthSkateboard, northToSouthManualScooter, generalComments);
 								
 							}else if(x == 1 && y == 7){
 								//North to South-East
@@ -10243,7 +10257,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northToSouthEastMotorBike, northToSouthEastPedestrian, northToSouthEastCrutches1,
 										northToSouthEastCrutches2, northToSouthEastCane, northToSouthEastDog, northToSouthEastMobilityScooter,
 										northToSouthEastWheelChairAssisted, northToSouthEastWheelChairManual, northToSouthEastWheelChairPowered,
-										northToSouthEastPushChair, northToSouthEastSkateboard, northToSouthEastManualScooter);
+										northToSouthEastPushChair, northToSouthEastSkateboard, northToSouthEastManualScooter, generalComments);
 								
 							}
 							
@@ -10254,7 +10268,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northEastToNorthWestMotorBike, northEastToNorthWestPedestrian, northEastToNorthWestCrutches1,
 										northEastToNorthWestCrutches2, northEastToNorthWestCane, northEastToNorthWestDog, northEastToNorthWestMobilityScooter,
 										northEastToNorthWestWheelChairAssisted, northEastToNorthWestWheelChairManual, northEastToNorthWestWheelChairPowered,
-										northEastToNorthWestPushChair, northEastToNorthWestSkateboard, northEastToNorthWestManualScooter);
+										northEastToNorthWestPushChair, northEastToNorthWestSkateboard, northEastToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 1){
 								//North-East to North
@@ -10262,7 +10276,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northEastToNorthMotorBike, northEastToNorthPedestrian, northEastToNorthCrutches1,
 										northEastToNorthCrutches2, northEastToNorthCane, northEastToNorthDog, northEastToNorthMobilityScooter,
 										northEastToNorthWheelChairAssisted, northEastToNorthWheelChairManual, northEastToNorthWheelChairPowered,
-										northEastToNorthPushChair, northEastToNorthSkateboard, northEastToNorthManualScooter);
+										northEastToNorthPushChair, northEastToNorthSkateboard, northEastToNorthManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 3){
 								//North-East to West
@@ -10270,7 +10284,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northEastToWestMotorBike, northEastToWestPedestrian, northEastToWestCrutches1,
 										northEastToWestCrutches2, northEastToWestCane, northEastToWestDog, northEastToWestMobilityScooter,
 										northEastToWestWheelChairAssisted, northEastToWestWheelChairManual, northEastToWestWheelChairPowered,
-										northEastToWestPushChair, northEastToWestSkateboard, northEastToWestManualScooter);
+										northEastToWestPushChair, northEastToWestSkateboard, northEastToWestManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 4){
 								//North-East to East
@@ -10278,7 +10292,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northEastToEastMotorBike, northEastToEastPedestrian, northEastToEastCrutches1,
 										northEastToEastCrutches2, northEastToEastCane, northEastToEastDog, northEastToEastMobilityScooter,
 										northEastToEastWheelChairAssisted, northEastToEastWheelChairManual, northEastToEastWheelChairPowered,
-										northEastToEastPushChair, northEastToEastSkateboard, northEastToEastManualScooter);
+										northEastToEastPushChair, northEastToEastSkateboard, northEastToEastManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 5){
 								//North-East to South-West
@@ -10286,7 +10300,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northEastToSouthWestMotorBike, northEastToSouthWestPedestrian, northEastToSouthWestCrutches1,
 										northEastToSouthWestCrutches2, northEastToSouthWestCane, northEastToSouthWestDog, northEastToSouthWestMobilityScooter,
 										northEastToSouthWestWheelChairAssisted, northEastToSouthWestWheelChairManual, northEastToSouthWestWheelChairPowered,
-										northEastToSouthWestPushChair, northEastToSouthWestSkateboard, northEastToSouthWestManualScooter);
+										northEastToSouthWestPushChair, northEastToSouthWestSkateboard, northEastToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 6){
 								//North-East to South
@@ -10294,7 +10308,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northEastToSouthMotorBike, northEastToSouthPedestrian, northEastToSouthCrutches1,
 										northEastToSouthCrutches2, northEastToSouthCane, northEastToSouthDog, northEastToSouthMobilityScooter,
 										northEastToSouthWheelChairAssisted, northEastToSouthWheelChairManual, northEastToSouthWheelChairPowered,
-										northEastToSouthPushChair, northEastToSouthSkateboard, northEastToSouthManualScooter);
+										northEastToSouthPushChair, northEastToSouthSkateboard, northEastToSouthManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 7){
 								//North-East to South-East
@@ -10302,7 +10316,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										northEastToSouthEastMotorBike, northEastToSouthEastPedestrian, northEastToSouthEastCrutches1,
 										northEastToSouthEastCrutches2, northEastToSouthEastCane, northEastToSouthEastDog, northEastToSouthEastMobilityScooter,
 										northEastToSouthEastWheelChairAssisted, northEastToSouthEastWheelChairManual, northEastToSouthEastWheelChairPowered,
-										northEastToSouthEastPushChair, northEastToSouthEastSkateboard, northEastToSouthEastManualScooter);
+										northEastToSouthEastPushChair, northEastToSouthEastSkateboard, northEastToSouthEastManualScooter, generalComments);
 								
 							}
 							
@@ -10313,7 +10327,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										westToNorthWestMotorBike, westToNorthWestPedestrian, westToNorthWestCrutches1,
 										westToNorthWestCrutches2, westToNorthWestCane, westToNorthWestDog, westToNorthWestMobilityScooter,
 										westToNorthWestWheelChairAssisted, westToNorthWestWheelChairManual, westToNorthWestWheelChairPowered,
-										westToNorthWestPushChair, westToNorthWestSkateboard, westToNorthWestManualScooter);
+										westToNorthWestPushChair, westToNorthWestSkateboard, westToNorthWestManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 1){
 								//West to North
@@ -10321,7 +10335,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										westToNorthMotorBike, westToNorthPedestrian, westToNorthCrutches1,
 										westToNorthCrutches2, westToNorthCane, westToNorthDog, westToNorthMobilityScooter,
 										westToNorthWheelChairAssisted, westToNorthWheelChairManual, westToNorthWheelChairPowered,
-										westToNorthPushChair, westToNorthSkateboard, westToNorthManualScooter);
+										westToNorthPushChair, westToNorthSkateboard, westToNorthManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 2){
 								//West to North-East
@@ -10329,7 +10343,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										westToNorthEastMotorBike, westToNorthEastPedestrian, westToNorthEastCrutches1,
 										westToNorthEastCrutches2, westToNorthEastCane, westToNorthEastDog, westToNorthEastMobilityScooter,
 										westToNorthEastWheelChairAssisted, westToNorthEastWheelChairManual, westToNorthEastWheelChairPowered,
-										westToNorthEastPushChair, westToNorthEastSkateboard, westToNorthEastManualScooter);
+										westToNorthEastPushChair, westToNorthEastSkateboard, westToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 3 && y == 4){
 								//West to East
@@ -10337,7 +10351,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										westToEastMotorBike, westToEastPedestrian, westToEastCrutches1,
 										westToEastCrutches2, westToEastCane, westToEastDog, westToEastMobilityScooter,
 										westToEastWheelChairAssisted, westToEastWheelChairManual, westToEastWheelChairPowered,
-										westToEastPushChair, westToEastSkateboard, westToEastManualScooter);
+										westToEastPushChair, westToEastSkateboard, westToEastManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 5){
 								//West to South-West
@@ -10345,7 +10359,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										westToSouthWestMotorBike, westToSouthWestPedestrian, westToSouthWestCrutches1,
 										westToSouthWestCrutches2, westToSouthWestCane, westToSouthWestDog, westToSouthWestMobilityScooter,
 										westToSouthWestWheelChairAssisted, westToSouthWestWheelChairManual, westToSouthWestWheelChairPowered,
-										westToSouthWestPushChair, westToSouthWestSkateboard, westToSouthWestManualScooter);
+										westToSouthWestPushChair, westToSouthWestSkateboard, westToSouthWestManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 6){
 								//West to South
@@ -10353,7 +10367,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										westToSouthMotorBike, westToSouthPedestrian, westToSouthCrutches1,
 										westToSouthCrutches2, westToSouthCane, westToSouthDog, westToSouthMobilityScooter,
 										westToSouthWheelChairAssisted, westToSouthWheelChairManual, westToSouthWheelChairPowered,
-										westToSouthPushChair, westToSouthSkateboard, westToSouthManualScooter);
+										westToSouthPushChair, westToSouthSkateboard, westToSouthManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 7){
 								//West to South-East
@@ -10361,7 +10375,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										westToSouthEastMotorBike, westToSouthEastPedestrian, westToSouthEastCrutches1,
 										westToSouthEastCrutches2, westToSouthEastCane, westToSouthEastDog, westToSouthEastMobilityScooter,
 										westToSouthEastWheelChairAssisted, westToSouthEastWheelChairManual, westToSouthEastWheelChairPowered,
-										westToSouthEastPushChair, westToSouthEastSkateboard, westToSouthEastManualScooter);
+										westToSouthEastPushChair, westToSouthEastSkateboard, westToSouthEastManualScooter, generalComments);
 								
 							}
 							
@@ -10372,7 +10386,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										eastToNorthWestMotorBike, eastToNorthWestPedestrian, eastToNorthWestCrutches1,
 										eastToNorthWestCrutches2, eastToNorthWestCane, eastToNorthWestDog, eastToNorthWestMobilityScooter,
 										eastToNorthWestWheelChairAssisted, eastToNorthWestWheelChairManual, eastToNorthWestWheelChairPowered,
-										eastToNorthWestPushChair, eastToNorthWestSkateboard, eastToNorthWestManualScooter);
+										eastToNorthWestPushChair, eastToNorthWestSkateboard, eastToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 1){
 								//East to North
@@ -10380,7 +10394,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										eastToNorthMotorBike, eastToNorthPedestrian, eastToNorthCrutches1,
 										eastToNorthCrutches2, eastToNorthCane, eastToNorthDog, eastToNorthMobilityScooter,
 										eastToNorthWheelChairAssisted, eastToNorthWheelChairManual, eastToNorthWheelChairPowered,
-										eastToNorthPushChair, eastToNorthSkateboard, eastToNorthManualScooter);
+										eastToNorthPushChair, eastToNorthSkateboard, eastToNorthManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 2){
 								//East to North-East
@@ -10388,7 +10402,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										eastToNorthEastMotorBike, eastToNorthEastPedestrian, eastToNorthEastCrutches1,
 										eastToNorthEastCrutches2, eastToNorthEastCane, eastToNorthEastDog, eastToNorthEastMobilityScooter,
 										eastToNorthEastWheelChairAssisted, eastToNorthEastWheelChairManual, eastToNorthEastWheelChairPowered,
-										eastToNorthEastPushChair, eastToNorthEastSkateboard, eastToNorthEastManualScooter);
+										eastToNorthEastPushChair, eastToNorthEastSkateboard, eastToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 3){
 								//East to West
@@ -10396,7 +10410,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										eastToWestMotorBike, eastToWestPedestrian, eastToWestCrutches1,
 										eastToWestCrutches2, eastToWestCane, eastToWestDog, eastToWestMobilityScooter,
 										eastToWestWheelChairAssisted, eastToWestWheelChairManual, eastToWestWheelChairPowered,
-										eastToWestPushChair, eastToWestSkateboard, eastToWestManualScooter);
+										eastToWestPushChair, eastToWestSkateboard, eastToWestManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 5){
 								//East to South-West
@@ -10404,7 +10418,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										eastToSouthWestMotorBike, eastToSouthWestPedestrian, eastToSouthWestCrutches1,
 										eastToSouthWestCrutches2, eastToSouthWestCane, eastToSouthWestDog, eastToSouthWestMobilityScooter,
 										eastToSouthWestWheelChairAssisted, eastToSouthWestWheelChairManual, eastToSouthWestWheelChairPowered,
-										eastToSouthWestPushChair, eastToSouthWestSkateboard, eastToSouthWestManualScooter);
+										eastToSouthWestPushChair, eastToSouthWestSkateboard, eastToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 6){
 								//East to South
@@ -10412,7 +10426,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										eastToSouthMotorBike, eastToSouthPedestrian, eastToSouthCrutches1,
 										eastToSouthCrutches2, eastToSouthCane, eastToSouthDog, eastToSouthMobilityScooter,
 										eastToSouthWheelChairAssisted, eastToSouthWheelChairManual, eastToSouthWheelChairPowered,
-										eastToSouthPushChair, eastToSouthSkateboard, eastToSouthManualScooter);
+										eastToSouthPushChair, eastToSouthSkateboard, eastToSouthManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 7){
 								//East to South-East
@@ -10420,7 +10434,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										eastToSouthEastMotorBike, eastToSouthEastPedestrian, eastToSouthEastCrutches1,
 										eastToSouthEastCrutches2, eastToSouthEastCane, eastToSouthEastDog, eastToSouthEastMobilityScooter,
 										eastToSouthEastWheelChairAssisted, eastToSouthEastWheelChairManual, eastToSouthEastWheelChairPowered,
-										eastToSouthEastPushChair, eastToSouthEastSkateboard, eastToSouthEastManualScooter);
+										eastToSouthEastPushChair, eastToSouthEastSkateboard, eastToSouthEastManualScooter, generalComments);
 							
 							}
 							
@@ -10431,7 +10445,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToNorthWestMotorBike, southWestToNorthWestPedestrian, southWestToNorthWestCrutches1,
 										southWestToNorthWestCrutches2, southWestToNorthWestCane, southWestToNorthWestDog, southWestToNorthWestMobilityScooter,
 										southWestToNorthWestWheelChairAssisted, southWestToNorthWestWheelChairManual, southWestToNorthWestWheelChairPowered,
-										southWestToNorthWestPushChair, southWestToNorthWestSkateboard, southWestToNorthWestManualScooter);
+										southWestToNorthWestPushChair, southWestToNorthWestSkateboard, southWestToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 1){
 								//South-West to North
@@ -10439,7 +10453,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToNorthMotorBike, southWestToNorthPedestrian, southWestToNorthCrutches1,
 										southWestToNorthCrutches2, southWestToNorthCane, southWestToNorthDog, southWestToNorthMobilityScooter,
 										southWestToNorthWheelChairAssisted, southWestToNorthWheelChairManual, southWestToNorthWheelChairPowered,
-										southWestToNorthPushChair, southWestToNorthSkateboard, southWestToNorthManualScooter);
+										southWestToNorthPushChair, southWestToNorthSkateboard, southWestToNorthManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 2){
 								//South-West to North-East
@@ -10447,7 +10461,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToNorthEastMotorBike, southWestToNorthEastPedestrian, southWestToNorthEastCrutches1,
 										southWestToNorthEastCrutches2, southWestToNorthEastCane, southWestToNorthEastDog, southWestToNorthEastMobilityScooter,
 										southWestToNorthEastWheelChairAssisted, southWestToNorthEastWheelChairManual, southWestToNorthEastWheelChairPowered,
-										southWestToNorthEastPushChair, southWestToNorthEastSkateboard, southWestToNorthEastManualScooter);
+										southWestToNorthEastPushChair, southWestToNorthEastSkateboard, southWestToNorthEastManualScooter, generalComments);
 							
 							}else if(x == 5 && y == 3){
 								//South-West to West
@@ -10455,7 +10469,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToWestMotorBike, southWestToWestPedestrian, southWestToWestCrutches1,
 										southWestToWestCrutches2, southWestToWestCane, southWestToWestDog, southWestToWestMobilityScooter,
 										southWestToWestWheelChairAssisted, southWestToWestWheelChairManual, southWestToWestWheelChairPowered,
-										southWestToWestPushChair, southWestToWestSkateboard, southWestToWestManualScooter);
+										southWestToWestPushChair, southWestToWestSkateboard, southWestToWestManualScooter, generalComments);
 							
 							}else if(x == 5 && y == 4){
 								//South-West to East
@@ -10463,7 +10477,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
 										southWestToEastCrutches2, southWestToEastCane, southWestToEastDog, southWestToEastMobilityScooter,
 										southWestToEastWheelChairAssisted, southWestToEastWheelChairManual, southWestToEastWheelChairPowered,
-										southWestToEastPushChair, southWestToEastSkateboard, southWestToEastManualScooter);
+										southWestToEastPushChair, southWestToEastSkateboard, southWestToEastManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 6){
 								//South-West to South
@@ -10471,7 +10485,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToSouthMotorBike, southWestToSouthPedestrian, southWestToSouthCrutches1,
 										southWestToSouthCrutches2, southWestToSouthCane, southWestToSouthDog, southWestToSouthMobilityScooter,
 										southWestToSouthWheelChairAssisted, southWestToSouthWheelChairManual, southWestToSouthWheelChairPowered,
-										southWestToSouthPushChair, southWestToSouthSkateboard, southWestToSouthManualScooter);
+										southWestToSouthPushChair, southWestToSouthSkateboard, southWestToSouthManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 7){
 								//South-West to South-East
@@ -10479,7 +10493,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToSouthEastMotorBike, southWestToSouthEastPedestrian, southWestToSouthEastCrutches1,
 										southWestToSouthEastCrutches2, southWestToSouthEastCane, southWestToSouthEastDog, southWestToSouthEastMobilityScooter,
 										southWestToSouthEastWheelChairAssisted, southWestToSouthEastWheelChairManual, southWestToSouthEastWheelChairPowered,
-										southWestToSouthEastPushChair, southWestToSouthEastSkateboard, southWestToSouthEastManualScooter);
+										southWestToSouthEastPushChair, southWestToSouthEastSkateboard, southWestToSouthEastManualScooter, generalComments);
 								
 							}
 							
@@ -10490,7 +10504,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southToNorthWestMotorBike, southToNorthWestPedestrian, southToNorthWestCrutches1,
 										southToNorthWestCrutches2, southToNorthWestCane, southToNorthWestDog, southToNorthWestMobilityScooter,
 										southToNorthWestWheelChairAssisted, southToNorthWestWheelChairManual, southToNorthWestWheelChairPowered,
-										southToNorthWestPushChair, southToNorthWestSkateboard, southToNorthWestManualScooter);
+										southToNorthWestPushChair, southToNorthWestSkateboard, southToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 1){
 								//South to North
@@ -10498,7 +10512,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southToNorthMotorBike, southToNorthPedestrian, southToNorthCrutches1,
 										southToNorthCrutches2, southToNorthCane, southToNorthDog, southToNorthMobilityScooter,
 										southToNorthWheelChairAssisted, southToNorthWheelChairManual, southToNorthWheelChairPowered,
-										southToNorthPushChair, southToNorthSkateboard, southToNorthManualScooter);
+										southToNorthPushChair, southToNorthSkateboard, southToNorthManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 2){
 								//South to North-East
@@ -10506,7 +10520,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southToNorthEastMotorBike, southToNorthEastPedestrian, southToNorthEastCrutches1,
 										southToNorthEastCrutches2, southToNorthEastCane, southToNorthEastDog, southToNorthEastMobilityScooter,
 										southToNorthEastWheelChairAssisted, southToNorthEastWheelChairManual, southToNorthEastWheelChairPowered,
-										southToNorthEastPushChair, southToNorthEastSkateboard, southToNorthEastManualScooter);
+										southToNorthEastPushChair, southToNorthEastSkateboard, southToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 3){
 								//South to West
@@ -10514,7 +10528,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southToWestMotorBike, southToWestPedestrian, southToWestCrutches1,
 										southToWestCrutches2, southToWestCane, southToWestDog, southToWestMobilityScooter,
 										southToWestWheelChairAssisted, southToWestWheelChairManual, southToWestWheelChairPowered,
-										southToWestPushChair, southToWestSkateboard, southToWestManualScooter);
+										southToWestPushChair, southToWestSkateboard, southToWestManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 4){
 								//South to East
@@ -10522,7 +10536,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southToEastMotorBike, southToEastPedestrian, southToEastCrutches1,
 										southToEastCrutches2, southToEastCane, southToEastDog, southToEastMobilityScooter,
 										southToEastWheelChairAssisted, southToEastWheelChairManual, southToEastWheelChairPowered,
-										southToEastPushChair, southToEastSkateboard, southToEastManualScooter);
+										southToEastPushChair, southToEastSkateboard, southToEastManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 5){
 								//South to South-West
@@ -10530,7 +10544,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southToSouthWestMotorBike, southToSouthWestPedestrian, southToSouthWestCrutches1,
 										southToSouthWestCrutches2, southToSouthWestCane, southToSouthWestDog, southToSouthWestMobilityScooter,
 										southToSouthWestWheelChairAssisted, southToSouthWestWheelChairManual, southToSouthWestWheelChairPowered,
-										southToSouthWestPushChair, southToSouthWestSkateboard, southToSouthWestManualScooter);
+										southToSouthWestPushChair, southToSouthWestSkateboard, southToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 7){
 								//South to South-East
@@ -10538,7 +10552,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southToSouthEastMotorBike, southToSouthEastPedestrian, southToSouthEastCrutches1,
 										southToSouthEastCrutches2, southToSouthEastCane, southToSouthEastDog, southToSouthEastMobilityScooter,
 										southToSouthEastWheelChairAssisted, southToSouthEastWheelChairManual, southToSouthEastWheelChairPowered,
-										southToSouthEastPushChair, southToSouthEastSkateboard, southToSouthEastManualScooter);
+										southToSouthEastPushChair, southToSouthEastSkateboard, southToSouthEastManualScooter, generalComments);
 								
 							}
 							
@@ -10549,7 +10563,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southEastToNorthWestMotorBike, southEastToNorthWestPedestrian, southEastToNorthWestCrutches1,
 										southEastToNorthWestCrutches2, southEastToNorthWestCane, southEastToNorthWestDog, southEastToNorthWestMobilityScooter,
 										southEastToNorthWestWheelChairAssisted, southEastToNorthWestWheelChairManual, southEastToNorthWestWheelChairPowered,
-										southEastToNorthWestPushChair, southEastToNorthWestSkateboard, southEastToNorthWestManualScooter);
+										southEastToNorthWestPushChair, southEastToNorthWestSkateboard, southEastToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 1){
 								//South-East to North
@@ -10557,7 +10571,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southEastToNorthMotorBike, southEastToNorthPedestrian, southEastToNorthCrutches1,
 										southEastToNorthCrutches2, southEastToNorthCane, southEastToNorthDog, southEastToNorthMobilityScooter,
 										southEastToNorthWheelChairAssisted, southEastToNorthWheelChairManual, southEastToNorthWheelChairPowered,
-										southEastToNorthPushChair, southEastToNorthSkateboard, southEastToNorthManualScooter);
+										southEastToNorthPushChair, southEastToNorthSkateboard, southEastToNorthManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 2){
 								//South-East to North-East
@@ -10565,7 +10579,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southEastToNorthEastMotorBike, southEastToNorthEastPedestrian, southEastToNorthEastCrutches1,
 										southEastToNorthEastCrutches2, southEastToNorthEastCane, southEastToNorthEastDog, southEastToNorthEastMobilityScooter,
 										southEastToNorthEastWheelChairAssisted, southEastToNorthEastWheelChairManual, southEastToNorthEastWheelChairPowered,
-										southEastToNorthEastPushChair, southEastToNorthEastSkateboard, southEastToNorthEastManualScooter);
+										southEastToNorthEastPushChair, southEastToNorthEastSkateboard, southEastToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 3){
 								//South-East to West
@@ -10573,7 +10587,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southEastToWestMotorBike, southEastToWestPedestrian, southEastToWestCrutches1,
 										southEastToWestCrutches2, southEastToWestCane, southEastToWestDog, southEastToWestMobilityScooter,
 										southEastToWestWheelChairAssisted, southEastToWestWheelChairManual, southEastToWestWheelChairPowered,
-										southEastToWestPushChair, southEastToWestSkateboard, southEastToWestManualScooter);
+										southEastToWestPushChair, southEastToWestSkateboard, southEastToWestManualScooter, generalComments);
 							
 							}else if(x == 7 && y == 4){
 								//South-East to East
@@ -10581,7 +10595,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
 										southEastToEastCrutches2, southEastToEastCane, southEastToEastDog, southEastToEastMobilityScooter,
 										southEastToEastWheelChairAssisted, southEastToEastWheelChairManual, southEastToEastWheelChairPowered,
-										southEastToEastPushChair, southEastToEastSkateboard, southEastToEastManualScooter);
+										southEastToEastPushChair, southEastToEastSkateboard, southEastToEastManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 5){
 								//South-East to South-West
@@ -10589,7 +10603,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southEastToSouthWestMotorBike, southEastToSouthWestPedestrian, southEastToSouthWestCrutches1,
 										southEastToSouthWestCrutches2, southEastToSouthWestCane, southEastToSouthWestDog, southEastToSouthWestMobilityScooter,
 										southEastToSouthWestWheelChairAssisted, southEastToSouthWestWheelChairManual, southEastToSouthWestWheelChairPowered,
-										southEastToSouthWestPushChair, southEastToSouthWestSkateboard, southEastToSouthWestManualScooter);
+										southEastToSouthWestPushChair, southEastToSouthWestSkateboard, southEastToSouthWestManualScooter, generalComments);
 							
 							}else if(x == 7 && y == 6){
 								//South-East to South
@@ -10597,7 +10611,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 										southEastToSouthMotorBike, southEastToSouthPedestrian, southEastToSouthCrutches1,
 										southEastToSouthCrutches2, southEastToSouthCane, southEastToSouthDog, southEastToSouthMobilityScooter,
 										southEastToSouthWheelChairAssisted, southEastToSouthWheelChairManual, southEastToSouthWheelChairPowered,
-										southEastToSouthPushChair, southEastToSouthSkateboard, southEastToSouthManualScooter);
+										southEastToSouthPushChair, southEastToSouthSkateboard, southEastToSouthManualScooter, generalComments);
 							
 							}
 						}
@@ -10605,7 +10619,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				}
 			}if(dataRowsWritten >= 1){
 				fileWriter.append("\n");
-				userMessage("15 Min Data Save Complete!");
+				userMessage("Data saved successfully");
 			}
 		}
 		
@@ -10617,15 +10631,45 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		private void appendLocationHeader(FileWriter fileWriter) throws IOException {
 			//These should work, once we make sure the submit button sets the values from Textviews
 			String surveyorName = CountSetup.getsName();
-			String streetNumandName = CountSetup.getStreetNumAndName();
+			if(surveyorName == null){
+				surveyorName = "Nil";
+			}
+			
+			String streetNumAndName = CountSetup.getStreetNumAndName();
+			if(streetNumAndName == null){
+				streetNumAndName = "Nil";
+			}
+			
 			String currentDate = CountSetup.getCurrentDate();
+			if(currentDate == null){
+				currentDate = "Nil";
+			}
+			
 			String suburbName = CountSetup.getSuburbName();
+			if(suburbName == null){
+				suburbName = "Nil";
+			}
+			
 			String city = CountSetup.getCityName();
+			if(city == null){
+				city = "Nil";
+			}
+			
 			String postCode = CountSetup.getAreaCode();
+			if(postCode == null){
+				postCode = "Nil";
+			}
+			
 			String locDescription = CountSetup.getAreaDescript();
+			if(locDescription == null){
+				locDescription = "Nil";
+			}
+			
 			String weatherInfo = CountSetup.getWeatherCommentSection();
-			String generalComments = CountSetup.getCommentSection();
-			String intersectionType = CountSetup.getTypeOfIntersection();
+			if(weatherInfo == null){
+				weatherInfo = "Nil";
+			}
+			
 			if(intersectionType == null){
 				intersectionType = "N/A";
 			}
@@ -10633,14 +10677,13 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		
 			if(!locationHeaderAppended){
 				fileWriter.append("LOCATION:\n" +
-						", Street number and/or Name: "+streetNumandName + "\n" +
+						", Street number and/or Name: "+streetNumAndName + "\n" +
 						", Suburb: " + suburbName + "\n" +
 						", City: " + city + "\n" +
 						", Post code: " + postCode + "\n" +
 						", Description: " + locDescription +"\n \n");
 				fileWriter.append("Intersection Type: " + intersectionType + "\n");				
-				fileWriter.append("Weather Comment: " + weatherInfo + "\n");
-				fileWriter.append("General Comments: " + generalComments + "\n \n");
+				fileWriter.append("Weather Comment: " + weatherInfo + "\n\n");
 				fileWriter.append("Surveyor's name: " + surveyorName + ", , Date: " + currentDate + "\n \n");
 				locationHeaderAppended = true;
 			}
@@ -10660,214 +10703,214 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								//FROM NORTH-WEST TO ...
 								if(f == 0 && t == 1){
 									//DIRECTION: North-west To North
-									fWriter.append("From North-West to North , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-West to North , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 0 && t == 2){
 									//North-west to North-East
-									fWriter.append("From North-West to North-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-West to North-East , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 0 && t == 3){
 									//North-west to West
-									fWriter.append("From North-West to West , , , , , , , , , , , , , , , , , ,");									
+									fWriter.append("From North-West to West , , , , , , , , , , , , , , , , , , ,");									
 								}else if(f == 0 && t == 4){
 									//North-west to East
-									fWriter.append("From North-West to East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-West to East , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 0 && t == 5){
 									//North-west to South-West
-									fWriter.append("From North-West to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-West to South-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 0 && t == 6){
 									//North-west to South
-									fWriter.append("From North-West to South , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-West to South , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 0 && t == 7){
 									//North-west to South-East
-									fWriter.append("From North-West to South-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-West to South-East , , , , , , , , , , , , , , , , , , , ,");
 								}
 								
 								//FROM NORTH TO ...
 								else if(f == 1 && t == 0){
 									//North to North-West
-									fWriter.append("From North to North-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North to North-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 1 && t == 2){
 									//North to North-East
-									fWriter.append("From North to North-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North to North-East , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 1 && t == 3){
 									//North to West
-									fWriter.append("From North to West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North to West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 1 && t == 4){
 									//North to East
-									fWriter.append("From North to East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North to East , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 1 && t == 5){
 									//North to South-West
-									fWriter.append("From North to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North to South-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 1 && t == 6){
 									//North to South
-									fWriter.append("From North to South , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North to South , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 1 && t == 7){
 									//North to South-East
-									fWriter.append("From North to South-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North to South-East , , , , , , , , , , , , , , , , , , ,");
 								}
 								
 								//FROM NORTH-EAST TO ...
 								else if(f == 2 && t == 0){
 									//North-East to North-West
-									fWriter.append("From North-East to North-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-East to North-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 2 && t == 1){
 									//North-East to North
-									fWriter.append("From North-East to North , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-East to North , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 2 && t == 3){
 									//North-East to West
-									fWriter.append("From North-East to West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-East to West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 2 && t == 4){
 									//North-East to East
-									fWriter.append("From North-East to East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-East to East , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 2 && t == 5){
 									//North-East to South-West
-									fWriter.append("From North-East to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-East to South-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 2 && t == 6){
 									//North-East to South
-									fWriter.append("From North-East to South , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-East to South , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 2 && t == 7){
 									//North-East to South-East
-									fWriter.append("From North-East to South-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From North-East to South-East , , , , , , , , , , , , , , , , , , ,");
 								}
 								
 								//FROM West TO ...
 								else if(f == 3 && t == 0){
 									//West to North-West
-									fWriter.append("From West to North-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From West to North-West , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 3 && t == 1){
 									//West to North
-									fWriter.append("From West to North , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From West to North , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 3 && t == 2){
 									//West to North-East
-									fWriter.append("From West to North-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From West to North-East , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 3 && t == 4){
 									//West to East
-									fWriter.append("From West to East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From West to East , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 3 && t == 5){
 									//West to South-West
-									fWriter.append("From West to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From West to South-West , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 3 && t == 6){
 									//West to South
-									fWriter.append("From West to South , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From West to South , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 3 && t == 7){
 									//West to South-East
-									fWriter.append("From West to South-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From West to South-East , , , , , , , , , , , , , , , , , , ,");
 								}
 								
 								//FROM East TO ...
 								else if(f == 4 && t == 0){
 									//East to North-West
-									fWriter.append("From East to North-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From East to North-West , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 4 && t == 1){
 									//East to North
-									fWriter.append("From East to North , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From East to North , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 4 && t == 2){
 									//East to North-East
-									fWriter.append("From East to North-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From East to North-East , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 4 && t == 3){
 									//East to West
-									fWriter.append("From East to West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From East to West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 4 && t == 5){
 									//East to South-West
-									fWriter.append("From East to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From East to South-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 4 && t == 6){
 									//East to South
-									fWriter.append("From East to South , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From East to South , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 4 && t == 7){
 									//East to South-East
-									fWriter.append("From East to South-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From East to South-East , , , , , , , , , , , , , , , , , , ,");
 								}
 								
 								//FROM South-West TO ...
 								else if(f == 5 && t == 0){
 									//South-West to North-West
-									fWriter.append("From South-West to North-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-West to North-West , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 5 && t == 1){
 									//South-West to North
-									fWriter.append("From South-West to North , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-West to North , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 5 && t == 2){
 									//South-West to North-East
-									fWriter.append("From South-West to North-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-West to North-East , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 5 && t == 3){
 									//South-West to West
-									fWriter.append("From South-West to West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-West to West , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 5 && t == 4){
 									//South-West to East
-									fWriter.append("From South-West to East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-West to East , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 5 && t == 6){
 									//South-West to South
-									fWriter.append("From South-West to South , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-West to South , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 5 && t == 7){
 									//South-West to South-East
-									fWriter.append("From South-West to South-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-West to South-East , , , , , , , , , , , , , , , , , , ,");
 								}
 								
 								//FROM South TO ...
 								else if(f == 6 && t == 0){
 									//South to North-West
-									fWriter.append("From South to North-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South to North-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 6 && t == 1){
 									//South to North
-									fWriter.append("From South to North , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South to North , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 6 && t == 2){
 									//South to North-East
-									fWriter.append("From South to North-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South to North-East , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 6 && t == 3){
 									//South to West
-									fWriter.append("From South to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South to South-West , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 6 && t == 4){
 									//South to East
-									fWriter.append("From South to East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South to East , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 6 && t == 5){
 									//South to South-West
-									fWriter.append("From South to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South to South-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 6 && t == 7){
 									//South to South-East
-									fWriter.append("From South to South-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South to South-East , , , , , , , , , , , , , , , , , , ,");
 								}
 								
 								//FROM South-East TO ...
 								else if(f == 7 && t == 0){
 									//South-East to North-West
-									fWriter.append("From South-East to North-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-East to North-West , , , , , , , , , , , , , , , , , , ,");
 								}else if(f == 7 && t == 1){
 									//South-East to North
-									fWriter.append("From South-East to North , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-East to North , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 7 && t == 2){
 									//South-East to North-East
-									fWriter.append("From South-East to North-East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-East to North-East , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 7 && t == 3){
 									//South-East to West
-									fWriter.append("From South-East to West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-East to West , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 7 && t == 4){
 									//South-East to East
-									fWriter.append("From South-East to East , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-East to East , , , , , , , , , , , , , , , , , , ,");
 									
 								}else if(f == 7 && t == 5){
 									//South-East to South-West
-									fWriter.append("From South-East to South-West , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-East to South-West , , , , , , , , , , , , , , , , , , ,");
 								
 								}else if(f == 7 && t == 6){
 									//South-East to South
-									fWriter.append("From South-East to South , , , , , , , , , , , , , , , , , , ,");
+									fWriter.append("From South-East to South , , , , , , , , , , , , , , , , , , , ,");
 								}
 							}							
 						}
@@ -10894,7 +10937,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 							if(!endOfIntersectionCountsHeader){
 								fWriter.append("TIME, CARS, BUSES, TRUCKS, MOTORBIKES, PEDESTRIANS(No Aid), WALKING STICKS- CRUTCH(1), WALKING STICKS- CRUTCH(2)," +
 										"CANE(poor eyesight), GUIDE DOG, MOBILITY SCOOTER, WHEELCHAIR (assisted), WHEELCHAIR (manual), WHEELCHAIR (powered)," +
-										"PUSH CHAIR/BUGGY, SKATEBOARD, MANUAL SCOOTER, ,");
+										"PUSH CHAIR/BUGGY, SKATEBOARD, MANUAL SCOOTER, COMMENTS, ,");
 								//userMessage("Countables header successfully written");
 							}
 						}
@@ -10915,10 +10958,18 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 */
 		private void appendCountables(FileWriter writer, int cars, int buses, int trucks, int motorcycles, int pedestrian,
 										int wsCrutchOne, int wsCrutchTwo, int cane, int guideDog, int mobilityScooter, int wheelchairA,
-										int wheelchairM, int wheelchairP, int pcBuggy, int skateboard, int manualScooter) throws IOException{
-			writer.append(sessionStartTime + " TO " + currentTime + ",");
+										int wheelchairM, int wheelchairP, int pcBuggy, int skateboard, int manualScooter, String comments) throws IOException{
+			
+			if(comments == null){
+				comments = " ";
+			}
+			String endTime;
+			Calendar cal = Calendar.getInstance();
+			endTime = df.format(cal.getTime());
+			
+			writer.append(startTime + " TO " + endTime + ",");
 			writer.append(cars+","+buses+","+trucks+","+motorcycles+","+pedestrian+","+wsCrutchOne+","+wsCrutchTwo+","+cane+","+guideDog+","+mobilityScooter+","+ 
-					 wheelchairA+","+wheelchairM+","+wheelchairP+","+pcBuggy+","+skateboard+","+manualScooter+","+",");
+					 wheelchairA+","+wheelchairM+","+wheelchairP+","+pcBuggy+","+skateboard+","+manualScooter+","+comments+", ,");
 		}
 		
 		/* To flush and subsequently close the opened file writer. -Jean-Yves
@@ -10929,6 +10980,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		public void flushAndCloseWriter(FileWriter fWriter) throws IOException{
 			fWriter.flush();
 			fWriter.close();
+			startTime = df.format(Calendar.getInstance().getTime());
 		}
 		
 		/* Display a message to the user.

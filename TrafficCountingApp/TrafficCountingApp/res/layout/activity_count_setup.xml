@@ -17,7 +17,8 @@
         android:layout_toRightOf="@+id/cov_txt_objectName"
         android:ems="10"
         android:hint="@string/hint_date"
-        android:inputType="date" />
+        android:inputType="date"
+        android:editable="false" />
 
     <TextView
         android:id="@+id/cov_txt_objectName"
@@ -103,6 +104,7 @@
         android:layout_alignBottom="@+id/csn_txt_w"
         android:layout_toRightOf="@+id/csn_txt_w"
         android:ems="10"
+        android:editable="false"
         android:hint="@string/hint_intersection_type" />
 
     <EditText

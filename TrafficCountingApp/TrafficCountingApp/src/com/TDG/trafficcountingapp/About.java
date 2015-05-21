@@ -89,9 +89,7 @@ public class About extends ActionBarActivity {
 				"E-mail:		dodge_man006@hotmail.com\n\n" +
 				"" +
 				"Name:		Richard Fong\n" +
-				"Major(s):		Software Development\n" +
-				"Phone Number:		021 081 83254\n" +
-				"E-mail:		xelyfer@gmail.com\n\n" +
+				"Major(s):		Software Development\n\n" +
 				"" +
 				"Name:		Jean-Yves Kwibuka\n" +
 				"Major(s): 	Software Development & Computational Intelligence\n" +

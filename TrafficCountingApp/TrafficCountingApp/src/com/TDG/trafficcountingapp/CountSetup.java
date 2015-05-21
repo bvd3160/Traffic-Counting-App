@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class CountSetup extends ActionBarActivity implements Communicator{
 	
-	boolean SKIPCHECKS = false;
+	boolean SKIPCHECKS = true;
 	
 	TextView surveyorName;
 
@@ -52,8 +52,10 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	
 	TextView weatherComment_et;
 
-	private static String sName, theDate, streetNumAndName, suburbName, cityName, areaCode, areaDescript,
-						typeOfIntersection, weatherCommentSection, commentSection;
+	private static String sName, theDate, streetNumAndName, suburbName, cityName, areaCode, areaDescript
+	, weatherCommentSection, commentSection;
+	
+	private String typeOfIntersection;
 	
 	static SimpleDateFormat dateForm;
 	static SimpleDateFormat datFileDateForm;
@@ -67,10 +69,12 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_count_setup);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);	
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
 		surveyorName = (TextView) findViewById(R.id.surveyorName);
 		currentDate = (TextView) findViewById(R.id.dateSetup);
+		currentDate.setClickable(false);
 		numAndNameStreet = (TextView) findViewById(R.id.streetNumAndNAme);
 		suburb = (TextView) findViewById(R.id.suburb);
 		city = (TextView) findViewById(R.id.city);
@@ -177,34 +181,36 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 				String intersectionKind = intersectionType.getText().toString().trim();
 				String weatherComment = weatherComment_et.getText().toString().trim();
 				String commentArea = comments.getText().toString().trim();
+				
 				boolean completed = true;
 				
 				//====CHECKS and SETTING values to variable for later referencing later====
 				
 				//SURVEYOR NAME
-				if(!name.isEmpty()){
+				/*if(!name.isEmpty()){
 					CountSetup.setsName(name);
 					System.out.println("1-Surveyor Name: "+getsName());
 				}else{
 					Toast.makeText(CountSetup.this, "Please State your name", Toast.LENGTH_LONG).show();
 					completed = false;
-				}
+				}*/
 				//THE DATE
 				if(!date.isEmpty()){
 					CountSetup.setTheDate(date);
-					System.out.println("2-Date: "+getTheDate());
+					//System.out.println("2-Date: "+getTheDate());
 				}else{
-					Toast.makeText(CountSetup.this, "Please click the 'Set Date' button", Toast.LENGTH_LONG).show();
+					Toast.makeText(CountSetup.this, "Please set today's date", Toast.LENGTH_LONG).show();
 					completed = false;
 				}
 				//LOCATION
-				if(!streeNumAndName.isEmpty()){
+				if(!streeNumAndName.isEmpty() || !suburbName.isEmpty() || !cityName.isEmpty() || !areaCode.isEmpty() || !areaDescript.isEmpty()){
 					CountSetup.setStreetNumAndName(streeNumAndName);
-					System.out.println("3.1-Street: "+getStreetNumAndName());
+					//System.out.println("3.1-Street: "+getStreetNumAndName());
 				}else{
-					Toast.makeText(CountSetup.this, "Please provide street number and/or name", Toast.LENGTH_LONG).show();
+					Toast.makeText(CountSetup.this, "Please tell me where you are", Toast.LENGTH_LONG).show();
 					completed = false;
 				}
+				/*
 				if(!suburbName.isEmpty()){
 					CountSetup.setSuburbName(suburbName);
 					System.out.println("3.2-Suburb: "+getSuburbName());
@@ -240,7 +246,6 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					Toast.makeText(CountSetup.this, "Please provide a description of current weather conditions", Toast.LENGTH_LONG).show();
 					completed = false;
 				}
-				
 				if(!commentArea.isEmpty()){
 					CountSetup.setCommentSection(commentArea);
 					System.out.println("3.6-Area Description: "+getCommentSection());
@@ -248,6 +253,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					Toast.makeText(CountSetup.this, "Would you care to comment on what you see?", Toast.LENGTH_LONG).show();
 					completed = false;
 				}
+				*/
 				
 				if(completed){
 					submitCountScreen(v);
@@ -313,12 +319,12 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		CountSetup.areaDescript = areaDescript;
 	}
 
-	public static String getTypeOfIntersection() {
+	public String getTypeOfIntersection() {
 		return typeOfIntersection;
 	}
 
-	public static void setTypeOfIntersection(String typeOfIntersection) {
-		CountSetup.typeOfIntersection = typeOfIntersection;
+	public void setTypeOfIntersection(String typeOfIntersection) {
+		this.typeOfIntersection = typeOfIntersection;
 	}
 
 	public static String getWeatherCommentSection() {
@@ -419,7 +425,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	@Override
 	public void sendClickMessage(String key, String stringValue, boolean[] booleanValue, String[] stringArrayValue) {
 		if(key.equals("IntersectionType")){
-			CountSetup.setTypeOfIntersection(stringValue);
+			this.setTypeOfIntersection(stringValue);
 			intersectionType.setText(stringValue);
 			FragmentManager manager = getFragmentManager();
 			CustomDialogs dialog = new CustomDialogs();
