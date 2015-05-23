@@ -205,6 +205,12 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 				//LOCATION
 				if(!streeNumAndName.isEmpty() || !suburbName.isEmpty() || !cityName.isEmpty() || !areaCode.isEmpty() || !areaDescript.isEmpty()){
 					CountSetup.setStreetNumAndName(streeNumAndName);
+					CountSetup.setSuburbName(suburbName);
+					CountSetup.setCityName(cityName);
+					CountSetup.setAreaCode(areaCode);
+					CountSetup.setAreaDescript(areaDescript);
+					CountSetup.setWeatherCommentSection(weatherComment);
+					CountSetup.setCommentSection(commentArea);
 					//System.out.println("3.1-Street: "+getStreetNumAndName());
 				}else{
 					Toast.makeText(CountSetup.this, "Please tell me where you are", Toast.LENGTH_LONG).show();
