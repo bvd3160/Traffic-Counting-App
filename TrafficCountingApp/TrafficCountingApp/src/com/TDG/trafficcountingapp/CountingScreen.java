@@ -10145,6 +10145,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			 * 8:00 to 8:15		25		2		13			7				2		6
 			 */
 			
+			generalComments = CountSetup.getCommentSection();
+			
 			appendLocationHeader(fileWriter);
 			appendFromAndToPostionsHeader(fileWriter);
 			appendIntersectionCountsHeader(fileWriter);
@@ -10959,8 +10961,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		private void appendCountables(FileWriter writer, int cars, int buses, int trucks, int motorcycles, int pedestrian,
 										int wsCrutchOne, int wsCrutchTwo, int cane, int guideDog, int mobilityScooter, int wheelchairA,
 										int wheelchairM, int wheelchairP, int pcBuggy, int skateboard, int manualScooter, String comments) throws IOException{
-			
-			if(comments == null){
+			if(generalComments == null){
 				comments = " ";
 			}
 			String endTime;
