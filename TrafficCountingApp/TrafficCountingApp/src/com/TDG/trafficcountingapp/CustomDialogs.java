@@ -3,19 +3,15 @@ package com.TDG.trafficcountingapp;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.graphics.drawable.Drawable;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /*
  * @author Richard Fong 1248615
@@ -80,6 +76,8 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	
 	Communicator communicator;
 	
+	Compass compass;
+	
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -92,6 +90,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			Bundle savedInstanceState) {
 		//This creates the view and decides which fragment to show depending on the tags which were given to them in CountingScreen.java.
 		View view = null;
+		compass = new Compass();
 		
 		switch (getTag()) {
 		case "vehicleDialog":
@@ -267,6 +266,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		getDialog().setTitle("Intersection Setup");
 		setCancelable(false);
 		csis_intersection_setup = true;
+		
 		csis_btn_submit = (Button)view.findViewById(R.id.csis_btn_submit);
 		csis_btn_submit.setOnClickListener(this);
 		
@@ -330,6 +330,8 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		
 		intersectionNames = new String[8];
 		view.findViewById(R.id.csn_txt_middle).setVisibility(4);
+		
+		
 		
 		csn_txtfield_nw = (TextView)view.findViewById(R.id.csn_txtfield_nw);
 		csn_txt_nw = (TextView)view.findViewById(R.id.csn_txt_nw);

@@ -1,18 +1,26 @@
 package com.TDG.trafficcountingapp;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-public class Compass extends Activity implements SensorEventListener{
-	
-	  // define the display assembly compass picture
+@SuppressLint("NewApi")
+public class Compass extends Fragment implements SensorEventListener {
+	 
+    // define the display assembly compass picture
     private ImageView image;
  
     // record the compass picture angle turned
@@ -20,27 +28,21 @@ public class Compass extends Activity implements SensorEventListener{
  
     // device sensor manager
     private SensorManager mSensorManager;
- 
-    //TextView tvHeading;
- 
+    
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_count_setup_intersection_setup);//<<<<<<<<<<<<<<<<<
-       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-        // our compass image 
-        image = (ImageView) findViewById(R.id.csis_compass);
- 
-        // TextView that will tell the user what degree is he heading
-        //tvHeading = (TextView) findViewById(R.id.tvHeading);
- 
-        // initialize your android device sensor capabilities
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    		Bundle savedInstanceState) {
+    	View view = inflater.inflate(R.layout.fragment_compass, container, false);
+    	// our compass image 
+    	image = (ImageView)view.findViewById(R.id.compass);
+    	
+    	// initialize your android device sensor capabilities
+        mSensorManager = (SensorManager)getActivity().getSystemService(Context.SENSOR_SERVICE);
+    	return view;
     }
  
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
          
         // for the system's orientation sensor registered listeners
@@ -49,7 +51,7 @@ public class Compass extends Activity implements SensorEventListener{
     }
  
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
          
         // to stop the listener and save battery
@@ -60,9 +62,9 @@ public class Compass extends Activity implements SensorEventListener{
     public void onSensorChanged(SensorEvent event) {
  
         // get the angle around the z-axis rotated
-        float degree = Math.round(event.values[0]);
+        float degree = Math.round(event.values[0])+90;
  
-        //tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
+        //tvHeading.setText("Heading: " + Float.toString(degree%360) + " degrees");
  
         // create a rotation animation (reverse turn degree degrees)
         RotateAnimation ra = new RotateAnimation(
@@ -88,5 +90,4 @@ public class Compass extends Activity implements SensorEventListener{
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // not in use
     }
-
 }
