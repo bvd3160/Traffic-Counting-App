@@ -1,6 +1,5 @@
 package com.TDG.trafficcountingapp;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -382,6 +381,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	TextView commentViewable;
 	
 	String comments;
+	
 	String currentlySelectedObject;
 	int currentlySelectedCount;
 	String intersectionType;
@@ -10026,9 +10026,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		//-------------Jean-Yves' Initializations-----------------------
 		private String startTime;
 		private SimpleDateFormat df; 
-		
-		private String generalComments;
 		private int dataRowsWritten = 1;
+		private String generalComments = comments;
 
 		private Calendar cal = Calendar.getInstance();
 		
@@ -10038,7 +10037,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			super(millisInFuture, countDownInterval);
 			countTimerSaved = false;
 			countTimerStarted = false;
-			generalComments = CountSetup.getCommentSection();
 			df = new SimpleDateFormat("h:mm a");
 			startTime = df.format(Calendar.getInstance().getTime());
 			updateTimeRemaining(millisInFuture);
@@ -10103,7 +10101,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		 */
 		private void saveData(){
 			String fileDate = CountSetup.updateDate();
-						
+	
 			File folder = Environment.getExternalStoragePublicDirectory("TDG_DATA");
 			String file = fileDate+"_Traffic_Count_Data.csv";
 			File csvfile = new File(folder, file);
@@ -10145,7 +10143,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			 * 8:00 to 8:15		25		2		13			7				2		6
 			 */
 			
-			generalComments = CountSetup.getCommentSection();
+			generalComments = CountingScreen.this.comments;
 			
 			appendLocationHeader(fileWriter);
 			appendFromAndToPostionsHeader(fileWriter);
@@ -10991,6 +10989,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		public void userMessage(String message){
 			Toast.makeText(getApplicationContext(), message , Toast.LENGTH_SHORT).show();
 		}
+		
+		
 
 		@Override
 		public String toString() {
