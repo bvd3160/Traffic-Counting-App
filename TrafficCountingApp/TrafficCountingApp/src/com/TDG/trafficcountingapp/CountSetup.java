@@ -216,6 +216,13 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					Toast.makeText(CountSetup.this, "Please tell me where you are", Toast.LENGTH_LONG).show();
 					completed = false;
 				}
+				
+				if(!intersectionKind.isEmpty()){
+					setTypeOfIntersection(intersectionKind);
+				}else{
+					Toast.makeText(CountSetup.this, "Please provide the Intersection type", Toast.LENGTH_LONG).show();
+					completed = false;
+				}
 				/*
 				if(!suburbName.isEmpty()){
 					CountSetup.setSuburbName(suburbName);

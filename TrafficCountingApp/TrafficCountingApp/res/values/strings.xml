@@ -34,7 +34,7 @@
     <string name="hint_date">12/12/2012</string>
     <string name="hint_full_name">John Smith</string>
     <string name="intersection_type">Intersection Type</string>
-    <string name="hint_intersection_type">4 Way Intersection</string>
+    <string name="hint_intersection_type">Select an Intersection</string>
     <string name="btnLbl_selectIntersection_type">Select</string>
     <string name="intersection_picture">Intersection Picture</string>
     <string name="btnLbl_add_picture">Add</string>

@@ -2158,6 +2158,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	public void onClick(View v) {
 		if(btn_undo.isPressed()){
 			if(totalCount >= 1 && !lastSelectedObject.isEmpty()){
+				initialiseDirectionFromTo();
 				decreaseUndoButton();
 				updateTotalCounter();
 				updateAllCounts(false);
@@ -2248,7 +2249,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			decreaseCar();
 		}else if(lastSelectedObject.peek().contains("Truck")){
 			decreaseTruck();
-		}else if(lastSelectedObject.peek().contains("Motorbike")){
+		}else if(lastSelectedObject.peek().contains("MotorBike")){
 			decreaseMotorBike();
 		}else if(lastSelectedObject.peek().contains("Pedestrian")){
 			decreasePedestrian();
@@ -2268,7 +2269,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			decreaseWheelChairManual();
 		}else if(lastSelectedObject.peek().contains("WheelChairPowered")){
 			decreaseWheelChairPowered();
-		}else if(lastSelectedObject.peek().contains("Pushchair")){
+		}else if(lastSelectedObject.peek().contains("PushChair")){
 			decreasePushChair();
 		}else if(lastSelectedObject.peek().contains("Skateboard")){
 			decreaseSkateboard();
@@ -6240,7 +6241,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			checkCar(directionFromPosition, directionToPosition);
 			break;
 		case "Motor Bike":
-			checkMotorbike(directionFromPosition, directionToPosition);
+			checkMotorBike(directionFromPosition, directionToPosition);
 			break;
 		case "Pedestrian (No Aid)":
 			checkPedestrian(directionFromPosition, directionToPosition);
@@ -6986,7 +6987,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
-	private void checkMotorbike(int directionFromPosition, int directionToPosition){
+	private void checkMotorBike(int directionFromPosition, int directionToPosition){
 		if(directionFromPosition == 0 && directionToPosition == 1){
 			northWestToNorthMotorBike++;
 			northTotal++;
@@ -7322,7 +7323,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
 			westToSouthPedestrian++;
 			southTotal++;
-			lastSelectedObject.push("westToNorthPedestrian");
+			lastSelectedObject.push("westToSouthPedestrian");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
 			westToSouthEastPedestrian++;
 			southEastTotal++;
