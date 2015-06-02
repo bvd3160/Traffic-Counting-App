@@ -17,10 +17,16 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
+/*
+ * Compass class was taken from
+ * Edited by Richard Fong
+ * @Since 27.05.2015
+ */
+
 @SuppressLint("NewApi")
 public class Compass extends Fragment implements SensorEventListener {
-	 
-    // define the display assembly compass picture
+	
+	// define the display assembly compass picture
     private ImageView image;
  
     // record the compass picture angle turned

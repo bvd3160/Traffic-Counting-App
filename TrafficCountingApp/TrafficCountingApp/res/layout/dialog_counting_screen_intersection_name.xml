@@ -13,12 +13,18 @@
         android:text="@string/csn_txt_instructions"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ImageView
-        android:id="@+id/csn_img_compass"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/compass" />
+        android:gravity="center_horizontal" >
+        
+        <fragment
+        	android:id="@+id/fragment1"
+        	android:name="com.TDG.trafficcountingapp.Compass"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"/>
+        
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

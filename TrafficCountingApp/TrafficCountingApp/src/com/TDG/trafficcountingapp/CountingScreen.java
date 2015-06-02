@@ -411,7 +411,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_counting_screen);
-		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		comments = getIntent().getStringExtra("Comments");
 		

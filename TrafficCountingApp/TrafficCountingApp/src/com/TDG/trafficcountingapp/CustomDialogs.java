@@ -1,5 +1,7 @@
 package com.TDG.trafficcountingapp;
 
+import java.io.Flushable;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -75,9 +78,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	DatePicker datePicker;
 	
 	Communicator communicator;
-	
-	Compass compass;
-	
+		
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -90,7 +91,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 			Bundle savedInstanceState) {
 		//This creates the view and decides which fragment to show depending on the tags which were given to them in CountingScreen.java.
 		View view = null;
-		compass = new Compass();
+		//getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
 		switch (getTag()) {
 		case "vehicleDialog":
