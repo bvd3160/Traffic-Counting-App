@@ -76,6 +76,13 @@
                 android:onClick="showIntersectionNamePicker"
                 android:text="@string/cs_btn_intersection_name" />
 
+            <Button
+                android:id="@+id/cs_btn_changeDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="showChangeDefaultTo"
+                android:text="@string/cs_btn_changeDefault" />
+
         </LinearLayout>
 
         <LinearLayout

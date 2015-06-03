@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
  * @author Richard Fong 1248615
@@ -77,6 +78,13 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	DatePicker datePicker;
 	
 	Communicator communicator;
+	
+	boolean cd_changeDefaultTo;
+	Button cd_btn_submit;
+	Button changeBus, changeTruck, changeCar, changeMotorBike, changePedestrian,
+			changeCrutches1, changeCrutches2, changeCane, changeDog, changeMobilityScooter,
+			changeWheelchairAssisted, changeWheelchairManual, changeWheelchairPowered,
+			changePushchair, changeSkateboard, changeManualScooter;
 		
 	@Override
 	public void onAttach(Activity activity) {
@@ -114,6 +122,9 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		case "intersectionNamePicker":
 			view = populateIntersectionNamePicker(inflater);
 			break;
+		case "changeDefault":
+			view = populateChangeDefaultTo(inflater);
+			break;
 		default:
 			break;
 		}
@@ -140,6 +151,8 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 				onClickComments(view);
 			} else if(csn_intersection_name_picker){
 				onClickIntersectionNamePicker(view);
+			} else if(cd_changeDefaultTo){
+				onClickChangeDefaultTo(view);
 			}
 		}else{
 			if(csis_intersection_setup){
@@ -407,6 +420,48 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		return view;
 	}
 	
+	private View populateChangeDefaultTo(LayoutInflater inflater){
+		View view = inflater.inflate(R.layout.dialog_change_default, null);
+		getDialog().setTitle("Change Default To");
+		btn_close = (Button)view.findViewById(R.id.cd_btn_close);
+		cd_changeDefaultTo = true;
+		
+		changeBus = (Button)view.findViewById(R.id.cd_btn_bus);
+		changeBus.setOnClickListener(this);
+		changeCar = (Button)view.findViewById(R.id.cd_btn_car);
+		changeCar.setOnClickListener(this);
+		changeTruck = (Button)view.findViewById(R.id.cd_btn_truck);
+		changeTruck.setOnClickListener(this);
+		changeMotorBike = (Button)view.findViewById(R.id.cd_btn_motorbike);
+		changeMotorBike.setOnClickListener(this);
+		changePedestrian = (Button)view.findViewById(R.id.cd_pedestrian);
+		changePedestrian.setOnClickListener(this);
+		changeCrutches1 = (Button)view.findViewById(R.id.cd_crutches1);
+		changeCrutches1.setOnClickListener(this);
+		changeCrutches2 = (Button)view.findViewById(R.id.cd_crutches2);
+		changeCrutches2.setOnClickListener(this);
+		changeCane = (Button)view.findViewById(R.id.cd_cane);
+		changeCane.setOnClickListener(this);
+		changeDog = (Button)view.findViewById(R.id.cd_dog);
+		changeDog.setOnClickListener(this);
+		changeMobilityScooter = (Button)view.findViewById(R.id.cd_mobilityscooter);
+		changeMobilityScooter.setOnClickListener(this);
+		changePushchair = (Button)view.findViewById(R.id.cd_pushchair);
+		changePushchair.setOnClickListener(this);
+		changeWheelchairAssisted = (Button)view.findViewById(R.id.cd_wheelchair_assisted);
+		changeWheelchairAssisted.setOnClickListener(this);
+		changeWheelchairManual = (Button)view.findViewById(R.id.cd_wheelchair_manual);
+		changeWheelchairManual.setOnClickListener(this);
+		changeWheelchairPowered = (Button)view.findViewById(R.id.cd_wheelchair_powered);
+		changeWheelchairPowered.setOnClickListener(this);
+		changeSkateboard = (Button)view.findViewById(R.id.cd_skateboard);
+		changeSkateboard.setOnClickListener(this);
+		changeManualScooter = (Button)view.findViewById(R.id.cd_manualscooter);
+		changeManualScooter.setOnClickListener(this);
+		
+		return view;
+	}
+	
 	////////////////////////////////////////////////////////////
 	// End of Populate methods
 	////////////////////////////////////////////////////////////
@@ -603,6 +658,44 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		}
 		
 		return buttonClicked;
+	}
+	
+	private void onClickChangeDefaultTo(View view){
+		String value = null;
+		if(changeBus.isPressed()){
+			value = "Bus";
+		}else if(changeCar.isPressed()){
+			value = "Car";
+		}else if(changeTruck.isPressed()){
+			value = "Truck";
+		}else if(changeMotorBike.isPressed()){
+			value = "Motor Bike";
+		}else if(changePedestrian.isPressed()){
+			value = "Pedestrian (No Aid)";
+		}else if(changeCrutches1.isPressed()){
+			value = "Walking Stick / Crutch (1)";
+		}else if(changeCrutches2.isPressed()){
+			value = "Walking Sticks / Crutches (2)";
+		}else if(changeCane.isPressed()){
+			value = "Cane (Poor Eyesight)";
+		}else if(changeDog.isPressed()){
+			value = "Guide Dog";
+		}else if(changeMobilityScooter.isPressed()){
+			value = "Mobility Scooter";
+		}else if(changeWheelchairAssisted.isPressed()){
+			value = "Wheelchair (Assisted)";
+		}else if(changeWheelchairManual.isPressed()){
+			value = "Wheelchair (Manual)";
+		}else if(changeWheelchairPowered.isPressed()){
+			value = "Wheelchair (Powered)";
+		}else if(changePushchair.isPressed()){
+			value = "Push Chair / Buggy";
+		}else if(changeSkateboard.isPressed()){
+			value = "Skateboard";
+		}else if(changeManualScooter.isPressed()){
+			value = "Manual Scooter";
+		}
+		useCommunicator("changeDefault", value, null, null);
 	}
 	
 	////////////////////////////////////////////////////////////

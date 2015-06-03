@@ -74,6 +74,7 @@
     <string name="cs_btn_direction_s">South</string>
     <string name="cs_btn_direction_se">South-East</string>
     <string name="cs_btn_intersection_name">Add/Change Intersection Name</string>
+    <string name="cs_btn_changeDefault">Change Default To</string>
     
     <!-- Counting Screen Dialog -->
     <string name="title_activity_counting_screen__dialog">CountingScreen_Dialog</string>

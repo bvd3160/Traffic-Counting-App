@@ -25,6 +25,7 @@ import com.TDG.trafficcountingapp.R.drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputFilter.LengthFilter;
 import android.text.format.DateFormat;
+import android.transition.ChangeBounds;
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -71,6 +72,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			wheelChair_assisted, wheelChair_manual, wheelChair_powered,
 			pushChair, skateboard, manualScooter;
 
+	String defaultObject;
 	static boolean[] directionFrom;
 	static boolean[] directionTo;
 	static int northWestTotal, northTotal, northEastTotal, westTotal, eastTotal, southWestTotal,
@@ -79,296 +81,296 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	static int northWestToNorthBus, northWestToNorthTruck, northWestToNorthCar,
 				northWestToNorthMotorBike, northWestToNorthPedestrian, northWestToNorthCrutches1,
 				northWestToNorthCrutches2, northWestToNorthCane, northWestToNorthDog, northWestToNorthMobilityScooter, 
-				northWestToNorthWheelChairAssisted, northWestToNorthWheelChairManual, northWestToNorthWheelChairPowered,
+				northWestToNorthWheelchairAssisted, northWestToNorthWheelchairManual, northWestToNorthWheelchairPowered,
 				northWestToNorthPushChair, northWestToNorthSkateboard, northWestToNorthManualScooter;
 	static int northWestToNorthEastBus, northWestToNorthEastTruck, northWestToNorthEastCar,
 				northWestToNorthEastMotorBike, northWestToNorthEastPedestrian, northWestToNorthEastCrutches1,
 				northWestToNorthEastCrutches2, northWestToNorthEastCane, northWestToNorthEastDog, northWestToNorthEastMobilityScooter, 
-				northWestToNorthEastWheelChairAssisted, northWestToNorthEastWheelChairManual, northWestToNorthEastWheelChairPowered,
+				northWestToNorthEastWheelchairAssisted, northWestToNorthEastWheelchairManual, northWestToNorthEastWheelchairPowered,
 				northWestToNorthEastPushChair, northWestToNorthEastSkateboard, northWestToNorthEastManualScooter;
 	static int northWestToWestBus, northWestToWestTruck, northWestToWestCar,
 				northWestToWestMotorBike, northWestToWestPedestrian, northWestToWestCrutches1,
 				northWestToWestCrutches2, northWestToWestCane, northWestToWestDog, northWestToWestMobilityScooter, 
-				northWestToWestWheelChairAssisted, northWestToWestWheelChairManual, northWestToWestWheelChairPowered,
+				northWestToWestWheelchairAssisted, northWestToWestWheelchairManual, northWestToWestWheelchairPowered,
 				northWestToWestPushChair, northWestToWestSkateboard, northWestToWestManualScooter;
 	static int northWestToEastBus, northWestToEastTruck, northWestToEastCar,
 				northWestToEastMotorBike, northWestToEastPedestrian, northWestToEastCrutches1,
 				northWestToEastCrutches2, northWestToEastCane, northWestToEastDog, northWestToEastMobilityScooter, 
-				northWestToEastWheelChairAssisted, northWestToEastWheelChairManual, northWestToEastWheelChairPowered,
+				northWestToEastWheelchairAssisted, northWestToEastWheelchairManual, northWestToEastWheelchairPowered,
 				northWestToEastPushChair, northWestToEastSkateboard, northWestToEastManualScooter;
 	static int northWestToSouthWestBus, northWestToSouthWestTruck, northWestToSouthWestCar,
 				northWestToSouthWestMotorBike, northWestToSouthWestPedestrian, northWestToSouthWestCrutches1,
 				northWestToSouthWestCrutches2, northWestToSouthWestCane, northWestToSouthWestDog, northWestToSouthWestMobilityScooter, 
-				northWestToSouthWestWheelChairAssisted, northWestToSouthWestWheelChairManual, northWestToSouthWestWheelChairPowered,
+				northWestToSouthWestWheelchairAssisted, northWestToSouthWestWheelchairManual, northWestToSouthWestWheelchairPowered,
 				northWestToSouthWestPushChair, northWestToSouthWestSkateboard, northWestToSouthWestManualScooter;
 	static int northWestToSouthBus, northWestToSouthTruck, northWestToSouthCar,
 				northWestToSouthMotorBike, northWestToSouthPedestrian, northWestToSouthCrutches1,
 				northWestToSouthCrutches2, northWestToSouthCane, northWestToSouthDog, northWestToSouthMobilityScooter, 
-				northWestToSouthWheelChairAssisted, northWestToSouthWheelChairManual, northWestToSouthWheelChairPowered,
+				northWestToSouthWheelchairAssisted, northWestToSouthWheelchairManual, northWestToSouthWheelchairPowered,
 				northWestToSouthPushChair, northWestToSouthSkateboard, northWestToSouthManualScooter;
 	static int northWestToSouthEastBus, northWestToSouthEastTruck, northWestToSouthEastCar,
 				northWestToSouthEastMotorBike, northWestToSouthEastPedestrian, northWestToSouthEastCrutches1,
 				northWestToSouthEastCrutches2, northWestToSouthEastCane, northWestToSouthEastDog, northWestToSouthEastMobilityScooter, 
-				northWestToSouthEastWheelChairAssisted, northWestToSouthEastWheelChairManual, northWestToSouthEastWheelChairPowered,
+				northWestToSouthEastWheelchairAssisted, northWestToSouthEastWheelchairManual, northWestToSouthEastWheelchairPowered,
 				northWestToSouthEastPushChair, northWestToSouthEastSkateboard, northWestToSouthEastManualScooter;
 	
 	//North
 	static int northToNorthWestBus, northToNorthWestTruck, northToNorthWestCar,
 				northToNorthWestMotorBike, northToNorthWestPedestrian, northToNorthWestCrutches1,
 				northToNorthWestCrutches2, northToNorthWestCane, northToNorthWestDog, northToNorthWestMobilityScooter, 
-				northToNorthWestWheelChairAssisted, northToNorthWestWheelChairManual, northToNorthWestWheelChairPowered,
+				northToNorthWestWheelchairAssisted, northToNorthWestWheelchairManual, northToNorthWestWheelchairPowered,
 				northToNorthWestPushChair, northToNorthWestSkateboard, northToNorthWestManualScooter;
 	static int northToNorthEastBus, northToNorthEastTruck, northToNorthEastCar,
 				northToNorthEastMotorBike, northToNorthEastPedestrian, northToNorthEastCrutches1,
 				northToNorthEastCrutches2, northToNorthEastCane, northToNorthEastDog, northToNorthEastMobilityScooter, 
-				northToNorthEastWheelChairAssisted, northToNorthEastWheelChairManual, northToNorthEastWheelChairPowered,
+				northToNorthEastWheelchairAssisted, northToNorthEastWheelchairManual, northToNorthEastWheelchairPowered,
 				northToNorthEastPushChair, northToNorthEastSkateboard, northToNorthEastManualScooter;
 	static int northToWestBus, northToWestTruck, northToWestCar,
 				northToWestMotorBike, northToWestPedestrian, northToWestCrutches1,
 				northToWestCrutches2, northToWestCane, northToWestDog, northToWestMobilityScooter, 
-				northToWestWheelChairAssisted, northToWestWheelChairManual, northToWestWheelChairPowered,
+				northToWestWheelchairAssisted, northToWestWheelchairManual, northToWestWheelchairPowered,
 				northToWestPushChair, northToWestSkateboard, northToWestManualScooter;
 	static int northToEastBus, northToEastTruck, northToEastCar,
 				northToEastMotorBike, northToEastPedestrian, northToEastCrutches1,
 				northToEastCrutches2, northToEastCane, northToEastDog, northToEastMobilityScooter, 
-				northToEastWheelChairAssisted, northToEastWheelChairManual, northToEastWheelChairPowered,
+				northToEastWheelchairAssisted, northToEastWheelchairManual, northToEastWheelchairPowered,
 				northToEastPushChair, northToEastSkateboard, northToEastManualScooter;
 	static int northToSouthWestBus, northToSouthWestTruck, northToSouthWestCar,
 				northToSouthWestMotorBike, northToSouthWestPedestrian, northToSouthWestCrutches1,
 				northToSouthWestCrutches2, northToSouthWestCane, northToSouthWestDog, northToSouthWestMobilityScooter, 
-				northToSouthWestWheelChairAssisted, northToSouthWestWheelChairManual, northToSouthWestWheelChairPowered,
+				northToSouthWestWheelchairAssisted, northToSouthWestWheelchairManual, northToSouthWestWheelchairPowered,
 				northToSouthWestPushChair, northToSouthWestSkateboard, northToSouthWestManualScooter;
 	static int northToSouthBus, northToSouthTruck, northToSouthCar,
 				northToSouthMotorBike, northToSouthPedestrian, northToSouthCrutches1,
 				northToSouthCrutches2, northToSouthCane, northToSouthDog, northToSouthMobilityScooter, 
-				northToSouthWheelChairAssisted, northToSouthWheelChairManual, northToSouthWheelChairPowered,
+				northToSouthWheelchairAssisted, northToSouthWheelchairManual, northToSouthWheelchairPowered,
 				northToSouthPushChair, northToSouthSkateboard, northToSouthManualScooter;
 	static int northToSouthEastBus, northToSouthEastTruck, northToSouthEastCar,
 				northToSouthEastMotorBike, northToSouthEastPedestrian, northToSouthEastCrutches1,
 				northToSouthEastCrutches2, northToSouthEastCane, northToSouthEastDog, northToSouthEastMobilityScooter, 
-				northToSouthEastWheelChairAssisted, northToSouthEastWheelChairManual, northToSouthEastWheelChairPowered,
+				northToSouthEastWheelchairAssisted, northToSouthEastWheelchairManual, northToSouthEastWheelchairPowered,
 				northToSouthEastPushChair, northToSouthEastSkateboard, northToSouthEastManualScooter;
 	
 	//North East
 	static int northEastToNorthWestBus, northEastToNorthWestTruck, northEastToNorthWestCar,
 				northEastToNorthWestMotorBike, northEastToNorthWestPedestrian, northEastToNorthWestCrutches1,
 				northEastToNorthWestCrutches2, northEastToNorthWestCane, northEastToNorthWestDog, northEastToNorthWestMobilityScooter, 
-				northEastToNorthWestWheelChairAssisted, northEastToNorthWestWheelChairManual, northEastToNorthWestWheelChairPowered,
+				northEastToNorthWestWheelchairAssisted, northEastToNorthWestWheelchairManual, northEastToNorthWestWheelchairPowered,
 				northEastToNorthWestPushChair, northEastToNorthWestSkateboard, northEastToNorthWestManualScooter;
 	static int northEastToNorthBus, northEastToNorthTruck, northEastToNorthCar,
 				northEastToNorthMotorBike, northEastToNorthPedestrian, northEastToNorthCrutches1,
 				northEastToNorthCrutches2, northEastToNorthCane, northEastToNorthDog, northEastToNorthMobilityScooter, 
-				northEastToNorthWheelChairAssisted, northEastToNorthWheelChairManual, northEastToNorthWheelChairPowered,
+				northEastToNorthWheelchairAssisted, northEastToNorthWheelchairManual, northEastToNorthWheelchairPowered,
 				northEastToNorthPushChair, northEastToNorthSkateboard, northEastToNorthManualScooter;
 	static int northEastToWestBus, northEastToWestTruck, northEastToWestCar,
 				northEastToWestMotorBike, northEastToWestPedestrian, northEastToWestCrutches1,
 				northEastToWestCrutches2, northEastToWestCane, northEastToWestDog, northEastToWestMobilityScooter, 
-				northEastToWestWheelChairAssisted, northEastToWestWheelChairManual, northEastToWestWheelChairPowered,
+				northEastToWestWheelchairAssisted, northEastToWestWheelchairManual, northEastToWestWheelchairPowered,
 				northEastToWestPushChair, northEastToWestSkateboard, northEastToWestManualScooter;
 	static int northEastToEastBus, northEastToEastTruck, northEastToEastCar,
 				northEastToEastMotorBike, northEastToEastPedestrian, northEastToEastCrutches1,
 				northEastToEastCrutches2, northEastToEastCane, northEastToEastDog, northEastToEastMobilityScooter, 
-				northEastToEastWheelChairAssisted, northEastToEastWheelChairManual, northEastToEastWheelChairPowered,
+				northEastToEastWheelchairAssisted, northEastToEastWheelchairManual, northEastToEastWheelchairPowered,
 				northEastToEastPushChair, northEastToEastSkateboard, northEastToEastManualScooter;
 	static int northEastToSouthWestBus, northEastToSouthWestTruck, northEastToSouthWestCar,
 				northEastToSouthWestMotorBike, northEastToSouthWestPedestrian, northEastToSouthWestCrutches1,
 				northEastToSouthWestCrutches2, northEastToSouthWestCane, northEastToSouthWestDog, northEastToSouthWestMobilityScooter, 
-				northEastToSouthWestWheelChairAssisted, northEastToSouthWestWheelChairManual, northEastToSouthWestWheelChairPowered,
+				northEastToSouthWestWheelchairAssisted, northEastToSouthWestWheelchairManual, northEastToSouthWestWheelchairPowered,
 				northEastToSouthWestPushChair, northEastToSouthWestSkateboard, northEastToSouthWestManualScooter;
 	static int northEastToSouthBus, northEastToSouthTruck, northEastToSouthCar,
 				northEastToSouthMotorBike, northEastToSouthPedestrian, northEastToSouthCrutches1,
 				northEastToSouthCrutches2, northEastToSouthCane, northEastToSouthDog, northEastToSouthMobilityScooter, 
-				northEastToSouthWheelChairAssisted, northEastToSouthWheelChairManual, northEastToSouthWheelChairPowered,
+				northEastToSouthWheelchairAssisted, northEastToSouthWheelchairManual, northEastToSouthWheelchairPowered,
 				northEastToSouthPushChair, northEastToSouthSkateboard, northEastToSouthManualScooter;
 	static int northEastToSouthEastBus, northEastToSouthEastTruck, northEastToSouthEastCar,
 				northEastToSouthEastMotorBike, northEastToSouthEastPedestrian, northEastToSouthEastCrutches1,
 				northEastToSouthEastCrutches2, northEastToSouthEastCane, northEastToSouthEastDog, northEastToSouthEastMobilityScooter, 
-				northEastToSouthEastWheelChairAssisted, northEastToSouthEastWheelChairManual, northEastToSouthEastWheelChairPowered,
+				northEastToSouthEastWheelchairAssisted, northEastToSouthEastWheelchairManual, northEastToSouthEastWheelchairPowered,
 				northEastToSouthEastPushChair, northEastToSouthEastSkateboard, northEastToSouthEastManualScooter;
 
 	//West
 	static int westToNorthWestBus, westToNorthWestTruck, westToNorthWestCar,
 				westToNorthWestMotorBike, westToNorthWestPedestrian, westToNorthWestCrutches1,
 				westToNorthWestCrutches2, westToNorthWestCane, westToNorthWestDog, westToNorthWestMobilityScooter, 
-				westToNorthWestWheelChairAssisted, westToNorthWestWheelChairManual, westToNorthWestWheelChairPowered,
+				westToNorthWestWheelchairAssisted, westToNorthWestWheelchairManual, westToNorthWestWheelchairPowered,
 				westToNorthWestPushChair, westToNorthWestSkateboard, westToNorthWestManualScooter;
 	static int westToNorthBus, westToNorthTruck, westToNorthCar,
 				westToNorthMotorBike, westToNorthPedestrian, westToNorthCrutches1,
 				westToNorthCrutches2, westToNorthCane, westToNorthDog, westToNorthMobilityScooter, 
-				westToNorthWheelChairAssisted, westToNorthWheelChairManual, westToNorthWheelChairPowered,
+				westToNorthWheelchairAssisted, westToNorthWheelchairManual, westToNorthWheelchairPowered,
 				westToNorthPushChair, westToNorthSkateboard, westToNorthManualScooter;
 	static int westToNorthEastBus, westToNorthEastTruck, westToNorthEastCar,
 				westToNorthEastMotorBike, westToNorthEastPedestrian, westToNorthEastCrutches1,
 				westToNorthEastCrutches2, westToNorthEastCane, westToNorthEastDog, westToNorthEastMobilityScooter, 
-				westToNorthEastWheelChairAssisted, westToNorthEastWheelChairManual, westToNorthEastWheelChairPowered,
+				westToNorthEastWheelchairAssisted, westToNorthEastWheelchairManual, westToNorthEastWheelchairPowered,
 				westToNorthEastPushChair, westToNorthEastSkateboard, westToNorthEastManualScooter;
 	static int westToEastBus, westToEastTruck, westToEastCar,
 				westToEastMotorBike, westToEastPedestrian, westToEastCrutches1,
 				westToEastCrutches2, westToEastCane, westToEastDog, westToEastMobilityScooter, 
-				westToEastWheelChairAssisted, westToEastWheelChairManual, westToEastWheelChairPowered,
+				westToEastWheelchairAssisted, westToEastWheelchairManual, westToEastWheelchairPowered,
 				westToEastPushChair, westToEastSkateboard, westToEastManualScooter;
 	static int westToSouthWestBus, westToSouthWestTruck, westToSouthWestCar,
 				westToSouthWestMotorBike, westToSouthWestPedestrian, westToSouthWestCrutches1,
 				westToSouthWestCrutches2, westToSouthWestCane, westToSouthWestDog, westToSouthWestMobilityScooter, 
-				westToSouthWestWheelChairAssisted, westToSouthWestWheelChairManual, westToSouthWestWheelChairPowered,
+				westToSouthWestWheelchairAssisted, westToSouthWestWheelchairManual, westToSouthWestWheelchairPowered,
 				westToSouthWestPushChair, westToSouthWestSkateboard, westToSouthWestManualScooter;
 	static int westToSouthBus, westToSouthTruck, westToSouthCar,
 				westToSouthMotorBike, westToSouthPedestrian, westToSouthCrutches1,
 				westToSouthCrutches2, westToSouthCane, westToSouthDog, westToSouthMobilityScooter, 
-				westToSouthWheelChairAssisted, westToSouthWheelChairManual, westToSouthWheelChairPowered,
+				westToSouthWheelchairAssisted, westToSouthWheelchairManual, westToSouthWheelchairPowered,
 				westToSouthPushChair, westToSouthSkateboard, westToSouthManualScooter;
 	static int westToSouthEastBus, westToSouthEastTruck, westToSouthEastCar,
 				westToSouthEastMotorBike, westToSouthEastPedestrian, westToSouthEastCrutches1,
 				westToSouthEastCrutches2, westToSouthEastCane, westToSouthEastDog, westToSouthEastMobilityScooter, 
-				westToSouthEastWheelChairAssisted, westToSouthEastWheelChairManual, westToSouthEastWheelChairPowered,
+				westToSouthEastWheelchairAssisted, westToSouthEastWheelchairManual, westToSouthEastWheelchairPowered,
 				westToSouthEastPushChair, westToSouthEastSkateboard, westToSouthEastManualScooter;
 
 	//East
 	static int eastToNorthWestBus, eastToNorthWestTruck, eastToNorthWestCar,
 				eastToNorthWestMotorBike, eastToNorthWestPedestrian, eastToNorthWestCrutches1,
 				eastToNorthWestCrutches2, eastToNorthWestCane, eastToNorthWestDog, eastToNorthWestMobilityScooter, 
-				eastToNorthWestWheelChairAssisted, eastToNorthWestWheelChairManual, eastToNorthWestWheelChairPowered,
+				eastToNorthWestWheelchairAssisted, eastToNorthWestWheelchairManual, eastToNorthWestWheelchairPowered,
 				eastToNorthWestPushChair, eastToNorthWestSkateboard, eastToNorthWestManualScooter;
 	static int eastToNorthBus, eastToNorthTruck, eastToNorthCar,
 				eastToNorthMotorBike, eastToNorthPedestrian, eastToNorthCrutches1,
 				eastToNorthCrutches2, eastToNorthCane, eastToNorthDog, eastToNorthMobilityScooter, 
-				eastToNorthWheelChairAssisted, eastToNorthWheelChairManual, eastToNorthWheelChairPowered,
+				eastToNorthWheelchairAssisted, eastToNorthWheelchairManual, eastToNorthWheelchairPowered,
 				eastToNorthPushChair, eastToNorthSkateboard, eastToNorthManualScooter;
 	static int eastToNorthEastBus, eastToNorthEastTruck, eastToNorthEastCar,
 				eastToNorthEastMotorBike, eastToNorthEastPedestrian, eastToNorthEastCrutches1,
 				eastToNorthEastCrutches2, eastToNorthEastCane, eastToNorthEastDog, eastToNorthEastMobilityScooter, 
-				eastToNorthEastWheelChairAssisted, eastToNorthEastWheelChairManual, eastToNorthEastWheelChairPowered,
+				eastToNorthEastWheelchairAssisted, eastToNorthEastWheelchairManual, eastToNorthEastWheelchairPowered,
 				eastToNorthEastPushChair, eastToNorthEastSkateboard, eastToNorthEastManualScooter;
 	static int eastToWestBus, eastToWestTruck, eastToWestCar,
 				eastToWestMotorBike, eastToWestPedestrian, eastToWestCrutches1,
 				eastToWestCrutches2, eastToWestCane, eastToWestDog, eastToWestMobilityScooter, 
-				eastToWestWheelChairAssisted, eastToWestWheelChairManual, eastToWestWheelChairPowered,
+				eastToWestWheelchairAssisted, eastToWestWheelchairManual, eastToWestWheelchairPowered,
 				eastToWestPushChair, eastToWestSkateboard, eastToWestManualScooter;
 	static int eastToSouthWestBus, eastToSouthWestTruck, eastToSouthWestCar,
 				eastToSouthWestMotorBike, eastToSouthWestPedestrian, eastToSouthWestCrutches1,
 				eastToSouthWestCrutches2, eastToSouthWestCane, eastToSouthWestDog, eastToSouthWestMobilityScooter, 
-				eastToSouthWestWheelChairAssisted, eastToSouthWestWheelChairManual, eastToSouthWestWheelChairPowered,
+				eastToSouthWestWheelchairAssisted, eastToSouthWestWheelchairManual, eastToSouthWestWheelchairPowered,
 				eastToSouthWestPushChair, eastToSouthWestSkateboard, eastToSouthWestManualScooter;
 	static int eastToSouthBus, eastToSouthTruck, eastToSouthCar,
 				eastToSouthMotorBike, eastToSouthPedestrian, eastToSouthCrutches1,
 				eastToSouthCrutches2, eastToSouthCane, eastToSouthDog, eastToSouthMobilityScooter, 
-				eastToSouthWheelChairAssisted, eastToSouthWheelChairManual, eastToSouthWheelChairPowered,
+				eastToSouthWheelchairAssisted, eastToSouthWheelchairManual, eastToSouthWheelchairPowered,
 				eastToSouthPushChair, eastToSouthSkateboard, eastToSouthManualScooter;
 	static int eastToSouthEastBus, eastToSouthEastTruck, eastToSouthEastCar,
 				eastToSouthEastMotorBike, eastToSouthEastPedestrian, eastToSouthEastCrutches1,
 				eastToSouthEastCrutches2, eastToSouthEastCane, eastToSouthEastDog, eastToSouthEastMobilityScooter, 
-				eastToSouthEastWheelChairAssisted, eastToSouthEastWheelChairManual, eastToSouthEastWheelChairPowered,
+				eastToSouthEastWheelchairAssisted, eastToSouthEastWheelchairManual, eastToSouthEastWheelchairPowered,
 				eastToSouthEastPushChair, eastToSouthEastSkateboard, eastToSouthEastManualScooter;
 	
 	//South West
 	static int southWestToNorthWestBus, southWestToNorthWestTruck, southWestToNorthWestCar,
 				southWestToNorthWestMotorBike, southWestToNorthWestPedestrian, southWestToNorthWestCrutches1,
 				southWestToNorthWestCrutches2, southWestToNorthWestCane, southWestToNorthWestDog, southWestToNorthWestMobilityScooter, 
-				southWestToNorthWestWheelChairAssisted, southWestToNorthWestWheelChairManual, southWestToNorthWestWheelChairPowered,
+				southWestToNorthWestWheelchairAssisted, southWestToNorthWestWheelchairManual, southWestToNorthWestWheelchairPowered,
 				southWestToNorthWestPushChair, southWestToNorthWestSkateboard, southWestToNorthWestManualScooter;
 	static int southWestToNorthBus, southWestToNorthTruck, southWestToNorthCar,
 				southWestToNorthMotorBike, southWestToNorthPedestrian, southWestToNorthCrutches1,
 				southWestToNorthCrutches2, southWestToNorthCane, southWestToNorthDog, southWestToNorthMobilityScooter, 
-				southWestToNorthWheelChairAssisted, southWestToNorthWheelChairManual, southWestToNorthWheelChairPowered,
+				southWestToNorthWheelchairAssisted, southWestToNorthWheelchairManual, southWestToNorthWheelchairPowered,
 				southWestToNorthPushChair, southWestToNorthSkateboard, southWestToNorthManualScooter;
 	static int southWestToNorthEastBus, southWestToNorthEastTruck, southWestToNorthEastCar,
 				southWestToNorthEastMotorBike, southWestToNorthEastPedestrian, southWestToNorthEastCrutches1,
 				southWestToNorthEastCrutches2, southWestToNorthEastCane, southWestToNorthEastDog, southWestToNorthEastMobilityScooter, 
-				southWestToNorthEastWheelChairAssisted, southWestToNorthEastWheelChairManual, southWestToNorthEastWheelChairPowered,
+				southWestToNorthEastWheelchairAssisted, southWestToNorthEastWheelchairManual, southWestToNorthEastWheelchairPowered,
 				southWestToNorthEastPushChair, southWestToNorthEastSkateboard, southWestToNorthEastManualScooter;
 	static int southWestToWestBus, southWestToWestTruck, southWestToWestCar,
 				southWestToWestMotorBike, southWestToWestPedestrian, southWestToWestCrutches1,
 				southWestToWestCrutches2, southWestToWestCane, southWestToWestDog, southWestToWestMobilityScooter, 
-				southWestToWestWheelChairAssisted, southWestToWestWheelChairManual, southWestToWestWheelChairPowered,
+				southWestToWestWheelchairAssisted, southWestToWestWheelchairManual, southWestToWestWheelchairPowered,
 				southWestToWestPushChair, southWestToWestSkateboard, southWestToWestManualScooter;
 	static int southWestToEastBus, southWestToEastTruck, southWestToEastCar,
 				southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
 				southWestToEastCrutches2, southWestToEastCane, southWestToEastDog, southWestToEastMobilityScooter, 
-				southWestToEastWheelChairAssisted, southWestToEastWheelChairManual, southWestToEastWheelChairPowered,
+				southWestToEastWheelchairAssisted, southWestToEastWheelchairManual, southWestToEastWheelchairPowered,
 				southWestToEastPushChair, southWestToEastSkateboard, southWestToEastManualScooter;
 	static int southWestToSouthBus, southWestToSouthTruck, southWestToSouthCar,
 				southWestToSouthMotorBike, southWestToSouthPedestrian, southWestToSouthCrutches1,
 				southWestToSouthCrutches2, southWestToSouthCane, southWestToSouthDog, southWestToSouthMobilityScooter, 
-				southWestToSouthWheelChairAssisted, southWestToSouthWheelChairManual, southWestToSouthWheelChairPowered,
+				southWestToSouthWheelchairAssisted, southWestToSouthWheelchairManual, southWestToSouthWheelchairPowered,
 				southWestToSouthPushChair, southWestToSouthSkateboard, southWestToSouthManualScooter;
 	static int southWestToSouthEastBus, southWestToSouthEastTruck, southWestToSouthEastCar,
 				southWestToSouthEastMotorBike, southWestToSouthEastPedestrian, southWestToSouthEastCrutches1,
 				southWestToSouthEastCrutches2, southWestToSouthEastCane, southWestToSouthEastDog, southWestToSouthEastMobilityScooter, 
-				southWestToSouthEastWheelChairAssisted, southWestToSouthEastWheelChairManual, southWestToSouthEastWheelChairPowered,
+				southWestToSouthEastWheelchairAssisted, southWestToSouthEastWheelchairManual, southWestToSouthEastWheelchairPowered,
 				southWestToSouthEastPushChair, southWestToSouthEastSkateboard, southWestToSouthEastManualScooter;
 
 	// South
 	static int southToNorthWestBus, southToNorthWestTruck, southToNorthWestCar,
 				southToNorthWestMotorBike, southToNorthWestPedestrian, southToNorthWestCrutches1,
 				southToNorthWestCrutches2, southToNorthWestCane, southToNorthWestDog, southToNorthWestMobilityScooter, 
-				southToNorthWestWheelChairAssisted, southToNorthWestWheelChairManual, southToNorthWestWheelChairPowered,
+				southToNorthWestWheelchairAssisted, southToNorthWestWheelchairManual, southToNorthWestWheelchairPowered,
 				southToNorthWestPushChair, southToNorthWestSkateboard, southToNorthWestManualScooter;
 	static int southToNorthBus, southToNorthTruck, southToNorthCar,
 				southToNorthMotorBike, southToNorthPedestrian, southToNorthCrutches1,
 				southToNorthCrutches2, southToNorthCane, southToNorthDog, southToNorthMobilityScooter, 
-				southToNorthWheelChairAssisted, southToNorthWheelChairManual, southToNorthWheelChairPowered,
+				southToNorthWheelchairAssisted, southToNorthWheelchairManual, southToNorthWheelchairPowered,
 				southToNorthPushChair, southToNorthSkateboard, southToNorthManualScooter;
 	static int southToNorthEastBus, southToNorthEastTruck, southToNorthEastCar,
 				southToNorthEastMotorBike, southToNorthEastPedestrian, southToNorthEastCrutches1,
 				southToNorthEastCrutches2, southToNorthEastCane, southToNorthEastDog, southToNorthEastMobilityScooter, 
-				southToNorthEastWheelChairAssisted, southToNorthEastWheelChairManual, southToNorthEastWheelChairPowered,
+				southToNorthEastWheelchairAssisted, southToNorthEastWheelchairManual, southToNorthEastWheelchairPowered,
 				southToNorthEastPushChair, southToNorthEastSkateboard, southToNorthEastManualScooter;
 	static int southToWestBus, southToWestTruck, southToWestCar,
 				southToWestMotorBike, southToWestPedestrian, southToWestCrutches1,
 				southToWestCrutches2, southToWestCane, southToWestDog, southToWestMobilityScooter, 
-				southToWestWheelChairAssisted, southToWestWheelChairManual, southToWestWheelChairPowered,
+				southToWestWheelchairAssisted, southToWestWheelchairManual, southToWestWheelchairPowered,
 				southToWestPushChair, southToWestSkateboard, southToWestManualScooter;
 	static int southToEastBus, southToEastTruck, southToEastCar,
 				southToEastMotorBike, southToEastPedestrian, southToEastCrutches1,
 				southToEastCrutches2, southToEastCane, southToEastDog, southToEastMobilityScooter, 
-				southToEastWheelChairAssisted, southToEastWheelChairManual, southToEastWheelChairPowered,
+				southToEastWheelchairAssisted, southToEastWheelchairManual, southToEastWheelchairPowered,
 				southToEastPushChair, southToEastSkateboard, southToEastManualScooter;
 	static int southToSouthWestBus, southToSouthWestTruck, southToSouthWestCar,
 				southToSouthWestMotorBike, southToSouthWestPedestrian, southToSouthWestCrutches1,
 				southToSouthWestCrutches2, southToSouthWestCane, southToSouthWestDog, southToSouthWestMobilityScooter, 
-				southToSouthWestWheelChairAssisted, southToSouthWestWheelChairManual, southToSouthWestWheelChairPowered,
+				southToSouthWestWheelchairAssisted, southToSouthWestWheelchairManual, southToSouthWestWheelchairPowered,
 				southToSouthWestPushChair, southToSouthWestSkateboard, southToSouthWestManualScooter;
 	static int southToSouthEastBus, southToSouthEastTruck, southToSouthEastCar,
 				southToSouthEastMotorBike, southToSouthEastPedestrian, southToSouthEastCrutches1,
 				southToSouthEastCrutches2, southToSouthEastCane, southToSouthEastDog, southToSouthEastMobilityScooter, 
-				southToSouthEastWheelChairAssisted, southToSouthEastWheelChairManual, southToSouthEastWheelChairPowered,
+				southToSouthEastWheelchairAssisted, southToSouthEastWheelchairManual, southToSouthEastWheelchairPowered,
 				southToSouthEastPushChair, southToSouthEastSkateboard, southToSouthEastManualScooter;
 	
 	// South East
 	static int southEastToNorthWestBus, southEastToNorthWestTruck, southEastToNorthWestCar,
 				southEastToNorthWestMotorBike, southEastToNorthWestPedestrian, southEastToNorthWestCrutches1,
 				southEastToNorthWestCrutches2, southEastToNorthWestCane, southEastToNorthWestDog, southEastToNorthWestMobilityScooter, 
-				southEastToNorthWestWheelChairAssisted, southEastToNorthWestWheelChairManual, southEastToNorthWestWheelChairPowered,
+				southEastToNorthWestWheelchairAssisted, southEastToNorthWestWheelchairManual, southEastToNorthWestWheelchairPowered,
 				southEastToNorthWestPushChair, southEastToNorthWestSkateboard, southEastToNorthWestManualScooter;
 	static int southEastToNorthBus, southEastToNorthTruck, southEastToNorthCar,
 				southEastToNorthMotorBike, southEastToNorthPedestrian, southEastToNorthCrutches1,
 				southEastToNorthCrutches2, southEastToNorthCane, southEastToNorthDog, southEastToNorthMobilityScooter, 
-				southEastToNorthWheelChairAssisted, southEastToNorthWheelChairManual, southEastToNorthWheelChairPowered,
+				southEastToNorthWheelchairAssisted, southEastToNorthWheelchairManual, southEastToNorthWheelchairPowered,
 				southEastToNorthPushChair, southEastToNorthSkateboard, southEastToNorthManualScooter;
 	static int southEastToNorthEastBus, southEastToNorthEastTruck, southEastToNorthEastCar,
 				southEastToNorthEastMotorBike, southEastToNorthEastPedestrian, southEastToNorthEastCrutches1,
 				southEastToNorthEastCrutches2, southEastToNorthEastCane, southEastToNorthEastDog, southEastToNorthEastMobilityScooter, 
-				southEastToNorthEastWheelChairAssisted, southEastToNorthEastWheelChairManual, southEastToNorthEastWheelChairPowered,
+				southEastToNorthEastWheelchairAssisted, southEastToNorthEastWheelchairManual, southEastToNorthEastWheelchairPowered,
 				southEastToNorthEastPushChair, southEastToNorthEastSkateboard, southEastToNorthEastManualScooter;
 	static int southEastToWestBus, southEastToWestTruck, southEastToWestCar,
 				southEastToWestMotorBike, southEastToWestPedestrian, southEastToWestCrutches1,
 				southEastToWestCrutches2, southEastToWestCane, southEastToWestDog, southEastToWestMobilityScooter, 
-				southEastToWestWheelChairAssisted, southEastToWestWheelChairManual, southEastToWestWheelChairPowered,
+				southEastToWestWheelchairAssisted, southEastToWestWheelchairManual, southEastToWestWheelchairPowered,
 				southEastToWestPushChair, southEastToWestSkateboard, southEastToWestManualScooter;
 	static int southEastToEastBus, southEastToEastTruck, southEastToEastCar,
 				southEastToEastMotorBike, southEastToEastPedestrian, southEastToEastCrutches1,
 				southEastToEastCrutches2, southEastToEastCane, southEastToEastDog, southEastToEastMobilityScooter, 
-				southEastToEastWheelChairAssisted, southEastToEastWheelChairManual, southEastToEastWheelChairPowered,
+				southEastToEastWheelchairAssisted, southEastToEastWheelchairManual, southEastToEastWheelchairPowered,
 				southEastToEastPushChair, southEastToEastSkateboard, southEastToEastManualScooter;
 	static int southEastToSouthWestBus, southEastToSouthWestTruck, southEastToSouthWestCar,
 				southEastToSouthWestMotorBike, southEastToSouthWestPedestrian, southEastToSouthWestCrutches1,
 				southEastToSouthWestCrutches2, southEastToSouthWestCane, southEastToSouthWestDog, southEastToSouthWestMobilityScooter, 
-				southEastToSouthWestWheelChairAssisted, southEastToSouthWestWheelChairManual, southEastToSouthWestWheelChairPowered,
+				southEastToSouthWestWheelchairAssisted, southEastToSouthWestWheelchairManual, southEastToSouthWestWheelchairPowered,
 				southEastToSouthWestPushChair, southEastToSouthWestSkateboard, southEastToSouthWestManualScooter;
 	static int southEastToSouthBus, southEastToSouthTruck, southEastToSouthCar,
 				southEastToSouthMotorBike, southEastToSouthPedestrian, southEastToSouthCrutches1,
 				southEastToSouthCrutches2, southEastToSouthCane, southEastToSouthDog, southEastToSouthMobilityScooter, 
-				southEastToSouthWheelChairAssisted, southEastToSouthWheelChairManual, southEastToSouthWheelChairPowered,
+				southEastToSouthWheelchairAssisted, southEastToSouthWheelchairManual, southEastToSouthWheelchairPowered,
 				southEastToSouthPushChair, southEastToSouthSkateboard, southEastToSouthManualScooter;
 	
 	private Deque<String> lastSelectedObject;
@@ -414,6 +416,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		comments = getIntent().getStringExtra("Comments");
+		defaultObject = "Pedestrian (No Aid)";
 		
 		commentViewable = (TextView) findViewById(R.id.tv_commentText);
 		commentViewable.setText(comments);
@@ -1287,201 +1290,201 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	private void initialiseWheelchair(){
 		wheelChair_assisted = 0;
 
-		northWestToNorthWheelChairAssisted = 0;
-		northWestToNorthEastWheelChairAssisted = 0;
-		northWestToWestWheelChairAssisted = 0;
-		northWestToEastWheelChairAssisted = 0;
-		northWestToSouthWestWheelChairAssisted = 0;
-		northWestToSouthWheelChairAssisted = 0;
-		northWestToSouthEastWheelChairAssisted = 0;
+		northWestToNorthWheelchairAssisted = 0;
+		northWestToNorthEastWheelchairAssisted = 0;
+		northWestToWestWheelchairAssisted = 0;
+		northWestToEastWheelchairAssisted = 0;
+		northWestToSouthWestWheelchairAssisted = 0;
+		northWestToSouthWheelchairAssisted = 0;
+		northWestToSouthEastWheelchairAssisted = 0;
 		
-		northToNorthWestWheelChairAssisted = 0;
-		northToNorthEastWheelChairAssisted = 0;
-		northToWestWheelChairAssisted = 0;
-		northToEastWheelChairAssisted = 0;
-		northToSouthWestWheelChairAssisted = 0;
-		northToSouthWheelChairAssisted = 0;
-		northToSouthEastWheelChairAssisted = 0;
+		northToNorthWestWheelchairAssisted = 0;
+		northToNorthEastWheelchairAssisted = 0;
+		northToWestWheelchairAssisted = 0;
+		northToEastWheelchairAssisted = 0;
+		northToSouthWestWheelchairAssisted = 0;
+		northToSouthWheelchairAssisted = 0;
+		northToSouthEastWheelchairAssisted = 0;
 		
-		northEastToNorthWestWheelChairAssisted = 0;
-		northEastToNorthWheelChairAssisted = 0;
-		northEastToWestWheelChairAssisted = 0;
-		northEastToEastWheelChairAssisted = 0;
-		northEastToSouthWestWheelChairAssisted = 0;
-		northEastToSouthWheelChairAssisted = 0;
-		northEastToSouthEastWheelChairAssisted = 0;
+		northEastToNorthWestWheelchairAssisted = 0;
+		northEastToNorthWheelchairAssisted = 0;
+		northEastToWestWheelchairAssisted = 0;
+		northEastToEastWheelchairAssisted = 0;
+		northEastToSouthWestWheelchairAssisted = 0;
+		northEastToSouthWheelchairAssisted = 0;
+		northEastToSouthEastWheelchairAssisted = 0;
 		
-		westToNorthWestWheelChairAssisted = 0;
-		westToNorthWheelChairAssisted = 0;
-		westToNorthEastWheelChairAssisted = 0;
-		westToEastWheelChairAssisted = 0;
-		westToSouthEastWheelChairAssisted = 0;
-		westToSouthWheelChairAssisted = 0;
-		westToSouthEastWheelChairAssisted = 0;
+		westToNorthWestWheelchairAssisted = 0;
+		westToNorthWheelchairAssisted = 0;
+		westToNorthEastWheelchairAssisted = 0;
+		westToEastWheelchairAssisted = 0;
+		westToSouthEastWheelchairAssisted = 0;
+		westToSouthWheelchairAssisted = 0;
+		westToSouthEastWheelchairAssisted = 0;
 		
-		eastToNorthWestWheelChairAssisted = 0;
-		eastToNorthWheelChairAssisted = 0;
-		eastToNorthEastWheelChairAssisted = 0;
-		eastToWestWheelChairAssisted = 0;
-		eastToSouthWestWheelChairAssisted = 0;
-		eastToSouthWheelChairAssisted = 0;
-		eastToSouthEastWheelChairAssisted = 0;
+		eastToNorthWestWheelchairAssisted = 0;
+		eastToNorthWheelchairAssisted = 0;
+		eastToNorthEastWheelchairAssisted = 0;
+		eastToWestWheelchairAssisted = 0;
+		eastToSouthWestWheelchairAssisted = 0;
+		eastToSouthWheelchairAssisted = 0;
+		eastToSouthEastWheelchairAssisted = 0;
 		
-		southWestToNorthWestWheelChairAssisted = 0;
-		southWestToNorthWheelChairAssisted = 0;
-		southWestToNorthEastWheelChairAssisted = 0;
-		southWestToWestWheelChairAssisted = 0;
-		southWestToEastWheelChairAssisted = 0;
-		southWestToSouthWheelChairAssisted = 0;
-		southWestToSouthEastWheelChairAssisted = 0;
+		southWestToNorthWestWheelchairAssisted = 0;
+		southWestToNorthWheelchairAssisted = 0;
+		southWestToNorthEastWheelchairAssisted = 0;
+		southWestToWestWheelchairAssisted = 0;
+		southWestToEastWheelchairAssisted = 0;
+		southWestToSouthWheelchairAssisted = 0;
+		southWestToSouthEastWheelchairAssisted = 0;
 		
-		southToNorthWestWheelChairAssisted = 0;
-		southToNorthWheelChairAssisted = 0;
-		southToNorthEastWheelChairAssisted = 0;
-		southToWestWheelChairAssisted = 0;
-		southToEastWheelChairAssisted = 0;
-		southToSouthWestWheelChairAssisted = 0;
-		southToSouthEastWheelChairAssisted = 0;
+		southToNorthWestWheelchairAssisted = 0;
+		southToNorthWheelchairAssisted = 0;
+		southToNorthEastWheelchairAssisted = 0;
+		southToWestWheelchairAssisted = 0;
+		southToEastWheelchairAssisted = 0;
+		southToSouthWestWheelchairAssisted = 0;
+		southToSouthEastWheelchairAssisted = 0;
 		
-		southEastToNorthWestWheelChairAssisted = 0;
-		southEastToNorthWheelChairAssisted = 0;
-		southEastToNorthEastWheelChairAssisted = 0;
-		southEastToWestWheelChairAssisted = 0;
-		southEastToEastWheelChairAssisted = 0;
-		southEastToSouthWestWheelChairAssisted = 0;
-		southEastToSouthWheelChairAssisted = 0;
+		southEastToNorthWestWheelchairAssisted = 0;
+		southEastToNorthWheelchairAssisted = 0;
+		southEastToNorthEastWheelchairAssisted = 0;
+		southEastToWestWheelchairAssisted = 0;
+		southEastToEastWheelchairAssisted = 0;
+		southEastToSouthWestWheelchairAssisted = 0;
+		southEastToSouthWheelchairAssisted = 0;
 		
 		wheelChair_manual = 0;
 
-		northWestToNorthWheelChairManual = 0;
-		northWestToNorthEastWheelChairManual = 0;
-		northWestToWestWheelChairManual = 0;
-		northWestToEastWheelChairManual = 0;
-		northWestToSouthWestWheelChairManual = 0;
-		northWestToSouthWheelChairManual = 0;
-		northWestToSouthEastWheelChairManual = 0;
+		northWestToNorthWheelchairManual = 0;
+		northWestToNorthEastWheelchairManual = 0;
+		northWestToWestWheelchairManual = 0;
+		northWestToEastWheelchairManual = 0;
+		northWestToSouthWestWheelchairManual = 0;
+		northWestToSouthWheelchairManual = 0;
+		northWestToSouthEastWheelchairManual = 0;
 		
-		northToNorthWestWheelChairManual = 0;
-		northToNorthEastWheelChairManual = 0;
-		northToWestWheelChairManual = 0;
-		northToEastWheelChairManual = 0;
-		northToSouthWestWheelChairManual = 0;
-		northToSouthWheelChairManual = 0;
-		northToSouthEastWheelChairManual = 0;
+		northToNorthWestWheelchairManual = 0;
+		northToNorthEastWheelchairManual = 0;
+		northToWestWheelchairManual = 0;
+		northToEastWheelchairManual = 0;
+		northToSouthWestWheelchairManual = 0;
+		northToSouthWheelchairManual = 0;
+		northToSouthEastWheelchairManual = 0;
 		
-		northEastToNorthWestWheelChairManual = 0;
-		northEastToNorthWheelChairManual = 0;
-		northEastToWestWheelChairManual = 0;
-		northEastToEastWheelChairManual = 0;
-		northEastToSouthWestWheelChairManual = 0;
-		northEastToSouthWheelChairManual = 0;
-		northEastToSouthEastWheelChairManual = 0;
+		northEastToNorthWestWheelchairManual = 0;
+		northEastToNorthWheelchairManual = 0;
+		northEastToWestWheelchairManual = 0;
+		northEastToEastWheelchairManual = 0;
+		northEastToSouthWestWheelchairManual = 0;
+		northEastToSouthWheelchairManual = 0;
+		northEastToSouthEastWheelchairManual = 0;
 		
-		westToNorthWestWheelChairManual = 0;
-		westToNorthWheelChairManual = 0;
-		westToNorthEastWheelChairManual = 0;
-		westToEastWheelChairManual = 0;
-		westToSouthEastWheelChairManual = 0;
-		westToSouthWheelChairManual = 0;
-		westToSouthEastWheelChairManual = 0;
+		westToNorthWestWheelchairManual = 0;
+		westToNorthWheelchairManual = 0;
+		westToNorthEastWheelchairManual = 0;
+		westToEastWheelchairManual = 0;
+		westToSouthEastWheelchairManual = 0;
+		westToSouthWheelchairManual = 0;
+		westToSouthEastWheelchairManual = 0;
 		
-		eastToNorthWestWheelChairManual = 0;
-		eastToNorthWheelChairManual = 0;
-		eastToNorthEastWheelChairManual = 0;
-		eastToWestWheelChairManual = 0;
-		eastToSouthWestWheelChairManual = 0;
-		eastToSouthWheelChairManual = 0;
-		eastToSouthEastWheelChairManual = 0;
+		eastToNorthWestWheelchairManual = 0;
+		eastToNorthWheelchairManual = 0;
+		eastToNorthEastWheelchairManual = 0;
+		eastToWestWheelchairManual = 0;
+		eastToSouthWestWheelchairManual = 0;
+		eastToSouthWheelchairManual = 0;
+		eastToSouthEastWheelchairManual = 0;
 		
-		southWestToNorthWestWheelChairManual = 0;
-		southWestToNorthWheelChairManual = 0;
-		southWestToNorthEastWheelChairManual = 0;
-		southWestToWestWheelChairManual = 0;
-		southWestToEastWheelChairManual = 0;
-		southWestToSouthWheelChairManual = 0;
-		southWestToSouthEastWheelChairManual = 0;
+		southWestToNorthWestWheelchairManual = 0;
+		southWestToNorthWheelchairManual = 0;
+		southWestToNorthEastWheelchairManual = 0;
+		southWestToWestWheelchairManual = 0;
+		southWestToEastWheelchairManual = 0;
+		southWestToSouthWheelchairManual = 0;
+		southWestToSouthEastWheelchairManual = 0;
 		
-		southToNorthWestWheelChairManual = 0;
-		southToNorthWheelChairManual = 0;
-		southToNorthEastWheelChairManual = 0;
-		southToWestWheelChairManual = 0;
-		southToEastWheelChairManual = 0;
-		southToSouthWestWheelChairManual = 0;
-		southToSouthEastWheelChairManual = 0;
+		southToNorthWestWheelchairManual = 0;
+		southToNorthWheelchairManual = 0;
+		southToNorthEastWheelchairManual = 0;
+		southToWestWheelchairManual = 0;
+		southToEastWheelchairManual = 0;
+		southToSouthWestWheelchairManual = 0;
+		southToSouthEastWheelchairManual = 0;
 		
-		southEastToNorthWestWheelChairManual = 0;
-		southEastToNorthWheelChairManual = 0;
-		southEastToNorthEastWheelChairManual = 0;
-		southEastToWestWheelChairManual = 0;
-		southEastToEastWheelChairManual = 0;
-		southEastToSouthWestWheelChairManual = 0;
-		southEastToSouthWheelChairManual = 0;
+		southEastToNorthWestWheelchairManual = 0;
+		southEastToNorthWheelchairManual = 0;
+		southEastToNorthEastWheelchairManual = 0;
+		southEastToWestWheelchairManual = 0;
+		southEastToEastWheelchairManual = 0;
+		southEastToSouthWestWheelchairManual = 0;
+		southEastToSouthWheelchairManual = 0;
 		
 		wheelChair_powered = 0;
 
-		northWestToNorthWheelChairPowered = 0;
-		northWestToNorthEastWheelChairPowered = 0;
-		northWestToWestWheelChairPowered = 0;
-		northWestToEastWheelChairPowered = 0;
-		northWestToSouthWestWheelChairPowered = 0;
-		northWestToSouthWheelChairPowered = 0;
-		northWestToSouthEastWheelChairPowered = 0;
+		northWestToNorthWheelchairPowered = 0;
+		northWestToNorthEastWheelchairPowered = 0;
+		northWestToWestWheelchairPowered = 0;
+		northWestToEastWheelchairPowered = 0;
+		northWestToSouthWestWheelchairPowered = 0;
+		northWestToSouthWheelchairPowered = 0;
+		northWestToSouthEastWheelchairPowered = 0;
 		
-		northToNorthWestWheelChairPowered = 0;
-		northToNorthEastWheelChairPowered = 0;
-		northToWestWheelChairPowered = 0;
-		northToEastWheelChairPowered = 0;
-		northToSouthWestWheelChairPowered = 0;
-		northToSouthWheelChairPowered = 0;
-		northToSouthEastWheelChairPowered = 0;
+		northToNorthWestWheelchairPowered = 0;
+		northToNorthEastWheelchairPowered = 0;
+		northToWestWheelchairPowered = 0;
+		northToEastWheelchairPowered = 0;
+		northToSouthWestWheelchairPowered = 0;
+		northToSouthWheelchairPowered = 0;
+		northToSouthEastWheelchairPowered = 0;
 		
-		northEastToNorthWestWheelChairPowered = 0;
-		northEastToNorthWheelChairPowered = 0;
-		northEastToWestWheelChairPowered = 0;
-		northEastToEastWheelChairPowered = 0;
-		northEastToSouthWestWheelChairPowered = 0;
-		northEastToSouthWheelChairPowered = 0;
-		northEastToSouthEastWheelChairPowered = 0;
+		northEastToNorthWestWheelchairPowered = 0;
+		northEastToNorthWheelchairPowered = 0;
+		northEastToWestWheelchairPowered = 0;
+		northEastToEastWheelchairPowered = 0;
+		northEastToSouthWestWheelchairPowered = 0;
+		northEastToSouthWheelchairPowered = 0;
+		northEastToSouthEastWheelchairPowered = 0;
 		
-		westToNorthWestWheelChairPowered = 0;
-		westToNorthWheelChairPowered = 0;
-		westToNorthEastWheelChairPowered = 0;
-		westToEastWheelChairPowered = 0;
-		westToSouthEastWheelChairPowered = 0;
-		westToSouthWheelChairPowered = 0;
-		westToSouthEastWheelChairPowered = 0;
+		westToNorthWestWheelchairPowered = 0;
+		westToNorthWheelchairPowered = 0;
+		westToNorthEastWheelchairPowered = 0;
+		westToEastWheelchairPowered = 0;
+		westToSouthEastWheelchairPowered = 0;
+		westToSouthWheelchairPowered = 0;
+		westToSouthEastWheelchairPowered = 0;
 		
-		eastToNorthWestWheelChairPowered = 0;
-		eastToNorthWheelChairPowered = 0;
-		eastToNorthEastWheelChairPowered = 0;
-		eastToWestWheelChairPowered = 0;
-		eastToSouthWestWheelChairPowered = 0;
-		eastToSouthWheelChairPowered = 0;
-		eastToSouthEastWheelChairPowered = 0;
+		eastToNorthWestWheelchairPowered = 0;
+		eastToNorthWheelchairPowered = 0;
+		eastToNorthEastWheelchairPowered = 0;
+		eastToWestWheelchairPowered = 0;
+		eastToSouthWestWheelchairPowered = 0;
+		eastToSouthWheelchairPowered = 0;
+		eastToSouthEastWheelchairPowered = 0;
 		
-		southWestToNorthWestWheelChairPowered = 0;
-		southWestToNorthWheelChairPowered = 0;
-		southWestToNorthEastWheelChairPowered = 0;
-		southWestToWestWheelChairPowered = 0;
-		southWestToEastWheelChairPowered = 0;
-		southWestToSouthWheelChairPowered = 0;
-		southWestToSouthEastWheelChairPowered = 0;
+		southWestToNorthWestWheelchairPowered = 0;
+		southWestToNorthWheelchairPowered = 0;
+		southWestToNorthEastWheelchairPowered = 0;
+		southWestToWestWheelchairPowered = 0;
+		southWestToEastWheelchairPowered = 0;
+		southWestToSouthWheelchairPowered = 0;
+		southWestToSouthEastWheelchairPowered = 0;
 		
-		southToNorthWestWheelChairPowered = 0;
-		southToNorthWheelChairPowered = 0;
-		southToNorthEastWheelChairPowered = 0;
-		southToWestWheelChairPowered = 0;
-		southToEastWheelChairPowered = 0;
-		southToSouthWestWheelChairPowered = 0;
-		southToSouthEastWheelChairPowered = 0;
+		southToNorthWestWheelchairPowered = 0;
+		southToNorthWheelchairPowered = 0;
+		southToNorthEastWheelchairPowered = 0;
+		southToWestWheelchairPowered = 0;
+		southToEastWheelchairPowered = 0;
+		southToSouthWestWheelchairPowered = 0;
+		southToSouthEastWheelchairPowered = 0;
 		
-		southEastToNorthWestWheelChairPowered = 0;
-		southEastToNorthWheelChairPowered = 0;
-		southEastToNorthEastWheelChairPowered = 0;
-		southEastToWestWheelChairPowered = 0;
-		southEastToEastWheelChairPowered = 0;
-		southEastToSouthWestWheelChairPowered = 0;
-		southEastToSouthWheelChairPowered = 0;
+		southEastToNorthWestWheelchairPowered = 0;
+		southEastToNorthWheelchairPowered = 0;
+		southEastToNorthEastWheelchairPowered = 0;
+		southEastToWestWheelchairPowered = 0;
+		southEastToEastWheelchairPowered = 0;
+		southEastToSouthWestWheelchairPowered = 0;
+		southEastToSouthWheelchairPowered = 0;
 	}
 
 	private void initialisePushchair(){
@@ -1642,15 +1645,112 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	}
 	
 	/*
-	 * This method is used to set the currently selected object to Pedestrian
-	 * as well as updating the TextView to show Pedestrian.
+	 * This method is used to set the currently selected object to the selected defaultObject
+	 * as well as updating the TextView to show the defaultObject.
 	 * @author: Richard Fong
 	 * @since: 
 	 */
-	private void defaultPedestrian(){
-		updateCurrentObjectTo("Pedestrian (No Aid)");
-		setCurrentlySelectedObject("Pedestrian (No Aid)");
-		updateCurrentlySelectedObject(pedestrian);
+	private void defaultTo(String object){
+		switch (object) {
+		case "Bus":
+			updateCurrentObjectTo("Bus");
+			setCurrentlySelectedObject("Bus");
+			updateCurrentlySelectedObject(bus);
+			break;
+		
+		case "Car":
+			updateCurrentObjectTo("Car");
+			setCurrentlySelectedObject("Car");
+			updateCurrentlySelectedObject(car);
+			break;
+		
+		case "Truck":
+			updateCurrentObjectTo("Truck");
+			setCurrentlySelectedObject("Truck");
+			updateCurrentlySelectedObject(truck);
+			break;
+		
+		case "Motor Bike":
+			updateCurrentObjectTo("Motor Bike");
+			setCurrentlySelectedObject("Motor Bike");
+			updateCurrentlySelectedObject(motorBike);
+			break;
+		
+		case "Pedestrian (No Aid)":
+			updateCurrentObjectTo("Pedestrian (No Aid)");
+			setCurrentlySelectedObject("Pedestrian (No Aid)");
+			updateCurrentlySelectedObject(pedestrian);
+			break;
+
+		case "Walking Stick / Crutch (1)":
+			updateCurrentObjectTo("Walking Stick / Crutch (1)");
+			setCurrentlySelectedObject("Walking Stick / Crutch (1)");
+			updateCurrentlySelectedObject(crutches_1);
+			break;
+
+		case "Walking Stick / Crutches (2)":
+			updateCurrentObjectTo("Walking Stick / Crutches (2)");
+			setCurrentlySelectedObject("Walking Stick / Crutches (2)");
+			updateCurrentlySelectedObject(crutches_2);
+			break;
+
+		case "Cane (Poor Eyesight)":
+			updateCurrentObjectTo("Cane (Poor Eyesight)");
+			setCurrentlySelectedObject("Cane (Poor Eyesight)");
+			updateCurrentlySelectedObject(cane);
+			break;
+			
+		case "Guide Dog":
+			updateCurrentObjectTo("Guide Dog");
+			setCurrentlySelectedObject("Guide Dog");
+			updateCurrentlySelectedObject(dog);
+			break;
+			
+		case "Mobility Scooter":
+			updateCurrentObjectTo("Mobility Scooter");
+			setCurrentlySelectedObject("Mobility Scooter");
+			updateCurrentlySelectedObject(mobilityScooter);
+			break;
+
+		case "Wheelchair (Assisted)":
+			updateCurrentObjectTo("Wheelchair (Assisted)");
+			setCurrentlySelectedObject("Wheelchair (Assisted)");
+			updateCurrentlySelectedObject(wheelChair_assisted);
+			break;
+
+		case "Wheelchair (Manual)":
+			updateCurrentObjectTo("Wheelchair (Manual)");
+			setCurrentlySelectedObject("Wheelchair (Manual)");
+			updateCurrentlySelectedObject(wheelChair_manual);
+			break;
+
+		case "Wheelchair (Powered)":
+			updateCurrentObjectTo("Wheelchair (Powered)");
+			setCurrentlySelectedObject("Wheelchair (Powered)");
+			updateCurrentlySelectedObject(wheelChair_powered);
+			break;
+
+		case "Push Chair / Buggy":
+			updateCurrentObjectTo("Push Chair / Buggy");
+			setCurrentlySelectedObject("Push Chair / Buggy");
+			updateCurrentlySelectedObject(pushChair);
+			break;
+
+		case "Skateboard":
+			updateCurrentObjectTo("Skateboard");
+			setCurrentlySelectedObject("Skateboard");
+			updateCurrentlySelectedObject(skateboard);
+			break;
+			
+
+		case "Manual Scooter":
+			updateCurrentObjectTo("Manual Scooter");
+			setCurrentlySelectedObject("Manual Scooter");
+			updateCurrentlySelectedObject(manualScooter);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	private void updateCurrentObjectTo(String object){
@@ -1955,27 +2055,27 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		CountingScreen.crutches_2 = crutches;
 	}
 
-	public static int getWheelChair_assisted() {
+	public static int getWheelchair_assisted() {
 		return wheelChair_assisted;
 	}
 
-	public static void setWheelChair_assisted(int wheelChair_assisted) {
+	public static void setWheelchair_assisted(int wheelChair_assisted) {
 		CountingScreen.wheelChair_assisted = wheelChair_assisted;
 	}
 
-	public static int getWheelChair_manual() {
+	public static int getWheelchair_manual() {
 		return wheelChair_manual;
 	}
 
-	public static void setWheelChair_manual(int wheelChair_manual) {
+	public static void setWheelchair_manual(int wheelChair_manual) {
 		CountingScreen.wheelChair_manual = wheelChair_manual;
 	}
 
-	public static int getWheelChair_powered() {
+	public static int getWheelchair_powered() {
 		return wheelChair_powered;
 	}
 
-	public static void setWheelChair_powered(int wheelChair_powered) {
+	public static void setWheelchair_powered(int wheelChair_powered) {
 		CountingScreen.wheelChair_powered = wheelChair_powered;
 	}
 	
@@ -2036,13 +2136,13 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		case "Walking Sticks / Crutches (2)":
 			objectCount = crutches_2;
 			break;
-		case "Wheel Chair (Assisted)":
+		case "Wheelchair (Assisted)":
 			objectCount = wheelChair_assisted;
 			break;
-		case "Wheel Chair (Manual)":
+		case "Wheelchair (Manual)":
 			objectCount = wheelChair_manual;
 			break;
-		case "Wheel Chair (Powered)":
+		case "Wheelchair (Powered)":
 			objectCount = wheelChair_powered;
 			break;
 		case "Push Chair / Buggy":
@@ -2108,6 +2208,23 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		dialog.setArguments(args);
 		dialog.show(manager, "commentsDialog");
 	}
+	
+	/*
+	 * Launches the CustomDialog class and sends the reference 
+	 * "changeDefault" to that class to let that class know where it was
+	 * called from. Then it displays the dialog which is handled in
+	 * Custom_Dialogs.
+	 * @author: Richard Fong
+	 * @since: 04.06.15
+	 */
+	@SuppressLint("NewApi")
+	public void showChangeDefaultTo(View view) {
+		FragmentManager manager = getFragmentManager();
+		CustomDialogs dialog = new CustomDialogs();
+		Bundle args = new Bundle();
+		dialog.setArguments(args);
+		dialog.show(manager, "changeDefault");
+	}
 
 	/*
 	 * This method is from CustomDialogs' communicator interface. The message
@@ -2122,6 +2239,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		if(key.equals("IntersectionNamePicker")){
 			intersectionPickedNames = stringArrayValue;
 			updateAllDirectionalButtons();
+		}else if(key.equals("changeDefault")){
+			defaultTo(stringValue);
+			defaultObject = stringValue;
+			Toast.makeText(this, "defaultObject: " + defaultObject, Toast.LENGTH_SHORT).show();
 		}else if(!key.equals("Comment")){
 			updateCurrentObjectTo(stringValue);
 			updateCurrentlySelectedObject(getCurrentObjectCount(stringValue));
@@ -2263,12 +2384,12 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			decreaseDog();
 		}else if(lastSelectedObject.peek().contains("MobilityScooter")){
 			decreaseMobilityScooter();
-		}else if(lastSelectedObject.peek().contains("WheelChairAssisted")){
-			decreaseWheelChairAssisted();
-		}else if(lastSelectedObject.peek().contains("WheelChairManual")){
-			decreaseWheelChairManual();
-		}else if(lastSelectedObject.peek().contains("WheelChairPowered")){
-			decreaseWheelChairPowered();
+		}else if(lastSelectedObject.peek().contains("WheelchairAssisted")){
+			decreaseWheelchairAssisted();
+		}else if(lastSelectedObject.peek().contains("WheelchairManual")){
+			decreaseWheelchairManual();
+		}else if(lastSelectedObject.peek().contains("WheelchairPowered")){
+			decreaseWheelchairPowered();
 		}else if(lastSelectedObject.peek().contains("PushChair")){
 			decreasePushChair();
 		}else if(lastSelectedObject.peek().contains("Skateboard")){
@@ -4597,236 +4718,236 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		mobilityScooter--;
 	}
 	
-	private void decreaseWheelChairAssisted(){
-		if(lastSelectedObject.peek().equals("northWestToNorthWheelChairAssisted")){
-			northWestToNorthWheelChairAssisted--;
+	private void decreaseWheelchairAssisted(){
+		if(lastSelectedObject.peek().equals("northWestToNorthWheelchairAssisted")){
+			northWestToNorthWheelchairAssisted--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelChairAssisted")){
-			northWestToNorthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelchairAssisted")){
+			northWestToNorthEastWheelchairAssisted--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToWestWheelChairAssisted")){
-			northWestToWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northWestToWestWheelchairAssisted")){
+			northWestToWestWheelchairAssisted--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToEastWheelChairAssisted")){
-			northWestToEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northWestToEastWheelchairAssisted")){
+			northWestToEastWheelchairAssisted--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelChairAssisted")){
-			northWestToSouthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelchairAssisted")){
+			northWestToSouthWestWheelchairAssisted--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelChairAssisted")){
-			northWestToSouthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelchairAssisted")){
+			northWestToSouthWheelchairAssisted--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelChairAssisted")){
-			northWestToSouthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelchairAssisted")){
+			northWestToSouthEastWheelchairAssisted--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelChairAssisted")){
-			northToNorthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelchairAssisted")){
+			northToNorthWestWheelchairAssisted--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelChairAssisted")){
-			northToNorthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelchairAssisted")){
+			northToNorthEastWheelchairAssisted--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToWestWheelChairAssisted")){
-			northToWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northToWestWheelchairAssisted")){
+			northToWestWheelchairAssisted--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToEastWheelChairAssisted")){
-			northToEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northToEastWheelchairAssisted")){
+			northToEastWheelchairAssisted--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelChairAssisted")){
-			northToSouthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelchairAssisted")){
+			northToSouthWestWheelchairAssisted--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthWheelChairAssisted")){
-			northToSouthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northToSouthWheelchairAssisted")){
+			northToSouthWheelchairAssisted--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelChairAssisted")){
-			northToSouthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelchairAssisted")){
+			northToSouthEastWheelchairAssisted--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelChairAssisted")){
-			northEastToNorthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelchairAssisted")){
+			northEastToNorthWestWheelchairAssisted--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelChairAssisted")){
-			northEastToNorthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelchairAssisted")){
+			northEastToNorthWheelchairAssisted--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToWestWheelChairAssisted")){
-			northEastToWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northEastToWestWheelchairAssisted")){
+			northEastToWestWheelchairAssisted--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToEastWheelChairAssisted")){
-			northEastToEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northEastToEastWheelchairAssisted")){
+			northEastToEastWheelchairAssisted--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelChairAssisted")){
-			northEastToSouthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelchairAssisted")){
+			northEastToSouthWestWheelchairAssisted--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelChairAssisted")){
-			northEastToSouthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelchairAssisted")){
+			northEastToSouthWheelchairAssisted--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelChairAssisted")){
-			northEastToSouthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelchairAssisted")){
+			northEastToSouthEastWheelchairAssisted--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelChairAssisted")){
-			westToNorthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelchairAssisted")){
+			westToNorthWestWheelchairAssisted--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToNorthWheelChairAssisted")){
-			westToNorthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("westToNorthWheelchairAssisted")){
+			westToNorthWheelchairAssisted--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelChairAssisted")){
-			westToNorthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelchairAssisted")){
+			westToNorthEastWheelchairAssisted--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToEastWheelChairAssisted")){
-			westToEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("westToEastWheelchairAssisted")){
+			westToEastWheelchairAssisted--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelChairAssisted")){
-			westToSouthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelchairAssisted")){
+			westToSouthWestWheelchairAssisted--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthWheelChairAssisted")){
-			westToSouthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("westToSouthWheelchairAssisted")){
+			westToSouthWheelchairAssisted--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelChairAssisted")){
-			westToSouthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelchairAssisted")){
+			westToSouthEastWheelchairAssisted--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelChairAssisted")){
-			eastToNorthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelchairAssisted")){
+			eastToNorthWestWheelchairAssisted--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToNorthWheelChairAssisted")){
-			eastToNorthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthWheelchairAssisted")){
+			eastToNorthWheelchairAssisted--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelChairAssisted")){
-			eastToNorthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelchairAssisted")){
+			eastToNorthEastWheelchairAssisted--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToWestWheelChairAssisted")){
-			eastToWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("eastToWestWheelchairAssisted")){
+			eastToWestWheelchairAssisted--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelChairAssisted")){
-			eastToSouthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelchairAssisted")){
+			eastToSouthWestWheelchairAssisted--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthWheelChairAssisted")){
-			eastToSouthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthWheelchairAssisted")){
+			eastToSouthWheelchairAssisted--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelChairAssisted")){
-			eastToSouthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelchairAssisted")){
+			eastToSouthEastWheelchairAssisted--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelChairAssisted")){
-			southWestToNorthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelchairAssisted")){
+			southWestToNorthWestWheelchairAssisted--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelChairAssisted")){
-			southWestToNorthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelchairAssisted")){
+			southWestToNorthWheelchairAssisted--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelChairAssisted")){
-			southWestToNorthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelchairAssisted")){
+			southWestToNorthEastWheelchairAssisted--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToWestWheelChairAssisted")){
-			southWestToWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southWestToWestWheelchairAssisted")){
+			southWestToWestWheelchairAssisted--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToEastWheelChairAssisted")){
-			southWestToEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southWestToEastWheelchairAssisted")){
+			southWestToEastWheelchairAssisted--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelChairAssisted")){
-			southWestToSouthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelchairAssisted")){
+			southWestToSouthWheelchairAssisted--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelChairAssisted")){
-			southWestToSouthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelchairAssisted")){
+			southWestToSouthEastWheelchairAssisted--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelChairAssisted")){
-			southToNorthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelchairAssisted")){
+			southToNorthWestWheelchairAssisted--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToNorthWheelChairAssisted")){
-			southToNorthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southToNorthWheelchairAssisted")){
+			southToNorthWheelchairAssisted--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelChairAssisted")){
-			southToNorthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelchairAssisted")){
+			southToNorthEastWheelchairAssisted--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToWestWheelChairAssisted")){
-			southToWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southToWestWheelchairAssisted")){
+			southToWestWheelchairAssisted--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToEastWheelChairAssisted")){
-			southToEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southToEastWheelchairAssisted")){
+			southToEastWheelchairAssisted--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelChairAssisted")){
-			southToSouthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelchairAssisted")){
+			southToSouthWestWheelchairAssisted--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelChairAssisted")){
-			southToSouthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelchairAssisted")){
+			southToSouthEastWheelchairAssisted--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelChairAssisted")){
-			southEastToNorthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelchairAssisted")){
+			southEastToNorthWestWheelchairAssisted--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelChairAssisted")){
-			southEastToNorthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelchairAssisted")){
+			southEastToNorthWheelchairAssisted--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelChairAssisted")){
-			southEastToNorthEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelchairAssisted")){
+			southEastToNorthEastWheelchairAssisted--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToWestWheelChairAssisted")){
-			southEastToWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southEastToWestWheelchairAssisted")){
+			southEastToWestWheelchairAssisted--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToEastWheelChairAssisted")){
-			southEastToEastWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southEastToEastWheelchairAssisted")){
+			southEastToEastWheelchairAssisted--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelChairAssisted")){
-			southEastToSouthWestWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelchairAssisted")){
+			southEastToSouthWestWheelchairAssisted--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelChairAssisted")){
-			southEastToSouthWheelChairAssisted--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelchairAssisted")){
+			southEastToSouthWheelchairAssisted--;
 			southTotal--;
 			
 			///////////////////////////////////////////////////////////////
@@ -4834,236 +4955,236 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		wheelChair_assisted--;
 	}
 	
-	private void decreaseWheelChairManual(){
-		if(lastSelectedObject.peek().equals("northWestToNorthWheelChairManual")){
-			northWestToNorthWheelChairManual--;
+	private void decreaseWheelchairManual(){
+		if(lastSelectedObject.peek().equals("northWestToNorthWheelchairManual")){
+			northWestToNorthWheelchairManual--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelChairManual")){
-			northWestToNorthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelchairManual")){
+			northWestToNorthEastWheelchairManual--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToWestWheelChairManual")){
-			northWestToWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northWestToWestWheelchairManual")){
+			northWestToWestWheelchairManual--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToEastWheelChairManual")){
-			northWestToEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northWestToEastWheelchairManual")){
+			northWestToEastWheelchairManual--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelChairManual")){
-			northWestToSouthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelchairManual")){
+			northWestToSouthWestWheelchairManual--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelChairManual")){
-			northWestToSouthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelchairManual")){
+			northWestToSouthWheelchairManual--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelChairManual")){
-			northWestToSouthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelchairManual")){
+			northWestToSouthEastWheelchairManual--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelChairManual")){
-			northToNorthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelchairManual")){
+			northToNorthWestWheelchairManual--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelChairManual")){
-			northToNorthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelchairManual")){
+			northToNorthEastWheelchairManual--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToWestWheelChairManual")){
-			northToWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northToWestWheelchairManual")){
+			northToWestWheelchairManual--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToEastWheelChairManual")){
-			northToEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northToEastWheelchairManual")){
+			northToEastWheelchairManual--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelChairManual")){
-			northToSouthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelchairManual")){
+			northToSouthWestWheelchairManual--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthWheelChairManual")){
-			northToSouthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northToSouthWheelchairManual")){
+			northToSouthWheelchairManual--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelChairManual")){
-			northToSouthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelchairManual")){
+			northToSouthEastWheelchairManual--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelChairManual")){
-			northEastToNorthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelchairManual")){
+			northEastToNorthWestWheelchairManual--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelChairManual")){
-			northEastToNorthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelchairManual")){
+			northEastToNorthWheelchairManual--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToWestWheelChairManual")){
-			northEastToWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northEastToWestWheelchairManual")){
+			northEastToWestWheelchairManual--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToEastWheelChairManual")){
-			northEastToEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northEastToEastWheelchairManual")){
+			northEastToEastWheelchairManual--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelChairManual")){
-			northEastToSouthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelchairManual")){
+			northEastToSouthWestWheelchairManual--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelChairManual")){
-			northEastToSouthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelchairManual")){
+			northEastToSouthWheelchairManual--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelChairManual")){
-			northEastToSouthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelchairManual")){
+			northEastToSouthEastWheelchairManual--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelChairManual")){
-			westToNorthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelchairManual")){
+			westToNorthWestWheelchairManual--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToNorthWheelChairManual")){
-			westToNorthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("westToNorthWheelchairManual")){
+			westToNorthWheelchairManual--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelChairManual")){
-			westToNorthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelchairManual")){
+			westToNorthEastWheelchairManual--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToEastWheelChairManual")){
-			westToEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("westToEastWheelchairManual")){
+			westToEastWheelchairManual--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelChairManual")){
-			westToSouthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelchairManual")){
+			westToSouthWestWheelchairManual--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthWheelChairManual")){
-			westToSouthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("westToSouthWheelchairManual")){
+			westToSouthWheelchairManual--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelChairManual")){
-			westToSouthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelchairManual")){
+			westToSouthEastWheelchairManual--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelChairManual")){
-			eastToNorthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelchairManual")){
+			eastToNorthWestWheelchairManual--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToNorthWheelChairManual")){
-			eastToNorthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthWheelchairManual")){
+			eastToNorthWheelchairManual--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelChairManual")){
-			eastToNorthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelchairManual")){
+			eastToNorthEastWheelchairManual--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToWestWheelChairManual")){
-			eastToWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("eastToWestWheelchairManual")){
+			eastToWestWheelchairManual--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelChairManual")){
-			eastToSouthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelchairManual")){
+			eastToSouthWestWheelchairManual--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthWheelChairManual")){
-			eastToSouthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthWheelchairManual")){
+			eastToSouthWheelchairManual--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelChairManual")){
-			eastToSouthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelchairManual")){
+			eastToSouthEastWheelchairManual--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelChairManual")){
-			southWestToNorthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelchairManual")){
+			southWestToNorthWestWheelchairManual--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelChairManual")){
-			southWestToNorthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelchairManual")){
+			southWestToNorthWheelchairManual--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelChairManual")){
-			southWestToNorthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelchairManual")){
+			southWestToNorthEastWheelchairManual--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToWestWheelChairManual")){
-			southWestToWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southWestToWestWheelchairManual")){
+			southWestToWestWheelchairManual--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToEastWheelChairManual")){
-			southWestToEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southWestToEastWheelchairManual")){
+			southWestToEastWheelchairManual--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelChairManual")){
-			southWestToSouthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelchairManual")){
+			southWestToSouthWheelchairManual--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelChairManual")){
-			southWestToSouthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelchairManual")){
+			southWestToSouthEastWheelchairManual--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelChairManual")){
-			southToNorthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelchairManual")){
+			southToNorthWestWheelchairManual--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToNorthWheelChairManual")){
-			southToNorthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southToNorthWheelchairManual")){
+			southToNorthWheelchairManual--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelChairManual")){
-			southToNorthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelchairManual")){
+			southToNorthEastWheelchairManual--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToWestWheelChairManual")){
-			southToWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southToWestWheelchairManual")){
+			southToWestWheelchairManual--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToEastWheelChairManual")){
-			southToEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southToEastWheelchairManual")){
+			southToEastWheelchairManual--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelChairManual")){
-			southToSouthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelchairManual")){
+			southToSouthWestWheelchairManual--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelChairManual")){
-			southToSouthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelchairManual")){
+			southToSouthEastWheelchairManual--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelChairManual")){
-			southEastToNorthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelchairManual")){
+			southEastToNorthWestWheelchairManual--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelChairManual")){
-			southEastToNorthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelchairManual")){
+			southEastToNorthWheelchairManual--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelChairManual")){
-			southEastToNorthEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelchairManual")){
+			southEastToNorthEastWheelchairManual--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToWestWheelChairManual")){
-			southEastToWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southEastToWestWheelchairManual")){
+			southEastToWestWheelchairManual--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToEastWheelChairManual")){
-			southEastToEastWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southEastToEastWheelchairManual")){
+			southEastToEastWheelchairManual--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelChairManual")){
-			southEastToSouthWestWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelchairManual")){
+			southEastToSouthWestWheelchairManual--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelChairManual")){
-			southEastToSouthWheelChairManual--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelchairManual")){
+			southEastToSouthWheelchairManual--;
 			southTotal--;
 			
 			///////////////////////////////////////////////////////////////
@@ -5071,236 +5192,236 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		wheelChair_manual--;
 	}
 	
-	private void decreaseWheelChairPowered(){
-		if(lastSelectedObject.peek().equals("northWestToNorthWheelChairPowered")){
-			northWestToNorthWheelChairPowered--;
+	private void decreaseWheelchairPowered(){
+		if(lastSelectedObject.peek().equals("northWestToNorthWheelchairPowered")){
+			northWestToNorthWheelchairPowered--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelChairPowered")){
-			northWestToNorthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northWestToNorthEastWheelchairPowered")){
+			northWestToNorthEastWheelchairPowered--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToWestWheelChairPowered")){
-			northWestToWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northWestToWestWheelchairPowered")){
+			northWestToWestWheelchairPowered--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToEastWheelChairPowered")){
-			northWestToEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northWestToEastWheelchairPowered")){
+			northWestToEastWheelchairPowered--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelChairPowered")){
-			northWestToSouthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWestWheelchairPowered")){
+			northWestToSouthWestWheelchairPowered--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelChairPowered")){
-			northWestToSouthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthWheelchairPowered")){
+			northWestToSouthWheelchairPowered--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelChairPowered")){
-			northWestToSouthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northWestToSouthEastWheelchairPowered")){
+			northWestToSouthEastWheelchairPowered--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelChairPowered")){
-			northToNorthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northToNorthWestWheelchairPowered")){
+			northToNorthWestWheelchairPowered--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelChairPowered")){
-			northToNorthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northToNorthEastWheelchairPowered")){
+			northToNorthEastWheelchairPowered--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToWestWheelChairPowered")){
-			northToWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northToWestWheelchairPowered")){
+			northToWestWheelchairPowered--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToEastWheelChairPowered")){
-			northToEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northToEastWheelchairPowered")){
+			northToEastWheelchairPowered--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelChairPowered")){
-			northToSouthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northToSouthWestWheelchairPowered")){
+			northToSouthWestWheelchairPowered--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthWheelChairPowered")){
-			northToSouthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northToSouthWheelchairPowered")){
+			northToSouthWheelchairPowered--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelChairPowered")){
-			northToSouthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northToSouthEastWheelchairPowered")){
+			northToSouthEastWheelchairPowered--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelChairPowered")){
-			northEastToNorthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWestWheelchairPowered")){
+			northEastToNorthWestWheelchairPowered--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelChairPowered")){
-			northEastToNorthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northEastToNorthWheelchairPowered")){
+			northEastToNorthWheelchairPowered--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToWestWheelChairPowered")){
-			northEastToWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northEastToWestWheelchairPowered")){
+			northEastToWestWheelchairPowered--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToEastWheelChairPowered")){
-			northEastToEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northEastToEastWheelchairPowered")){
+			northEastToEastWheelchairPowered--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelChairPowered")){
-			northEastToSouthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWestWheelchairPowered")){
+			northEastToSouthWestWheelchairPowered--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelChairPowered")){
-			northEastToSouthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthWheelchairPowered")){
+			northEastToSouthWheelchairPowered--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelChairPowered")){
-			northEastToSouthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("northEastToSouthEastWheelchairPowered")){
+			northEastToSouthEastWheelchairPowered--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelChairPowered")){
-			westToNorthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("westToNorthWestWheelchairPowered")){
+			westToNorthWestWheelchairPowered--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToNorthWheelChairPowered")){
-			westToNorthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("westToNorthWheelchairPowered")){
+			westToNorthWheelchairPowered--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelChairPowered")){
-			westToNorthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("westToNorthEastWheelchairPowered")){
+			westToNorthEastWheelchairPowered--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToEastWheelChairPowered")){
-			westToEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("westToEastWheelchairPowered")){
+			westToEastWheelchairPowered--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelChairPowered")){
-			westToSouthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("westToSouthWestWheelchairPowered")){
+			westToSouthWestWheelchairPowered--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthWheelChairPowered")){
-			westToSouthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("westToSouthWheelchairPowered")){
+			westToSouthWheelchairPowered--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelChairPowered")){
-			westToSouthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("westToSouthEastWheelchairPowered")){
+			westToSouthEastWheelchairPowered--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelChairPowered")){
-			eastToNorthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthWestWheelchairPowered")){
+			eastToNorthWestWheelchairPowered--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToNorthWheelChairPowered")){
-			eastToNorthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthWheelchairPowered")){
+			eastToNorthWheelchairPowered--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelChairPowered")){
-			eastToNorthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("eastToNorthEastWheelchairPowered")){
+			eastToNorthEastWheelchairPowered--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToWestWheelChairPowered")){
-			eastToWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("eastToWestWheelchairPowered")){
+			eastToWestWheelchairPowered--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelChairPowered")){
-			eastToSouthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthWestWheelchairPowered")){
+			eastToSouthWestWheelchairPowered--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthWheelChairPowered")){
-			eastToSouthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthWheelchairPowered")){
+			eastToSouthWheelchairPowered--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelChairPowered")){
-			eastToSouthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("eastToSouthEastWheelchairPowered")){
+			eastToSouthEastWheelchairPowered--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelChairPowered")){
-			southWestToNorthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWestWheelchairPowered")){
+			southWestToNorthWestWheelchairPowered--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelChairPowered")){
-			southWestToNorthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthWheelchairPowered")){
+			southWestToNorthWheelchairPowered--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelChairPowered")){
-			southWestToNorthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southWestToNorthEastWheelchairPowered")){
+			southWestToNorthEastWheelchairPowered--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToWestWheelChairPowered")){
-			southWestToWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southWestToWestWheelchairPowered")){
+			southWestToWestWheelchairPowered--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToEastWheelChairPowered")){
-			southWestToEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southWestToEastWheelchairPowered")){
+			southWestToEastWheelchairPowered--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelChairPowered")){
-			southWestToSouthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthWheelchairPowered")){
+			southWestToSouthWheelchairPowered--;
 			southTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelChairPowered")){
-			southWestToSouthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southWestToSouthEastWheelchairPowered")){
+			southWestToSouthEastWheelchairPowered--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelChairPowered")){
-			southToNorthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southToNorthWestWheelchairPowered")){
+			southToNorthWestWheelchairPowered--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToNorthWheelChairPowered")){
-			southToNorthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southToNorthWheelchairPowered")){
+			southToNorthWheelchairPowered--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelChairPowered")){
-			southToNorthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southToNorthEastWheelchairPowered")){
+			southToNorthEastWheelchairPowered--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToWestWheelChairPowered")){
-			southToWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southToWestWheelchairPowered")){
+			southToWestWheelchairPowered--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToEastWheelChairPowered")){
-			southToEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southToEastWheelchairPowered")){
+			southToEastWheelchairPowered--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelChairPowered")){
-			southToSouthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southToSouthWestWheelchairPowered")){
+			southToSouthWestWheelchairPowered--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelChairPowered")){
-			southToSouthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southToSouthEastWheelchairPowered")){
+			southToSouthEastWheelchairPowered--;
 			southEastTotal--;
 			
 			///////////////////////////////////////////////////////////////
-		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelChairPowered")){
-			southEastToNorthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWestWheelchairPowered")){
+			southEastToNorthWestWheelchairPowered--;
 			northWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelChairPowered")){
-			southEastToNorthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthWheelchairPowered")){
+			southEastToNorthWheelchairPowered--;
 			northTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelChairPowered")){
-			southEastToNorthEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southEastToNorthEastWheelchairPowered")){
+			southEastToNorthEastWheelchairPowered--;
 			northEastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToWestWheelChairPowered")){
-			southEastToWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southEastToWestWheelchairPowered")){
+			southEastToWestWheelchairPowered--;
 			westTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToEastWheelChairPowered")){
-			southEastToEastWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southEastToEastWheelchairPowered")){
+			southEastToEastWheelchairPowered--;
 			eastTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelChairPowered")){
-			southEastToSouthWestWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWestWheelchairPowered")){
+			southEastToSouthWestWheelchairPowered--;
 			southWestTotal--;
 			
-		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelChairPowered")){
-			southEastToSouthWheelChairPowered--;
+		}else if(lastSelectedObject.peek().equals("southEastToSouthWheelchairPowered")){
+			southEastToSouthWheelchairPowered--;
 			southTotal--;
 			
 			///////////////////////////////////////////////////////////////
@@ -6150,17 +6271,17 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			currentlySelectedCount = crutches_2;
 			passed = true;
 			break;
-		case "Wheel Chair (Assisted)":
+		case "Wheelchair (Assisted)":
 			wheelChair_assisted++;
 			currentlySelectedCount = wheelChair_assisted;
 			passed = true;
 			break;
-		case "Wheel Chair (Manual)":
+		case "Wheelchair (Manual)":
 			wheelChair_manual++;
 			currentlySelectedCount = wheelChair_manual;
 			passed = true;
 			break;
-		case "Wheel Chair (Powered)":
+		case "Wheelchair (Powered)":
 			wheelChair_powered++;
 			currentlySelectedCount = wheelChair_powered;
 			passed = true;
@@ -6203,7 +6324,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		updateDirectionCount();
 		updateAllDirectionalButtons();
 		initialiseDirectionFromTo();
-		defaultPedestrian();
+		defaultTo(defaultObject);
+		Toast.makeText(this, defaultObject, Toast.LENGTH_SHORT).show();
 		resetDirectionButtonBackground();
 		initialiseDirectionButtonClicked();
 	}
@@ -6262,13 +6384,13 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			checkCrutches2(directionFromPosition, directionToPosition);
 			break;
 		case "Wheel Chair (Assisted)":
-			checkWheelChairAssisted(directionFromPosition, directionToPosition);
+			checkWheelchairAssisted(directionFromPosition, directionToPosition);
 			break;
 		case "Wheel Chair (Manual)":
-			checkWheelChairManual(directionFromPosition, directionToPosition);
+			checkWheelchairManual(directionFromPosition, directionToPosition);
 			break;
 		case "Wheel Chair (Powered)":
-			checkWheelChairPowered(directionFromPosition, directionToPosition);
+			checkWheelchairPowered(directionFromPosition, directionToPosition);
 			break;
 		case "Push Chair / Buggy":
 			checkPushChair(directionFromPosition, directionToPosition);
@@ -8583,687 +8705,687 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		}
 	}
 	
-	private void checkWheelChairAssisted(int directionFromPosition, int directionToPosition){
+	private void checkWheelchairAssisted(int directionFromPosition, int directionToPosition){
 		if(directionFromPosition == 0 && directionToPosition == 1){
-			northWestToNorthWheelChairAssisted++;
+			northWestToNorthWheelchairAssisted++;
 			northTotal++;
-			lastSelectedObject.push("northWestToNorthWheelChairAssisted");
+			lastSelectedObject.push("northWestToNorthWheelchairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
-			northWestToNorthEastWheelChairAssisted++;
+			northWestToNorthEastWheelchairAssisted++;
 			northEastTotal++;
-			lastSelectedObject.push("northWestToNorthEastWheelChairAssisted");
+			lastSelectedObject.push("northWestToNorthEastWheelchairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
-			northWestToWestWheelChairAssisted++;
+			northWestToWestWheelchairAssisted++;
 			westTotal++;
-			lastSelectedObject.push("northWestToWestWheelChairAssisted");
+			lastSelectedObject.push("northWestToWestWheelchairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
-			northWestToEastWheelChairAssisted++;
+			northWestToEastWheelchairAssisted++;
 			eastTotal++;
-			lastSelectedObject.push("northWestToEastWheelChairAssisted");
+			lastSelectedObject.push("northWestToEastWheelchairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
-			northWestToSouthWestWheelChairAssisted++;
+			northWestToSouthWestWheelchairAssisted++;
 			southWestTotal++;
-			lastSelectedObject.push("northWestToSouthWestWheelChairAssisted");
+			lastSelectedObject.push("northWestToSouthWestWheelchairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
-			northWestToSouthWheelChairAssisted++;
+			northWestToSouthWheelchairAssisted++;
 			southTotal++;
-			lastSelectedObject.push("northWestToSouthWheelChairAssisted");
+			lastSelectedObject.push("northWestToSouthWheelchairAssisted");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
-			northWestToSouthEastWheelChairAssisted++;
+			northWestToSouthEastWheelchairAssisted++;
 			southEastTotal++;
-			lastSelectedObject.push("northWestToSouthEastWheelChairAssisted");
+			lastSelectedObject.push("northWestToSouthEastWheelchairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
-			northToNorthWestWheelChairAssisted++;
+			northToNorthWestWheelchairAssisted++;
 			northWestTotal++;
-			lastSelectedObject.push("northToNorthWestWheelChairAssisted");
+			lastSelectedObject.push("northToNorthWestWheelchairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
-			northToNorthEastWheelChairAssisted++;
+			northToNorthEastWheelchairAssisted++;
 			northEastTotal++;
-			lastSelectedObject.push("northToNorthEastWheelChairAssisted");
+			lastSelectedObject.push("northToNorthEastWheelchairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
-			northToWestWheelChairAssisted++;
+			northToWestWheelchairAssisted++;
 			westTotal++;
-			lastSelectedObject.push("northToWestWheelChairAssisted");
+			lastSelectedObject.push("northToWestWheelchairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
-			northToEastWheelChairAssisted++;
+			northToEastWheelchairAssisted++;
 			eastTotal++;
-			lastSelectedObject.push("northToEastWheelChairAssisted");
+			lastSelectedObject.push("northToEastWheelchairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
-			northToSouthWestWheelChairAssisted++;
+			northToSouthWestWheelchairAssisted++;
 			southWestTotal++;
-			lastSelectedObject.push("northToSouthWestWheelChairAssisted");
+			lastSelectedObject.push("northToSouthWestWheelchairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
-			northToSouthWheelChairAssisted++;
+			northToSouthWheelchairAssisted++;
 			southTotal++;
-			lastSelectedObject.push("northToSouthWheelChairAssisted");
+			lastSelectedObject.push("northToSouthWheelchairAssisted");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
-			northToSouthEastWheelChairAssisted++;
+			northToSouthEastWheelchairAssisted++;
 			southEastTotal++;
-			lastSelectedObject.push("northToSouthEastWheelChairAssisted");
+			lastSelectedObject.push("northToSouthEastWheelchairAssisted");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
-			northEastToNorthWestWheelChairAssisted++;
+			northEastToNorthWestWheelchairAssisted++;
 			northWestTotal++;
-			lastSelectedObject.push("northEastToNorthWestWheelChairAssisted");
+			lastSelectedObject.push("northEastToNorthWestWheelchairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
-			northEastToNorthWheelChairAssisted++;
+			northEastToNorthWheelchairAssisted++;
 			northTotal++;
-			lastSelectedObject.push("northEastToNorthWheelChairAssisted");
+			lastSelectedObject.push("northEastToNorthWheelchairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
-			northEastToWestWheelChairAssisted++;
+			northEastToWestWheelchairAssisted++;
 			westTotal++;
-			lastSelectedObject.push("northEastToWestWheelChairAssisted");
+			lastSelectedObject.push("northEastToWestWheelchairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
-			northEastToEastWheelChairAssisted++;
+			northEastToEastWheelchairAssisted++;
 			eastTotal++;
-			lastSelectedObject.push("northEastToEastWheelChairAssisted");
+			lastSelectedObject.push("northEastToEastWheelchairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
-			northEastToSouthWestWheelChairAssisted++;
+			northEastToSouthWestWheelchairAssisted++;
 			southWestTotal++;
-			lastSelectedObject.push("northEastToSouthWestWheelChairAssisted");
+			lastSelectedObject.push("northEastToSouthWestWheelchairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
-			northEastToSouthWheelChairAssisted++;
+			northEastToSouthWheelchairAssisted++;
 			southTotal++;
-			lastSelectedObject.push("northEastToSouthWheelChairAssisted");
+			lastSelectedObject.push("northEastToSouthWheelchairAssisted");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
-			northEastToSouthEastWheelChairAssisted++;
+			northEastToSouthEastWheelchairAssisted++;
 			southEastTotal++;
-			lastSelectedObject.push("northEastToSouthEastWheelChairAssisted");
+			lastSelectedObject.push("northEastToSouthEastWheelchairAssisted");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
-			westToNorthWestWheelChairAssisted++;
+			westToNorthWestWheelchairAssisted++;
 			northWestTotal++;
-			lastSelectedObject.push("westToNorthWestWheelChairAssisted");
+			lastSelectedObject.push("westToNorthWestWheelchairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
-			westToNorthWheelChairAssisted++;
+			westToNorthWheelchairAssisted++;
 			northTotal++;
-			lastSelectedObject.push("westToNorthWheelChairAssisted");
+			lastSelectedObject.push("westToNorthWheelchairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
-			westToNorthEastWheelChairAssisted++;
+			westToNorthEastWheelchairAssisted++;
 			northEastTotal++;
-			lastSelectedObject.push("westToNorthEastWheelChairAssisted");
+			lastSelectedObject.push("westToNorthEastWheelchairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
-			westToEastWheelChairAssisted++;
+			westToEastWheelchairAssisted++;
 			eastTotal++;
-			lastSelectedObject.push("westToEastWheelChairAssisted");
+			lastSelectedObject.push("westToEastWheelchairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
-			westToSouthWestWheelChairAssisted++;
+			westToSouthWestWheelchairAssisted++;
 			southWestTotal++;
-			lastSelectedObject.push("westToSouthWestWheelChairAssisted");
+			lastSelectedObject.push("westToSouthWestWheelchairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
-			westToSouthWheelChairAssisted++;
+			westToSouthWheelchairAssisted++;
 			southTotal++;
-			lastSelectedObject.push("westToSouthWheelChairAssisted");
+			lastSelectedObject.push("westToSouthWheelchairAssisted");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
-			westToSouthEastWheelChairAssisted++;
+			westToSouthEastWheelchairAssisted++;
 			southEastTotal++;
-			lastSelectedObject.push("westToSouthEastWheelChairAssisted");
+			lastSelectedObject.push("westToSouthEastWheelchairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
-			eastToNorthWestWheelChairAssisted++;
+			eastToNorthWestWheelchairAssisted++;
 			northWestTotal++;
-			lastSelectedObject.push("eastToNorthWestWheelChairAssisted");
+			lastSelectedObject.push("eastToNorthWestWheelchairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
-			eastToNorthWheelChairAssisted++;
+			eastToNorthWheelchairAssisted++;
 			northTotal++;
-			lastSelectedObject.push("eastToNorthWheelChairAssisted");
+			lastSelectedObject.push("eastToNorthWheelchairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
-			eastToNorthEastWheelChairAssisted++;
+			eastToNorthEastWheelchairAssisted++;
 			northEastTotal++;
-			lastSelectedObject.push("eastToNorthEastWheelChairAssisted");
+			lastSelectedObject.push("eastToNorthEastWheelchairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
-			eastToWestWheelChairAssisted++;
+			eastToWestWheelchairAssisted++;
 			westTotal++;
-			lastSelectedObject.push("eastToWestWheelChairAssisted");
+			lastSelectedObject.push("eastToWestWheelchairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
-			eastToSouthWestWheelChairAssisted++;
+			eastToSouthWestWheelchairAssisted++;
 			southWestTotal++;
-			lastSelectedObject.push("eastToSouthWestWheelChairAssisted");
+			lastSelectedObject.push("eastToSouthWestWheelchairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
-			eastToSouthWheelChairAssisted++;
+			eastToSouthWheelchairAssisted++;
 			southTotal++;
-			lastSelectedObject.push("eastToSouthWheelChairAssisted");
+			lastSelectedObject.push("eastToSouthWheelchairAssisted");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
-			eastToSouthEastWheelChairAssisted++;
+			eastToSouthEastWheelchairAssisted++;
 			southEastTotal++;
-			lastSelectedObject.push("eastToSouthEastWheelChairAssisted");
+			lastSelectedObject.push("eastToSouthEastWheelchairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
-			southWestToNorthWestWheelChairAssisted++;
+			southWestToNorthWestWheelchairAssisted++;
 			northWestTotal++;
-			lastSelectedObject.push("southWestToNorthWestWheelChairAssisted");
+			lastSelectedObject.push("southWestToNorthWestWheelchairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
-			southWestToNorthWheelChairAssisted++;
+			southWestToNorthWheelchairAssisted++;
 			northTotal++;
-			lastSelectedObject.push("southWestToNorthWheelChairAssisted");
+			lastSelectedObject.push("southWestToNorthWheelchairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
-			southWestToNorthEastWheelChairAssisted++;
+			southWestToNorthEastWheelchairAssisted++;
 			northEastTotal++;
-			lastSelectedObject.push("southWestToNorthEastWheelChairAssisted");
+			lastSelectedObject.push("southWestToNorthEastWheelchairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
-			southWestToWestWheelChairAssisted++;
+			southWestToWestWheelchairAssisted++;
 			westTotal++;
-			lastSelectedObject.push("southWestToWestWheelChairAssisted");
+			lastSelectedObject.push("southWestToWestWheelchairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
-			southWestToEastWheelChairAssisted++;
+			southWestToEastWheelchairAssisted++;
 			eastTotal++;
-			lastSelectedObject.push("southWestToEastWheelChairAssisted");
+			lastSelectedObject.push("southWestToEastWheelchairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
-			southWestToSouthWheelChairAssisted++;
+			southWestToSouthWheelchairAssisted++;
 			southTotal++;
-			lastSelectedObject.push("southWestToSouthWheelChairAssisted");
+			lastSelectedObject.push("southWestToSouthWheelchairAssisted");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
-			southWestToSouthEastWheelChairAssisted++;
+			southWestToSouthEastWheelchairAssisted++;
 			southEastTotal++;
-			lastSelectedObject.push("southWestToSouthEasWheelChairAssisted");
+			lastSelectedObject.push("southWestToSouthEasWheelchairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
-			southToNorthWestWheelChairAssisted++;
+			southToNorthWestWheelchairAssisted++;
 			northWestTotal++;
-			lastSelectedObject.push("southToNorthWestWheelChairAssisted");
+			lastSelectedObject.push("southToNorthWestWheelchairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
-			southToNorthWheelChairAssisted++;
+			southToNorthWheelchairAssisted++;
 			northTotal++;
-			lastSelectedObject.push("southToNorthWheelChairAssisted");
+			lastSelectedObject.push("southToNorthWheelchairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
-			southToNorthEastWheelChairAssisted++;
+			southToNorthEastWheelchairAssisted++;
 			northEastTotal++;
-			lastSelectedObject.push("southToNorthEastWheelChairAssisted");
+			lastSelectedObject.push("southToNorthEastWheelchairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
-			southToWestWheelChairAssisted++;
+			southToWestWheelchairAssisted++;
 			westTotal++;
-			lastSelectedObject.push("southToWestWheelChairAssisted");
+			lastSelectedObject.push("southToWestWheelchairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
-			southToEastWheelChairAssisted++;
+			southToEastWheelchairAssisted++;
 			eastTotal++;
-			lastSelectedObject.push("southToEastWheelChairAssisted");
+			lastSelectedObject.push("southToEastWheelchairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
-			southToSouthWestWheelChairAssisted++;
+			southToSouthWestWheelchairAssisted++;
 			southWestTotal++;
-			lastSelectedObject.push("southToSouthWestWheelChairAssisted");
+			lastSelectedObject.push("southToSouthWestWheelchairAssisted");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
-			southToSouthEastWheelChairAssisted++;
+			southToSouthEastWheelchairAssisted++;
 			southEastTotal++;
-			lastSelectedObject.push("southToSouthEastWheelChairAssisted");
+			lastSelectedObject.push("southToSouthEastWheelchairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
-			southEastToNorthWestWheelChairAssisted++;
+			southEastToNorthWestWheelchairAssisted++;
 			northWestTotal++;
-			lastSelectedObject.push("southEastToNorthWestWheelChairAssisted");
+			lastSelectedObject.push("southEastToNorthWestWheelchairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
-			southEastToNorthWheelChairAssisted++;
+			southEastToNorthWheelchairAssisted++;
 			northTotal++;
-			lastSelectedObject.push("southEastToNorthWheelChairAssisted");
+			lastSelectedObject.push("southEastToNorthWheelchairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
-			southEastToNorthEastWheelChairAssisted++;
+			southEastToNorthEastWheelchairAssisted++;
 			northEastTotal++;
-			lastSelectedObject.push("southEastToNorthEastWheelChairAssisted");
+			lastSelectedObject.push("southEastToNorthEastWheelchairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
-			southEastToWestWheelChairAssisted++;
+			southEastToWestWheelchairAssisted++;
 			westTotal++;
-			lastSelectedObject.push("southEastToWestWheelChairAssisted");
+			lastSelectedObject.push("southEastToWestWheelchairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
-			southEastToEastWheelChairAssisted++;
+			southEastToEastWheelchairAssisted++;
 			eastTotal++;
-			lastSelectedObject.push("southEastToEastWheelChairAssisted");
+			lastSelectedObject.push("southEastToEastWheelchairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
-			southEastToSouthWestWheelChairAssisted++;
+			southEastToSouthWestWheelchairAssisted++;
 			southWestTotal++;
-			lastSelectedObject.push("southEastToSouthWestWheelChairAssisted");
+			lastSelectedObject.push("southEastToSouthWestWheelchairAssisted");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
-			southEastToSouthWheelChairAssisted++;
+			southEastToSouthWheelchairAssisted++;
 			southTotal++;
-			lastSelectedObject.push("southEastToSouthWheelChairAssisted");
+			lastSelectedObject.push("southEastToSouthWheelchairAssisted");
 		}
 	}
 
-	private void checkWheelChairManual(int directionFromPosition, int directionToPosition){
+	private void checkWheelchairManual(int directionFromPosition, int directionToPosition){
 		if(directionFromPosition == 0 && directionToPosition == 1){
-			northWestToNorthWheelChairManual++;
+			northWestToNorthWheelchairManual++;
 			northTotal++;
-			lastSelectedObject.push("northWestToNorthWheelChairManual");
+			lastSelectedObject.push("northWestToNorthWheelchairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
-			northWestToNorthEastWheelChairManual++;
+			northWestToNorthEastWheelchairManual++;
 			northEastTotal++;
-			lastSelectedObject.push("northWestToNorthEastWheelChairManual");
+			lastSelectedObject.push("northWestToNorthEastWheelchairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
-			northWestToWestWheelChairManual++;
+			northWestToWestWheelchairManual++;
 			westTotal++;
-			lastSelectedObject.push("northWestToWestWheelChairManual");
+			lastSelectedObject.push("northWestToWestWheelchairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
-			northWestToEastWheelChairManual++;
+			northWestToEastWheelchairManual++;
 			eastTotal++;
-			lastSelectedObject.push("northWestToEastWheelChairManual");
+			lastSelectedObject.push("northWestToEastWheelchairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
-			northWestToSouthWestWheelChairManual++;
+			northWestToSouthWestWheelchairManual++;
 			southWestTotal++;
-			lastSelectedObject.push("northWestToSouthWestWheelChairManual");
+			lastSelectedObject.push("northWestToSouthWestWheelchairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
-			northWestToSouthWheelChairManual++;
+			northWestToSouthWheelchairManual++;
 			southTotal++;
-			lastSelectedObject.push("northWestToSouthWheelChairManual");
+			lastSelectedObject.push("northWestToSouthWheelchairManual");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
-			northWestToSouthEastWheelChairManual++;
+			northWestToSouthEastWheelchairManual++;
 			southEastTotal++;
-			lastSelectedObject.push("northWestToSouthEastWheelChairManual");
+			lastSelectedObject.push("northWestToSouthEastWheelchairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
-			northToNorthWestWheelChairManual++;
+			northToNorthWestWheelchairManual++;
 			northWestTotal++;
-			lastSelectedObject.push("northToNorthWestWheelChairManual");
+			lastSelectedObject.push("northToNorthWestWheelchairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
-			northToNorthEastWheelChairManual++;
+			northToNorthEastWheelchairManual++;
 			northEastTotal++;
-			lastSelectedObject.push("northToNorthEastWheelChairManual");
+			lastSelectedObject.push("northToNorthEastWheelchairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
-			northToWestWheelChairManual++;
+			northToWestWheelchairManual++;
 			westTotal++;
-			lastSelectedObject.push("northToWestWheelChairManual");
+			lastSelectedObject.push("northToWestWheelchairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
-			northToEastWheelChairManual++;
+			northToEastWheelchairManual++;
 			eastTotal++;
-			lastSelectedObject.push("northToEastWheelChairManual");
+			lastSelectedObject.push("northToEastWheelchairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
-			northToSouthWestWheelChairManual++;
+			northToSouthWestWheelchairManual++;
 			southWestTotal++;
-			lastSelectedObject.push("northToSouthWestWheelChairManual");
+			lastSelectedObject.push("northToSouthWestWheelchairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
-			northToSouthWheelChairManual++;
+			northToSouthWheelchairManual++;
 			southTotal++;
-			lastSelectedObject.push("northToSouthWheelChairManual");
+			lastSelectedObject.push("northToSouthWheelchairManual");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
-			northToSouthEastWheelChairManual++;
+			northToSouthEastWheelchairManual++;
 			southEastTotal++;
-			lastSelectedObject.push("northToSouthEastWheelChairManual");
+			lastSelectedObject.push("northToSouthEastWheelchairManual");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
-			northEastToNorthWestWheelChairManual++;
+			northEastToNorthWestWheelchairManual++;
 			northWestTotal++;
-			lastSelectedObject.push("northEastToNorthWestWheelChairManual");
+			lastSelectedObject.push("northEastToNorthWestWheelchairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
-			northEastToNorthWheelChairManual++;
+			northEastToNorthWheelchairManual++;
 			northTotal++;
-			lastSelectedObject.push("northEastToNorthWheelChairManual");
+			lastSelectedObject.push("northEastToNorthWheelchairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
-			northEastToWestWheelChairManual++;
+			northEastToWestWheelchairManual++;
 			westTotal++;
-			lastSelectedObject.push("northEastToWestWheelChairManual");
+			lastSelectedObject.push("northEastToWestWheelchairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
-			northEastToEastWheelChairManual++;
+			northEastToEastWheelchairManual++;
 			eastTotal++;
-			lastSelectedObject.push("northEastToEastWheelChairManual");
+			lastSelectedObject.push("northEastToEastWheelchairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
-			northEastToSouthWestWheelChairManual++;
+			northEastToSouthWestWheelchairManual++;
 			southWestTotal++;
-			lastSelectedObject.push("northEastToSouthWestWheelChairManual");
+			lastSelectedObject.push("northEastToSouthWestWheelchairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
-			northEastToSouthWheelChairManual++;
+			northEastToSouthWheelchairManual++;
 			southTotal++;
-			lastSelectedObject.push("northEastToSouthWheelChairManual");
+			lastSelectedObject.push("northEastToSouthWheelchairManual");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
-			northEastToSouthEastWheelChairManual++;
+			northEastToSouthEastWheelchairManual++;
 			southEastTotal++;
-			lastSelectedObject.push("northEastToSouthEastWheelChairManual");
+			lastSelectedObject.push("northEastToSouthEastWheelchairManual");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
-			westToNorthWestWheelChairManual++;
+			westToNorthWestWheelchairManual++;
 			northWestTotal++;
-			lastSelectedObject.push("westToNorthWestWheelChairManual");
+			lastSelectedObject.push("westToNorthWestWheelchairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
-			westToNorthWheelChairManual++;
+			westToNorthWheelchairManual++;
 			northTotal++;
-			lastSelectedObject.push("westToNorthWheelChairManual");
+			lastSelectedObject.push("westToNorthWheelchairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
-			westToNorthEastWheelChairManual++;
+			westToNorthEastWheelchairManual++;
 			northEastTotal++;
-			lastSelectedObject.push("westToNorthEastWheelChairManual");
+			lastSelectedObject.push("westToNorthEastWheelchairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
-			westToEastWheelChairManual++;
+			westToEastWheelchairManual++;
 			eastTotal++;
-			lastSelectedObject.push("westToEastWheelChairManual");
+			lastSelectedObject.push("westToEastWheelchairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
-			westToSouthWestWheelChairManual++;
+			westToSouthWestWheelchairManual++;
 			southWestTotal++;
-			lastSelectedObject.push("westToSouthWestWheelChairManual");
+			lastSelectedObject.push("westToSouthWestWheelchairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
-			westToSouthWheelChairManual++;
+			westToSouthWheelchairManual++;
 			southTotal++;
-			lastSelectedObject.push("westToSouthWheelChairManual");
+			lastSelectedObject.push("westToSouthWheelchairManual");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
-			westToSouthEastWheelChairManual++;
+			westToSouthEastWheelchairManual++;
 			southEastTotal++;
-			lastSelectedObject.push("westToSouthEastWheelChairManual");
+			lastSelectedObject.push("westToSouthEastWheelchairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
-			eastToNorthWestWheelChairManual++;
+			eastToNorthWestWheelchairManual++;
 			northWestTotal++;
-			lastSelectedObject.push("eastToNorthWestWheelChairManual");
+			lastSelectedObject.push("eastToNorthWestWheelchairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
-			eastToNorthWheelChairManual++;
+			eastToNorthWheelchairManual++;
 			northTotal++;
-			lastSelectedObject.push("eastToNorthWheelChairManual");
+			lastSelectedObject.push("eastToNorthWheelchairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
-			eastToNorthEastWheelChairManual++;
+			eastToNorthEastWheelchairManual++;
 			northEastTotal++;
-			lastSelectedObject.push("eastToNorthEastWheelChairManual");
+			lastSelectedObject.push("eastToNorthEastWheelchairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
-			eastToWestWheelChairManual++;
+			eastToWestWheelchairManual++;
 			westTotal++;
-			lastSelectedObject.push("eastToWestWheelChairManual");
+			lastSelectedObject.push("eastToWestWheelchairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
-			eastToSouthWestWheelChairManual++;
+			eastToSouthWestWheelchairManual++;
 			southWestTotal++;
-			lastSelectedObject.push("eastToSouthWestWheelChairManual");
+			lastSelectedObject.push("eastToSouthWestWheelchairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
-			eastToSouthWheelChairManual++;
+			eastToSouthWheelchairManual++;
 			southTotal++;
-			lastSelectedObject.push("eastToSouthWheelChairManual");
+			lastSelectedObject.push("eastToSouthWheelchairManual");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
-			eastToSouthEastWheelChairManual++;
+			eastToSouthEastWheelchairManual++;
 			southEastTotal++;
-			lastSelectedObject.push("eastToSouthEastWheelChairManual");
+			lastSelectedObject.push("eastToSouthEastWheelchairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
-			southWestToNorthWestWheelChairManual++;
+			southWestToNorthWestWheelchairManual++;
 			northWestTotal++;
-			lastSelectedObject.push("southWestToNorthWestWheelChairManual");
+			lastSelectedObject.push("southWestToNorthWestWheelchairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
-			southWestToNorthWheelChairManual++;
+			southWestToNorthWheelchairManual++;
 			northTotal++;
-			lastSelectedObject.push("southWestToNorthWheelChairManual");
+			lastSelectedObject.push("southWestToNorthWheelchairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
-			southWestToNorthEastWheelChairManual++;
+			southWestToNorthEastWheelchairManual++;
 			northEastTotal++;
-			lastSelectedObject.push("southWestToNorthEastWheelChairManual");
+			lastSelectedObject.push("southWestToNorthEastWheelchairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
-			southWestToWestWheelChairManual++;
+			southWestToWestWheelchairManual++;
 			westTotal++;
-			lastSelectedObject.push("southWestToWestWheelChairManual");
+			lastSelectedObject.push("southWestToWestWheelchairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
-			southWestToEastWheelChairManual++;
+			southWestToEastWheelchairManual++;
 			eastTotal++;
-			lastSelectedObject.push("southWestToEastWheelChairManual");
+			lastSelectedObject.push("southWestToEastWheelchairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
-			southWestToSouthWheelChairManual++;
+			southWestToSouthWheelchairManual++;
 			southTotal++;
-			lastSelectedObject.push("southWestToSouthWheelChairManual");
+			lastSelectedObject.push("southWestToSouthWheelchairManual");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
-			southWestToSouthEastWheelChairManual++;
+			southWestToSouthEastWheelchairManual++;
 			southEastTotal++;
-			lastSelectedObject.push("southWestToSouthEasWheelChairManual");
+			lastSelectedObject.push("southWestToSouthEasWheelchairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
-			southToNorthWestWheelChairManual++;
+			southToNorthWestWheelchairManual++;
 			northWestTotal++;
-			lastSelectedObject.push("southToNorthWestWheelChairManual");
+			lastSelectedObject.push("southToNorthWestWheelchairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
-			southToNorthWheelChairManual++;
+			southToNorthWheelchairManual++;
 			northTotal++;
-			lastSelectedObject.push("southToNorthWheelChairManual");
+			lastSelectedObject.push("southToNorthWheelchairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
-			southToNorthEastWheelChairManual++;
+			southToNorthEastWheelchairManual++;
 			northEastTotal++;
-			lastSelectedObject.push("southToNorthEastWheelChairManual");
+			lastSelectedObject.push("southToNorthEastWheelchairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
-			southToWestWheelChairManual++;
+			southToWestWheelchairManual++;
 			westTotal++;
-			lastSelectedObject.push("southToWestWheelChairManual");
+			lastSelectedObject.push("southToWestWheelchairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
-			southToEastWheelChairManual++;
+			southToEastWheelchairManual++;
 			eastTotal++;
-			lastSelectedObject.push("southToEastWheelChairManual");
+			lastSelectedObject.push("southToEastWheelchairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
-			southToSouthWestWheelChairManual++;
+			southToSouthWestWheelchairManual++;
 			southWestTotal++;
-			lastSelectedObject.push("southToSouthWestWheelChairManual");
+			lastSelectedObject.push("southToSouthWestWheelchairManual");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
-			southToSouthEastWheelChairManual++;
+			southToSouthEastWheelchairManual++;
 			southEastTotal++;
-			lastSelectedObject.push("southToSouthEastWheelChairManual");
+			lastSelectedObject.push("southToSouthEastWheelchairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
-			southEastToNorthWestWheelChairManual++;
+			southEastToNorthWestWheelchairManual++;
 			northWestTotal++;
-			lastSelectedObject.push("southEastToNorthWestWheelChairManual");
+			lastSelectedObject.push("southEastToNorthWestWheelchairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
-			southEastToNorthWheelChairManual++;
+			southEastToNorthWheelchairManual++;
 			northTotal++;
-			lastSelectedObject.push("southEastToNorthWheelChairManual");
+			lastSelectedObject.push("southEastToNorthWheelchairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
-			southEastToNorthEastWheelChairManual++;
+			southEastToNorthEastWheelchairManual++;
 			northEastTotal++;
-			lastSelectedObject.push("southEastToNorthEastWheelChairManual");
+			lastSelectedObject.push("southEastToNorthEastWheelchairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
-			southEastToWestWheelChairManual++;
+			southEastToWestWheelchairManual++;
 			westTotal++;
-			lastSelectedObject.push("southEastToWestWheelChairManual");
+			lastSelectedObject.push("southEastToWestWheelchairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
-			southEastToEastWheelChairManual++;
+			southEastToEastWheelchairManual++;
 			eastTotal++;
-			lastSelectedObject.push("southEastToEastWheelChairManual");
+			lastSelectedObject.push("southEastToEastWheelchairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
-			southEastToSouthWestWheelChairManual++;
+			southEastToSouthWestWheelchairManual++;
 			southWestTotal++;
-			lastSelectedObject.push("southEastToSouthWestWheelChairManual");
+			lastSelectedObject.push("southEastToSouthWestWheelchairManual");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
-			southEastToSouthWheelChairManual++;
+			southEastToSouthWheelchairManual++;
 			southTotal++;
-			lastSelectedObject.push("southEastToSouthWheelChairManual");
+			lastSelectedObject.push("southEastToSouthWheelchairManual");
 		}
 	}
 	
-	private void checkWheelChairPowered(int directionFromPosition, int directionToPosition){
+	private void checkWheelchairPowered(int directionFromPosition, int directionToPosition){
 		if(directionFromPosition == 0 && directionToPosition == 1){
-			northWestToNorthWheelChairPowered++;
+			northWestToNorthWheelchairPowered++;
 			northTotal++;
-			lastSelectedObject.push("northWestToNorthWheelChairPowered");
+			lastSelectedObject.push("northWestToNorthWheelchairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 2){
-			northWestToNorthEastWheelChairPowered++;
+			northWestToNorthEastWheelchairPowered++;
 			northEastTotal++;
-			lastSelectedObject.push("northWestToNorthEastWheelChairPowered");
+			lastSelectedObject.push("northWestToNorthEastWheelchairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 3){
-			northWestToWestWheelChairPowered++;
+			northWestToWestWheelchairPowered++;
 			westTotal++;
-			lastSelectedObject.push("northWestToWestWheelChairPowered");
+			lastSelectedObject.push("northWestToWestWheelchairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 4){
-			northWestToEastWheelChairPowered++;
+			northWestToEastWheelchairPowered++;
 			eastTotal++;
-			lastSelectedObject.push("northWestToEastWheelChairPowered");
+			lastSelectedObject.push("northWestToEastWheelchairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 5){
-			northWestToSouthWestWheelChairPowered++;
+			northWestToSouthWestWheelchairPowered++;
 			southWestTotal++;
-			lastSelectedObject.push("northWestToSouthWestWheelChairPowered");
+			lastSelectedObject.push("northWestToSouthWestWheelchairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 6){
-			northWestToSouthWheelChairPowered++;
+			northWestToSouthWheelchairPowered++;
 			southTotal++;
-			lastSelectedObject.push("northWestToSouthWheelChairPowered");
+			lastSelectedObject.push("northWestToSouthWheelchairPowered");
 		}else if(directionFromPosition == 0 && directionToPosition == 7){
-			northWestToSouthEastWheelChairPowered++;
+			northWestToSouthEastWheelchairPowered++;
 			southEastTotal++;
-			lastSelectedObject.push("northWestToSouthEastWheelChairPowered");
+			lastSelectedObject.push("northWestToSouthEastWheelchairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 0){
-			northToNorthWestWheelChairPowered++;
+			northToNorthWestWheelchairPowered++;
 			northWestTotal++;
-			lastSelectedObject.push("northToNorthWestWheelChairPowered");
+			lastSelectedObject.push("northToNorthWestWheelchairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 2){
-			northToNorthEastWheelChairPowered++;
+			northToNorthEastWheelchairPowered++;
 			northEastTotal++;
-			lastSelectedObject.push("northToNorthEastWheelChairPowered");
+			lastSelectedObject.push("northToNorthEastWheelchairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 3){
-			northToWestWheelChairPowered++;
+			northToWestWheelchairPowered++;
 			westTotal++;
-			lastSelectedObject.push("northToWestWheelChairPowered");
+			lastSelectedObject.push("northToWestWheelchairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 4){
-			northToEastWheelChairPowered++;
+			northToEastWheelchairPowered++;
 			eastTotal++;
-			lastSelectedObject.push("northToEastWheelChairPowered");
+			lastSelectedObject.push("northToEastWheelchairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 5){
-			northToSouthWestWheelChairPowered++;
+			northToSouthWestWheelchairPowered++;
 			southWestTotal++;
-			lastSelectedObject.push("northToSouthWestWheelChairPowered");
+			lastSelectedObject.push("northToSouthWestWheelchairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 6){
-			northToSouthWheelChairPowered++;
+			northToSouthWheelchairPowered++;
 			southTotal++;
-			lastSelectedObject.push("northToSouthWheelChairPowered");
+			lastSelectedObject.push("northToSouthWheelchairPowered");
 		}else if(directionFromPosition == 1 && directionToPosition == 7){
-			northToSouthEastWheelChairPowered++;
+			northToSouthEastWheelchairPowered++;
 			southEastTotal++;
-			lastSelectedObject.push("northToSouthEastWheelChairPowered");
+			lastSelectedObject.push("northToSouthEastWheelchairPowered");
 		} else if(directionFromPosition == 2 && directionToPosition == 0){
-			northEastToNorthWestWheelChairPowered++;
+			northEastToNorthWestWheelchairPowered++;
 			northWestTotal++;
-			lastSelectedObject.push("northEastToNorthWestWheelChairPowered");
+			lastSelectedObject.push("northEastToNorthWestWheelchairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 1){
-			northEastToNorthWheelChairPowered++;
+			northEastToNorthWheelchairPowered++;
 			northTotal++;
-			lastSelectedObject.push("northEastToNorthWheelChairPowered");
+			lastSelectedObject.push("northEastToNorthWheelchairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 3){
-			northEastToWestWheelChairPowered++;
+			northEastToWestWheelchairPowered++;
 			westTotal++;
-			lastSelectedObject.push("northEastToWestWheelChairPowered");
+			lastSelectedObject.push("northEastToWestWheelchairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 4){
-			northEastToEastWheelChairPowered++;
+			northEastToEastWheelchairPowered++;
 			eastTotal++;
-			lastSelectedObject.push("northEastToEastWheelChairPowered");
+			lastSelectedObject.push("northEastToEastWheelchairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 5){
-			northEastToSouthWestWheelChairPowered++;
+			northEastToSouthWestWheelchairPowered++;
 			southWestTotal++;
-			lastSelectedObject.push("northEastToSouthWestWheelChairPowered");
+			lastSelectedObject.push("northEastToSouthWestWheelchairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 6){
-			northEastToSouthWheelChairPowered++;
+			northEastToSouthWheelchairPowered++;
 			southTotal++;
-			lastSelectedObject.push("northEastToSouthWheelChairPowered");
+			lastSelectedObject.push("northEastToSouthWheelchairPowered");
 		}else if(directionFromPosition == 2 && directionToPosition == 7){
-			northEastToSouthEastWheelChairPowered++;
+			northEastToSouthEastWheelchairPowered++;
 			southEastTotal++;
-			lastSelectedObject.push("northEastToSouthEastWheelChairPowered");
+			lastSelectedObject.push("northEastToSouthEastWheelchairPowered");
 		} else if(directionFromPosition == 3 && directionToPosition == 0){
-			westToNorthWestWheelChairPowered++;
+			westToNorthWestWheelchairPowered++;
 			northWestTotal++;
-			lastSelectedObject.push("westToNorthWestWheelChairPowered");
+			lastSelectedObject.push("westToNorthWestWheelchairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 1){
-			westToNorthWheelChairPowered++;
+			westToNorthWheelchairPowered++;
 			northTotal++;
-			lastSelectedObject.push("westToNorthWheelChairPowered");
+			lastSelectedObject.push("westToNorthWheelchairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 2){
-			westToNorthEastWheelChairPowered++;
+			westToNorthEastWheelchairPowered++;
 			northEastTotal++;
-			lastSelectedObject.push("westToNorthEastWheelChairPowered");
+			lastSelectedObject.push("westToNorthEastWheelchairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 4){
-			westToEastWheelChairPowered++;
+			westToEastWheelchairPowered++;
 			eastTotal++;
-			lastSelectedObject.push("westToEastWheelChairPowered");
+			lastSelectedObject.push("westToEastWheelchairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 5){
-			westToSouthWestWheelChairPowered++;
+			westToSouthWestWheelchairPowered++;
 			southWestTotal++;
-			lastSelectedObject.push("westToSouthWestWheelChairPowered");
+			lastSelectedObject.push("westToSouthWestWheelchairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 6){
-			westToSouthWheelChairPowered++;
+			westToSouthWheelchairPowered++;
 			southTotal++;
-			lastSelectedObject.push("westToSouthWheelChairPowered");
+			lastSelectedObject.push("westToSouthWheelchairPowered");
 		}else if(directionFromPosition == 3 && directionToPosition == 7){
-			westToSouthEastWheelChairPowered++;
+			westToSouthEastWheelchairPowered++;
 			southEastTotal++;
-			lastSelectedObject.push("westToSouthEastWheelChairPowered");
+			lastSelectedObject.push("westToSouthEastWheelchairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 0){
-			eastToNorthWestWheelChairPowered++;
+			eastToNorthWestWheelchairPowered++;
 			northWestTotal++;
-			lastSelectedObject.push("eastToNorthWestWheelChairPowered");
+			lastSelectedObject.push("eastToNorthWestWheelchairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 1){
-			eastToNorthWheelChairPowered++;
+			eastToNorthWheelchairPowered++;
 			northTotal++;
-			lastSelectedObject.push("eastToNorthWheelChairPowered");
+			lastSelectedObject.push("eastToNorthWheelchairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 2){
-			eastToNorthEastWheelChairPowered++;
+			eastToNorthEastWheelchairPowered++;
 			northEastTotal++;
-			lastSelectedObject.push("eastToNorthEastWheelChairPowered");
+			lastSelectedObject.push("eastToNorthEastWheelchairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 3){
-			eastToWestWheelChairPowered++;
+			eastToWestWheelchairPowered++;
 			westTotal++;
-			lastSelectedObject.push("eastToWestWheelChairPowered");
+			lastSelectedObject.push("eastToWestWheelchairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 5){
-			eastToSouthWestWheelChairPowered++;
+			eastToSouthWestWheelchairPowered++;
 			southWestTotal++;
-			lastSelectedObject.push("eastToSouthWestWheelChairPowered");
+			lastSelectedObject.push("eastToSouthWestWheelchairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 6){
-			eastToSouthWheelChairPowered++;
+			eastToSouthWheelchairPowered++;
 			southTotal++;
-			lastSelectedObject.push("eastToSouthWheelChairPowered");
+			lastSelectedObject.push("eastToSouthWheelchairPowered");
 		}else if(directionFromPosition == 4 && directionToPosition == 7){
-			eastToSouthEastWheelChairPowered++;
+			eastToSouthEastWheelchairPowered++;
 			southEastTotal++;
-			lastSelectedObject.push("eastToSouthEastWheelChairPowered");
+			lastSelectedObject.push("eastToSouthEastWheelchairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 0){
-			southWestToNorthWestWheelChairPowered++;
+			southWestToNorthWestWheelchairPowered++;
 			northWestTotal++;
-			lastSelectedObject.push("southWestToNorthWestWheelChairPowered");
+			lastSelectedObject.push("southWestToNorthWestWheelchairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 1){
-			southWestToNorthWheelChairPowered++;
+			southWestToNorthWheelchairPowered++;
 			northTotal++;
-			lastSelectedObject.push("southWestToNorthWheelChairPowered");
+			lastSelectedObject.push("southWestToNorthWheelchairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 2){
-			southWestToNorthEastWheelChairPowered++;
+			southWestToNorthEastWheelchairPowered++;
 			northEastTotal++;
-			lastSelectedObject.push("southWestToNorthEastWheelChairPowered");
+			lastSelectedObject.push("southWestToNorthEastWheelchairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 3){
-			southWestToWestWheelChairPowered++;
+			southWestToWestWheelchairPowered++;
 			westTotal++;
-			lastSelectedObject.push("southWestToWestWheelChairPowered");
+			lastSelectedObject.push("southWestToWestWheelchairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 4){
-			southWestToEastWheelChairPowered++;
+			southWestToEastWheelchairPowered++;
 			eastTotal++;
-			lastSelectedObject.push("southWestToEastWheelChairPowered");
+			lastSelectedObject.push("southWestToEastWheelchairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 6){
-			southWestToSouthWheelChairPowered++;
+			southWestToSouthWheelchairPowered++;
 			southTotal++;
-			lastSelectedObject.push("southWestToSouthWheelChairPowered");
+			lastSelectedObject.push("southWestToSouthWheelchairPowered");
 		}else if(directionFromPosition == 5 && directionToPosition == 7){
-			southWestToSouthEastWheelChairPowered++;
+			southWestToSouthEastWheelchairPowered++;
 			southEastTotal++;
-			lastSelectedObject.push("southWestToSouthEasWheelChairPowered");
+			lastSelectedObject.push("southWestToSouthEasWheelchairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 0){
-			southToNorthWestWheelChairPowered++;
+			southToNorthWestWheelchairPowered++;
 			northWestTotal++;
-			lastSelectedObject.push("southToNorthWestWheelChairPowered");
+			lastSelectedObject.push("southToNorthWestWheelchairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 1){
-			southToNorthWheelChairPowered++;
+			southToNorthWheelchairPowered++;
 			northTotal++;
-			lastSelectedObject.push("southToNorthWheelChairPowered");
+			lastSelectedObject.push("southToNorthWheelchairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 2){
-			southToNorthEastWheelChairPowered++;
+			southToNorthEastWheelchairPowered++;
 			northEastTotal++;
-			lastSelectedObject.push("southToNorthEastWheelChairPowered");
+			lastSelectedObject.push("southToNorthEastWheelchairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 3){
-			southToWestWheelChairPowered++;
+			southToWestWheelchairPowered++;
 			westTotal++;
-			lastSelectedObject.push("southToWestWheelChairPowered");
+			lastSelectedObject.push("southToWestWheelchairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 4){
-			southToEastWheelChairPowered++;
+			southToEastWheelchairPowered++;
 			eastTotal++;
-			lastSelectedObject.push("southToEastWheelChairPowered");
+			lastSelectedObject.push("southToEastWheelchairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 5){
-			southToSouthWestWheelChairPowered++;
+			southToSouthWestWheelchairPowered++;
 			southWestTotal++;
-			lastSelectedObject.push("southToSouthWestWheelChairPowered");
+			lastSelectedObject.push("southToSouthWestWheelchairPowered");
 		}else if(directionFromPosition == 6 && directionToPosition == 7){
-			southToSouthEastWheelChairPowered++;
+			southToSouthEastWheelchairPowered++;
 			southEastTotal++;
-			lastSelectedObject.push("southToSouthEastWheelChairPowered");
+			lastSelectedObject.push("southToSouthEastWheelchairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 0){
-			southEastToNorthWestWheelChairPowered++;
+			southEastToNorthWestWheelchairPowered++;
 			northWestTotal++;
-			lastSelectedObject.push("southEastToNorthWestWheelChairPowered");
+			lastSelectedObject.push("southEastToNorthWestWheelchairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 1){
-			southEastToNorthWheelChairPowered++;
+			southEastToNorthWheelchairPowered++;
 			northTotal++;
-			lastSelectedObject.push("southEastToNorthWheelChairPowered");
+			lastSelectedObject.push("southEastToNorthWheelchairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 2){
-			southEastToNorthEastWheelChairPowered++;
+			southEastToNorthEastWheelchairPowered++;
 			northEastTotal++;
-			lastSelectedObject.push("southEastToNorthEastWheelChairPowered");
+			lastSelectedObject.push("southEastToNorthEastWheelchairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 3){
-			southEastToWestWheelChairPowered++;
+			southEastToWestWheelchairPowered++;
 			westTotal++;
-			lastSelectedObject.push("southEastToWestWheelChairPowered");
+			lastSelectedObject.push("southEastToWestWheelchairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 4){
-			southEastToEastWheelChairPowered++;
+			southEastToEastWheelchairPowered++;
 			eastTotal++;
-			lastSelectedObject.push("southEastToEastWheelChairPowered");
+			lastSelectedObject.push("southEastToEastWheelchairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 5){
-			southEastToSouthWestWheelChairPowered++;
+			southEastToSouthWestWheelchairPowered++;
 			southWestTotal++;
-			lastSelectedObject.push("southEastToSouthWestWheelChairPowered");
+			lastSelectedObject.push("southEastToSouthWestWheelchairPowered");
 		}else if(directionFromPosition == 7 && directionToPosition == 6){
-			southEastToSouthWheelChairPowered++;
+			southEastToSouthWheelchairPowered++;
 			southTotal++;
-			lastSelectedObject.push("southEastToSouthWheelChairPowered");
+			lastSelectedObject.push("southEastToSouthWheelchairPowered");
 		}
 	}
 	
@@ -10162,49 +10284,49 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northWestToNorthCar, northWestToNorthBus, northWestToNorthTruck,
 												northWestToNorthMotorBike, northWestToNorthPedestrian, northWestToNorthCrutches1,
 												northWestToNorthCrutches2, northWestToNorthCane, northWestToNorthDog, northWestToNorthMobilityScooter,
-												northWestToNorthWheelChairAssisted, northWestToNorthWheelChairManual, northWestToNorthWheelChairPowered,
+												northWestToNorthWheelchairAssisted, northWestToNorthWheelchairManual, northWestToNorthWheelchairPowered,
 												northWestToNorthPushChair, northWestToNorthSkateboard, northWestToNorthManualScooter, generalComments);
 							}else if(x == 0 && y == 2){
 								//North-west to North-East
 								appendCountables(fileWriter, northWestToNorthEastCar, northWestToNorthEastBus, northWestToNorthEastTruck,
 										northWestToNorthEastMotorBike, northWestToNorthEastPedestrian, northWestToNorthEastCrutches1,
 										northWestToNorthEastCrutches2, northWestToNorthEastCane, northWestToNorthEastDog, northWestToNorthEastMobilityScooter,
-										northWestToNorthEastWheelChairAssisted, northWestToNorthEastWheelChairManual, northWestToNorthEastWheelChairPowered,
+										northWestToNorthEastWheelchairAssisted, northWestToNorthEastWheelchairManual, northWestToNorthEastWheelchairPowered,
 										northWestToNorthEastPushChair, northWestToNorthEastSkateboard, northWestToNorthEastManualScooter, generalComments);
 							}else if(x == 0 && y == 3){
 								//North-west to West
 								appendCountables(fileWriter, northWestToWestCar, northWestToWestBus, northWestToWestTruck,
 										northWestToWestMotorBike, northWestToWestPedestrian, northWestToWestCrutches1,
 										northWestToWestCrutches2, northWestToWestCane, northWestToWestDog, northWestToWestMobilityScooter,
-										northWestToWestWheelChairAssisted, northWestToWestWheelChairManual, northWestToWestWheelChairPowered,
+										northWestToWestWheelchairAssisted, northWestToWestWheelchairManual, northWestToWestWheelchairPowered,
 										northWestToWestPushChair, northWestToWestSkateboard, northWestToWestManualScooter, generalComments);
 							}else if(x == 0 && y == 4){
 								//North-west to East
 								appendCountables(fileWriter, northWestToEastCar, northWestToEastBus, northWestToEastTruck,
 										northWestToEastMotorBike, northWestToEastPedestrian, northWestToEastCrutches1,
 										northWestToEastCrutches2, northWestToEastCane, northWestToEastDog, northWestToEastMobilityScooter,
-										northWestToEastWheelChairAssisted, northWestToEastWheelChairManual, northWestToEastWheelChairPowered,
+										northWestToEastWheelchairAssisted, northWestToEastWheelchairManual, northWestToEastWheelchairPowered,
 										northWestToEastPushChair, northWestToEastSkateboard, northWestToEastManualScooter, generalComments);
 							}else if(x == 0 && y == 5){
 								//North-west to South-West
 								appendCountables(fileWriter, northWestToSouthWestCar, northWestToSouthWestBus, northWestToSouthWestTruck,
 										northWestToSouthWestMotorBike, northWestToSouthWestPedestrian, northWestToSouthWestCrutches1,
 										northWestToSouthWestCrutches2, northWestToSouthWestCane, northWestToSouthWestDog, northWestToSouthWestMobilityScooter,
-										northWestToSouthWestWheelChairAssisted, northWestToSouthWestWheelChairManual, northWestToSouthWestWheelChairPowered,
+										northWestToSouthWestWheelchairAssisted, northWestToSouthWestWheelchairManual, northWestToSouthWestWheelchairPowered,
 										northWestToSouthWestPushChair, northWestToSouthWestSkateboard, northWestToSouthWestManualScooter, generalComments);
 							}else if(x == 0 && y == 6){
 								//North-west to South
 								appendCountables(fileWriter, northWestToSouthCar, northWestToSouthBus, northWestToSouthTruck,
 										northWestToSouthMotorBike, northWestToSouthPedestrian, northWestToSouthCrutches1,
 										northWestToSouthCrutches2, northWestToSouthCane, northWestToSouthDog, northWestToSouthMobilityScooter,
-										northWestToSouthWheelChairAssisted, northWestToSouthWheelChairManual, northWestToSouthWheelChairPowered,
+										northWestToSouthWheelchairAssisted, northWestToSouthWheelchairManual, northWestToSouthWheelchairPowered,
 										northWestToSouthPushChair, northWestToSouthSkateboard, northWestToSouthManualScooter, generalComments);
 							}else if(x == 0 && y == 7){
 								//North-west to South-East
 								appendCountables(fileWriter, northWestToSouthEastCar, northWestToSouthEastBus, northWestToSouthEastTruck,
 										northWestToSouthEastMotorBike, northWestToSouthEastPedestrian, northWestToSouthEastCrutches1,
 										northWestToSouthEastCrutches2, northWestToSouthEastCane, northWestToSouthEastDog, northWestToSouthEastMobilityScooter,
-										northWestToSouthEastWheelChairAssisted, northWestToSouthEastWheelChairManual, northWestToSouthEastWheelChairPowered,
+										northWestToSouthEastWheelchairAssisted, northWestToSouthEastWheelchairManual, northWestToSouthEastWheelchairPowered,
 										northWestToSouthEastPushChair, northWestToSouthEastSkateboard, northWestToSouthEastManualScooter, generalComments);
 							}
 							
@@ -10214,28 +10336,28 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northToNorthWestCar, northToNorthWestBus, northToNorthWestTruck,
 										northToNorthWestMotorBike, northToNorthWestPedestrian, northToNorthWestCrutches1,
 										northToNorthWestCrutches2, northToNorthWestCane, northToNorthWestDog, northToNorthWestMobilityScooter,
-										northToNorthWestWheelChairAssisted, northToNorthWestWheelChairManual, northToNorthWestWheelChairPowered,
+										northToNorthWestWheelchairAssisted, northToNorthWestWheelchairManual, northToNorthWestWheelchairPowered,
 										northToNorthWestPushChair, northToNorthWestSkateboard, northToNorthWestManualScooter, generalComments);
 							}else if(x == 1 && y == 2){
 								//North to North-East
 								appendCountables(fileWriter, northToNorthEastCar, northToNorthEastBus, northToNorthEastTruck,
 										northToNorthEastMotorBike, northToNorthEastPedestrian, northToNorthEastCrutches1,
 										northToNorthEastCrutches2, northToNorthEastCane, northToNorthEastDog, northToNorthEastMobilityScooter,
-										northToNorthEastWheelChairAssisted, northToNorthEastWheelChairManual, northToNorthEastWheelChairPowered,
+										northToNorthEastWheelchairAssisted, northToNorthEastWheelchairManual, northToNorthEastWheelchairPowered,
 										northToNorthEastPushChair, northToNorthEastSkateboard, northToNorthEastManualScooter, generalComments);
 							}else if(x == 1 && y == 3){
 								//North to West
 								appendCountables(fileWriter, northToWestCar, northToWestBus, northToWestTruck,
 										northToWestMotorBike, northToWestPedestrian, northToWestCrutches1,
 										northToWestCrutches2, northToWestCane, northToWestDog, northToWestMobilityScooter,
-										northToWestWheelChairAssisted, northToWestWheelChairManual, northToWestWheelChairPowered,
+										northToWestWheelchairAssisted, northToWestWheelchairManual, northToWestWheelchairPowered,
 										northToWestPushChair, northToWestSkateboard, northToWestManualScooter, generalComments);
 							}else if(x == 1 && y == 4){
 								//North to East
 								appendCountables(fileWriter, northToEastCar, northToEastBus, northToEastTruck,
 										northToEastMotorBike, northToEastPedestrian, northToEastCrutches1,
 										northToEastCrutches2, northToEastCane, northToEastDog, northToEastMobilityScooter,
-										northToEastWheelChairAssisted, northToEastWheelChairManual, northToEastWheelChairPowered,
+										northToEastWheelchairAssisted, northToEastWheelchairManual, northToEastWheelchairPowered,
 										northToEastPushChair, northToEastSkateboard, northToEastManualScooter, generalComments);
 								
 							}else if(x == 1 && y == 5){
@@ -10243,7 +10365,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northToSouthWestCar, northToSouthWestBus, northToSouthWestTruck,
 										northToSouthWestMotorBike, northToSouthWestPedestrian, northToSouthWestCrutches1,
 										northToSouthWestCrutches2, northToSouthWestCane, northToSouthWestDog, northToSouthWestMobilityScooter,
-										northToSouthWestWheelChairAssisted, northToSouthWestWheelChairManual, northToSouthWestWheelChairPowered,
+										northToSouthWestWheelchairAssisted, northToSouthWestWheelchairManual, northToSouthWestWheelchairPowered,
 										northToSouthWestPushChair, northToSouthWestSkateboard, northToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 1 && y == 6){
@@ -10251,7 +10373,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northToSouthCar, northToSouthBus, northToSouthTruck,
 										northToSouthMotorBike, northToSouthPedestrian, northToSouthCrutches1,
 										northToSouthCrutches2, northToSouthCane, northToSouthDog, northToSouthMobilityScooter,
-										northToSouthWheelChairAssisted, northToSouthWheelChairManual, northToSouthWheelChairPowered,
+										northToSouthWheelchairAssisted, northToSouthWheelchairManual, northToSouthWheelchairPowered,
 										northToSouthPushChair, northToSouthSkateboard, northToSouthManualScooter, generalComments);
 								
 							}else if(x == 1 && y == 7){
@@ -10259,7 +10381,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northToSouthEastCar, northToSouthEastBus, northToSouthEastTruck,
 										northToSouthEastMotorBike, northToSouthEastPedestrian, northToSouthEastCrutches1,
 										northToSouthEastCrutches2, northToSouthEastCane, northToSouthEastDog, northToSouthEastMobilityScooter,
-										northToSouthEastWheelChairAssisted, northToSouthEastWheelChairManual, northToSouthEastWheelChairPowered,
+										northToSouthEastWheelchairAssisted, northToSouthEastWheelchairManual, northToSouthEastWheelchairPowered,
 										northToSouthEastPushChair, northToSouthEastSkateboard, northToSouthEastManualScooter, generalComments);
 								
 							}
@@ -10270,7 +10392,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northEastToNorthWestCar, northEastToNorthWestBus, northEastToNorthWestTruck,
 										northEastToNorthWestMotorBike, northEastToNorthWestPedestrian, northEastToNorthWestCrutches1,
 										northEastToNorthWestCrutches2, northEastToNorthWestCane, northEastToNorthWestDog, northEastToNorthWestMobilityScooter,
-										northEastToNorthWestWheelChairAssisted, northEastToNorthWestWheelChairManual, northEastToNorthWestWheelChairPowered,
+										northEastToNorthWestWheelchairAssisted, northEastToNorthWestWheelchairManual, northEastToNorthWestWheelchairPowered,
 										northEastToNorthWestPushChair, northEastToNorthWestSkateboard, northEastToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 1){
@@ -10278,7 +10400,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northEastToNorthCar, northEastToNorthBus, northEastToNorthTruck,
 										northEastToNorthMotorBike, northEastToNorthPedestrian, northEastToNorthCrutches1,
 										northEastToNorthCrutches2, northEastToNorthCane, northEastToNorthDog, northEastToNorthMobilityScooter,
-										northEastToNorthWheelChairAssisted, northEastToNorthWheelChairManual, northEastToNorthWheelChairPowered,
+										northEastToNorthWheelchairAssisted, northEastToNorthWheelchairManual, northEastToNorthWheelchairPowered,
 										northEastToNorthPushChair, northEastToNorthSkateboard, northEastToNorthManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 3){
@@ -10286,7 +10408,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northEastToWestCar, northEastToWestBus, northEastToWestTruck,
 										northEastToWestMotorBike, northEastToWestPedestrian, northEastToWestCrutches1,
 										northEastToWestCrutches2, northEastToWestCane, northEastToWestDog, northEastToWestMobilityScooter,
-										northEastToWestWheelChairAssisted, northEastToWestWheelChairManual, northEastToWestWheelChairPowered,
+										northEastToWestWheelchairAssisted, northEastToWestWheelchairManual, northEastToWestWheelchairPowered,
 										northEastToWestPushChair, northEastToWestSkateboard, northEastToWestManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 4){
@@ -10294,7 +10416,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northEastToEastCar, northEastToEastBus, northEastToEastTruck,
 										northEastToEastMotorBike, northEastToEastPedestrian, northEastToEastCrutches1,
 										northEastToEastCrutches2, northEastToEastCane, northEastToEastDog, northEastToEastMobilityScooter,
-										northEastToEastWheelChairAssisted, northEastToEastWheelChairManual, northEastToEastWheelChairPowered,
+										northEastToEastWheelchairAssisted, northEastToEastWheelchairManual, northEastToEastWheelchairPowered,
 										northEastToEastPushChair, northEastToEastSkateboard, northEastToEastManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 5){
@@ -10302,7 +10424,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northEastToSouthWestCar, northEastToSouthWestBus, northEastToSouthWestTruck,
 										northEastToSouthWestMotorBike, northEastToSouthWestPedestrian, northEastToSouthWestCrutches1,
 										northEastToSouthWestCrutches2, northEastToSouthWestCane, northEastToSouthWestDog, northEastToSouthWestMobilityScooter,
-										northEastToSouthWestWheelChairAssisted, northEastToSouthWestWheelChairManual, northEastToSouthWestWheelChairPowered,
+										northEastToSouthWestWheelchairAssisted, northEastToSouthWestWheelchairManual, northEastToSouthWestWheelchairPowered,
 										northEastToSouthWestPushChair, northEastToSouthWestSkateboard, northEastToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 6){
@@ -10310,7 +10432,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northEastToSouthCar, northEastToSouthBus, northEastToSouthTruck,
 										northEastToSouthMotorBike, northEastToSouthPedestrian, northEastToSouthCrutches1,
 										northEastToSouthCrutches2, northEastToSouthCane, northEastToSouthDog, northEastToSouthMobilityScooter,
-										northEastToSouthWheelChairAssisted, northEastToSouthWheelChairManual, northEastToSouthWheelChairPowered,
+										northEastToSouthWheelchairAssisted, northEastToSouthWheelchairManual, northEastToSouthWheelchairPowered,
 										northEastToSouthPushChair, northEastToSouthSkateboard, northEastToSouthManualScooter, generalComments);
 								
 							}else if(x == 2 && y == 7){
@@ -10318,7 +10440,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, northEastToSouthEastCar, northEastToSouthEastBus, northEastToSouthEastTruck,
 										northEastToSouthEastMotorBike, northEastToSouthEastPedestrian, northEastToSouthEastCrutches1,
 										northEastToSouthEastCrutches2, northEastToSouthEastCane, northEastToSouthEastDog, northEastToSouthEastMobilityScooter,
-										northEastToSouthEastWheelChairAssisted, northEastToSouthEastWheelChairManual, northEastToSouthEastWheelChairPowered,
+										northEastToSouthEastWheelchairAssisted, northEastToSouthEastWheelchairManual, northEastToSouthEastWheelchairPowered,
 										northEastToSouthEastPushChair, northEastToSouthEastSkateboard, northEastToSouthEastManualScooter, generalComments);
 								
 							}
@@ -10329,7 +10451,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, westToNorthWestCar, westToNorthWestBus, westToNorthWestTruck,
 										westToNorthWestMotorBike, westToNorthWestPedestrian, westToNorthWestCrutches1,
 										westToNorthWestCrutches2, westToNorthWestCane, westToNorthWestDog, westToNorthWestMobilityScooter,
-										westToNorthWestWheelChairAssisted, westToNorthWestWheelChairManual, westToNorthWestWheelChairPowered,
+										westToNorthWestWheelchairAssisted, westToNorthWestWheelchairManual, westToNorthWestWheelchairPowered,
 										westToNorthWestPushChair, westToNorthWestSkateboard, westToNorthWestManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 1){
@@ -10337,7 +10459,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, westToNorthCar, westToNorthBus, westToNorthTruck,
 										westToNorthMotorBike, westToNorthPedestrian, westToNorthCrutches1,
 										westToNorthCrutches2, westToNorthCane, westToNorthDog, westToNorthMobilityScooter,
-										westToNorthWheelChairAssisted, westToNorthWheelChairManual, westToNorthWheelChairPowered,
+										westToNorthWheelchairAssisted, westToNorthWheelchairManual, westToNorthWheelchairPowered,
 										westToNorthPushChair, westToNorthSkateboard, westToNorthManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 2){
@@ -10345,7 +10467,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, westToNorthEastCar, westToNorthEastBus, westToNorthEastTruck,
 										westToNorthEastMotorBike, westToNorthEastPedestrian, westToNorthEastCrutches1,
 										westToNorthEastCrutches2, westToNorthEastCane, westToNorthEastDog, westToNorthEastMobilityScooter,
-										westToNorthEastWheelChairAssisted, westToNorthEastWheelChairManual, westToNorthEastWheelChairPowered,
+										westToNorthEastWheelchairAssisted, westToNorthEastWheelchairManual, westToNorthEastWheelchairPowered,
 										westToNorthEastPushChair, westToNorthEastSkateboard, westToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 3 && y == 4){
@@ -10353,7 +10475,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, westToEastCar, westToEastBus, westToEastTruck,
 										westToEastMotorBike, westToEastPedestrian, westToEastCrutches1,
 										westToEastCrutches2, westToEastCane, westToEastDog, westToEastMobilityScooter,
-										westToEastWheelChairAssisted, westToEastWheelChairManual, westToEastWheelChairPowered,
+										westToEastWheelchairAssisted, westToEastWheelchairManual, westToEastWheelchairPowered,
 										westToEastPushChair, westToEastSkateboard, westToEastManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 5){
@@ -10361,7 +10483,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, westToSouthWestCar, westToSouthWestBus, westToSouthWestTruck,
 										westToSouthWestMotorBike, westToSouthWestPedestrian, westToSouthWestCrutches1,
 										westToSouthWestCrutches2, westToSouthWestCane, westToSouthWestDog, westToSouthWestMobilityScooter,
-										westToSouthWestWheelChairAssisted, westToSouthWestWheelChairManual, westToSouthWestWheelChairPowered,
+										westToSouthWestWheelchairAssisted, westToSouthWestWheelchairManual, westToSouthWestWheelchairPowered,
 										westToSouthWestPushChair, westToSouthWestSkateboard, westToSouthWestManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 6){
@@ -10369,7 +10491,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, westToSouthCar, westToSouthBus, westToSouthTruck,
 										westToSouthMotorBike, westToSouthPedestrian, westToSouthCrutches1,
 										westToSouthCrutches2, westToSouthCane, westToSouthDog, westToSouthMobilityScooter,
-										westToSouthWheelChairAssisted, westToSouthWheelChairManual, westToSouthWheelChairPowered,
+										westToSouthWheelchairAssisted, westToSouthWheelchairManual, westToSouthWheelchairPowered,
 										westToSouthPushChair, westToSouthSkateboard, westToSouthManualScooter, generalComments);
 							
 							}else if(x == 3 && y == 7){
@@ -10377,7 +10499,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, westToSouthEastCar, westToSouthEastBus, westToSouthEastTruck,
 										westToSouthEastMotorBike, westToSouthEastPedestrian, westToSouthEastCrutches1,
 										westToSouthEastCrutches2, westToSouthEastCane, westToSouthEastDog, westToSouthEastMobilityScooter,
-										westToSouthEastWheelChairAssisted, westToSouthEastWheelChairManual, westToSouthEastWheelChairPowered,
+										westToSouthEastWheelchairAssisted, westToSouthEastWheelchairManual, westToSouthEastWheelchairPowered,
 										westToSouthEastPushChair, westToSouthEastSkateboard, westToSouthEastManualScooter, generalComments);
 								
 							}
@@ -10388,7 +10510,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, eastToNorthWestCar, eastToNorthWestBus, eastToNorthWestTruck,
 										eastToNorthWestMotorBike, eastToNorthWestPedestrian, eastToNorthWestCrutches1,
 										eastToNorthWestCrutches2, eastToNorthWestCane, eastToNorthWestDog, eastToNorthWestMobilityScooter,
-										eastToNorthWestWheelChairAssisted, eastToNorthWestWheelChairManual, eastToNorthWestWheelChairPowered,
+										eastToNorthWestWheelchairAssisted, eastToNorthWestWheelchairManual, eastToNorthWestWheelchairPowered,
 										eastToNorthWestPushChair, eastToNorthWestSkateboard, eastToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 1){
@@ -10396,7 +10518,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, eastToNorthCar, eastToNorthBus, eastToNorthTruck,
 										eastToNorthMotorBike, eastToNorthPedestrian, eastToNorthCrutches1,
 										eastToNorthCrutches2, eastToNorthCane, eastToNorthDog, eastToNorthMobilityScooter,
-										eastToNorthWheelChairAssisted, eastToNorthWheelChairManual, eastToNorthWheelChairPowered,
+										eastToNorthWheelchairAssisted, eastToNorthWheelchairManual, eastToNorthWheelchairPowered,
 										eastToNorthPushChair, eastToNorthSkateboard, eastToNorthManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 2){
@@ -10404,7 +10526,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, eastToNorthEastCar, eastToNorthEastBus, eastToNorthEastTruck,
 										eastToNorthEastMotorBike, eastToNorthEastPedestrian, eastToNorthEastCrutches1,
 										eastToNorthEastCrutches2, eastToNorthEastCane, eastToNorthEastDog, eastToNorthEastMobilityScooter,
-										eastToNorthEastWheelChairAssisted, eastToNorthEastWheelChairManual, eastToNorthEastWheelChairPowered,
+										eastToNorthEastWheelchairAssisted, eastToNorthEastWheelchairManual, eastToNorthEastWheelchairPowered,
 										eastToNorthEastPushChair, eastToNorthEastSkateboard, eastToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 3){
@@ -10412,7 +10534,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, eastToWestCar, eastToWestBus, eastToWestTruck,
 										eastToWestMotorBike, eastToWestPedestrian, eastToWestCrutches1,
 										eastToWestCrutches2, eastToWestCane, eastToWestDog, eastToWestMobilityScooter,
-										eastToWestWheelChairAssisted, eastToWestWheelChairManual, eastToWestWheelChairPowered,
+										eastToWestWheelchairAssisted, eastToWestWheelchairManual, eastToWestWheelchairPowered,
 										eastToWestPushChair, eastToWestSkateboard, eastToWestManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 5){
@@ -10420,7 +10542,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, eastToSouthWestCar, eastToSouthWestBus, eastToSouthWestTruck,
 										eastToSouthWestMotorBike, eastToSouthWestPedestrian, eastToSouthWestCrutches1,
 										eastToSouthWestCrutches2, eastToSouthWestCane, eastToSouthWestDog, eastToSouthWestMobilityScooter,
-										eastToSouthWestWheelChairAssisted, eastToSouthWestWheelChairManual, eastToSouthWestWheelChairPowered,
+										eastToSouthWestWheelchairAssisted, eastToSouthWestWheelchairManual, eastToSouthWestWheelchairPowered,
 										eastToSouthWestPushChair, eastToSouthWestSkateboard, eastToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 6){
@@ -10428,7 +10550,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, eastToSouthCar, eastToSouthBus, eastToSouthTruck,
 										eastToSouthMotorBike, eastToSouthPedestrian, eastToSouthCrutches1,
 										eastToSouthCrutches2, eastToSouthCane, eastToSouthDog, eastToSouthMobilityScooter,
-										eastToSouthWheelChairAssisted, eastToSouthWheelChairManual, eastToSouthWheelChairPowered,
+										eastToSouthWheelchairAssisted, eastToSouthWheelchairManual, eastToSouthWheelchairPowered,
 										eastToSouthPushChair, eastToSouthSkateboard, eastToSouthManualScooter, generalComments);
 								
 							}else if(x == 4 && y == 7){
@@ -10436,7 +10558,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, eastToSouthEastCar, eastToSouthEastBus, eastToSouthEastTruck,
 										eastToSouthEastMotorBike, eastToSouthEastPedestrian, eastToSouthEastCrutches1,
 										eastToSouthEastCrutches2, eastToSouthEastCane, eastToSouthEastDog, eastToSouthEastMobilityScooter,
-										eastToSouthEastWheelChairAssisted, eastToSouthEastWheelChairManual, eastToSouthEastWheelChairPowered,
+										eastToSouthEastWheelchairAssisted, eastToSouthEastWheelchairManual, eastToSouthEastWheelchairPowered,
 										eastToSouthEastPushChair, eastToSouthEastSkateboard, eastToSouthEastManualScooter, generalComments);
 							
 							}
@@ -10447,7 +10569,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southWestToNorthWestCar, southWestToNorthWestBus, southWestToNorthWestTruck,
 										southWestToNorthWestMotorBike, southWestToNorthWestPedestrian, southWestToNorthWestCrutches1,
 										southWestToNorthWestCrutches2, southWestToNorthWestCane, southWestToNorthWestDog, southWestToNorthWestMobilityScooter,
-										southWestToNorthWestWheelChairAssisted, southWestToNorthWestWheelChairManual, southWestToNorthWestWheelChairPowered,
+										southWestToNorthWestWheelchairAssisted, southWestToNorthWestWheelchairManual, southWestToNorthWestWheelchairPowered,
 										southWestToNorthWestPushChair, southWestToNorthWestSkateboard, southWestToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 1){
@@ -10455,7 +10577,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southWestToNorthCar, southWestToNorthBus, southWestToNorthTruck,
 										southWestToNorthMotorBike, southWestToNorthPedestrian, southWestToNorthCrutches1,
 										southWestToNorthCrutches2, southWestToNorthCane, southWestToNorthDog, southWestToNorthMobilityScooter,
-										southWestToNorthWheelChairAssisted, southWestToNorthWheelChairManual, southWestToNorthWheelChairPowered,
+										southWestToNorthWheelchairAssisted, southWestToNorthWheelchairManual, southWestToNorthWheelchairPowered,
 										southWestToNorthPushChair, southWestToNorthSkateboard, southWestToNorthManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 2){
@@ -10463,7 +10585,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southWestToNorthEastCar, southWestToNorthEastBus, southWestToNorthEastTruck,
 										southWestToNorthEastMotorBike, southWestToNorthEastPedestrian, southWestToNorthEastCrutches1,
 										southWestToNorthEastCrutches2, southWestToNorthEastCane, southWestToNorthEastDog, southWestToNorthEastMobilityScooter,
-										southWestToNorthEastWheelChairAssisted, southWestToNorthEastWheelChairManual, southWestToNorthEastWheelChairPowered,
+										southWestToNorthEastWheelchairAssisted, southWestToNorthEastWheelchairManual, southWestToNorthEastWheelchairPowered,
 										southWestToNorthEastPushChair, southWestToNorthEastSkateboard, southWestToNorthEastManualScooter, generalComments);
 							
 							}else if(x == 5 && y == 3){
@@ -10471,7 +10593,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southWestToWestCar, southWestToWestBus, southWestToWestTruck,
 										southWestToWestMotorBike, southWestToWestPedestrian, southWestToWestCrutches1,
 										southWestToWestCrutches2, southWestToWestCane, southWestToWestDog, southWestToWestMobilityScooter,
-										southWestToWestWheelChairAssisted, southWestToWestWheelChairManual, southWestToWestWheelChairPowered,
+										southWestToWestWheelchairAssisted, southWestToWestWheelchairManual, southWestToWestWheelchairPowered,
 										southWestToWestPushChair, southWestToWestSkateboard, southWestToWestManualScooter, generalComments);
 							
 							}else if(x == 5 && y == 4){
@@ -10479,7 +10601,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southWestToEastCar, southWestToEastBus, southWestToEastTruck,
 										southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
 										southWestToEastCrutches2, southWestToEastCane, southWestToEastDog, southWestToEastMobilityScooter,
-										southWestToEastWheelChairAssisted, southWestToEastWheelChairManual, southWestToEastWheelChairPowered,
+										southWestToEastWheelchairAssisted, southWestToEastWheelchairManual, southWestToEastWheelchairPowered,
 										southWestToEastPushChair, southWestToEastSkateboard, southWestToEastManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 6){
@@ -10487,7 +10609,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southWestToSouthCar, southWestToSouthBus, southWestToSouthTruck,
 										southWestToSouthMotorBike, southWestToSouthPedestrian, southWestToSouthCrutches1,
 										southWestToSouthCrutches2, southWestToSouthCane, southWestToSouthDog, southWestToSouthMobilityScooter,
-										southWestToSouthWheelChairAssisted, southWestToSouthWheelChairManual, southWestToSouthWheelChairPowered,
+										southWestToSouthWheelchairAssisted, southWestToSouthWheelchairManual, southWestToSouthWheelchairPowered,
 										southWestToSouthPushChair, southWestToSouthSkateboard, southWestToSouthManualScooter, generalComments);
 								
 							}else if(x == 5 && y == 7){
@@ -10495,7 +10617,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southWestToSouthEastCar, southWestToSouthEastBus, southWestToSouthEastTruck,
 										southWestToSouthEastMotorBike, southWestToSouthEastPedestrian, southWestToSouthEastCrutches1,
 										southWestToSouthEastCrutches2, southWestToSouthEastCane, southWestToSouthEastDog, southWestToSouthEastMobilityScooter,
-										southWestToSouthEastWheelChairAssisted, southWestToSouthEastWheelChairManual, southWestToSouthEastWheelChairPowered,
+										southWestToSouthEastWheelchairAssisted, southWestToSouthEastWheelchairManual, southWestToSouthEastWheelchairPowered,
 										southWestToSouthEastPushChair, southWestToSouthEastSkateboard, southWestToSouthEastManualScooter, generalComments);
 								
 							}
@@ -10506,7 +10628,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southToNorthWestCar, southToNorthWestBus, southToNorthWestTruck,
 										southToNorthWestMotorBike, southToNorthWestPedestrian, southToNorthWestCrutches1,
 										southToNorthWestCrutches2, southToNorthWestCane, southToNorthWestDog, southToNorthWestMobilityScooter,
-										southToNorthWestWheelChairAssisted, southToNorthWestWheelChairManual, southToNorthWestWheelChairPowered,
+										southToNorthWestWheelchairAssisted, southToNorthWestWheelchairManual, southToNorthWestWheelchairPowered,
 										southToNorthWestPushChair, southToNorthWestSkateboard, southToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 1){
@@ -10514,7 +10636,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southToNorthCar, southToNorthBus, southToNorthTruck,
 										southToNorthMotorBike, southToNorthPedestrian, southToNorthCrutches1,
 										southToNorthCrutches2, southToNorthCane, southToNorthDog, southToNorthMobilityScooter,
-										southToNorthWheelChairAssisted, southToNorthWheelChairManual, southToNorthWheelChairPowered,
+										southToNorthWheelchairAssisted, southToNorthWheelchairManual, southToNorthWheelchairPowered,
 										southToNorthPushChair, southToNorthSkateboard, southToNorthManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 2){
@@ -10522,7 +10644,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southToNorthEastCar, southToNorthEastBus, southToNorthEastTruck,
 										southToNorthEastMotorBike, southToNorthEastPedestrian, southToNorthEastCrutches1,
 										southToNorthEastCrutches2, southToNorthEastCane, southToNorthEastDog, southToNorthEastMobilityScooter,
-										southToNorthEastWheelChairAssisted, southToNorthEastWheelChairManual, southToNorthEastWheelChairPowered,
+										southToNorthEastWheelchairAssisted, southToNorthEastWheelchairManual, southToNorthEastWheelchairPowered,
 										southToNorthEastPushChair, southToNorthEastSkateboard, southToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 3){
@@ -10530,7 +10652,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southToWestCar, southToWestBus, southToWestTruck,
 										southToWestMotorBike, southToWestPedestrian, southToWestCrutches1,
 										southToWestCrutches2, southToWestCane, southToWestDog, southToWestMobilityScooter,
-										southToWestWheelChairAssisted, southToWestWheelChairManual, southToWestWheelChairPowered,
+										southToWestWheelchairAssisted, southToWestWheelchairManual, southToWestWheelchairPowered,
 										southToWestPushChair, southToWestSkateboard, southToWestManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 4){
@@ -10538,7 +10660,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southToEastCar, southToEastBus, southToEastTruck,
 										southToEastMotorBike, southToEastPedestrian, southToEastCrutches1,
 										southToEastCrutches2, southToEastCane, southToEastDog, southToEastMobilityScooter,
-										southToEastWheelChairAssisted, southToEastWheelChairManual, southToEastWheelChairPowered,
+										southToEastWheelchairAssisted, southToEastWheelchairManual, southToEastWheelchairPowered,
 										southToEastPushChair, southToEastSkateboard, southToEastManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 5){
@@ -10546,7 +10668,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southToSouthWestCar, southToSouthWestBus, southToSouthWestTruck,
 										southToSouthWestMotorBike, southToSouthWestPedestrian, southToSouthWestCrutches1,
 										southToSouthWestCrutches2, southToSouthWestCane, southToSouthWestDog, southToSouthWestMobilityScooter,
-										southToSouthWestWheelChairAssisted, southToSouthWestWheelChairManual, southToSouthWestWheelChairPowered,
+										southToSouthWestWheelchairAssisted, southToSouthWestWheelchairManual, southToSouthWestWheelchairPowered,
 										southToSouthWestPushChair, southToSouthWestSkateboard, southToSouthWestManualScooter, generalComments);
 								
 							}else if(x == 6 && y == 7){
@@ -10554,7 +10676,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southToSouthEastCar, southToSouthEastBus, southToSouthEastTruck,
 										southToSouthEastMotorBike, southToSouthEastPedestrian, southToSouthEastCrutches1,
 										southToSouthEastCrutches2, southToSouthEastCane, southToSouthEastDog, southToSouthEastMobilityScooter,
-										southToSouthEastWheelChairAssisted, southToSouthEastWheelChairManual, southToSouthEastWheelChairPowered,
+										southToSouthEastWheelchairAssisted, southToSouthEastWheelchairManual, southToSouthEastWheelchairPowered,
 										southToSouthEastPushChair, southToSouthEastSkateboard, southToSouthEastManualScooter, generalComments);
 								
 							}
@@ -10565,7 +10687,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southEastToNorthWestCar, southEastToNorthWestBus, southEastToNorthWestTruck,
 										southEastToNorthWestMotorBike, southEastToNorthWestPedestrian, southEastToNorthWestCrutches1,
 										southEastToNorthWestCrutches2, southEastToNorthWestCane, southEastToNorthWestDog, southEastToNorthWestMobilityScooter,
-										southEastToNorthWestWheelChairAssisted, southEastToNorthWestWheelChairManual, southEastToNorthWestWheelChairPowered,
+										southEastToNorthWestWheelchairAssisted, southEastToNorthWestWheelchairManual, southEastToNorthWestWheelchairPowered,
 										southEastToNorthWestPushChair, southEastToNorthWestSkateboard, southEastToNorthWestManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 1){
@@ -10573,7 +10695,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southEastToNorthCar, southEastToNorthBus, southEastToNorthTruck,
 										southEastToNorthMotorBike, southEastToNorthPedestrian, southEastToNorthCrutches1,
 										southEastToNorthCrutches2, southEastToNorthCane, southEastToNorthDog, southEastToNorthMobilityScooter,
-										southEastToNorthWheelChairAssisted, southEastToNorthWheelChairManual, southEastToNorthWheelChairPowered,
+										southEastToNorthWheelchairAssisted, southEastToNorthWheelchairManual, southEastToNorthWheelchairPowered,
 										southEastToNorthPushChair, southEastToNorthSkateboard, southEastToNorthManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 2){
@@ -10581,7 +10703,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southEastToNorthEastCar, southEastToNorthEastBus, southEastToNorthEastTruck,
 										southEastToNorthEastMotorBike, southEastToNorthEastPedestrian, southEastToNorthEastCrutches1,
 										southEastToNorthEastCrutches2, southEastToNorthEastCane, southEastToNorthEastDog, southEastToNorthEastMobilityScooter,
-										southEastToNorthEastWheelChairAssisted, southEastToNorthEastWheelChairManual, southEastToNorthEastWheelChairPowered,
+										southEastToNorthEastWheelchairAssisted, southEastToNorthEastWheelchairManual, southEastToNorthEastWheelchairPowered,
 										southEastToNorthEastPushChair, southEastToNorthEastSkateboard, southEastToNorthEastManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 3){
@@ -10589,7 +10711,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southEastToWestCar, southEastToWestBus, southEastToWestTruck,
 										southEastToWestMotorBike, southEastToWestPedestrian, southEastToWestCrutches1,
 										southEastToWestCrutches2, southEastToWestCane, southEastToWestDog, southEastToWestMobilityScooter,
-										southEastToWestWheelChairAssisted, southEastToWestWheelChairManual, southEastToWestWheelChairPowered,
+										southEastToWestWheelchairAssisted, southEastToWestWheelchairManual, southEastToWestWheelchairPowered,
 										southEastToWestPushChair, southEastToWestSkateboard, southEastToWestManualScooter, generalComments);
 							
 							}else if(x == 7 && y == 4){
@@ -10597,7 +10719,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southEastToEastCar, southEastToEastBus, southEastToEastTruck,
 										southWestToEastMotorBike, southWestToEastPedestrian, southWestToEastCrutches1,
 										southEastToEastCrutches2, southEastToEastCane, southEastToEastDog, southEastToEastMobilityScooter,
-										southEastToEastWheelChairAssisted, southEastToEastWheelChairManual, southEastToEastWheelChairPowered,
+										southEastToEastWheelchairAssisted, southEastToEastWheelchairManual, southEastToEastWheelchairPowered,
 										southEastToEastPushChair, southEastToEastSkateboard, southEastToEastManualScooter, generalComments);
 								
 							}else if(x == 7 && y == 5){
@@ -10605,7 +10727,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southEastToSouthWestCar, southEastToSouthWestBus, southEastToSouthWestTruck,
 										southEastToSouthWestMotorBike, southEastToSouthWestPedestrian, southEastToSouthWestCrutches1,
 										southEastToSouthWestCrutches2, southEastToSouthWestCane, southEastToSouthWestDog, southEastToSouthWestMobilityScooter,
-										southEastToSouthWestWheelChairAssisted, southEastToSouthWestWheelChairManual, southEastToSouthWestWheelChairPowered,
+										southEastToSouthWestWheelchairAssisted, southEastToSouthWestWheelchairManual, southEastToSouthWestWheelchairPowered,
 										southEastToSouthWestPushChair, southEastToSouthWestSkateboard, southEastToSouthWestManualScooter, generalComments);
 							
 							}else if(x == 7 && y == 6){
@@ -10613,7 +10735,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 								appendCountables(fileWriter, southEastToSouthCar, southEastToSouthBus, southEastToSouthTruck,
 										southEastToSouthMotorBike, southEastToSouthPedestrian, southEastToSouthCrutches1,
 										southEastToSouthCrutches2, southEastToSouthCane, southEastToSouthDog, southEastToSouthMobilityScooter,
-										southEastToSouthWheelChairAssisted, southEastToSouthWheelChairManual, southEastToSouthWheelChairPowered,
+										southEastToSouthWheelchairAssisted, southEastToSouthWheelchairManual, southEastToSouthWheelchairPowered,
 										southEastToSouthPushChair, southEastToSouthSkateboard, southEastToSouthManualScooter, generalComments);
 							
 							}
