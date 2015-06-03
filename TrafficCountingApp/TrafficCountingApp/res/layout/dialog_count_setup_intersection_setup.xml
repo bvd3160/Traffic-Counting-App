@@ -20,10 +20,10 @@
         android:gravity="center_horizontal" >
         
         <fragment
-        	android:id="@+id/csis_compassFragment"
-        	android:name="com.TDG.trafficcountingapp.Compass"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"/>
+            android:id="@+id/compassFragment"
+            android:name="com.TDG.trafficcountingapp.Compass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         
     </RelativeLayout>
 

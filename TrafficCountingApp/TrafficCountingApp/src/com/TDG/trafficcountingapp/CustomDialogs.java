@@ -1,17 +1,14 @@
 package com.TDG.trafficcountingapp;
 
-import java.io.Flushable;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -24,6 +21,8 @@ import android.widget.TextView;
 
 @SuppressLint({ "NewApi", "InflateParams" })
 public class CustomDialogs extends DialogFragment implements View.OnClickListener{
+	
+	View view;
 	
 	Button btn_close;
 	Button csc_btn_submit;
@@ -90,7 +89,7 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		//This creates the view and decides which fragment to show depending on the tags which were given to them in CountingScreen.java.
-		View view = null;
+		view = null;
 		//getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
 		switch (getTag()) {
@@ -681,6 +680,9 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	
 	private void useCommunicator(String key, String stringValue, boolean[] booleanArrayValue, String[] stringArrayValue){
 		communicator.sendClickMessage(key, stringValue, booleanArrayValue, stringArrayValue);
+		Fragment f = getFragmentManager().findFragmentById(R.id.compassFragment);
+        if (f != null) 
+            getFragmentManager().beginTransaction().remove(f).commit();
 		dismiss();
 	}
 }

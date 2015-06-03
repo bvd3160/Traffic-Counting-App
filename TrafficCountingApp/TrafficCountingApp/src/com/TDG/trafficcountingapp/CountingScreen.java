@@ -441,7 +441,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		initialiseCountObjects();
 		initialiseDirectionButtonClicked();
 		initialiseDirectionFromTo();
-		populateTimer(1);
+		populateTimer(15);
 		populateButtons();
 		showCountingPanelAndButtons();
 		
