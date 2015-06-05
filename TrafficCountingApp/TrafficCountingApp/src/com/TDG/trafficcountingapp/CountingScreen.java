@@ -65,6 +65,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 	 */
 
 	private CountDownTimer countTimer;
+	private int timerMinutes;
+	Button btn_setTime;
 	
 	private static int bus, truck, car, motorBike, 
 			pedestrian, crutches_1, crutches_2,
@@ -424,9 +426,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		intersectionsPicked = getIntent().getBooleanArrayExtra("IntersectionsPicked");
 		intersectionType = getIntent().getStringExtra("IntersectionType");
 		
-		//Toast.makeText(this, "intersectionType: " + intersectionType, Toast.LENGTH_SHORT).show();
-		
-		if(intersectionType == null){
+		if(intersectionType.isEmpty() || intersectionType == null || intersectionType == ""){
 			intersectionType = "No Intersection";
 			for (int x = 0; x < intersectionsPicked.length; x++) {
 				intersectionsPicked[x] = true;
@@ -441,10 +441,13 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		// Initialises the current counting object to be a car
 		updateCurrentObjectTo("Pedestrian (No Aid)");
 				
+		timerMinutes = 15;
+		btn_setTime = (Button)findViewById(R.id.cs_btn_changeTimer);
+		
 		initialiseCountObjects();
 		initialiseDirectionButtonClicked();
 		initialiseDirectionFromTo();
-		populateTimer(15);
+		populateTimer(timerMinutes);
 		populateButtons();
 		showCountingPanelAndButtons();
 		
@@ -2222,8 +2225,24 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		FragmentManager manager = getFragmentManager();
 		CustomDialogs dialog = new CustomDialogs();
 		Bundle args = new Bundle();
+		args.putString("IntersectionType", intersectionType);
 		dialog.setArguments(args);
 		dialog.show(manager, "changeDefault");
+	}
+	
+	/*
+	 * Launches the CustomDialog class and sends the reference 
+	 * "changeTimer" to that class to let that class know where it was
+	 * called from. Then it displays the dialog which is handled in
+	 * Custom_Dialogs.
+	 * @author: Richard Fong
+	 * @since: 05.06.15
+	 */
+	@SuppressLint("NewApi")
+	public void showChangeTimer(View view) {
+		FragmentManager manager = getFragmentManager();
+		CustomDialogs dialog = new CustomDialogs();
+		dialog.show(manager, "changeTimer");
 	}
 
 	/*
@@ -2243,6 +2262,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			defaultTo(stringValue);
 			defaultObject = stringValue;
 			Toast.makeText(this, "defaultObject: " + defaultObject, Toast.LENGTH_SHORT).show();
+		}else if(key.equals("setTimer")){
+			timerMinutes = Integer.parseInt(stringValue);
+			populateTimer(timerMinutes);
 		}else if(!key.equals("Comment")){
 			updateCurrentObjectTo(stringValue);
 			updateCurrentlySelectedObject(getCurrentObjectCount(stringValue));
@@ -2290,8 +2312,10 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			countTimer.countTimerStarted = true;
 			countTimer.countTimerSaved = false;
 			countTimer.intersectionType = null;
+			btn_setTime.setEnabled(false);
 		}else if(btn_stop.isPressed()){
 			countTimer.onFinish();
+			btn_setTime.setEnabled(true);
 		}else if(btn_direction_nw.isPressed()){
 				btn_direction_nw_clicked = reverseButtonClicked(btn_direction_nw_clicked);
 				if(btn_direction_nw_clicked){
@@ -10210,6 +10234,7 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				countTimerSaved = true;
 				countTimerStarted = false;
 				txt_timer.setText("Completed.");
+				btn_setTime.setEnabled(true);
 				saveData();
 			}
 		}

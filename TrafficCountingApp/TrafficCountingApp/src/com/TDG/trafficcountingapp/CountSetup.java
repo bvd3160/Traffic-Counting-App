@@ -64,7 +64,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 	Button setDate, selectIntersectionType, submit;
 	
 	boolean[] intersectionPicked;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,6 +90,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 		for(int x = 0; x < 8; x++){
 			intersectionPicked[x] = false;
 		}
+		
 		
 		/*
 		 * This block of code will catch the extra sent from MainScreen
@@ -217,7 +218,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					completed = false;
 				}
 				
-				if(!intersectionKind.isEmpty()){
+				if(!intersectionKind.isEmpty() || !intersectionType.isShown()){
 					setTypeOfIntersection(intersectionKind);
 				}else{
 					Toast.makeText(CountSetup.this, "Please provide the Intersection type", Toast.LENGTH_LONG).show();

@@ -234,6 +234,13 @@
                     android:text="Start" />
 
                 <Button
+                    android:id="@+id/cs_btn_changeTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cs_btn_changeTimer"
+                    android:onClick="showChangeTimer" />
+
+                <Button
                     android:id="@+id/cs_btn_stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

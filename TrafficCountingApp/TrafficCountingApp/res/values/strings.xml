@@ -75,6 +75,7 @@
     <string name="cs_btn_direction_se">South-East</string>
     <string name="cs_btn_intersection_name">Add/Change Intersection Name</string>
     <string name="cs_btn_changeDefault">Change Default To</string>
+    <string name="cs_btn_changeTimer">Change Timer</string>
     
     <!-- Counting Screen Dialog -->
     <string name="title_activity_counting_screen__dialog">CountingScreen_Dialog</string>
@@ -116,7 +117,7 @@
     <string name="csis_se">South-East</string>
     <string name="csis_txt_approachleft">Approaches Left: 0</string>
     
-    <!-- Coutning Screen Intersection Name Changer -->
+    <!-- Counting Screen Intersection Name Changer -->
     <string name="csn_txt_instructions">Please insert the name of the street below</string>
     <string name="csn_txt_nw">North-West</string>
     <string name="csn_txt_n">North</string>
@@ -127,4 +128,11 @@
     <string name="csn_txt_s">South</string>
     <string name="csn_txt_se">South-East</string>
     
+    <!-- Counting Screen Timer -->
+    <string name="cs_timer_instructions">Please select the counting time.</string>
+    <string name="cs_timer_custom_instructions">Or input your own time.</string>
+    <string name="cs_timer_btn_5">5 Minutes</string>
+    <string name="cs_timer_btn_10">10 Minutes</string>
+    <string name="cs_timer_btn_15">15 Minutes</string>
+                    
 </resources>

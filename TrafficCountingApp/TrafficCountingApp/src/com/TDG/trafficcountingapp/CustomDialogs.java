@@ -38,6 +38,8 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	boolean csc_comments = false;
 	boolean csn_intersection_name_picker = false;
 	boolean csis_intersection_setup = false;
+	boolean cd_changeDefaultTo = false;
+	boolean cs_timer = false;
 	
 	TextView csi_txt_intersection3, csi_txt_intersection4,
 	 		csi_txt_intersection5,  csi_txt_intersection6;
@@ -78,14 +80,17 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	DatePicker datePicker;
 	
 	Communicator communicator;
-	
-	boolean cd_changeDefaultTo;
+
 	Button cd_btn_submit;
 	Button changeBus, changeTruck, changeCar, changeMotorBike, changePedestrian,
 			changeCrutches1, changeCrutches2, changeCane, changeDog, changeMobilityScooter,
 			changeWheelchairAssisted, changeWheelchairManual, changeWheelchairPowered,
 			changePushchair, changeSkateboard, changeManualScooter;
-		
+	
+	Button cs_timer_btn_submit;
+	Button cs_timer_btn_5, cs_timer_btn_10, cs_timer_btn_15;
+	TextView cs_timer_custom_timer_txt;
+	
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -125,6 +130,9 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		case "changeDefault":
 			view = populateChangeDefaultTo(inflater);
 			break;
+		case "changeTimer":
+			view = populateSetTimer(inflater);
+			break;
 		default:
 			break;
 		}
@@ -153,6 +161,8 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 				onClickIntersectionNamePicker(view);
 			} else if(cd_changeDefaultTo){
 				onClickChangeDefaultTo(view);
+			} else if(cs_timer){
+				onClickSetTimer(view);
 			}
 		}else{
 			if(csis_intersection_setup){
@@ -459,6 +469,32 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 		changeManualScooter = (Button)view.findViewById(R.id.cd_manualscooter);
 		changeManualScooter.setOnClickListener(this);
 		
+		if(getArguments().getString("IntersectionType").equals("No Intersection")){
+			changeBus.setVisibility(4);
+			changeCar.setVisibility(4);
+			changeTruck.setVisibility(4);
+			changeMotorBike.setVisibility(4);
+		}
+		
+		return view;
+	}
+	
+	private View populateSetTimer(LayoutInflater inflater){
+		View view = inflater.inflate(R.layout.dialog_counting_screen_change_timer, null);
+		getDialog().setTitle("Set Timer To");
+		btn_close = (Button)view.findViewById(R.id.cs_timer_close);
+		cs_timer = true;
+		cs_timer_btn_submit = (Button)view.findViewById(R.id.cs_timer_submit);
+		cs_timer_btn_submit.setOnClickListener(this);
+		
+		cs_timer_btn_5 = (Button)view.findViewById(R.id.cs_timer_btn_5);
+		cs_timer_btn_5.setOnClickListener(this);
+		cs_timer_btn_10 = (Button)view.findViewById(R.id.cs_timer_btn_10);
+		cs_timer_btn_10.setOnClickListener(this);
+		cs_timer_btn_15 = (Button)view.findViewById(R.id.cs_timer_btn_15);
+		cs_timer_btn_15.setOnClickListener(this);
+		cs_timer_custom_timer_txt = (TextView)view.findViewById(R.id.cs_timer_custom_timer);
+		
 		return view;
 	}
 	
@@ -755,12 +791,37 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 							intersectionNames[x] = csn_txtfield_se.getText().toString();
 						}
 					}
-					//Toast.makeText(getActivity(), x + ": " + intersectionNames[x], Toast.LENGTH_SHORT).show();
 				}	
 			}
 		}
 		
 		useCommunicator("IntersectionNamePicker", null, null, intersectionNames);
+	}
+	
+	private void onClickSetTimer(View view){
+		String value = null;
+		boolean passed = false;
+		if(cs_timer_btn_5.isPressed()){
+			value = "5";
+			passed = true;
+		}else if(cs_timer_btn_10.isPressed()){
+			value = "10";
+			passed = true;
+		}else if(cs_timer_btn_15.isPressed()){
+			value = "15";
+			passed = true;
+		}else if(cs_timer_btn_submit.isPressed()){
+			if(!cs_timer_custom_timer_txt.getText().toString().isEmpty()){
+				value = cs_timer_custom_timer_txt.getText().toString();
+				passed = true;
+			}else{
+				Toast.makeText(getActivity(), "Please set a numeric time value", Toast.LENGTH_SHORT).show();
+			}
+		}
+		
+		if(passed){
+			useCommunicator("setTimer", value, null, null);
+		}
 	}
 	
 	////////////////////////////////////////////////////////////
