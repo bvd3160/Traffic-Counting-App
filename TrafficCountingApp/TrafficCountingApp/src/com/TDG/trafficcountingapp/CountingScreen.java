@@ -2311,7 +2311,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			countTimer.start();
 			countTimer.countTimerStarted = true;
 			countTimer.countTimerSaved = false;
-			countTimer.intersectionType = null;
 			btn_setTime.setEnabled(false);
 		}else if(btn_stop.isPressed()){
 			countTimer.onFinish();
@@ -10168,7 +10167,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		private String ms, minutes, seconds;
 		private boolean countTimerSaved;
 		private boolean countTimerStarted;
-		private String intersectionType;
 		
 		//-------------Jean-Yves' Initializations-----------------------
 		private String startTime;
@@ -10185,18 +10183,9 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			super(millisInFuture, countDownInterval);
 			countTimerSaved = false;
 			countTimerStarted = false;
-			generalComments = CountSetup.getCommentSection();
 			df = new SimpleDateFormat("h:mm a");
 			startTime = df.format(Calendar.getInstance().getTime());
 			updateTimeRemaining(millisInFuture);
-			
-			//Get current time and subtract 15 minutes to get time started counting-Jean-Yves
-
-//			currentTime = df.format(Calendar.getInstance().getTime());
-//			cal.setTime(cal.getTime());
-//			cal.add(Calendar.MINUTE, -15);
-//			Date fifteenMinBefore = cal.getTime();
-//		    sessionStartTime = df.format(fifteenMinBefore);
 		}
 
 		private void updateTimeRemaining(long millisUntilFinished){
@@ -10293,7 +10282,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			 * 8:00 to 8:15		25		2		13			7				2		6
 			 */
 			
-			generalComments = CountSetup.getCommentSection();
+			generalComments = comments;
+			userMessage(generalComments);
 			
 			appendLocationHeader(fileWriter);
 			appendFromAndToPostionsHeader(fileWriter);
@@ -10820,11 +10810,6 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 				weatherInfo = "Nil";
 			}
 			
-			if(intersectionType == null){
-				intersectionType = "N/A";
-			}
-			//Make sure the above string don't return null	
-		
 			if(!locationHeaderAppended){
 				fileWriter.append("LOCATION:\n" +
 						", Street number and/or Name: "+streetNumAndName + "\n" +
@@ -11109,9 +11094,11 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		private void appendCountables(FileWriter writer, int cars, int buses, int trucks, int motorcycles, int pedestrian,
 										int wsCrutchOne, int wsCrutchTwo, int cane, int guideDog, int mobilityScooter, int wheelchairA,
 										int wheelchairM, int wheelchairP, int pcBuggy, int skateboard, int manualScooter, String comments) throws IOException{
+			
 			if(generalComments == null){
 				comments = " ";
 			}
+			
 			String endTime;
 			Calendar cal = Calendar.getInstance();
 			endTime = df.format(cal.getTime());

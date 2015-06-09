@@ -6,6 +6,7 @@ import java.util.Calendar;
 import com.TDG.trafficcountingapp.CustomDialogs.Communicator;
 
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils.TruncateAt;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.FragmentManager;
@@ -188,13 +189,10 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 				//====CHECKS and SETTING values to variable for later referencing later====
 				
 				//SURVEYOR NAME
-				/*if(!name.isEmpty()){
+				if(!name.isEmpty()){
 					CountSetup.setsName(name);
-					System.out.println("1-Surveyor Name: "+getsName());
-				}else{
-					Toast.makeText(CountSetup.this, "Please State your name", Toast.LENGTH_LONG).show();
-					completed = false;
-				}*/
+				}
+				
 				//THE DATE
 				if(!date.isEmpty()){
 					CountSetup.setTheDate(date);
@@ -204,7 +202,9 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					completed = false;
 				}
 				//LOCATION
-				if(!streeNumAndName.isEmpty() || !suburbName.isEmpty() || !cityName.isEmpty() || !areaCode.isEmpty() || !areaDescript.isEmpty()){
+				if(!streeNumAndName.isEmpty() || !suburbName.isEmpty() ||
+						!cityName.isEmpty() || !areaCode.isEmpty() ||
+						!areaDescript.isEmpty()){
 					CountSetup.setStreetNumAndName(streeNumAndName);
 					CountSetup.setSuburbName(suburbName);
 					CountSetup.setCityName(cityName);
@@ -212,7 +212,6 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					CountSetup.setAreaDescript(areaDescript);
 					CountSetup.setWeatherCommentSection(weatherComment);
 					CountSetup.setCommentSection(commentArea);
-					//System.out.println("3.1-Street: "+getStreetNumAndName());
 				}else{
 					Toast.makeText(CountSetup.this, "Please tell me where you are", Toast.LENGTH_LONG).show();
 					completed = false;
@@ -224,51 +223,7 @@ public class CountSetup extends ActionBarActivity implements Communicator{
 					Toast.makeText(CountSetup.this, "Please provide the Intersection type", Toast.LENGTH_LONG).show();
 					completed = false;
 				}
-				/*
-				if(!suburbName.isEmpty()){
-					CountSetup.setSuburbName(suburbName);
-					System.out.println("3.2-Suburb: "+getSuburbName());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide the Suburb name", Toast.LENGTH_LONG).show();
-					completed = false;
-				}
-				if(!cityName.isEmpty()){
-					CountSetup.setCityName(cityName);
-					System.out.println("3.3-City: "+getCityName());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide the City name", Toast.LENGTH_LONG).show();
-					completed = false;
-				}
-				if(!areaCode.isEmpty()){
-					CountSetup.setAreaCode(areaCode);
-					System.out.println("3.4-Area Code: "+getAreaCode());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide the Post code", Toast.LENGTH_LONG).show();
-					completed = false;
-				}
-				if(!areaDescript.isEmpty()){
-					CountSetup.setAreaDescript(areaDescript);
-					System.out.println("3.4-Area Description: "+getAreaDescript());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide a Description of the area", Toast.LENGTH_LONG).show();
-					completed = false;
-				}
-				if(!weatherComment.isEmpty()){
-					CountSetup.setWeatherCommentSection(weatherComment);
-					System.out.println("3.5-Weahter Commnent: "+getWeatherCommentSection());
-				}else{
-					Toast.makeText(CountSetup.this, "Please provide a description of current weather conditions", Toast.LENGTH_LONG).show();
-					completed = false;
-				}
-				if(!commentArea.isEmpty()){
-					CountSetup.setCommentSection(commentArea);
-					System.out.println("3.6-Area Description: "+getCommentSection());
-				}else{
-					Toast.makeText(CountSetup.this, "Would you care to comment on what you see?", Toast.LENGTH_LONG).show();
-					completed = false;
-				}
-				*/
-				
+								
 				if(completed){
 					submitCountScreen(v);
 				}
