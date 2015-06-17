@@ -47,7 +47,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/*
+/**
  * @author Richard Fong 1248615
  * @version 1.0
  * @since 11 January, 2015
@@ -75,8 +75,8 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 			pushChair, skateboard, manualScooter;
 
 	String defaultObject;
-	static boolean[] directionFrom;
-	static boolean[] directionTo;
+	public boolean[] directionFrom;
+	public boolean[] directionTo;
 	static int northWestTotal, northTotal, northEastTotal, westTotal, eastTotal, southWestTotal,
 				southTotal, southEastTotal;
 	//North West
@@ -2106,6 +2106,3654 @@ public class CountingScreen extends ActionBarActivity implements Communicator, O
 		CountingScreen.manualScooter = manualScooter;
 	}
 	
+	public static int getWheelChair_assisted() {
+		return wheelChair_assisted;
+	}
+
+	public static int getWheelChair_manual() {
+		return wheelChair_manual;
+	}
+
+	public static int getWheelChair_powered() {
+		return wheelChair_powered;
+	}
+
+	public static int getNorthWestTotal() {
+		return northWestTotal;
+	}
+
+	public static int getNorthTotal() {
+		return northTotal;
+	}
+
+	public static int getNorthEastTotal() {
+		return northEastTotal;
+	}
+
+	public static int getWestTotal() {
+		return westTotal;
+	}
+
+	public static int getEastTotal() {
+		return eastTotal;
+	}
+
+	public static int getSouthWestTotal() {
+		return southWestTotal;
+	}
+
+	public static int getSouthTotal() {
+		return southTotal;
+	}
+
+	public static int getSouthEastTotal() {
+		return southEastTotal;
+	}
+
+	public static int getNorthWestToNorthBus() {
+		return northWestToNorthBus;
+	}
+
+	public static int getNorthWestToNorthTruck() {
+		return northWestToNorthTruck;
+	}
+
+	public static int getNorthWestToNorthCar() {
+		return northWestToNorthCar;
+	}
+
+	public static int getNorthWestToNorthMotorBike() {
+		return northWestToNorthMotorBike;
+	}
+
+	public static int getNorthWestToNorthPedestrian() {
+		return northWestToNorthPedestrian;
+	}
+
+	public static int getNorthWestToNorthCrutches1() {
+		return northWestToNorthCrutches1;
+	}
+
+	public static int getNorthWestToNorthCrutches2() {
+		return northWestToNorthCrutches2;
+	}
+
+	public static int getNorthWestToNorthCane() {
+		return northWestToNorthCane;
+	}
+
+	public static int getNorthWestToNorthDog() {
+		return northWestToNorthDog;
+	}
+
+	public static int getNorthWestToNorthMobilityScooter() {
+		return northWestToNorthMobilityScooter;
+	}
+
+	public static int getNorthWestToNorthWheelchairAssisted() {
+		return northWestToNorthWheelchairAssisted;
+	}
+
+	public static int getNorthWestToNorthWheelchairManual() {
+		return northWestToNorthWheelchairManual;
+	}
+
+	public static int getNorthWestToNorthWheelchairPowered() {
+		return northWestToNorthWheelchairPowered;
+	}
+
+	public static int getNorthWestToNorthPushChair() {
+		return northWestToNorthPushChair;
+	}
+
+	public static int getNorthWestToNorthSkateboard() {
+		return northWestToNorthSkateboard;
+	}
+
+	public static int getNorthWestToNorthManualScooter() {
+		return northWestToNorthManualScooter;
+	}
+
+	public static int getNorthWestToNorthEastBus() {
+		return northWestToNorthEastBus;
+	}
+
+	public static int getNorthWestToNorthEastTruck() {
+		return northWestToNorthEastTruck;
+	}
+
+	public static int getNorthWestToNorthEastCar() {
+		return northWestToNorthEastCar;
+	}
+
+	public static int getNorthWestToNorthEastMotorBike() {
+		return northWestToNorthEastMotorBike;
+	}
+
+	public static int getNorthWestToNorthEastPedestrian() {
+		return northWestToNorthEastPedestrian;
+	}
+
+	public static int getNorthWestToNorthEastCrutches1() {
+		return northWestToNorthEastCrutches1;
+	}
+
+	public static int getNorthWestToNorthEastCrutches2() {
+		return northWestToNorthEastCrutches2;
+	}
+
+	public static int getNorthWestToNorthEastCane() {
+		return northWestToNorthEastCane;
+	}
+
+	public static int getNorthWestToNorthEastDog() {
+		return northWestToNorthEastDog;
+	}
+
+	public static int getNorthWestToNorthEastMobilityScooter() {
+		return northWestToNorthEastMobilityScooter;
+	}
+
+	public static int getNorthWestToNorthEastWheelchairAssisted() {
+		return northWestToNorthEastWheelchairAssisted;
+	}
+
+	public static int getNorthWestToNorthEastWheelchairManual() {
+		return northWestToNorthEastWheelchairManual;
+	}
+
+	public static int getNorthWestToNorthEastWheelchairPowered() {
+		return northWestToNorthEastWheelchairPowered;
+	}
+
+	public static int getNorthWestToNorthEastPushChair() {
+		return northWestToNorthEastPushChair;
+	}
+
+	public static int getNorthWestToNorthEastSkateboard() {
+		return northWestToNorthEastSkateboard;
+	}
+
+	public static int getNorthWestToNorthEastManualScooter() {
+		return northWestToNorthEastManualScooter;
+	}
+
+	public static int getNorthWestToWestBus() {
+		return northWestToWestBus;
+	}
+
+	public static int getNorthWestToWestTruck() {
+		return northWestToWestTruck;
+	}
+
+	public static int getNorthWestToWestCar() {
+		return northWestToWestCar;
+	}
+
+	public static int getNorthWestToWestMotorBike() {
+		return northWestToWestMotorBike;
+	}
+
+	public static int getNorthWestToWestPedestrian() {
+		return northWestToWestPedestrian;
+	}
+
+	public static int getNorthWestToWestCrutches1() {
+		return northWestToWestCrutches1;
+	}
+
+	public static int getNorthWestToWestCrutches2() {
+		return northWestToWestCrutches2;
+	}
+
+	public static int getNorthWestToWestCane() {
+		return northWestToWestCane;
+	}
+
+	public static int getNorthWestToWestDog() {
+		return northWestToWestDog;
+	}
+
+	public static int getNorthWestToWestMobilityScooter() {
+		return northWestToWestMobilityScooter;
+	}
+
+	public static int getNorthWestToWestWheelchairAssisted() {
+		return northWestToWestWheelchairAssisted;
+	}
+
+	public static int getNorthWestToWestWheelchairManual() {
+		return northWestToWestWheelchairManual;
+	}
+
+	public static int getNorthWestToWestWheelchairPowered() {
+		return northWestToWestWheelchairPowered;
+	}
+
+	public static int getNorthWestToWestPushChair() {
+		return northWestToWestPushChair;
+	}
+
+	public static int getNorthWestToWestSkateboard() {
+		return northWestToWestSkateboard;
+	}
+
+	public static int getNorthWestToWestManualScooter() {
+		return northWestToWestManualScooter;
+	}
+
+	public static int getNorthWestToEastBus() {
+		return northWestToEastBus;
+	}
+
+	public static int getNorthWestToEastTruck() {
+		return northWestToEastTruck;
+	}
+
+	public static int getNorthWestToEastCar() {
+		return northWestToEastCar;
+	}
+
+	public static int getNorthWestToEastMotorBike() {
+		return northWestToEastMotorBike;
+	}
+
+	public static int getNorthWestToEastPedestrian() {
+		return northWestToEastPedestrian;
+	}
+
+	public static int getNorthWestToEastCrutches1() {
+		return northWestToEastCrutches1;
+	}
+
+	public static int getNorthWestToEastCrutches2() {
+		return northWestToEastCrutches2;
+	}
+
+	public static int getNorthWestToEastCane() {
+		return northWestToEastCane;
+	}
+
+	public static int getNorthWestToEastDog() {
+		return northWestToEastDog;
+	}
+
+	public static int getNorthWestToEastMobilityScooter() {
+		return northWestToEastMobilityScooter;
+	}
+
+	public static int getNorthWestToEastWheelchairAssisted() {
+		return northWestToEastWheelchairAssisted;
+	}
+
+	public static int getNorthWestToEastWheelchairManual() {
+		return northWestToEastWheelchairManual;
+	}
+
+	public static int getNorthWestToEastWheelchairPowered() {
+		return northWestToEastWheelchairPowered;
+	}
+
+	public static int getNorthWestToEastPushChair() {
+		return northWestToEastPushChair;
+	}
+
+	public static int getNorthWestToEastSkateboard() {
+		return northWestToEastSkateboard;
+	}
+
+	public static int getNorthWestToEastManualScooter() {
+		return northWestToEastManualScooter;
+	}
+
+	public static int getNorthWestToSouthWestBus() {
+		return northWestToSouthWestBus;
+	}
+
+	public static int getNorthWestToSouthWestTruck() {
+		return northWestToSouthWestTruck;
+	}
+
+	public static int getNorthWestToSouthWestCar() {
+		return northWestToSouthWestCar;
+	}
+
+	public static int getNorthWestToSouthWestMotorBike() {
+		return northWestToSouthWestMotorBike;
+	}
+
+	public static int getNorthWestToSouthWestPedestrian() {
+		return northWestToSouthWestPedestrian;
+	}
+
+	public static int getNorthWestToSouthWestCrutches1() {
+		return northWestToSouthWestCrutches1;
+	}
+
+	public static int getNorthWestToSouthWestCrutches2() {
+		return northWestToSouthWestCrutches2;
+	}
+
+	public static int getNorthWestToSouthWestCane() {
+		return northWestToSouthWestCane;
+	}
+
+	public static int getNorthWestToSouthWestDog() {
+		return northWestToSouthWestDog;
+	}
+
+	public static int getNorthWestToSouthWestMobilityScooter() {
+		return northWestToSouthWestMobilityScooter;
+	}
+
+	public static int getNorthWestToSouthWestWheelchairAssisted() {
+		return northWestToSouthWestWheelchairAssisted;
+	}
+
+	public static int getNorthWestToSouthWestWheelchairManual() {
+		return northWestToSouthWestWheelchairManual;
+	}
+
+	public static int getNorthWestToSouthWestWheelchairPowered() {
+		return northWestToSouthWestWheelchairPowered;
+	}
+
+	public static int getNorthWestToSouthWestPushChair() {
+		return northWestToSouthWestPushChair;
+	}
+
+	public static int getNorthWestToSouthWestSkateboard() {
+		return northWestToSouthWestSkateboard;
+	}
+
+	public static int getNorthWestToSouthWestManualScooter() {
+		return northWestToSouthWestManualScooter;
+	}
+
+	public static int getNorthWestToSouthBus() {
+		return northWestToSouthBus;
+	}
+
+	public static int getNorthWestToSouthTruck() {
+		return northWestToSouthTruck;
+	}
+
+	public static int getNorthWestToSouthCar() {
+		return northWestToSouthCar;
+	}
+
+	public static int getNorthWestToSouthMotorBike() {
+		return northWestToSouthMotorBike;
+	}
+
+	public static int getNorthWestToSouthPedestrian() {
+		return northWestToSouthPedestrian;
+	}
+
+	public static int getNorthWestToSouthCrutches1() {
+		return northWestToSouthCrutches1;
+	}
+
+	public static int getNorthWestToSouthCrutches2() {
+		return northWestToSouthCrutches2;
+	}
+
+	public static int getNorthWestToSouthCane() {
+		return northWestToSouthCane;
+	}
+
+	public static int getNorthWestToSouthDog() {
+		return northWestToSouthDog;
+	}
+
+	public static int getNorthWestToSouthMobilityScooter() {
+		return northWestToSouthMobilityScooter;
+	}
+
+	public static int getNorthWestToSouthWheelchairAssisted() {
+		return northWestToSouthWheelchairAssisted;
+	}
+
+	public static int getNorthWestToSouthWheelchairManual() {
+		return northWestToSouthWheelchairManual;
+	}
+
+	public static int getNorthWestToSouthWheelchairPowered() {
+		return northWestToSouthWheelchairPowered;
+	}
+
+	public static int getNorthWestToSouthPushChair() {
+		return northWestToSouthPushChair;
+	}
+
+	public static int getNorthWestToSouthSkateboard() {
+		return northWestToSouthSkateboard;
+	}
+
+	public static int getNorthWestToSouthManualScooter() {
+		return northWestToSouthManualScooter;
+	}
+
+	public static int getNorthWestToSouthEastBus() {
+		return northWestToSouthEastBus;
+	}
+
+	public static int getNorthWestToSouthEastTruck() {
+		return northWestToSouthEastTruck;
+	}
+
+	public static int getNorthWestToSouthEastCar() {
+		return northWestToSouthEastCar;
+	}
+
+	public static int getNorthWestToSouthEastMotorBike() {
+		return northWestToSouthEastMotorBike;
+	}
+
+	public static int getNorthWestToSouthEastPedestrian() {
+		return northWestToSouthEastPedestrian;
+	}
+
+	public static int getNorthWestToSouthEastCrutches1() {
+		return northWestToSouthEastCrutches1;
+	}
+
+	public static int getNorthWestToSouthEastCrutches2() {
+		return northWestToSouthEastCrutches2;
+	}
+
+	public static int getNorthWestToSouthEastCane() {
+		return northWestToSouthEastCane;
+	}
+
+	public static int getNorthWestToSouthEastDog() {
+		return northWestToSouthEastDog;
+	}
+
+	public static int getNorthWestToSouthEastMobilityScooter() {
+		return northWestToSouthEastMobilityScooter;
+	}
+
+	public static int getNorthWestToSouthEastWheelchairAssisted() {
+		return northWestToSouthEastWheelchairAssisted;
+	}
+
+	public static int getNorthWestToSouthEastWheelchairManual() {
+		return northWestToSouthEastWheelchairManual;
+	}
+
+	public static int getNorthWestToSouthEastWheelchairPowered() {
+		return northWestToSouthEastWheelchairPowered;
+	}
+
+	public static int getNorthWestToSouthEastPushChair() {
+		return northWestToSouthEastPushChair;
+	}
+
+	public static int getNorthWestToSouthEastSkateboard() {
+		return northWestToSouthEastSkateboard;
+	}
+
+	public static int getNorthWestToSouthEastManualScooter() {
+		return northWestToSouthEastManualScooter;
+	}
+
+	public static int getNorthToNorthWestBus() {
+		return northToNorthWestBus;
+	}
+
+	public static int getNorthToNorthWestTruck() {
+		return northToNorthWestTruck;
+	}
+
+	public static int getNorthToNorthWestCar() {
+		return northToNorthWestCar;
+	}
+
+	public static int getNorthToNorthWestMotorBike() {
+		return northToNorthWestMotorBike;
+	}
+
+	public static int getNorthToNorthWestPedestrian() {
+		return northToNorthWestPedestrian;
+	}
+
+	public static int getNorthToNorthWestCrutches1() {
+		return northToNorthWestCrutches1;
+	}
+
+	public static int getNorthToNorthWestCrutches2() {
+		return northToNorthWestCrutches2;
+	}
+
+	public static int getNorthToNorthWestCane() {
+		return northToNorthWestCane;
+	}
+
+	public static int getNorthToNorthWestDog() {
+		return northToNorthWestDog;
+	}
+
+	public static int getNorthToNorthWestMobilityScooter() {
+		return northToNorthWestMobilityScooter;
+	}
+
+	public static int getNorthToNorthWestWheelchairAssisted() {
+		return northToNorthWestWheelchairAssisted;
+	}
+
+	public static int getNorthToNorthWestWheelchairManual() {
+		return northToNorthWestWheelchairManual;
+	}
+
+	public static int getNorthToNorthWestWheelchairPowered() {
+		return northToNorthWestWheelchairPowered;
+	}
+
+	public static int getNorthToNorthWestPushChair() {
+		return northToNorthWestPushChair;
+	}
+
+	public static int getNorthToNorthWestSkateboard() {
+		return northToNorthWestSkateboard;
+	}
+
+	public static int getNorthToNorthWestManualScooter() {
+		return northToNorthWestManualScooter;
+	}
+
+	public static int getNorthToNorthEastBus() {
+		return northToNorthEastBus;
+	}
+
+	public static int getNorthToNorthEastTruck() {
+		return northToNorthEastTruck;
+	}
+
+	public static int getNorthToNorthEastCar() {
+		return northToNorthEastCar;
+	}
+
+	public static int getNorthToNorthEastMotorBike() {
+		return northToNorthEastMotorBike;
+	}
+
+	public static int getNorthToNorthEastPedestrian() {
+		return northToNorthEastPedestrian;
+	}
+
+	public static int getNorthToNorthEastCrutches1() {
+		return northToNorthEastCrutches1;
+	}
+
+	public static int getNorthToNorthEastCrutches2() {
+		return northToNorthEastCrutches2;
+	}
+
+	public static int getNorthToNorthEastCane() {
+		return northToNorthEastCane;
+	}
+
+	public static int getNorthToNorthEastDog() {
+		return northToNorthEastDog;
+	}
+
+	public static int getNorthToNorthEastMobilityScooter() {
+		return northToNorthEastMobilityScooter;
+	}
+
+	public static int getNorthToNorthEastWheelchairAssisted() {
+		return northToNorthEastWheelchairAssisted;
+	}
+
+	public static int getNorthToNorthEastWheelchairManual() {
+		return northToNorthEastWheelchairManual;
+	}
+
+	public static int getNorthToNorthEastWheelchairPowered() {
+		return northToNorthEastWheelchairPowered;
+	}
+
+	public static int getNorthToNorthEastPushChair() {
+		return northToNorthEastPushChair;
+	}
+
+	public static int getNorthToNorthEastSkateboard() {
+		return northToNorthEastSkateboard;
+	}
+
+	public static int getNorthToNorthEastManualScooter() {
+		return northToNorthEastManualScooter;
+	}
+
+	public static int getNorthToWestBus() {
+		return northToWestBus;
+	}
+
+	public static int getNorthToWestTruck() {
+		return northToWestTruck;
+	}
+
+	public static int getNorthToWestCar() {
+		return northToWestCar;
+	}
+
+	public static int getNorthToWestMotorBike() {
+		return northToWestMotorBike;
+	}
+
+	public static int getNorthToWestPedestrian() {
+		return northToWestPedestrian;
+	}
+
+	public static int getNorthToWestCrutches1() {
+		return northToWestCrutches1;
+	}
+
+	public static int getNorthToWestCrutches2() {
+		return northToWestCrutches2;
+	}
+
+	public static int getNorthToWestCane() {
+		return northToWestCane;
+	}
+
+	public static int getNorthToWestDog() {
+		return northToWestDog;
+	}
+
+	public static int getNorthToWestMobilityScooter() {
+		return northToWestMobilityScooter;
+	}
+
+	public static int getNorthToWestWheelchairAssisted() {
+		return northToWestWheelchairAssisted;
+	}
+
+	public static int getNorthToWestWheelchairManual() {
+		return northToWestWheelchairManual;
+	}
+
+	public static int getNorthToWestWheelchairPowered() {
+		return northToWestWheelchairPowered;
+	}
+
+	public static int getNorthToWestPushChair() {
+		return northToWestPushChair;
+	}
+
+	public static int getNorthToWestSkateboard() {
+		return northToWestSkateboard;
+	}
+
+	public static int getNorthToWestManualScooter() {
+		return northToWestManualScooter;
+	}
+
+	public static int getNorthToEastBus() {
+		return northToEastBus;
+	}
+
+	public static int getNorthToEastTruck() {
+		return northToEastTruck;
+	}
+
+	public static int getNorthToEastCar() {
+		return northToEastCar;
+	}
+
+	public static int getNorthToEastMotorBike() {
+		return northToEastMotorBike;
+	}
+
+	public static int getNorthToEastPedestrian() {
+		return northToEastPedestrian;
+	}
+
+	public static int getNorthToEastCrutches1() {
+		return northToEastCrutches1;
+	}
+
+	public static int getNorthToEastCrutches2() {
+		return northToEastCrutches2;
+	}
+
+	public static int getNorthToEastCane() {
+		return northToEastCane;
+	}
+
+	public static int getNorthToEastDog() {
+		return northToEastDog;
+	}
+
+	public static int getNorthToEastMobilityScooter() {
+		return northToEastMobilityScooter;
+	}
+
+	public static int getNorthToEastWheelchairAssisted() {
+		return northToEastWheelchairAssisted;
+	}
+
+	public static int getNorthToEastWheelchairManual() {
+		return northToEastWheelchairManual;
+	}
+
+	public static int getNorthToEastWheelchairPowered() {
+		return northToEastWheelchairPowered;
+	}
+
+	public static int getNorthToEastPushChair() {
+		return northToEastPushChair;
+	}
+
+	public static int getNorthToEastSkateboard() {
+		return northToEastSkateboard;
+	}
+
+	public static int getNorthToEastManualScooter() {
+		return northToEastManualScooter;
+	}
+
+	public static int getNorthToSouthWestBus() {
+		return northToSouthWestBus;
+	}
+
+	public static int getNorthToSouthWestTruck() {
+		return northToSouthWestTruck;
+	}
+
+	public static int getNorthToSouthWestCar() {
+		return northToSouthWestCar;
+	}
+
+	public static int getNorthToSouthWestMotorBike() {
+		return northToSouthWestMotorBike;
+	}
+
+	public static int getNorthToSouthWestPedestrian() {
+		return northToSouthWestPedestrian;
+	}
+
+	public static int getNorthToSouthWestCrutches1() {
+		return northToSouthWestCrutches1;
+	}
+
+	public static int getNorthToSouthWestCrutches2() {
+		return northToSouthWestCrutches2;
+	}
+
+	public static int getNorthToSouthWestCane() {
+		return northToSouthWestCane;
+	}
+
+	public static int getNorthToSouthWestDog() {
+		return northToSouthWestDog;
+	}
+
+	public static int getNorthToSouthWestMobilityScooter() {
+		return northToSouthWestMobilityScooter;
+	}
+
+	public static int getNorthToSouthWestWheelchairAssisted() {
+		return northToSouthWestWheelchairAssisted;
+	}
+
+	public static int getNorthToSouthWestWheelchairManual() {
+		return northToSouthWestWheelchairManual;
+	}
+
+	public static int getNorthToSouthWestWheelchairPowered() {
+		return northToSouthWestWheelchairPowered;
+	}
+
+	public static int getNorthToSouthWestPushChair() {
+		return northToSouthWestPushChair;
+	}
+
+	public static int getNorthToSouthWestSkateboard() {
+		return northToSouthWestSkateboard;
+	}
+
+	public static int getNorthToSouthWestManualScooter() {
+		return northToSouthWestManualScooter;
+	}
+
+	public static int getNorthToSouthBus() {
+		return northToSouthBus;
+	}
+
+	public static int getNorthToSouthTruck() {
+		return northToSouthTruck;
+	}
+
+	public static int getNorthToSouthCar() {
+		return northToSouthCar;
+	}
+
+	public static int getNorthToSouthMotorBike() {
+		return northToSouthMotorBike;
+	}
+
+	public static int getNorthToSouthPedestrian() {
+		return northToSouthPedestrian;
+	}
+
+	public static int getNorthToSouthCrutches1() {
+		return northToSouthCrutches1;
+	}
+
+	public static int getNorthToSouthCrutches2() {
+		return northToSouthCrutches2;
+	}
+
+	public static int getNorthToSouthCane() {
+		return northToSouthCane;
+	}
+
+	public static int getNorthToSouthDog() {
+		return northToSouthDog;
+	}
+
+	public static int getNorthToSouthMobilityScooter() {
+		return northToSouthMobilityScooter;
+	}
+
+	public static int getNorthToSouthWheelchairAssisted() {
+		return northToSouthWheelchairAssisted;
+	}
+
+	public static int getNorthToSouthWheelchairManual() {
+		return northToSouthWheelchairManual;
+	}
+
+	public static int getNorthToSouthWheelchairPowered() {
+		return northToSouthWheelchairPowered;
+	}
+
+	public static int getNorthToSouthPushChair() {
+		return northToSouthPushChair;
+	}
+
+	public static int getNorthToSouthSkateboard() {
+		return northToSouthSkateboard;
+	}
+
+	public static int getNorthToSouthManualScooter() {
+		return northToSouthManualScooter;
+	}
+
+	public static int getNorthToSouthEastBus() {
+		return northToSouthEastBus;
+	}
+
+	public static int getNorthToSouthEastTruck() {
+		return northToSouthEastTruck;
+	}
+
+	public static int getNorthToSouthEastCar() {
+		return northToSouthEastCar;
+	}
+
+	public static int getNorthToSouthEastMotorBike() {
+		return northToSouthEastMotorBike;
+	}
+
+	public static int getNorthToSouthEastPedestrian() {
+		return northToSouthEastPedestrian;
+	}
+
+	public static int getNorthToSouthEastCrutches1() {
+		return northToSouthEastCrutches1;
+	}
+
+	public static int getNorthToSouthEastCrutches2() {
+		return northToSouthEastCrutches2;
+	}
+
+	public static int getNorthToSouthEastCane() {
+		return northToSouthEastCane;
+	}
+
+	public static int getNorthToSouthEastDog() {
+		return northToSouthEastDog;
+	}
+
+	public static int getNorthToSouthEastMobilityScooter() {
+		return northToSouthEastMobilityScooter;
+	}
+
+	public static int getNorthToSouthEastWheelchairAssisted() {
+		return northToSouthEastWheelchairAssisted;
+	}
+
+	public static int getNorthToSouthEastWheelchairManual() {
+		return northToSouthEastWheelchairManual;
+	}
+
+	public static int getNorthToSouthEastWheelchairPowered() {
+		return northToSouthEastWheelchairPowered;
+	}
+
+	public static int getNorthToSouthEastPushChair() {
+		return northToSouthEastPushChair;
+	}
+
+	public static int getNorthToSouthEastSkateboard() {
+		return northToSouthEastSkateboard;
+	}
+
+	public static int getNorthToSouthEastManualScooter() {
+		return northToSouthEastManualScooter;
+	}
+
+	public static int getNorthEastToNorthWestBus() {
+		return northEastToNorthWestBus;
+	}
+
+	public static int getNorthEastToNorthWestTruck() {
+		return northEastToNorthWestTruck;
+	}
+
+	public static int getNorthEastToNorthWestCar() {
+		return northEastToNorthWestCar;
+	}
+
+	public static int getNorthEastToNorthWestMotorBike() {
+		return northEastToNorthWestMotorBike;
+	}
+
+	public static int getNorthEastToNorthWestPedestrian() {
+		return northEastToNorthWestPedestrian;
+	}
+
+	public static int getNorthEastToNorthWestCrutches1() {
+		return northEastToNorthWestCrutches1;
+	}
+
+	public static int getNorthEastToNorthWestCrutches2() {
+		return northEastToNorthWestCrutches2;
+	}
+
+	public static int getNorthEastToNorthWestCane() {
+		return northEastToNorthWestCane;
+	}
+
+	public static int getNorthEastToNorthWestDog() {
+		return northEastToNorthWestDog;
+	}
+
+	public static int getNorthEastToNorthWestMobilityScooter() {
+		return northEastToNorthWestMobilityScooter;
+	}
+
+	public static int getNorthEastToNorthWestWheelchairAssisted() {
+		return northEastToNorthWestWheelchairAssisted;
+	}
+
+	public static int getNorthEastToNorthWestWheelchairManual() {
+		return northEastToNorthWestWheelchairManual;
+	}
+
+	public static int getNorthEastToNorthWestWheelchairPowered() {
+		return northEastToNorthWestWheelchairPowered;
+	}
+
+	public static int getNorthEastToNorthWestPushChair() {
+		return northEastToNorthWestPushChair;
+	}
+
+	public static int getNorthEastToNorthWestSkateboard() {
+		return northEastToNorthWestSkateboard;
+	}
+
+	public static int getNorthEastToNorthWestManualScooter() {
+		return northEastToNorthWestManualScooter;
+	}
+
+	public static int getNorthEastToNorthBus() {
+		return northEastToNorthBus;
+	}
+
+	public static int getNorthEastToNorthTruck() {
+		return northEastToNorthTruck;
+	}
+
+	public static int getNorthEastToNorthCar() {
+		return northEastToNorthCar;
+	}
+
+	public static int getNorthEastToNorthMotorBike() {
+		return northEastToNorthMotorBike;
+	}
+
+	public static int getNorthEastToNorthPedestrian() {
+		return northEastToNorthPedestrian;
+	}
+
+	public static int getNorthEastToNorthCrutches1() {
+		return northEastToNorthCrutches1;
+	}
+
+	public static int getNorthEastToNorthCrutches2() {
+		return northEastToNorthCrutches2;
+	}
+
+	public static int getNorthEastToNorthCane() {
+		return northEastToNorthCane;
+	}
+
+	public static int getNorthEastToNorthDog() {
+		return northEastToNorthDog;
+	}
+
+	public static int getNorthEastToNorthMobilityScooter() {
+		return northEastToNorthMobilityScooter;
+	}
+
+	public static int getNorthEastToNorthWheelchairAssisted() {
+		return northEastToNorthWheelchairAssisted;
+	}
+
+	public static int getNorthEastToNorthWheelchairManual() {
+		return northEastToNorthWheelchairManual;
+	}
+
+	public static int getNorthEastToNorthWheelchairPowered() {
+		return northEastToNorthWheelchairPowered;
+	}
+
+	public static int getNorthEastToNorthPushChair() {
+		return northEastToNorthPushChair;
+	}
+
+	public static int getNorthEastToNorthSkateboard() {
+		return northEastToNorthSkateboard;
+	}
+
+	public static int getNorthEastToNorthManualScooter() {
+		return northEastToNorthManualScooter;
+	}
+
+	public static int getNorthEastToWestBus() {
+		return northEastToWestBus;
+	}
+
+	public static int getNorthEastToWestTruck() {
+		return northEastToWestTruck;
+	}
+
+	public static int getNorthEastToWestCar() {
+		return northEastToWestCar;
+	}
+
+	public static int getNorthEastToWestMotorBike() {
+		return northEastToWestMotorBike;
+	}
+
+	public static int getNorthEastToWestPedestrian() {
+		return northEastToWestPedestrian;
+	}
+
+	public static int getNorthEastToWestCrutches1() {
+		return northEastToWestCrutches1;
+	}
+
+	public static int getNorthEastToWestCrutches2() {
+		return northEastToWestCrutches2;
+	}
+
+	public static int getNorthEastToWestCane() {
+		return northEastToWestCane;
+	}
+
+	public static int getNorthEastToWestDog() {
+		return northEastToWestDog;
+	}
+
+	public static int getNorthEastToWestMobilityScooter() {
+		return northEastToWestMobilityScooter;
+	}
+
+	public static int getNorthEastToWestWheelchairAssisted() {
+		return northEastToWestWheelchairAssisted;
+	}
+
+	public static int getNorthEastToWestWheelchairManual() {
+		return northEastToWestWheelchairManual;
+	}
+
+	public static int getNorthEastToWestWheelchairPowered() {
+		return northEastToWestWheelchairPowered;
+	}
+
+	public static int getNorthEastToWestPushChair() {
+		return northEastToWestPushChair;
+	}
+
+	public static int getNorthEastToWestSkateboard() {
+		return northEastToWestSkateboard;
+	}
+
+	public static int getNorthEastToWestManualScooter() {
+		return northEastToWestManualScooter;
+	}
+
+	public static int getNorthEastToEastBus() {
+		return northEastToEastBus;
+	}
+
+	public static int getNorthEastToEastTruck() {
+		return northEastToEastTruck;
+	}
+
+	public static int getNorthEastToEastCar() {
+		return northEastToEastCar;
+	}
+
+	public static int getNorthEastToEastMotorBike() {
+		return northEastToEastMotorBike;
+	}
+
+	public static int getNorthEastToEastPedestrian() {
+		return northEastToEastPedestrian;
+	}
+
+	public static int getNorthEastToEastCrutches1() {
+		return northEastToEastCrutches1;
+	}
+
+	public static int getNorthEastToEastCrutches2() {
+		return northEastToEastCrutches2;
+	}
+
+	public static int getNorthEastToEastCane() {
+		return northEastToEastCane;
+	}
+
+	public static int getNorthEastToEastDog() {
+		return northEastToEastDog;
+	}
+
+	public static int getNorthEastToEastMobilityScooter() {
+		return northEastToEastMobilityScooter;
+	}
+
+	public static int getNorthEastToEastWheelchairAssisted() {
+		return northEastToEastWheelchairAssisted;
+	}
+
+	public static int getNorthEastToEastWheelchairManual() {
+		return northEastToEastWheelchairManual;
+	}
+
+	public static int getNorthEastToEastWheelchairPowered() {
+		return northEastToEastWheelchairPowered;
+	}
+
+	public static int getNorthEastToEastPushChair() {
+		return northEastToEastPushChair;
+	}
+
+	public static int getNorthEastToEastSkateboard() {
+		return northEastToEastSkateboard;
+	}
+
+	public static int getNorthEastToEastManualScooter() {
+		return northEastToEastManualScooter;
+	}
+
+	public static int getNorthEastToSouthWestBus() {
+		return northEastToSouthWestBus;
+	}
+
+	public static int getNorthEastToSouthWestTruck() {
+		return northEastToSouthWestTruck;
+	}
+
+	public static int getNorthEastToSouthWestCar() {
+		return northEastToSouthWestCar;
+	}
+
+	public static int getNorthEastToSouthWestMotorBike() {
+		return northEastToSouthWestMotorBike;
+	}
+
+	public static int getNorthEastToSouthWestPedestrian() {
+		return northEastToSouthWestPedestrian;
+	}
+
+	public static int getNorthEastToSouthWestCrutches1() {
+		return northEastToSouthWestCrutches1;
+	}
+
+	public static int getNorthEastToSouthWestCrutches2() {
+		return northEastToSouthWestCrutches2;
+	}
+
+	public static int getNorthEastToSouthWestCane() {
+		return northEastToSouthWestCane;
+	}
+
+	public static int getNorthEastToSouthWestDog() {
+		return northEastToSouthWestDog;
+	}
+
+	public static int getNorthEastToSouthWestMobilityScooter() {
+		return northEastToSouthWestMobilityScooter;
+	}
+
+	public static int getNorthEastToSouthWestWheelchairAssisted() {
+		return northEastToSouthWestWheelchairAssisted;
+	}
+
+	public static int getNorthEastToSouthWestWheelchairManual() {
+		return northEastToSouthWestWheelchairManual;
+	}
+
+	public static int getNorthEastToSouthWestWheelchairPowered() {
+		return northEastToSouthWestWheelchairPowered;
+	}
+
+	public static int getNorthEastToSouthWestPushChair() {
+		return northEastToSouthWestPushChair;
+	}
+
+	public static int getNorthEastToSouthWestSkateboard() {
+		return northEastToSouthWestSkateboard;
+	}
+
+	public static int getNorthEastToSouthWestManualScooter() {
+		return northEastToSouthWestManualScooter;
+	}
+
+	public static int getNorthEastToSouthBus() {
+		return northEastToSouthBus;
+	}
+
+	public static int getNorthEastToSouthTruck() {
+		return northEastToSouthTruck;
+	}
+
+	public static int getNorthEastToSouthCar() {
+		return northEastToSouthCar;
+	}
+
+	public static int getNorthEastToSouthMotorBike() {
+		return northEastToSouthMotorBike;
+	}
+
+	public static int getNorthEastToSouthPedestrian() {
+		return northEastToSouthPedestrian;
+	}
+
+	public static int getNorthEastToSouthCrutches1() {
+		return northEastToSouthCrutches1;
+	}
+
+	public static int getNorthEastToSouthCrutches2() {
+		return northEastToSouthCrutches2;
+	}
+
+	public static int getNorthEastToSouthCane() {
+		return northEastToSouthCane;
+	}
+
+	public static int getNorthEastToSouthDog() {
+		return northEastToSouthDog;
+	}
+
+	public static int getNorthEastToSouthMobilityScooter() {
+		return northEastToSouthMobilityScooter;
+	}
+
+	public static int getNorthEastToSouthWheelchairAssisted() {
+		return northEastToSouthWheelchairAssisted;
+	}
+
+	public static int getNorthEastToSouthWheelchairManual() {
+		return northEastToSouthWheelchairManual;
+	}
+
+	public static int getNorthEastToSouthWheelchairPowered() {
+		return northEastToSouthWheelchairPowered;
+	}
+
+	public static int getNorthEastToSouthPushChair() {
+		return northEastToSouthPushChair;
+	}
+
+	public static int getNorthEastToSouthSkateboard() {
+		return northEastToSouthSkateboard;
+	}
+
+	public static int getNorthEastToSouthManualScooter() {
+		return northEastToSouthManualScooter;
+	}
+
+	public static int getNorthEastToSouthEastBus() {
+		return northEastToSouthEastBus;
+	}
+
+	public static int getNorthEastToSouthEastTruck() {
+		return northEastToSouthEastTruck;
+	}
+
+	public static int getNorthEastToSouthEastCar() {
+		return northEastToSouthEastCar;
+	}
+
+	public static int getNorthEastToSouthEastMotorBike() {
+		return northEastToSouthEastMotorBike;
+	}
+
+	public static int getNorthEastToSouthEastPedestrian() {
+		return northEastToSouthEastPedestrian;
+	}
+
+	public static int getNorthEastToSouthEastCrutches1() {
+		return northEastToSouthEastCrutches1;
+	}
+
+	public static int getNorthEastToSouthEastCrutches2() {
+		return northEastToSouthEastCrutches2;
+	}
+
+	public static int getNorthEastToSouthEastCane() {
+		return northEastToSouthEastCane;
+	}
+
+	public static int getNorthEastToSouthEastDog() {
+		return northEastToSouthEastDog;
+	}
+
+	public static int getNorthEastToSouthEastMobilityScooter() {
+		return northEastToSouthEastMobilityScooter;
+	}
+
+	public static int getNorthEastToSouthEastWheelchairAssisted() {
+		return northEastToSouthEastWheelchairAssisted;
+	}
+
+	public static int getNorthEastToSouthEastWheelchairManual() {
+		return northEastToSouthEastWheelchairManual;
+	}
+
+	public static int getNorthEastToSouthEastWheelchairPowered() {
+		return northEastToSouthEastWheelchairPowered;
+	}
+
+	public static int getNorthEastToSouthEastPushChair() {
+		return northEastToSouthEastPushChair;
+	}
+
+	public static int getNorthEastToSouthEastSkateboard() {
+		return northEastToSouthEastSkateboard;
+	}
+
+	public static int getNorthEastToSouthEastManualScooter() {
+		return northEastToSouthEastManualScooter;
+	}
+
+	public static int getWestToNorthWestBus() {
+		return westToNorthWestBus;
+	}
+
+	public static int getWestToNorthWestTruck() {
+		return westToNorthWestTruck;
+	}
+
+	public static int getWestToNorthWestCar() {
+		return westToNorthWestCar;
+	}
+
+	public static int getWestToNorthWestMotorBike() {
+		return westToNorthWestMotorBike;
+	}
+
+	public static int getWestToNorthWestPedestrian() {
+		return westToNorthWestPedestrian;
+	}
+
+	public static int getWestToNorthWestCrutches1() {
+		return westToNorthWestCrutches1;
+	}
+
+	public static int getWestToNorthWestCrutches2() {
+		return westToNorthWestCrutches2;
+	}
+
+	public static int getWestToNorthWestCane() {
+		return westToNorthWestCane;
+	}
+
+	public static int getWestToNorthWestDog() {
+		return westToNorthWestDog;
+	}
+
+	public static int getWestToNorthWestMobilityScooter() {
+		return westToNorthWestMobilityScooter;
+	}
+
+	public static int getWestToNorthWestWheelchairAssisted() {
+		return westToNorthWestWheelchairAssisted;
+	}
+
+	public static int getWestToNorthWestWheelchairManual() {
+		return westToNorthWestWheelchairManual;
+	}
+
+	public static int getWestToNorthWestWheelchairPowered() {
+		return westToNorthWestWheelchairPowered;
+	}
+
+	public static int getWestToNorthWestPushChair() {
+		return westToNorthWestPushChair;
+	}
+
+	public static int getWestToNorthWestSkateboard() {
+		return westToNorthWestSkateboard;
+	}
+
+	public static int getWestToNorthWestManualScooter() {
+		return westToNorthWestManualScooter;
+	}
+
+	public static int getWestToNorthBus() {
+		return westToNorthBus;
+	}
+
+	public static int getWestToNorthTruck() {
+		return westToNorthTruck;
+	}
+
+	public static int getWestToNorthCar() {
+		return westToNorthCar;
+	}
+
+	public static int getWestToNorthMotorBike() {
+		return westToNorthMotorBike;
+	}
+
+	public static int getWestToNorthPedestrian() {
+		return westToNorthPedestrian;
+	}
+
+	public static int getWestToNorthCrutches1() {
+		return westToNorthCrutches1;
+	}
+
+	public static int getWestToNorthCrutches2() {
+		return westToNorthCrutches2;
+	}
+
+	public static int getWestToNorthCane() {
+		return westToNorthCane;
+	}
+
+	public static int getWestToNorthDog() {
+		return westToNorthDog;
+	}
+
+	public static int getWestToNorthMobilityScooter() {
+		return westToNorthMobilityScooter;
+	}
+
+	public static int getWestToNorthWheelchairAssisted() {
+		return westToNorthWheelchairAssisted;
+	}
+
+	public static int getWestToNorthWheelchairManual() {
+		return westToNorthWheelchairManual;
+	}
+
+	public static int getWestToNorthWheelchairPowered() {
+		return westToNorthWheelchairPowered;
+	}
+
+	public static int getWestToNorthPushChair() {
+		return westToNorthPushChair;
+	}
+
+	public static int getWestToNorthSkateboard() {
+		return westToNorthSkateboard;
+	}
+
+	public static int getWestToNorthManualScooter() {
+		return westToNorthManualScooter;
+	}
+
+	public static int getWestToNorthEastBus() {
+		return westToNorthEastBus;
+	}
+
+	public static int getWestToNorthEastTruck() {
+		return westToNorthEastTruck;
+	}
+
+	public static int getWestToNorthEastCar() {
+		return westToNorthEastCar;
+	}
+
+	public static int getWestToNorthEastMotorBike() {
+		return westToNorthEastMotorBike;
+	}
+
+	public static int getWestToNorthEastPedestrian() {
+		return westToNorthEastPedestrian;
+	}
+
+	public static int getWestToNorthEastCrutches1() {
+		return westToNorthEastCrutches1;
+	}
+
+	public static int getWestToNorthEastCrutches2() {
+		return westToNorthEastCrutches2;
+	}
+
+	public static int getWestToNorthEastCane() {
+		return westToNorthEastCane;
+	}
+
+	public static int getWestToNorthEastDog() {
+		return westToNorthEastDog;
+	}
+
+	public static int getWestToNorthEastMobilityScooter() {
+		return westToNorthEastMobilityScooter;
+	}
+
+	public static int getWestToNorthEastWheelchairAssisted() {
+		return westToNorthEastWheelchairAssisted;
+	}
+
+	public static int getWestToNorthEastWheelchairManual() {
+		return westToNorthEastWheelchairManual;
+	}
+
+	public static int getWestToNorthEastWheelchairPowered() {
+		return westToNorthEastWheelchairPowered;
+	}
+
+	public static int getWestToNorthEastPushChair() {
+		return westToNorthEastPushChair;
+	}
+
+	public static int getWestToNorthEastSkateboard() {
+		return westToNorthEastSkateboard;
+	}
+
+	public static int getWestToNorthEastManualScooter() {
+		return westToNorthEastManualScooter;
+	}
+
+	public static int getWestToEastBus() {
+		return westToEastBus;
+	}
+
+	public static int getWestToEastTruck() {
+		return westToEastTruck;
+	}
+
+	public static int getWestToEastCar() {
+		return westToEastCar;
+	}
+
+	public static int getWestToEastMotorBike() {
+		return westToEastMotorBike;
+	}
+
+	public static int getWestToEastPedestrian() {
+		return westToEastPedestrian;
+	}
+
+	public static int getWestToEastCrutches1() {
+		return westToEastCrutches1;
+	}
+
+	public static int getWestToEastCrutches2() {
+		return westToEastCrutches2;
+	}
+
+	public static int getWestToEastCane() {
+		return westToEastCane;
+	}
+
+	public static int getWestToEastDog() {
+		return westToEastDog;
+	}
+
+	public static int getWestToEastMobilityScooter() {
+		return westToEastMobilityScooter;
+	}
+
+	public static int getWestToEastWheelchairAssisted() {
+		return westToEastWheelchairAssisted;
+	}
+
+	public static int getWestToEastWheelchairManual() {
+		return westToEastWheelchairManual;
+	}
+
+	public static int getWestToEastWheelchairPowered() {
+		return westToEastWheelchairPowered;
+	}
+
+	public static int getWestToEastPushChair() {
+		return westToEastPushChair;
+	}
+
+	public static int getWestToEastSkateboard() {
+		return westToEastSkateboard;
+	}
+
+	public static int getWestToEastManualScooter() {
+		return westToEastManualScooter;
+	}
+
+	public static int getWestToSouthWestBus() {
+		return westToSouthWestBus;
+	}
+
+	public static int getWestToSouthWestTruck() {
+		return westToSouthWestTruck;
+	}
+
+	public static int getWestToSouthWestCar() {
+		return westToSouthWestCar;
+	}
+
+	public static int getWestToSouthWestMotorBike() {
+		return westToSouthWestMotorBike;
+	}
+
+	public static int getWestToSouthWestPedestrian() {
+		return westToSouthWestPedestrian;
+	}
+
+	public static int getWestToSouthWestCrutches1() {
+		return westToSouthWestCrutches1;
+	}
+
+	public static int getWestToSouthWestCrutches2() {
+		return westToSouthWestCrutches2;
+	}
+
+	public static int getWestToSouthWestCane() {
+		return westToSouthWestCane;
+	}
+
+	public static int getWestToSouthWestDog() {
+		return westToSouthWestDog;
+	}
+
+	public static int getWestToSouthWestMobilityScooter() {
+		return westToSouthWestMobilityScooter;
+	}
+
+	public static int getWestToSouthWestWheelchairAssisted() {
+		return westToSouthWestWheelchairAssisted;
+	}
+
+	public static int getWestToSouthWestWheelchairManual() {
+		return westToSouthWestWheelchairManual;
+	}
+
+	public static int getWestToSouthWestWheelchairPowered() {
+		return westToSouthWestWheelchairPowered;
+	}
+
+	public static int getWestToSouthWestPushChair() {
+		return westToSouthWestPushChair;
+	}
+
+	public static int getWestToSouthWestSkateboard() {
+		return westToSouthWestSkateboard;
+	}
+
+	public static int getWestToSouthWestManualScooter() {
+		return westToSouthWestManualScooter;
+	}
+
+	public static int getWestToSouthBus() {
+		return westToSouthBus;
+	}
+
+	public static int getWestToSouthTruck() {
+		return westToSouthTruck;
+	}
+
+	public static int getWestToSouthCar() {
+		return westToSouthCar;
+	}
+
+	public static int getWestToSouthMotorBike() {
+		return westToSouthMotorBike;
+	}
+
+	public static int getWestToSouthPedestrian() {
+		return westToSouthPedestrian;
+	}
+
+	public static int getWestToSouthCrutches1() {
+		return westToSouthCrutches1;
+	}
+
+	public static int getWestToSouthCrutches2() {
+		return westToSouthCrutches2;
+	}
+
+	public static int getWestToSouthCane() {
+		return westToSouthCane;
+	}
+
+	public static int getWestToSouthDog() {
+		return westToSouthDog;
+	}
+
+	public static int getWestToSouthMobilityScooter() {
+		return westToSouthMobilityScooter;
+	}
+
+	public static int getWestToSouthWheelchairAssisted() {
+		return westToSouthWheelchairAssisted;
+	}
+
+	public static int getWestToSouthWheelchairManual() {
+		return westToSouthWheelchairManual;
+	}
+
+	public static int getWestToSouthWheelchairPowered() {
+		return westToSouthWheelchairPowered;
+	}
+
+	public static int getWestToSouthPushChair() {
+		return westToSouthPushChair;
+	}
+
+	public static int getWestToSouthSkateboard() {
+		return westToSouthSkateboard;
+	}
+
+	public static int getWestToSouthManualScooter() {
+		return westToSouthManualScooter;
+	}
+
+	public static int getWestToSouthEastBus() {
+		return westToSouthEastBus;
+	}
+
+	public static int getWestToSouthEastTruck() {
+		return westToSouthEastTruck;
+	}
+
+	public static int getWestToSouthEastCar() {
+		return westToSouthEastCar;
+	}
+
+	public static int getWestToSouthEastMotorBike() {
+		return westToSouthEastMotorBike;
+	}
+
+	public static int getWestToSouthEastPedestrian() {
+		return westToSouthEastPedestrian;
+	}
+
+	public static int getWestToSouthEastCrutches1() {
+		return westToSouthEastCrutches1;
+	}
+
+	public static int getWestToSouthEastCrutches2() {
+		return westToSouthEastCrutches2;
+	}
+
+	public static int getWestToSouthEastCane() {
+		return westToSouthEastCane;
+	}
+
+	public static int getWestToSouthEastDog() {
+		return westToSouthEastDog;
+	}
+
+	public static int getWestToSouthEastMobilityScooter() {
+		return westToSouthEastMobilityScooter;
+	}
+
+	public static int getWestToSouthEastWheelchairAssisted() {
+		return westToSouthEastWheelchairAssisted;
+	}
+
+	public static int getWestToSouthEastWheelchairManual() {
+		return westToSouthEastWheelchairManual;
+	}
+
+	public static int getWestToSouthEastWheelchairPowered() {
+		return westToSouthEastWheelchairPowered;
+	}
+
+	public static int getWestToSouthEastPushChair() {
+		return westToSouthEastPushChair;
+	}
+
+	public static int getWestToSouthEastSkateboard() {
+		return westToSouthEastSkateboard;
+	}
+
+	public static int getWestToSouthEastManualScooter() {
+		return westToSouthEastManualScooter;
+	}
+
+	public static int getEastToNorthWestBus() {
+		return eastToNorthWestBus;
+	}
+
+	public static int getEastToNorthWestTruck() {
+		return eastToNorthWestTruck;
+	}
+
+	public static int getEastToNorthWestCar() {
+		return eastToNorthWestCar;
+	}
+
+	public static int getEastToNorthWestMotorBike() {
+		return eastToNorthWestMotorBike;
+	}
+
+	public static int getEastToNorthWestPedestrian() {
+		return eastToNorthWestPedestrian;
+	}
+
+	public static int getEastToNorthWestCrutches1() {
+		return eastToNorthWestCrutches1;
+	}
+
+	public static int getEastToNorthWestCrutches2() {
+		return eastToNorthWestCrutches2;
+	}
+
+	public static int getEastToNorthWestCane() {
+		return eastToNorthWestCane;
+	}
+
+	public static int getEastToNorthWestDog() {
+		return eastToNorthWestDog;
+	}
+
+	public static int getEastToNorthWestMobilityScooter() {
+		return eastToNorthWestMobilityScooter;
+	}
+
+	public static int getEastToNorthWestWheelchairAssisted() {
+		return eastToNorthWestWheelchairAssisted;
+	}
+
+	public static int getEastToNorthWestWheelchairManual() {
+		return eastToNorthWestWheelchairManual;
+	}
+
+	public static int getEastToNorthWestWheelchairPowered() {
+		return eastToNorthWestWheelchairPowered;
+	}
+
+	public static int getEastToNorthWestPushChair() {
+		return eastToNorthWestPushChair;
+	}
+
+	public static int getEastToNorthWestSkateboard() {
+		return eastToNorthWestSkateboard;
+	}
+
+	public static int getEastToNorthWestManualScooter() {
+		return eastToNorthWestManualScooter;
+	}
+
+	public static int getEastToNorthBus() {
+		return eastToNorthBus;
+	}
+
+	public static int getEastToNorthTruck() {
+		return eastToNorthTruck;
+	}
+
+	public static int getEastToNorthCar() {
+		return eastToNorthCar;
+	}
+
+	public static int getEastToNorthMotorBike() {
+		return eastToNorthMotorBike;
+	}
+
+	public static int getEastToNorthPedestrian() {
+		return eastToNorthPedestrian;
+	}
+
+	public static int getEastToNorthCrutches1() {
+		return eastToNorthCrutches1;
+	}
+
+	public static int getEastToNorthCrutches2() {
+		return eastToNorthCrutches2;
+	}
+
+	public static int getEastToNorthCane() {
+		return eastToNorthCane;
+	}
+
+	public static int getEastToNorthDog() {
+		return eastToNorthDog;
+	}
+
+	public static int getEastToNorthMobilityScooter() {
+		return eastToNorthMobilityScooter;
+	}
+
+	public static int getEastToNorthWheelchairAssisted() {
+		return eastToNorthWheelchairAssisted;
+	}
+
+	public static int getEastToNorthWheelchairManual() {
+		return eastToNorthWheelchairManual;
+	}
+
+	public static int getEastToNorthWheelchairPowered() {
+		return eastToNorthWheelchairPowered;
+	}
+
+	public static int getEastToNorthPushChair() {
+		return eastToNorthPushChair;
+	}
+
+	public static int getEastToNorthSkateboard() {
+		return eastToNorthSkateboard;
+	}
+
+	public static int getEastToNorthManualScooter() {
+		return eastToNorthManualScooter;
+	}
+
+	public static int getEastToNorthEastBus() {
+		return eastToNorthEastBus;
+	}
+
+	public static int getEastToNorthEastTruck() {
+		return eastToNorthEastTruck;
+	}
+
+	public static int getEastToNorthEastCar() {
+		return eastToNorthEastCar;
+	}
+
+	public static int getEastToNorthEastMotorBike() {
+		return eastToNorthEastMotorBike;
+	}
+
+	public static int getEastToNorthEastPedestrian() {
+		return eastToNorthEastPedestrian;
+	}
+
+	public static int getEastToNorthEastCrutches1() {
+		return eastToNorthEastCrutches1;
+	}
+
+	public static int getEastToNorthEastCrutches2() {
+		return eastToNorthEastCrutches2;
+	}
+
+	public static int getEastToNorthEastCane() {
+		return eastToNorthEastCane;
+	}
+
+	public static int getEastToNorthEastDog() {
+		return eastToNorthEastDog;
+	}
+
+	public static int getEastToNorthEastMobilityScooter() {
+		return eastToNorthEastMobilityScooter;
+	}
+
+	public static int getEastToNorthEastWheelchairAssisted() {
+		return eastToNorthEastWheelchairAssisted;
+	}
+
+	public static int getEastToNorthEastWheelchairManual() {
+		return eastToNorthEastWheelchairManual;
+	}
+
+	public static int getEastToNorthEastWheelchairPowered() {
+		return eastToNorthEastWheelchairPowered;
+	}
+
+	public static int getEastToNorthEastPushChair() {
+		return eastToNorthEastPushChair;
+	}
+
+	public static int getEastToNorthEastSkateboard() {
+		return eastToNorthEastSkateboard;
+	}
+
+	public static int getEastToNorthEastManualScooter() {
+		return eastToNorthEastManualScooter;
+	}
+
+	public static int getEastToWestBus() {
+		return eastToWestBus;
+	}
+
+	public static int getEastToWestTruck() {
+		return eastToWestTruck;
+	}
+
+	public static int getEastToWestCar() {
+		return eastToWestCar;
+	}
+
+	public static int getEastToWestMotorBike() {
+		return eastToWestMotorBike;
+	}
+
+	public static int getEastToWestPedestrian() {
+		return eastToWestPedestrian;
+	}
+
+	public static int getEastToWestCrutches1() {
+		return eastToWestCrutches1;
+	}
+
+	public static int getEastToWestCrutches2() {
+		return eastToWestCrutches2;
+	}
+
+	public static int getEastToWestCane() {
+		return eastToWestCane;
+	}
+
+	public static int getEastToWestDog() {
+		return eastToWestDog;
+	}
+
+	public static int getEastToWestMobilityScooter() {
+		return eastToWestMobilityScooter;
+	}
+
+	public static int getEastToWestWheelchairAssisted() {
+		return eastToWestWheelchairAssisted;
+	}
+
+	public static int getEastToWestWheelchairManual() {
+		return eastToWestWheelchairManual;
+	}
+
+	public static int getEastToWestWheelchairPowered() {
+		return eastToWestWheelchairPowered;
+	}
+
+	public static int getEastToWestPushChair() {
+		return eastToWestPushChair;
+	}
+
+	public static int getEastToWestSkateboard() {
+		return eastToWestSkateboard;
+	}
+
+	public static int getEastToWestManualScooter() {
+		return eastToWestManualScooter;
+	}
+
+	public static int getEastToSouthWestBus() {
+		return eastToSouthWestBus;
+	}
+
+	public static int getEastToSouthWestTruck() {
+		return eastToSouthWestTruck;
+	}
+
+	public static int getEastToSouthWestCar() {
+		return eastToSouthWestCar;
+	}
+
+	public static int getEastToSouthWestMotorBike() {
+		return eastToSouthWestMotorBike;
+	}
+
+	public static int getEastToSouthWestPedestrian() {
+		return eastToSouthWestPedestrian;
+	}
+
+	public static int getEastToSouthWestCrutches1() {
+		return eastToSouthWestCrutches1;
+	}
+
+	public static int getEastToSouthWestCrutches2() {
+		return eastToSouthWestCrutches2;
+	}
+
+	public static int getEastToSouthWestCane() {
+		return eastToSouthWestCane;
+	}
+
+	public static int getEastToSouthWestDog() {
+		return eastToSouthWestDog;
+	}
+
+	public static int getEastToSouthWestMobilityScooter() {
+		return eastToSouthWestMobilityScooter;
+	}
+
+	public static int getEastToSouthWestWheelchairAssisted() {
+		return eastToSouthWestWheelchairAssisted;
+	}
+
+	public static int getEastToSouthWestWheelchairManual() {
+		return eastToSouthWestWheelchairManual;
+	}
+
+	public static int getEastToSouthWestWheelchairPowered() {
+		return eastToSouthWestWheelchairPowered;
+	}
+
+	public static int getEastToSouthWestPushChair() {
+		return eastToSouthWestPushChair;
+	}
+
+	public static int getEastToSouthWestSkateboard() {
+		return eastToSouthWestSkateboard;
+	}
+
+	public static int getEastToSouthWestManualScooter() {
+		return eastToSouthWestManualScooter;
+	}
+
+	public static int getEastToSouthBus() {
+		return eastToSouthBus;
+	}
+
+	public static int getEastToSouthTruck() {
+		return eastToSouthTruck;
+	}
+
+	public static int getEastToSouthCar() {
+		return eastToSouthCar;
+	}
+
+	public static int getEastToSouthMotorBike() {
+		return eastToSouthMotorBike;
+	}
+
+	public static int getEastToSouthPedestrian() {
+		return eastToSouthPedestrian;
+	}
+
+	public static int getEastToSouthCrutches1() {
+		return eastToSouthCrutches1;
+	}
+
+	public static int getEastToSouthCrutches2() {
+		return eastToSouthCrutches2;
+	}
+
+	public static int getEastToSouthCane() {
+		return eastToSouthCane;
+	}
+
+	public static int getEastToSouthDog() {
+		return eastToSouthDog;
+	}
+
+	public static int getEastToSouthMobilityScooter() {
+		return eastToSouthMobilityScooter;
+	}
+
+	public static int getEastToSouthWheelchairAssisted() {
+		return eastToSouthWheelchairAssisted;
+	}
+
+	public static int getEastToSouthWheelchairManual() {
+		return eastToSouthWheelchairManual;
+	}
+
+	public static int getEastToSouthWheelchairPowered() {
+		return eastToSouthWheelchairPowered;
+	}
+
+	public static int getEastToSouthPushChair() {
+		return eastToSouthPushChair;
+	}
+
+	public static int getEastToSouthSkateboard() {
+		return eastToSouthSkateboard;
+	}
+
+	public static int getEastToSouthManualScooter() {
+		return eastToSouthManualScooter;
+	}
+
+	public static int getEastToSouthEastBus() {
+		return eastToSouthEastBus;
+	}
+
+	public static int getEastToSouthEastTruck() {
+		return eastToSouthEastTruck;
+	}
+
+	public static int getEastToSouthEastCar() {
+		return eastToSouthEastCar;
+	}
+
+	public static int getEastToSouthEastMotorBike() {
+		return eastToSouthEastMotorBike;
+	}
+
+	public static int getEastToSouthEastPedestrian() {
+		return eastToSouthEastPedestrian;
+	}
+
+	public static int getEastToSouthEastCrutches1() {
+		return eastToSouthEastCrutches1;
+	}
+
+	public static int getEastToSouthEastCrutches2() {
+		return eastToSouthEastCrutches2;
+	}
+
+	public static int getEastToSouthEastCane() {
+		return eastToSouthEastCane;
+	}
+
+	public static int getEastToSouthEastDog() {
+		return eastToSouthEastDog;
+	}
+
+	public static int getEastToSouthEastMobilityScooter() {
+		return eastToSouthEastMobilityScooter;
+	}
+
+	public static int getEastToSouthEastWheelchairAssisted() {
+		return eastToSouthEastWheelchairAssisted;
+	}
+
+	public static int getEastToSouthEastWheelchairManual() {
+		return eastToSouthEastWheelchairManual;
+	}
+
+	public static int getEastToSouthEastWheelchairPowered() {
+		return eastToSouthEastWheelchairPowered;
+	}
+
+	public static int getEastToSouthEastPushChair() {
+		return eastToSouthEastPushChair;
+	}
+
+	public static int getEastToSouthEastSkateboard() {
+		return eastToSouthEastSkateboard;
+	}
+
+	public static int getEastToSouthEastManualScooter() {
+		return eastToSouthEastManualScooter;
+	}
+
+	public static int getSouthWestToNorthWestBus() {
+		return southWestToNorthWestBus;
+	}
+
+	public static int getSouthWestToNorthWestTruck() {
+		return southWestToNorthWestTruck;
+	}
+
+	public static int getSouthWestToNorthWestCar() {
+		return southWestToNorthWestCar;
+	}
+
+	public static int getSouthWestToNorthWestMotorBike() {
+		return southWestToNorthWestMotorBike;
+	}
+
+	public static int getSouthWestToNorthWestPedestrian() {
+		return southWestToNorthWestPedestrian;
+	}
+
+	public static int getSouthWestToNorthWestCrutches1() {
+		return southWestToNorthWestCrutches1;
+	}
+
+	public static int getSouthWestToNorthWestCrutches2() {
+		return southWestToNorthWestCrutches2;
+	}
+
+	public static int getSouthWestToNorthWestCane() {
+		return southWestToNorthWestCane;
+	}
+
+	public static int getSouthWestToNorthWestDog() {
+		return southWestToNorthWestDog;
+	}
+
+	public static int getSouthWestToNorthWestMobilityScooter() {
+		return southWestToNorthWestMobilityScooter;
+	}
+
+	public static int getSouthWestToNorthWestWheelchairAssisted() {
+		return southWestToNorthWestWheelchairAssisted;
+	}
+
+	public static int getSouthWestToNorthWestWheelchairManual() {
+		return southWestToNorthWestWheelchairManual;
+	}
+
+	public static int getSouthWestToNorthWestWheelchairPowered() {
+		return southWestToNorthWestWheelchairPowered;
+	}
+
+	public static int getSouthWestToNorthWestPushChair() {
+		return southWestToNorthWestPushChair;
+	}
+
+	public static int getSouthWestToNorthWestSkateboard() {
+		return southWestToNorthWestSkateboard;
+	}
+
+	public static int getSouthWestToNorthWestManualScooter() {
+		return southWestToNorthWestManualScooter;
+	}
+
+	public static int getSouthWestToNorthBus() {
+		return southWestToNorthBus;
+	}
+
+	public static int getSouthWestToNorthTruck() {
+		return southWestToNorthTruck;
+	}
+
+	public static int getSouthWestToNorthCar() {
+		return southWestToNorthCar;
+	}
+
+	public static int getSouthWestToNorthMotorBike() {
+		return southWestToNorthMotorBike;
+	}
+
+	public static int getSouthWestToNorthPedestrian() {
+		return southWestToNorthPedestrian;
+	}
+
+	public static int getSouthWestToNorthCrutches1() {
+		return southWestToNorthCrutches1;
+	}
+
+	public static int getSouthWestToNorthCrutches2() {
+		return southWestToNorthCrutches2;
+	}
+
+	public static int getSouthWestToNorthCane() {
+		return southWestToNorthCane;
+	}
+
+	public static int getSouthWestToNorthDog() {
+		return southWestToNorthDog;
+	}
+
+	public static int getSouthWestToNorthMobilityScooter() {
+		return southWestToNorthMobilityScooter;
+	}
+
+	public static int getSouthWestToNorthWheelchairAssisted() {
+		return southWestToNorthWheelchairAssisted;
+	}
+
+	public static int getSouthWestToNorthWheelchairManual() {
+		return southWestToNorthWheelchairManual;
+	}
+
+	public static int getSouthWestToNorthWheelchairPowered() {
+		return southWestToNorthWheelchairPowered;
+	}
+
+	public static int getSouthWestToNorthPushChair() {
+		return southWestToNorthPushChair;
+	}
+
+	public static int getSouthWestToNorthSkateboard() {
+		return southWestToNorthSkateboard;
+	}
+
+	public static int getSouthWestToNorthManualScooter() {
+		return southWestToNorthManualScooter;
+	}
+
+	public static int getSouthWestToNorthEastBus() {
+		return southWestToNorthEastBus;
+	}
+
+	public static int getSouthWestToNorthEastTruck() {
+		return southWestToNorthEastTruck;
+	}
+
+	public static int getSouthWestToNorthEastCar() {
+		return southWestToNorthEastCar;
+	}
+
+	public static int getSouthWestToNorthEastMotorBike() {
+		return southWestToNorthEastMotorBike;
+	}
+
+	public static int getSouthWestToNorthEastPedestrian() {
+		return southWestToNorthEastPedestrian;
+	}
+
+	public static int getSouthWestToNorthEastCrutches1() {
+		return southWestToNorthEastCrutches1;
+	}
+
+	public static int getSouthWestToNorthEastCrutches2() {
+		return southWestToNorthEastCrutches2;
+	}
+
+	public static int getSouthWestToNorthEastCane() {
+		return southWestToNorthEastCane;
+	}
+
+	public static int getSouthWestToNorthEastDog() {
+		return southWestToNorthEastDog;
+	}
+
+	public static int getSouthWestToNorthEastMobilityScooter() {
+		return southWestToNorthEastMobilityScooter;
+	}
+
+	public static int getSouthWestToNorthEastWheelchairAssisted() {
+		return southWestToNorthEastWheelchairAssisted;
+	}
+
+	public static int getSouthWestToNorthEastWheelchairManual() {
+		return southWestToNorthEastWheelchairManual;
+	}
+
+	public static int getSouthWestToNorthEastWheelchairPowered() {
+		return southWestToNorthEastWheelchairPowered;
+	}
+
+	public static int getSouthWestToNorthEastPushChair() {
+		return southWestToNorthEastPushChair;
+	}
+
+	public static int getSouthWestToNorthEastSkateboard() {
+		return southWestToNorthEastSkateboard;
+	}
+
+	public static int getSouthWestToNorthEastManualScooter() {
+		return southWestToNorthEastManualScooter;
+	}
+
+	public static int getSouthWestToWestBus() {
+		return southWestToWestBus;
+	}
+
+	public static int getSouthWestToWestTruck() {
+		return southWestToWestTruck;
+	}
+
+	public static int getSouthWestToWestCar() {
+		return southWestToWestCar;
+	}
+
+	public static int getSouthWestToWestMotorBike() {
+		return southWestToWestMotorBike;
+	}
+
+	public static int getSouthWestToWestPedestrian() {
+		return southWestToWestPedestrian;
+	}
+
+	public static int getSouthWestToWestCrutches1() {
+		return southWestToWestCrutches1;
+	}
+
+	public static int getSouthWestToWestCrutches2() {
+		return southWestToWestCrutches2;
+	}
+
+	public static int getSouthWestToWestCane() {
+		return southWestToWestCane;
+	}
+
+	public static int getSouthWestToWestDog() {
+		return southWestToWestDog;
+	}
+
+	public static int getSouthWestToWestMobilityScooter() {
+		return southWestToWestMobilityScooter;
+	}
+
+	public static int getSouthWestToWestWheelchairAssisted() {
+		return southWestToWestWheelchairAssisted;
+	}
+
+	public static int getSouthWestToWestWheelchairManual() {
+		return southWestToWestWheelchairManual;
+	}
+
+	public static int getSouthWestToWestWheelchairPowered() {
+		return southWestToWestWheelchairPowered;
+	}
+
+	public static int getSouthWestToWestPushChair() {
+		return southWestToWestPushChair;
+	}
+
+	public static int getSouthWestToWestSkateboard() {
+		return southWestToWestSkateboard;
+	}
+
+	public static int getSouthWestToWestManualScooter() {
+		return southWestToWestManualScooter;
+	}
+
+	public static int getSouthWestToEastBus() {
+		return southWestToEastBus;
+	}
+
+	public static int getSouthWestToEastTruck() {
+		return southWestToEastTruck;
+	}
+
+	public static int getSouthWestToEastCar() {
+		return southWestToEastCar;
+	}
+
+	public static int getSouthWestToEastMotorBike() {
+		return southWestToEastMotorBike;
+	}
+
+	public static int getSouthWestToEastPedestrian() {
+		return southWestToEastPedestrian;
+	}
+
+	public static int getSouthWestToEastCrutches1() {
+		return southWestToEastCrutches1;
+	}
+
+	public static int getSouthWestToEastCrutches2() {
+		return southWestToEastCrutches2;
+	}
+
+	public static int getSouthWestToEastCane() {
+		return southWestToEastCane;
+	}
+
+	public static int getSouthWestToEastDog() {
+		return southWestToEastDog;
+	}
+
+	public static int getSouthWestToEastMobilityScooter() {
+		return southWestToEastMobilityScooter;
+	}
+
+	public static int getSouthWestToEastWheelchairAssisted() {
+		return southWestToEastWheelchairAssisted;
+	}
+
+	public static int getSouthWestToEastWheelchairManual() {
+		return southWestToEastWheelchairManual;
+	}
+
+	public static int getSouthWestToEastWheelchairPowered() {
+		return southWestToEastWheelchairPowered;
+	}
+
+	public static int getSouthWestToEastPushChair() {
+		return southWestToEastPushChair;
+	}
+
+	public static int getSouthWestToEastSkateboard() {
+		return southWestToEastSkateboard;
+	}
+
+	public static int getSouthWestToEastManualScooter() {
+		return southWestToEastManualScooter;
+	}
+
+	public static int getSouthWestToSouthBus() {
+		return southWestToSouthBus;
+	}
+
+	public static int getSouthWestToSouthTruck() {
+		return southWestToSouthTruck;
+	}
+
+	public static int getSouthWestToSouthCar() {
+		return southWestToSouthCar;
+	}
+
+	public static int getSouthWestToSouthMotorBike() {
+		return southWestToSouthMotorBike;
+	}
+
+	public static int getSouthWestToSouthPedestrian() {
+		return southWestToSouthPedestrian;
+	}
+
+	public static int getSouthWestToSouthCrutches1() {
+		return southWestToSouthCrutches1;
+	}
+
+	public static int getSouthWestToSouthCrutches2() {
+		return southWestToSouthCrutches2;
+	}
+
+	public static int getSouthWestToSouthCane() {
+		return southWestToSouthCane;
+	}
+
+	public static int getSouthWestToSouthDog() {
+		return southWestToSouthDog;
+	}
+
+	public static int getSouthWestToSouthMobilityScooter() {
+		return southWestToSouthMobilityScooter;
+	}
+
+	public static int getSouthWestToSouthWheelchairAssisted() {
+		return southWestToSouthWheelchairAssisted;
+	}
+
+	public static int getSouthWestToSouthWheelchairManual() {
+		return southWestToSouthWheelchairManual;
+	}
+
+	public static int getSouthWestToSouthWheelchairPowered() {
+		return southWestToSouthWheelchairPowered;
+	}
+
+	public static int getSouthWestToSouthPushChair() {
+		return southWestToSouthPushChair;
+	}
+
+	public static int getSouthWestToSouthSkateboard() {
+		return southWestToSouthSkateboard;
+	}
+
+	public static int getSouthWestToSouthManualScooter() {
+		return southWestToSouthManualScooter;
+	}
+
+	public static int getSouthWestToSouthEastBus() {
+		return southWestToSouthEastBus;
+	}
+
+	public static int getSouthWestToSouthEastTruck() {
+		return southWestToSouthEastTruck;
+	}
+
+	public static int getSouthWestToSouthEastCar() {
+		return southWestToSouthEastCar;
+	}
+
+	public static int getSouthWestToSouthEastMotorBike() {
+		return southWestToSouthEastMotorBike;
+	}
+
+	public static int getSouthWestToSouthEastPedestrian() {
+		return southWestToSouthEastPedestrian;
+	}
+
+	public static int getSouthWestToSouthEastCrutches1() {
+		return southWestToSouthEastCrutches1;
+	}
+
+	public static int getSouthWestToSouthEastCrutches2() {
+		return southWestToSouthEastCrutches2;
+	}
+
+	public static int getSouthWestToSouthEastCane() {
+		return southWestToSouthEastCane;
+	}
+
+	public static int getSouthWestToSouthEastDog() {
+		return southWestToSouthEastDog;
+	}
+
+	public static int getSouthWestToSouthEastMobilityScooter() {
+		return southWestToSouthEastMobilityScooter;
+	}
+
+	public static int getSouthWestToSouthEastWheelchairAssisted() {
+		return southWestToSouthEastWheelchairAssisted;
+	}
+
+	public static int getSouthWestToSouthEastWheelchairManual() {
+		return southWestToSouthEastWheelchairManual;
+	}
+
+	public static int getSouthWestToSouthEastWheelchairPowered() {
+		return southWestToSouthEastWheelchairPowered;
+	}
+
+	public static int getSouthWestToSouthEastPushChair() {
+		return southWestToSouthEastPushChair;
+	}
+
+	public static int getSouthWestToSouthEastSkateboard() {
+		return southWestToSouthEastSkateboard;
+	}
+
+	public static int getSouthWestToSouthEastManualScooter() {
+		return southWestToSouthEastManualScooter;
+	}
+
+	public static int getSouthToNorthWestBus() {
+		return southToNorthWestBus;
+	}
+
+	public static int getSouthToNorthWestTruck() {
+		return southToNorthWestTruck;
+	}
+
+	public static int getSouthToNorthWestCar() {
+		return southToNorthWestCar;
+	}
+
+	public static int getSouthToNorthWestMotorBike() {
+		return southToNorthWestMotorBike;
+	}
+
+	public static int getSouthToNorthWestPedestrian() {
+		return southToNorthWestPedestrian;
+	}
+
+	public static int getSouthToNorthWestCrutches1() {
+		return southToNorthWestCrutches1;
+	}
+
+	public static int getSouthToNorthWestCrutches2() {
+		return southToNorthWestCrutches2;
+	}
+
+	public static int getSouthToNorthWestCane() {
+		return southToNorthWestCane;
+	}
+
+	public static int getSouthToNorthWestDog() {
+		return southToNorthWestDog;
+	}
+
+	public static int getSouthToNorthWestMobilityScooter() {
+		return southToNorthWestMobilityScooter;
+	}
+
+	public static int getSouthToNorthWestWheelchairAssisted() {
+		return southToNorthWestWheelchairAssisted;
+	}
+
+	public static int getSouthToNorthWestWheelchairManual() {
+		return southToNorthWestWheelchairManual;
+	}
+
+	public static int getSouthToNorthWestWheelchairPowered() {
+		return southToNorthWestWheelchairPowered;
+	}
+
+	public static int getSouthToNorthWestPushChair() {
+		return southToNorthWestPushChair;
+	}
+
+	public static int getSouthToNorthWestSkateboard() {
+		return southToNorthWestSkateboard;
+	}
+
+	public static int getSouthToNorthWestManualScooter() {
+		return southToNorthWestManualScooter;
+	}
+
+	public static int getSouthToNorthBus() {
+		return southToNorthBus;
+	}
+
+	public static int getSouthToNorthTruck() {
+		return southToNorthTruck;
+	}
+
+	public static int getSouthToNorthCar() {
+		return southToNorthCar;
+	}
+
+	public static int getSouthToNorthMotorBike() {
+		return southToNorthMotorBike;
+	}
+
+	public static int getSouthToNorthPedestrian() {
+		return southToNorthPedestrian;
+	}
+
+	public static int getSouthToNorthCrutches1() {
+		return southToNorthCrutches1;
+	}
+
+	public static int getSouthToNorthCrutches2() {
+		return southToNorthCrutches2;
+	}
+
+	public static int getSouthToNorthCane() {
+		return southToNorthCane;
+	}
+
+	public static int getSouthToNorthDog() {
+		return southToNorthDog;
+	}
+
+	public static int getSouthToNorthMobilityScooter() {
+		return southToNorthMobilityScooter;
+	}
+
+	public static int getSouthToNorthWheelchairAssisted() {
+		return southToNorthWheelchairAssisted;
+	}
+
+	public static int getSouthToNorthWheelchairManual() {
+		return southToNorthWheelchairManual;
+	}
+
+	public static int getSouthToNorthWheelchairPowered() {
+		return southToNorthWheelchairPowered;
+	}
+
+	public static int getSouthToNorthPushChair() {
+		return southToNorthPushChair;
+	}
+
+	public static int getSouthToNorthSkateboard() {
+		return southToNorthSkateboard;
+	}
+
+	public static int getSouthToNorthManualScooter() {
+		return southToNorthManualScooter;
+	}
+
+	public static int getSouthToNorthEastBus() {
+		return southToNorthEastBus;
+	}
+
+	public static int getSouthToNorthEastTruck() {
+		return southToNorthEastTruck;
+	}
+
+	public static int getSouthToNorthEastCar() {
+		return southToNorthEastCar;
+	}
+
+	public static int getSouthToNorthEastMotorBike() {
+		return southToNorthEastMotorBike;
+	}
+
+	public static int getSouthToNorthEastPedestrian() {
+		return southToNorthEastPedestrian;
+	}
+
+	public static int getSouthToNorthEastCrutches1() {
+		return southToNorthEastCrutches1;
+	}
+
+	public static int getSouthToNorthEastCrutches2() {
+		return southToNorthEastCrutches2;
+	}
+
+	public static int getSouthToNorthEastCane() {
+		return southToNorthEastCane;
+	}
+
+	public static int getSouthToNorthEastDog() {
+		return southToNorthEastDog;
+	}
+
+	public static int getSouthToNorthEastMobilityScooter() {
+		return southToNorthEastMobilityScooter;
+	}
+
+	public static int getSouthToNorthEastWheelchairAssisted() {
+		return southToNorthEastWheelchairAssisted;
+	}
+
+	public static int getSouthToNorthEastWheelchairManual() {
+		return southToNorthEastWheelchairManual;
+	}
+
+	public static int getSouthToNorthEastWheelchairPowered() {
+		return southToNorthEastWheelchairPowered;
+	}
+
+	public static int getSouthToNorthEastPushChair() {
+		return southToNorthEastPushChair;
+	}
+
+	public static int getSouthToNorthEastSkateboard() {
+		return southToNorthEastSkateboard;
+	}
+
+	public static int getSouthToNorthEastManualScooter() {
+		return southToNorthEastManualScooter;
+	}
+
+	public static int getSouthToWestBus() {
+		return southToWestBus;
+	}
+
+	public static int getSouthToWestTruck() {
+		return southToWestTruck;
+	}
+
+	public static int getSouthToWestCar() {
+		return southToWestCar;
+	}
+
+	public static int getSouthToWestMotorBike() {
+		return southToWestMotorBike;
+	}
+
+	public static int getSouthToWestPedestrian() {
+		return southToWestPedestrian;
+	}
+
+	public static int getSouthToWestCrutches1() {
+		return southToWestCrutches1;
+	}
+
+	public static int getSouthToWestCrutches2() {
+		return southToWestCrutches2;
+	}
+
+	public static int getSouthToWestCane() {
+		return southToWestCane;
+	}
+
+	public static int getSouthToWestDog() {
+		return southToWestDog;
+	}
+
+	public static int getSouthToWestMobilityScooter() {
+		return southToWestMobilityScooter;
+	}
+
+	public static int getSouthToWestWheelchairAssisted() {
+		return southToWestWheelchairAssisted;
+	}
+
+	public static int getSouthToWestWheelchairManual() {
+		return southToWestWheelchairManual;
+	}
+
+	public static int getSouthToWestWheelchairPowered() {
+		return southToWestWheelchairPowered;
+	}
+
+	public static int getSouthToWestPushChair() {
+		return southToWestPushChair;
+	}
+
+	public static int getSouthToWestSkateboard() {
+		return southToWestSkateboard;
+	}
+
+	public static int getSouthToWestManualScooter() {
+		return southToWestManualScooter;
+	}
+
+	public static int getSouthToEastBus() {
+		return southToEastBus;
+	}
+
+	public static int getSouthToEastTruck() {
+		return southToEastTruck;
+	}
+
+	public static int getSouthToEastCar() {
+		return southToEastCar;
+	}
+
+	public static int getSouthToEastMotorBike() {
+		return southToEastMotorBike;
+	}
+
+	public static int getSouthToEastPedestrian() {
+		return southToEastPedestrian;
+	}
+
+	public static int getSouthToEastCrutches1() {
+		return southToEastCrutches1;
+	}
+
+	public static int getSouthToEastCrutches2() {
+		return southToEastCrutches2;
+	}
+
+	public static int getSouthToEastCane() {
+		return southToEastCane;
+	}
+
+	public static int getSouthToEastDog() {
+		return southToEastDog;
+	}
+
+	public static int getSouthToEastMobilityScooter() {
+		return southToEastMobilityScooter;
+	}
+
+	public static int getSouthToEastWheelchairAssisted() {
+		return southToEastWheelchairAssisted;
+	}
+
+	public static int getSouthToEastWheelchairManual() {
+		return southToEastWheelchairManual;
+	}
+
+	public static int getSouthToEastWheelchairPowered() {
+		return southToEastWheelchairPowered;
+	}
+
+	public static int getSouthToEastPushChair() {
+		return southToEastPushChair;
+	}
+
+	public static int getSouthToEastSkateboard() {
+		return southToEastSkateboard;
+	}
+
+	public static int getSouthToEastManualScooter() {
+		return southToEastManualScooter;
+	}
+
+	public static int getSouthToSouthWestBus() {
+		return southToSouthWestBus;
+	}
+
+	public static int getSouthToSouthWestTruck() {
+		return southToSouthWestTruck;
+	}
+
+	public static int getSouthToSouthWestCar() {
+		return southToSouthWestCar;
+	}
+
+	public static int getSouthToSouthWestMotorBike() {
+		return southToSouthWestMotorBike;
+	}
+
+	public static int getSouthToSouthWestPedestrian() {
+		return southToSouthWestPedestrian;
+	}
+
+	public static int getSouthToSouthWestCrutches1() {
+		return southToSouthWestCrutches1;
+	}
+
+	public static int getSouthToSouthWestCrutches2() {
+		return southToSouthWestCrutches2;
+	}
+
+	public static int getSouthToSouthWestCane() {
+		return southToSouthWestCane;
+	}
+
+	public static int getSouthToSouthWestDog() {
+		return southToSouthWestDog;
+	}
+
+	public static int getSouthToSouthWestMobilityScooter() {
+		return southToSouthWestMobilityScooter;
+	}
+
+	public static int getSouthToSouthWestWheelchairAssisted() {
+		return southToSouthWestWheelchairAssisted;
+	}
+
+	public static int getSouthToSouthWestWheelchairManual() {
+		return southToSouthWestWheelchairManual;
+	}
+
+	public static int getSouthToSouthWestWheelchairPowered() {
+		return southToSouthWestWheelchairPowered;
+	}
+
+	public static int getSouthToSouthWestPushChair() {
+		return southToSouthWestPushChair;
+	}
+
+	public static int getSouthToSouthWestSkateboard() {
+		return southToSouthWestSkateboard;
+	}
+
+	public static int getSouthToSouthWestManualScooter() {
+		return southToSouthWestManualScooter;
+	}
+
+	public static int getSouthToSouthEastBus() {
+		return southToSouthEastBus;
+	}
+
+	public static int getSouthToSouthEastTruck() {
+		return southToSouthEastTruck;
+	}
+
+	public static int getSouthToSouthEastCar() {
+		return southToSouthEastCar;
+	}
+
+	public static int getSouthToSouthEastMotorBike() {
+		return southToSouthEastMotorBike;
+	}
+
+	public static int getSouthToSouthEastPedestrian() {
+		return southToSouthEastPedestrian;
+	}
+
+	public static int getSouthToSouthEastCrutches1() {
+		return southToSouthEastCrutches1;
+	}
+
+	public static int getSouthToSouthEastCrutches2() {
+		return southToSouthEastCrutches2;
+	}
+
+	public static int getSouthToSouthEastCane() {
+		return southToSouthEastCane;
+	}
+
+	public static int getSouthToSouthEastDog() {
+		return southToSouthEastDog;
+	}
+
+	public static int getSouthToSouthEastMobilityScooter() {
+		return southToSouthEastMobilityScooter;
+	}
+
+	public static int getSouthToSouthEastWheelchairAssisted() {
+		return southToSouthEastWheelchairAssisted;
+	}
+
+	public static int getSouthToSouthEastWheelchairManual() {
+		return southToSouthEastWheelchairManual;
+	}
+
+	public static int getSouthToSouthEastWheelchairPowered() {
+		return southToSouthEastWheelchairPowered;
+	}
+
+	public static int getSouthToSouthEastPushChair() {
+		return southToSouthEastPushChair;
+	}
+
+	public static int getSouthToSouthEastSkateboard() {
+		return southToSouthEastSkateboard;
+	}
+
+	public static int getSouthToSouthEastManualScooter() {
+		return southToSouthEastManualScooter;
+	}
+
+	public static int getSouthEastToNorthWestBus() {
+		return southEastToNorthWestBus;
+	}
+
+	public static int getSouthEastToNorthWestTruck() {
+		return southEastToNorthWestTruck;
+	}
+
+	public static int getSouthEastToNorthWestCar() {
+		return southEastToNorthWestCar;
+	}
+
+	public static int getSouthEastToNorthWestMotorBike() {
+		return southEastToNorthWestMotorBike;
+	}
+
+	public static int getSouthEastToNorthWestPedestrian() {
+		return southEastToNorthWestPedestrian;
+	}
+
+	public static int getSouthEastToNorthWestCrutches1() {
+		return southEastToNorthWestCrutches1;
+	}
+
+	public static int getSouthEastToNorthWestCrutches2() {
+		return southEastToNorthWestCrutches2;
+	}
+
+	public static int getSouthEastToNorthWestCane() {
+		return southEastToNorthWestCane;
+	}
+
+	public static int getSouthEastToNorthWestDog() {
+		return southEastToNorthWestDog;
+	}
+
+	public static int getSouthEastToNorthWestMobilityScooter() {
+		return southEastToNorthWestMobilityScooter;
+	}
+
+	public static int getSouthEastToNorthWestWheelchairAssisted() {
+		return southEastToNorthWestWheelchairAssisted;
+	}
+
+	public static int getSouthEastToNorthWestWheelchairManual() {
+		return southEastToNorthWestWheelchairManual;
+	}
+
+	public static int getSouthEastToNorthWestWheelchairPowered() {
+		return southEastToNorthWestWheelchairPowered;
+	}
+
+	public static int getSouthEastToNorthWestPushChair() {
+		return southEastToNorthWestPushChair;
+	}
+
+	public static int getSouthEastToNorthWestSkateboard() {
+		return southEastToNorthWestSkateboard;
+	}
+
+	public static int getSouthEastToNorthWestManualScooter() {
+		return southEastToNorthWestManualScooter;
+	}
+
+	public static int getSouthEastToNorthBus() {
+		return southEastToNorthBus;
+	}
+
+	public static int getSouthEastToNorthTruck() {
+		return southEastToNorthTruck;
+	}
+
+	public static int getSouthEastToNorthCar() {
+		return southEastToNorthCar;
+	}
+
+	public static int getSouthEastToNorthMotorBike() {
+		return southEastToNorthMotorBike;
+	}
+
+	public static int getSouthEastToNorthPedestrian() {
+		return southEastToNorthPedestrian;
+	}
+
+	public static int getSouthEastToNorthCrutches1() {
+		return southEastToNorthCrutches1;
+	}
+
+	public static int getSouthEastToNorthCrutches2() {
+		return southEastToNorthCrutches2;
+	}
+
+	public static int getSouthEastToNorthCane() {
+		return southEastToNorthCane;
+	}
+
+	public static int getSouthEastToNorthDog() {
+		return southEastToNorthDog;
+	}
+
+	public static int getSouthEastToNorthMobilityScooter() {
+		return southEastToNorthMobilityScooter;
+	}
+
+	public static int getSouthEastToNorthWheelchairAssisted() {
+		return southEastToNorthWheelchairAssisted;
+	}
+
+	public static int getSouthEastToNorthWheelchairManual() {
+		return southEastToNorthWheelchairManual;
+	}
+
+	public static int getSouthEastToNorthWheelchairPowered() {
+		return southEastToNorthWheelchairPowered;
+	}
+
+	public static int getSouthEastToNorthPushChair() {
+		return southEastToNorthPushChair;
+	}
+
+	public static int getSouthEastToNorthSkateboard() {
+		return southEastToNorthSkateboard;
+	}
+
+	public static int getSouthEastToNorthManualScooter() {
+		return southEastToNorthManualScooter;
+	}
+
+	public static int getSouthEastToNorthEastBus() {
+		return southEastToNorthEastBus;
+	}
+
+	public static int getSouthEastToNorthEastTruck() {
+		return southEastToNorthEastTruck;
+	}
+
+	public static int getSouthEastToNorthEastCar() {
+		return southEastToNorthEastCar;
+	}
+
+	public static int getSouthEastToNorthEastMotorBike() {
+		return southEastToNorthEastMotorBike;
+	}
+
+	public static int getSouthEastToNorthEastPedestrian() {
+		return southEastToNorthEastPedestrian;
+	}
+
+	public static int getSouthEastToNorthEastCrutches1() {
+		return southEastToNorthEastCrutches1;
+	}
+
+	public static int getSouthEastToNorthEastCrutches2() {
+		return southEastToNorthEastCrutches2;
+	}
+
+	public static int getSouthEastToNorthEastCane() {
+		return southEastToNorthEastCane;
+	}
+
+	public static int getSouthEastToNorthEastDog() {
+		return southEastToNorthEastDog;
+	}
+
+	public static int getSouthEastToNorthEastMobilityScooter() {
+		return southEastToNorthEastMobilityScooter;
+	}
+
+	public static int getSouthEastToNorthEastWheelchairAssisted() {
+		return southEastToNorthEastWheelchairAssisted;
+	}
+
+	public static int getSouthEastToNorthEastWheelchairManual() {
+		return southEastToNorthEastWheelchairManual;
+	}
+
+	public static int getSouthEastToNorthEastWheelchairPowered() {
+		return southEastToNorthEastWheelchairPowered;
+	}
+
+	public static int getSouthEastToNorthEastPushChair() {
+		return southEastToNorthEastPushChair;
+	}
+
+	public static int getSouthEastToNorthEastSkateboard() {
+		return southEastToNorthEastSkateboard;
+	}
+
+	public static int getSouthEastToNorthEastManualScooter() {
+		return southEastToNorthEastManualScooter;
+	}
+
+	public static int getSouthEastToWestBus() {
+		return southEastToWestBus;
+	}
+
+	public static int getSouthEastToWestTruck() {
+		return southEastToWestTruck;
+	}
+
+	public static int getSouthEastToWestCar() {
+		return southEastToWestCar;
+	}
+
+	public static int getSouthEastToWestMotorBike() {
+		return southEastToWestMotorBike;
+	}
+
+	public static int getSouthEastToWestPedestrian() {
+		return southEastToWestPedestrian;
+	}
+
+	public static int getSouthEastToWestCrutches1() {
+		return southEastToWestCrutches1;
+	}
+
+	public static int getSouthEastToWestCrutches2() {
+		return southEastToWestCrutches2;
+	}
+
+	public static int getSouthEastToWestCane() {
+		return southEastToWestCane;
+	}
+
+	public static int getSouthEastToWestDog() {
+		return southEastToWestDog;
+	}
+
+	public static int getSouthEastToWestMobilityScooter() {
+		return southEastToWestMobilityScooter;
+	}
+
+	public static int getSouthEastToWestWheelchairAssisted() {
+		return southEastToWestWheelchairAssisted;
+	}
+
+	public static int getSouthEastToWestWheelchairManual() {
+		return southEastToWestWheelchairManual;
+	}
+
+	public static int getSouthEastToWestWheelchairPowered() {
+		return southEastToWestWheelchairPowered;
+	}
+
+	public static int getSouthEastToWestPushChair() {
+		return southEastToWestPushChair;
+	}
+
+	public static int getSouthEastToWestSkateboard() {
+		return southEastToWestSkateboard;
+	}
+
+	public static int getSouthEastToWestManualScooter() {
+		return southEastToWestManualScooter;
+	}
+
+	public static int getSouthEastToEastBus() {
+		return southEastToEastBus;
+	}
+
+	public static int getSouthEastToEastTruck() {
+		return southEastToEastTruck;
+	}
+
+	public static int getSouthEastToEastCar() {
+		return southEastToEastCar;
+	}
+
+	public static int getSouthEastToEastMotorBike() {
+		return southEastToEastMotorBike;
+	}
+
+	public static int getSouthEastToEastPedestrian() {
+		return southEastToEastPedestrian;
+	}
+
+	public static int getSouthEastToEastCrutches1() {
+		return southEastToEastCrutches1;
+	}
+
+	public static int getSouthEastToEastCrutches2() {
+		return southEastToEastCrutches2;
+	}
+
+	public static int getSouthEastToEastCane() {
+		return southEastToEastCane;
+	}
+
+	public static int getSouthEastToEastDog() {
+		return southEastToEastDog;
+	}
+
+	public static int getSouthEastToEastMobilityScooter() {
+		return southEastToEastMobilityScooter;
+	}
+
+	public static int getSouthEastToEastWheelchairAssisted() {
+		return southEastToEastWheelchairAssisted;
+	}
+
+	public static int getSouthEastToEastWheelchairManual() {
+		return southEastToEastWheelchairManual;
+	}
+
+	public static int getSouthEastToEastWheelchairPowered() {
+		return southEastToEastWheelchairPowered;
+	}
+
+	public static int getSouthEastToEastPushChair() {
+		return southEastToEastPushChair;
+	}
+
+	public static int getSouthEastToEastSkateboard() {
+		return southEastToEastSkateboard;
+	}
+
+	public static int getSouthEastToEastManualScooter() {
+		return southEastToEastManualScooter;
+	}
+
+	public static int getSouthEastToSouthWestBus() {
+		return southEastToSouthWestBus;
+	}
+
+	public static int getSouthEastToSouthWestTruck() {
+		return southEastToSouthWestTruck;
+	}
+
+	public static int getSouthEastToSouthWestCar() {
+		return southEastToSouthWestCar;
+	}
+
+	public static int getSouthEastToSouthWestMotorBike() {
+		return southEastToSouthWestMotorBike;
+	}
+
+	public static int getSouthEastToSouthWestPedestrian() {
+		return southEastToSouthWestPedestrian;
+	}
+
+	public static int getSouthEastToSouthWestCrutches1() {
+		return southEastToSouthWestCrutches1;
+	}
+
+	public static int getSouthEastToSouthWestCrutches2() {
+		return southEastToSouthWestCrutches2;
+	}
+
+	public static int getSouthEastToSouthWestCane() {
+		return southEastToSouthWestCane;
+	}
+
+	public static int getSouthEastToSouthWestDog() {
+		return southEastToSouthWestDog;
+	}
+
+	public static int getSouthEastToSouthWestMobilityScooter() {
+		return southEastToSouthWestMobilityScooter;
+	}
+
+	public static int getSouthEastToSouthWestWheelchairAssisted() {
+		return southEastToSouthWestWheelchairAssisted;
+	}
+
+	public static int getSouthEastToSouthWestWheelchairManual() {
+		return southEastToSouthWestWheelchairManual;
+	}
+
+	public static int getSouthEastToSouthWestWheelchairPowered() {
+		return southEastToSouthWestWheelchairPowered;
+	}
+
+	public static int getSouthEastToSouthWestPushChair() {
+		return southEastToSouthWestPushChair;
+	}
+
+	public static int getSouthEastToSouthWestSkateboard() {
+		return southEastToSouthWestSkateboard;
+	}
+
+	public static int getSouthEastToSouthWestManualScooter() {
+		return southEastToSouthWestManualScooter;
+	}
+
+	public static int getSouthEastToSouthBus() {
+		return southEastToSouthBus;
+	}
+
+	public static int getSouthEastToSouthTruck() {
+		return southEastToSouthTruck;
+	}
+
+	public static int getSouthEastToSouthCar() {
+		return southEastToSouthCar;
+	}
+
+	public static int getSouthEastToSouthMotorBike() {
+		return southEastToSouthMotorBike;
+	}
+
+	public static int getSouthEastToSouthPedestrian() {
+		return southEastToSouthPedestrian;
+	}
+
+	public static int getSouthEastToSouthCrutches1() {
+		return southEastToSouthCrutches1;
+	}
+
+	public static int getSouthEastToSouthCrutches2() {
+		return southEastToSouthCrutches2;
+	}
+
+	public static int getSouthEastToSouthCane() {
+		return southEastToSouthCane;
+	}
+
+	public static int getSouthEastToSouthDog() {
+		return southEastToSouthDog;
+	}
+
+	public static int getSouthEastToSouthMobilityScooter() {
+		return southEastToSouthMobilityScooter;
+	}
+
+	public static int getSouthEastToSouthWheelchairAssisted() {
+		return southEastToSouthWheelchairAssisted;
+	}
+
+	public static int getSouthEastToSouthWheelchairManual() {
+		return southEastToSouthWheelchairManual;
+	}
+
+	public static int getSouthEastToSouthWheelchairPowered() {
+		return southEastToSouthWheelchairPowered;
+	}
+
+	public static int getSouthEastToSouthPushChair() {
+		return southEastToSouthPushChair;
+	}
+
+	public static int getSouthEastToSouthSkateboard() {
+		return southEastToSouthSkateboard;
+	}
+
+	public static int getSouthEastToSouthManualScooter() {
+		return southEastToSouthManualScooter;
+	}
+
+	public static boolean isLocationHeaderAppended() {
+		return locationHeaderAppended;
+	}
+
+	public static boolean isEndOfWritingCoutablesRow() {
+		return endOfWritingCoutablesRow;
+	}
+
+	public static boolean isEndOfIntersectionCountsHeader() {
+		return endOfIntersectionCountsHeader;
+	}
+
+	public static boolean isEndOfAppendingCountables() {
+		return endOfAppendingCountables;
+	}
+
+	public static boolean isEndOfFromAndToPositionsHeader() {
+		return endOfFromAndToPositionsHeader;
+	}
+
 	public Integer getCurrentObjectCount(String object){
 		Integer objectCount = null;
 		switch (object) {

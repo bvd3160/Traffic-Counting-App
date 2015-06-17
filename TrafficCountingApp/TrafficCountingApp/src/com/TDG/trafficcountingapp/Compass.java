@@ -17,8 +17,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-/*
- * Compass class was taken from
+/**
+ * Compass class was taken from http://www.javacodegeeks.com/2013/09/android-compass-code-example.html
  * Edited by Richard Fong
  * @Since 27.05.2015
  */

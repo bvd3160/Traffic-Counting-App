@@ -135,4 +135,17 @@
     <string name="cs_timer_btn_10">10 Minutes</string>
     <string name="cs_timer_btn_15">15 Minutes</string>
                     
+    <!-- Help Screen -->
+    <string name="help_txt_title_countsetup">Count Set-up</string>
+    <string name="help_txt_title_intersection">Count Set-up - Intersection Picker</string>
+    <string name="help_txt_title_countingscreen">Counting Screen</string>
+    <string name="help_txt_title_namepicker">Counting Screen - Changing the name of the directions</string>
+    <string name="help_txt_title_compass">Calibrating the Compass</string>
+    <string name="help_txt_countsetup">This is used to set up the information of the surveyor and the location of where they need to conduct their counting sessions.</string>
+    <string name="help_txt_countingscreen">Click on a direction to select that as the approaching side. Then click on another direction to set that as the exiting side. If you make a mistake, you can click the button again to deselect it.</string>
+    <string name="help_txt_intersection">The amount of approaches required to continue is located in the center of all the directional buttons. If you make a mistake, you can click the button again to deselect it.</string>
+    <string name="help_txt_namepicker">By entering a name into the box under the direction. It will change the name on the button at the counting screen. If left blank. It will default back to a direction (North, South, etc.)</string>
+    <string name="help_txt_compass">If the red point on the compass does not point north. Rotate the Android device in an \'8\' shape to recalibrate the compass.</string>
+    <string name="help_btn_back">Back</string>
+    
 </resources>

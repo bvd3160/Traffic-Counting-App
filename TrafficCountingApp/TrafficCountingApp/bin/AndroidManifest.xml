@@ -4,21 +4,26 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.TDG.trafficcountingapp.test" />
+
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="19" />
-    
-     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
+        <uses-library android:name="android.test.runner" />
+
         <activity
-            android:name="com.TDG.trafficcountingapp.SplashScreen"
+            android:name=".SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -28,34 +33,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.MainScreen"
+            android:name=".MainScreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.About"
+            android:name=".About"
             android:label="@string/title_activity_About"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.CountSetup"
+            android:name=".CountSetup"
             android:label="@string/title_activity_count_setup" >
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.Help"
+            android:name=".Help"
             android:label="@string/title_activity_help" >
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.IntersectionType"
+            android:name=".IntersectionType"
             android:label="@string/title_activity_intersection_type" >
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.CountingScreen"
+            android:name=".CountingScreen"
             android:label="@string/title_activity_counting_screen" >
         </activity>
         <activity
-            android:name="com.TDG.trafficcountingapp.CustomDialogs"
-            android:label="@string/title_activity_counting_screen__dialog">
+            android:name=".CustomDialogs"
+            android:label="@string/title_activity_counting_screen__dialog" >
         </activity>
     </application>
 

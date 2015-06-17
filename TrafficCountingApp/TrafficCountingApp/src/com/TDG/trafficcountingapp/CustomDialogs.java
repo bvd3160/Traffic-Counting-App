@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/*
+/**
  * @author Richard Fong 1248615
  * @version 1.0
  * @since 13 January, 2015
@@ -834,9 +835,10 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	
 	private void useCommunicator(String key, String stringValue, boolean[] booleanArrayValue, String[] stringArrayValue){
 		communicator.sendClickMessage(key, stringValue, booleanArrayValue, stringArrayValue);
-		Fragment f = getFragmentManager().findFragmentById(R.id.compassFragment);
-        if (f != null) 
+		Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.compassFragment);
+        if (f != null){
             getFragmentManager().beginTransaction().remove(f).commit();
+        }
 		dismiss();
 	}
 }

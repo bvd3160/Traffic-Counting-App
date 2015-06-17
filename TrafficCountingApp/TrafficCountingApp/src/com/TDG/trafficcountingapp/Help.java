@@ -1,14 +1,17 @@
 package com.TDG.trafficcountingapp;
 
 import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-/*
- * @author Jean-Yves Kwibuka 1245654
- * @version 1.0
- * @since December, 2014
+/**
+ * Implemented by Richard Fong
+ * Some Images contributed by Nigel Chen
+ * @author Richard Fong
+ * @since 15.06.15
  */
 
 public class Help extends ActionBarActivity {
@@ -36,5 +39,10 @@ public class Help extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void onClickBack(View view){
+		Intent intent = new Intent(this, MainScreen.class);
+		startActivity(intent);
 	}
 }
