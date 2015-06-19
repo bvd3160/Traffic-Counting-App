@@ -149,6 +149,10 @@ public class CustomDialogs extends DialogFragment implements View.OnClickListene
 	public void onClick(View view) {
 		if(btn_close != null){
 			if(btn_close.isPressed()){
+				Fragment f = getActivity().getFragmentManager().findFragmentById(R.id.compassFragment);
+		        if (f != null){
+		            getFragmentManager().beginTransaction().remove(f).commit();
+		        }
 				dismiss();
 			} else if(csi_intersections){
 				onClickIntersection(view);
